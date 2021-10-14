@@ -1,0 +1,32 @@
+version: "3.7"
+
+services:
+  banana-logger-bot:
+    env_file: .env
+    build:
+      context: ./
+      dockerfile: Dockerfile.dev
+    image: banana-logger-bot:latest
+    container_name: Banana-Logger-Bot
+    restart: always
+    depends_on:
+      - banana-logger-db
+    volumes:
+      - .:/app
+    ports:
+      - "9229:9229"
+    networks:
+      - default
+  banana-logger-db:
+    image: mongo:3.6
+    container_name: Banana-Logger-Bot-DB
+    restart: always
+    volumes:
+      - ./storage/db:/data/db
+      - ./storage/configdb:/data/configdb
+    ports:
+      - "27017:27017"
+    networks:
+      - default
+networks:
+  default:

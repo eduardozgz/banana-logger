@@ -1,0 +1,16 @@
+# ignore node modules
+node_modules/
+
+# dotenv environment variables file
+.env
+
+# build output
+dist/
+
+# db data
+storage/
+
+# Not included in .gitignore
+.git
+.github
+.vscode
