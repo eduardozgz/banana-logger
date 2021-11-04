@@ -1,13 +1,12 @@
 import {
-	BaseGuildCommandInteraction,
+	Interaction,
 	CommandInteraction,
 	PermissionResolvable,
 	Permissions
 } from "discord.js";
 import { BaseCommand, CommandOptions } from "./BaseCommand";
 
-type GuildCommandInteraction = BaseGuildCommandInteraction<"present"> &
-	CommandInteraction;
+type GuildCommandInteraction = Interaction<"present"> & CommandInteraction;
 
 interface GuildCommandOptions extends CommandOptions {
 	/**
