@@ -80,9 +80,25 @@ export const IntentsEventMap: IntentsEventMap = {
 	DIRECT_MESSAGE_TYPING: ["TYPING_START"]
 };
 
+export const UserEventNames: { [key in WSEventType | string]: string } = {
+	GUILD_MEMBER_ADD: "member join",
+	GUILD_MEMBER_REMOVE: "member leave"
+};
+
+export const UserTemplateFieldNames: { [key: string]: string } = {
+	title: "title",
+	description: "description",
+	thumbnail: "thumbnail url",
+	image: "image url",
+	color: "color",
+	url: "title url"
+};
+
 export const Constants = {
 	Colors,
-	IntentsEventMap
+	IntentsEventMap,
+	UserEventNames,
+	UserTemplateFieldNames
 };
 
 export default Constants;

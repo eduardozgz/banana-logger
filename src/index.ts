@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 import dotenv from "dotenv";
+dotenv.config();
 import Bot from "./Bot";
 import mongoose from "mongoose";
-dotenv.config();
 
 const { DISCORD_BOT_TOKEN, DB_URI, NODE_ENV } = process.env;
 

@@ -1,6 +1,9 @@
 # ignore node modules
 node_modules/
 
+# IDEs
+.idea
+
 # dotenv environment variables file
 .env
 

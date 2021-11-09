@@ -6,8 +6,9 @@ import BananaLoggerEmbed from "../utils/BananaLoggerEmbed";
 import getBotInviteLink from "../utils/getBotInviteLink";
 import UserError from "../utils/UserError";
 import { inviteCommand } from "./invite";
+import { globalConfig } from "./globalConfig";
 
-export const allCommands: BaseCommand[] = [inviteCommand];
+export const allCommands: BaseCommand[] = [inviteCommand, globalConfig];
 
 export const allCommandsNeededPermissions: Permissions = new Permissions(
 	allCommands.reduce(

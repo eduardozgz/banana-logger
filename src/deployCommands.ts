@@ -5,7 +5,10 @@ import { Routes } from "discord-api-types/v9";
 import { allCommands } from "./commands";
 import { discordRest } from "./services";
 
-const { DISCORD_BOT_TOKEN } = process.env;
+const {
+	DISCORD_BOT_TOKEN,
+	TEST_DEPLOY_INTERACTION_COMMAND_GUILD_ID
+} = process.env;
 
 const clientId = Buffer.from(
 	DISCORD_BOT_TOKEN.split(".")[0],
@@ -16,9 +19,17 @@ const clientId = Buffer.from(
 	try {
 		console.log("Started refreshing application (/) commands.");
 
-		await discordRest.put(Routes.applicationCommands(clientId), {
-			body: allCommands.map((cmd) => cmd.definition.toJSON())
-		});
+		await discordRest.put(
+			TEST_DEPLOY_INTERACTION_COMMAND_GUILD_ID?.length
+				? Routes.applicationGuildCommands(
+						clientId,
+						TEST_DEPLOY_INTERACTION_COMMAND_GUILD_ID
+				  )
+				: Routes.applicationCommands(clientId),
+			{
+				body: allCommands.map((cmd) => cmd.definition.toJSON())
+			}
+		);
 
 		console.log("Successfully reloaded application (/) commands.");
 	} catch (error) {
