@@ -18,7 +18,6 @@ const clientId = Buffer.from(
 (async () => {
 	try {
 		console.log("Started refreshing application (/) commands.");
-
 		await discordRest.put(
 			TEST_DEPLOY_INTERACTION_COMMAND_GUILD_ID?.length
 				? Routes.applicationGuildCommands(
@@ -33,6 +32,9 @@ const clientId = Buffer.from(
 
 		console.log("Successfully reloaded application (/) commands.");
 	} catch (error) {
-		console.error(error);
+		console.error(
+			JSON.stringify(allCommands.map((cmd) => cmd.definition.toJSON())),
+			JSON.stringify(error)
+		);
 	}
 })();

@@ -1,5 +1,5 @@
-import { bold, hyperlink } from "@discordjs/builders";
-import { CommandInteraction, Permissions } from "discord.js";
+import { bold, hyperlink, inlineCode } from "@discordjs/builders";
+import { CommandInteraction, Constants, Permissions } from "discord.js";
 import { Colors } from "../Constants";
 import type { BaseCommand } from "../structures";
 import BananaLoggerEmbed from "../utils/BananaLoggerEmbed";
@@ -7,8 +7,9 @@ import getBotInviteLink from "../utils/getBotInviteLink";
 import UserError from "../utils/UserError";
 import { inviteCommand } from "./invite";
 import { globalConfig } from "./globalConfig";
+import { config } from "./config";
 
-export const allCommands: BaseCommand[] = [inviteCommand, globalConfig];
+export const allCommands: BaseCommand[] = [inviteCommand, globalConfig, config];
 
 export const allCommandsNeededPermissions: Permissions = new Permissions(
 	allCommands.reduce(
@@ -43,12 +44,14 @@ export default async function handleInteractionCommand(
 	for (const command of allCommands) {
 		if (command.definition.name === commandInteraction.commandName) {
 			try {
-				if (commandInteraction.inGuild()) {
-					if (!command.isGuildCommand())
-						throw new UserError(
-							"You can't run this command in a DM/Group channel"
-						);
+				if (command.isGuildCommand() && !commandInteraction.inGuild()) {
+					throw new UserError(
+						"You can't run this command in a DM/Group channel"
+					);
+				}
 
+				// user/bot permissions checking
+				if (command.isGuildCommand() && commandInteraction.inGuild()) {
 					const userMissingPermissions = commandInteraction.memberPermissions.missing(
 						command.userPermissions
 					);
@@ -75,7 +78,57 @@ export default async function handleInteractionCommand(
 					}
 				}
 
-				await command.execute(commandInteraction);
+				async function searchAndRunCommand(
+					subcommandExecute: typeof command.execute,
+					rawOptions
+				) {
+					const OptionTypes = Constants.ApplicationCommandOptionTypes;
+					if (
+						Array.isArray(rawOptions) &&
+						rawOptions.some((rawOption) =>
+							[OptionTypes.SUB_COMMAND_GROUP, OptionTypes.SUB_COMMAND].includes(
+								rawOption.type
+							)
+						)
+					) {
+						let found = false;
+						for (const rawOption of rawOptions) {
+							if (
+								commandInteraction.options.getSubcommandGroup(false) ===
+									rawOption.name ||
+								commandInteraction.options.getSubcommand(false) ===
+									rawOption.name
+							) {
+								if (typeof subcommandExecute === "object") {
+									found = true;
+									await searchAndRunCommand(
+										subcommandExecute[rawOption.name],
+										rawOption.options
+									);
+								}
+								break;
+							}
+						}
+						if (!found)
+							throw new UserError(
+								`Command ${inlineCode(
+									commandInteraction.commandName
+								)} -> ${inlineCode(
+									commandInteraction.options.getSubcommandGroup(false)
+								)} -> ${inlineCode(
+									commandInteraction.options.getSubcommand(false)
+								)} is not being handled correctly, please contact an administrator`
+							);
+					} else if (typeof subcommandExecute === "function") {
+						await subcommandExecute(commandInteraction);
+						return;
+					}
+				}
+
+				await searchAndRunCommand(
+					command.execute,
+					command.definition.toJSON().options
+				);
 			} catch (error) {
 				handleInteractionCommandError(error, commandInteraction);
 			}

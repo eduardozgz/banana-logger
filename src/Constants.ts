@@ -80,9 +80,33 @@ export const IntentsEventMap: IntentsEventMap = {
 	DIRECT_MESSAGE_TYPING: ["TYPING_START"]
 };
 
-export const UserEventNames: { [key in WSEventType | string]: string } = {
+export const UserEventNames: { [key in WSEventType]?: string } = {
 	GUILD_MEMBER_ADD: "member join",
-	GUILD_MEMBER_REMOVE: "member leave"
+	GUILD_MEMBER_UPDATE: "member update",
+	GUILD_MEMBER_REMOVE: "member leave",
+	GUILD_BAN_ADD: "member ban",
+	GUILD_BAN_REMOVE: "member ban remove",
+	CHANNEL_CREATE: "new channel",
+	CHANNEL_UPDATE: "edit channel",
+	CHANNEL_DELETE: "delete channel",
+	CHANNEL_PINS_UPDATE: "message pin update",
+	GUILD_ROLE_CREATE: "new role",
+	GUILD_ROLE_UPDATE: "edit role",
+	GUILD_ROLE_DELETE: "delete role",
+	GUILD_UPDATE: "update guild",
+	GUILD_EMOJIS_UPDATE: "emoji update",
+	GUILD_STICKERS_UPDATE: "stickers update",
+	MESSAGE_CREATE: "new message",
+	MESSAGE_UPDATE: "message edit",
+	MESSAGE_DELETE: "message delete",
+	MESSAGE_DELETE_BULK: "bulk message delete",
+	MESSAGE_REACTION_ADD: "new reaction",
+	MESSAGE_REACTION_REMOVE: "reaction remove",
+	MESSAGE_REACTION_REMOVE_EMOJI: "remove emoji",
+	INVITE_CREATE: "invite create",
+	INVITE_DELETE: "invite delete",
+	VOICE_STATE_UPDATE: "voice state update"
+	// TODO add the rest of the events with autocomplete interaction
 };
 
 export const UserTemplateFieldNames: { [key: string]: string } = {

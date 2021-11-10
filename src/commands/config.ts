@@ -2,14 +2,48 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { GuildCommand } from "../structures";
 import { UserEventNames, UserTemplateFieldNames } from "../Constants";
 
-export const globalConfig = new GuildCommand({
+export const config = new GuildCommand({
 	definition: new SlashCommandBuilder()
-		.setName("global-config")
-		.setDescription("Global configurations applied to all channels")
+		.setName("config")
+		.setDescription("Configurations applied to this channel")
 		.addSubcommand((subCommand) =>
 			subCommand
 				.setName("show")
-				.setDescription("Shows the configurations applied to all the channels")
+				.setDescription("Shows the configurations applied to this channel")
+		)
+		.addSubcommand((subCommand) =>
+			subCommand
+				.setName("log")
+				.setDescription("Starts logging the specified event")
+				.addStringOption((stringOption) =>
+					stringOption
+						.setName("event")
+						.setDescription("Log a specific event or all")
+						.setRequired(true)
+						.addChoices(
+							Object.entries({
+								all: "all",
+								...UserEventNames
+							}).map(([k, v]) => [v, k])
+						)
+				)
+		)
+		.addSubcommand((subCommand) =>
+			subCommand
+				.setName("miss")
+				.setDescription("Stops logging the specified event")
+				.addStringOption((stringOption) =>
+					stringOption
+						.setName("event")
+						.setDescription("Miss a specific event or all")
+						.setRequired(true)
+						.addChoices(
+							Object.entries({
+								all: "all",
+								...UserEventNames
+							}).map(([k, v]) => [v, k])
+						)
+				)
 		)
 		.addSubcommand((subCommand) =>
 			subCommand
@@ -24,12 +58,38 @@ export const globalConfig = new GuildCommand({
 		)
 		.addSubcommand((subCommand) =>
 			subCommand
+				.setName("watch-channel")
+				.setDescription(
+					"Explicitly logs events that comes from the specified channel"
+				)
+				.addChannelOption((channelOption) =>
+					channelOption
+						.setName("channel")
+						.setDescription("Channel to watch")
+						.setRequired(true)
+				)
+		)
+		.addSubcommand((subCommand) =>
+			subCommand
 				.setName("ignore-user")
 				.setDescription("Ignores any event related from the specified user")
 				.addUserOption((userOption) =>
 					userOption
 						.setName("user")
 						.setDescription("User to ignore")
+						.setRequired(true)
+				)
+		)
+		.addSubcommand((subCommand) =>
+			subCommand
+				.setName("watch-user")
+				.setDescription(
+					"Explicitly logs events that are related to the specified user"
+				)
+				.addUserOption((userOption) =>
+					userOption
+						.setName("user")
+						.setDescription("User to watch")
 						.setRequired(true)
 				)
 		)
@@ -62,8 +122,12 @@ export const globalConfig = new GuildCommand({
 		) as SlashCommandBuilder,
 	execute: {
 		show: (command) => {},
+		["log"]: (command) => {},
+		["miss"]: (command) => {},
 		["ignore-channel"]: (command) => {},
+		["watch-channel"]: (command) => {},
 		["ignore-user"]: (command) => {},
+		["watch-user"]: (command) => {},
 		template: (command) => {}
 	}
 });

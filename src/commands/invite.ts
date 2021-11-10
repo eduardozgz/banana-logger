@@ -1,9 +1,9 @@
 import { hyperlink, SlashCommandBuilder } from "@discordjs/builders";
-import { GuildCommand } from "../structures";
+import { Command } from "../structures";
 import BananaLoggerEmbed from "../utils/BananaLoggerEmbed";
 import getBotInviteLink from "../utils/getBotInviteLink";
 
-export const inviteCommand = new GuildCommand({
+export const inviteCommand = new Command({
 	definition: new SlashCommandBuilder()
 		.setName("invite")
 		.setDescription("Gives you an invite link to add the bot"),

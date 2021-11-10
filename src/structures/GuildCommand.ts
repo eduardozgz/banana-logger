@@ -8,6 +8,14 @@ import { BaseCommand, CommandOptions } from "./BaseCommand";
 
 type GuildCommandInteraction = Interaction<"present"> & CommandInteraction;
 
+type CommandExecute = (
+	command: GuildCommandInteraction
+) => void | Promise<void>;
+
+interface SubCommandsExecute {
+	[key: string]: CommandExecute | SubCommandsExecute;
+}
+
 interface GuildCommandOptions extends CommandOptions {
 	/**
 	 * @description If the bot doesn't have the specified permissions, an error will be thrown to the user, this is also used to generate invite links
@@ -17,7 +25,7 @@ interface GuildCommandOptions extends CommandOptions {
 	 * @description If the users that is using the command doesn't have the specified permissions, an error will be thrown to the user
 	 */
 	userPermissions?: PermissionResolvable[];
-	execute: (command: GuildCommandInteraction) => void | Promise<void>;
+	execute: CommandExecute | SubCommandsExecute;
 }
 
 export class GuildCommand extends BaseCommand {
