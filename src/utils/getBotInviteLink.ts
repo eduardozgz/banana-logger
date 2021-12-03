@@ -1,4 +1,4 @@
-import { allCommandsNeededPermissions } from "../commands";
+import { allCommandsNeededPermissions } from "../interactions/commands";
 import { allEventsNeededPermissions } from "../events";
 import { tokenToClientId } from "./tokenToClientId";
 

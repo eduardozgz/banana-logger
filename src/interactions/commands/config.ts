@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { GuildCommand } from "../structures";
-import { UserEventNames, UserTemplateFieldNames } from "../Constants";
+import { GuildCommand } from "../../structures";
+import { UserTemplateFieldNames } from "../../Constants";
 
 export const config = new GuildCommand({
 	definition: new SlashCommandBuilder()
@@ -20,12 +20,7 @@ export const config = new GuildCommand({
 						.setName("event")
 						.setDescription("Log a specific event or all")
 						.setRequired(true)
-						.addChoices(
-							Object.entries({
-								all: "all",
-								...UserEventNames
-							}).map(([k, v]) => [v, k])
-						)
+						.setAutocomplete(true)
 				)
 		)
 		.addSubcommand((subCommand) =>
@@ -37,12 +32,8 @@ export const config = new GuildCommand({
 						.setName("event")
 						.setDescription("Miss a specific event or all")
 						.setRequired(true)
-						.addChoices(
-							Object.entries({
-								all: "all",
-								...UserEventNames
-							}).map(([k, v]) => [v, k])
-						)
+
+						.setAutocomplete(true)
 				)
 		)
 		.addSubcommand((subCommand) =>
@@ -102,7 +93,7 @@ export const config = new GuildCommand({
 						.setName("event")
 						.setDescription("Sets the log template for this event")
 						.setRequired(true)
-						.addChoices(Object.entries(UserEventNames).map(([k, v]) => [v, k]))
+						.setAutocomplete(true)
 				)
 				.addStringOption((stringOption) =>
 					stringOption

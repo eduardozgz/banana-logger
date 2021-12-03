@@ -2,7 +2,7 @@
 import dotenv from "dotenv";
 dotenv.config();
 import { Routes } from "discord-api-types/v9";
-import { allCommands } from "./commands";
+import { allCommands } from "./interactions/commands";
 import { discordRest } from "./services";
 
 const {

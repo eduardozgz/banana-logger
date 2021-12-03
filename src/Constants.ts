@@ -106,7 +106,7 @@ export const UserEventNames: { [key in WSEventType]?: string } = {
 	INVITE_CREATE: "invite create",
 	INVITE_DELETE: "invite delete",
 	VOICE_STATE_UPDATE: "voice state update"
-	// TODO add the rest of the events with autocomplete interaction
+	// TODO add the rest of the events
 };
 
 export const UserTemplateFieldNames: { [key: string]: string } = {

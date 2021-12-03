@@ -1,7 +1,7 @@
 import { hyperlink, SlashCommandBuilder } from "@discordjs/builders";
-import { Command } from "../structures";
-import BananaLoggerEmbed from "../utils/BananaLoggerEmbed";
-import getBotInviteLink from "../utils/getBotInviteLink";
+import { Command } from "../../structures";
+import BananaLoggerEmbed from "../../utils/BananaLoggerEmbed";
+import getBotInviteLink from "../../utils/getBotInviteLink";
 
 export const inviteCommand = new Command({
 	definition: new SlashCommandBuilder()

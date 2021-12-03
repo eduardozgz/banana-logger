@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { GuildCommand } from "../structures";
-import { UserEventNames, UserTemplateFieldNames } from "../Constants";
+import { GuildCommand } from "../../structures";
+import { UserTemplateFieldNames } from "../../Constants";
 
 export const globalConfig = new GuildCommand({
 	definition: new SlashCommandBuilder()
@@ -42,7 +42,7 @@ export const globalConfig = new GuildCommand({
 						.setName("event")
 						.setDescription("Sets the log template for this event")
 						.setRequired(true)
-						.addChoices(Object.entries(UserEventNames).map(([k, v]) => [v, k]))
+						.setAutocomplete(true)
 				)
 				.addStringOption((stringOption) =>
 					stringOption

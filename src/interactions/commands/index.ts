@@ -1,10 +1,10 @@
 import { bold, hyperlink, inlineCode } from "@discordjs/builders";
 import { CommandInteraction, Constants, Permissions } from "discord.js";
-import { Colors } from "../Constants";
-import type { BaseCommand } from "../structures";
-import BananaLoggerEmbed from "../utils/BananaLoggerEmbed";
-import getBotInviteLink from "../utils/getBotInviteLink";
-import UserError from "../utils/UserError";
+import { Colors } from "../../Constants";
+import type { BaseCommand } from "../../structures";
+import BananaLoggerEmbed from "../../utils/BananaLoggerEmbed";
+import getBotInviteLink from "../../utils/getBotInviteLink";
+import UserError from "../../utils/UserError";
 import { inviteCommand } from "./invite";
 import { globalConfig } from "./globalConfig";
 import { config } from "./config";
