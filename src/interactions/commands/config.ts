@@ -38,36 +38,36 @@ export const config = new GuildCommand({
 		)
 		.addSubcommand((subCommand) =>
 			subCommand
-				.setName("ignore-channel")
+				.setName("toggle-ignore-channel")
 				.setDescription("Ignores any event coming from the specified channel")
 				.addChannelOption((channelOption) =>
 					channelOption
 						.setName("channel")
-						.setDescription("Channel to ignore")
+						.setDescription("Channel to toggle the ignore status")
 						.setRequired(true)
 				)
 		)
 		.addSubcommand((subCommand) =>
 			subCommand
-				.setName("watch-channel")
+				.setName("toggle-watch-channel")
 				.setDescription(
 					"Explicitly logs events that comes from the specified channel"
 				)
 				.addChannelOption((channelOption) =>
 					channelOption
 						.setName("channel")
-						.setDescription("Channel to watch")
+						.setDescription("Channel to toggle the watch status")
 						.setRequired(true)
 				)
 		)
 		.addSubcommand((subCommand) =>
 			subCommand
-				.setName("ignore-user")
+				.setName("toggle-ignore-user")
 				.setDescription("Ignores any event related from the specified user")
 				.addUserOption((userOption) =>
 					userOption
 						.setName("user")
-						.setDescription("User to ignore")
+						.setDescription("User to toggle the ignore status")
 						.setRequired(true)
 				)
 		)
@@ -80,7 +80,7 @@ export const config = new GuildCommand({
 				.addUserOption((userOption) =>
 					userOption
 						.setName("user")
-						.setDescription("User to watch")
+						.setDescription("User to toggle the watch status")
 						.setRequired(true)
 				)
 		)
@@ -115,9 +115,9 @@ export const config = new GuildCommand({
 		show: (command) => {},
 		["log"]: (command) => {},
 		["miss"]: (command) => {},
-		["ignore-channel"]: (command) => {},
+		["toggle-ignore-channel"]: (command) => {},
 		["watch-channel"]: (command) => {},
-		["ignore-user"]: (command) => {},
+		["toggle-ignore-user"]: (command) => {},
 		["watch-user"]: (command) => {},
 		template: (command) => {}
 	}

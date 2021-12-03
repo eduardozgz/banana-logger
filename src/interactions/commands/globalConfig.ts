@@ -13,23 +13,23 @@ export const globalConfig = new GuildCommand({
 		)
 		.addSubcommand((subCommand) =>
 			subCommand
-				.setName("ignore-channel")
+				.setName("toggle-ignore-channel")
 				.setDescription("Ignores any event coming from the specified channel")
 				.addChannelOption((channelOption) =>
 					channelOption
 						.setName("channel")
-						.setDescription("Channel to ignore")
+						.setDescription("Channel to toggle the ignore status")
 						.setRequired(true)
 				)
 		)
 		.addSubcommand((subCommand) =>
 			subCommand
-				.setName("ignore-user")
+				.setName("toggle-ignore-user")
 				.setDescription("Ignores any event related from the specified user")
 				.addUserOption((userOption) =>
 					userOption
 						.setName("user")
-						.setDescription("User to ignore")
+						.setDescription("User to toggle the ignore status")
 						.setRequired(true)
 				)
 		)
