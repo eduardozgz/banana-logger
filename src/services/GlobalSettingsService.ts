@@ -1,11 +1,15 @@
-import { Guild, WSEventType } from "discord.js";
-import { UserEventNames, UserTemplateFieldNames } from "../Constants";
+import { Guild, MessageEmbedOptions } from "discord.js";
+import Constants, {
+	UserEventNames,
+	UserEventsType,
+	UserTemplateFieldNames
+} from "../Constants";
 import GlobalSettingsModel, {
 	GlobalSettingsDocument
 } from "../models/GlobalSettingsModel";
 import { toggleArrayItem } from "../utils/toggleArrayItem";
 import UserError from "../utils/UserError";
-
+import _ from "lodash";
 export class GlobalSettingsService {
 	private constructor(private doc: GlobalSettingsDocument) {}
 
@@ -26,7 +30,7 @@ export class GlobalSettingsService {
 	get ignoredChannels() {
 		return this.doc.ignoredChannels;
 	}
-	async toggleIgnoreChannel(channelId) {
+	async toggleIgnoreChannel(channelId: string) {
 		this.doc.ignoredChannels = toggleArrayItem(
 			this.doc.ignoredChannels,
 			channelId
@@ -38,28 +42,35 @@ export class GlobalSettingsService {
 	get ignoredUsers() {
 		return this.doc.ignoredUsers;
 	}
-	async toggleIgnoreUser(userId) {
+	async toggleIgnoreUser(userId: string) {
 		this.doc.ignoredUsers = toggleArrayItem(this.doc.ignoredUsers, userId);
 		this.doc.markModified("ignoredUsers");
 		await this.doc.save();
 	}
 
-	get templates() {
-		return this.doc.templates;
+	getTemplate(event: string): MessageEmbedOptions {
+		const validEvents = Constants.UserEvents;
+		if (!validEvents.includes(event as UserEventsType))
+			throw new UserError("Provided event is not valid");
+
+		const baseTemplate = _.cloneDeep(Constants.EmbedTemplateBase[event]);
+		const template = _.cloneDeep(this.doc.templates.get(event));
+
+		return _.defaultsDeep(template, baseTemplate);
 	}
 
-	setTemplate(event: WSEventType, field: string, content: string) {
-		const validEvents = Object.keys(UserEventNames);
+	async setTemplate(event: string, field: string, content: string) {
+		const validEvents = Constants.UserEvents;
 		const validFields = Object.keys(UserTemplateFieldNames);
 
-		if (!validEvents.includes(event))
+		if (!validEvents.includes(event as UserEventsType))
 			throw new UserError("Provided event is not valid");
 
 		if (!validFields.includes(field))
 			throw new UserError("Provided field template is not valid");
 
 		let fieldToModify = field;
-		let newContent: any = content;
+		let newContent: any = content === "default" ? undefined : content;
 
 		if (["thumbnail", "image"].includes(field)) {
 			newContent = { url: content };
@@ -69,6 +80,7 @@ export class GlobalSettingsService {
 			...this.doc.templates.get(event),
 			[fieldToModify]: newContent
 		});
+		await this.doc.save();
 	}
 }
 

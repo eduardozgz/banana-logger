@@ -1,12 +1,12 @@
-import { ClientEvents } from "discord.js";
 import { model, Schema } from "mongoose";
+import { UserEventsType } from "../Constants";
 import {
 	createGlobalSettingsSchemaDefinition,
 	GlobalSettingsDocument
 } from "./GlobalSettingsModel";
 
 interface SettingsDocument extends GlobalSettingsDocument {
-	events: (keyof ClientEvents)[];
+	events: UserEventsType[];
 	watchChannels: string[];
 	watchUsers: string[];
 }

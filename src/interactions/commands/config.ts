@@ -1,6 +1,7 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { GuildCommand } from "../../structures";
 import { UserTemplateFieldNames } from "../../Constants";
+import { Intents } from "discord.js";
 
 export const config = new GuildCommand({
 	definition: new SlashCommandBuilder()
@@ -13,26 +14,13 @@ export const config = new GuildCommand({
 		)
 		.addSubcommand((subCommand) =>
 			subCommand
-				.setName("log")
-				.setDescription("Starts logging the specified event")
+				.setName("toggle-log")
+				.setDescription("Starts or stops logging the specified event")
 				.addStringOption((stringOption) =>
 					stringOption
 						.setName("event")
-						.setDescription("Log a specific event or all")
+						.setDescription("A specific event or all")
 						.setRequired(true)
-						.setAutocomplete(true)
-				)
-		)
-		.addSubcommand((subCommand) =>
-			subCommand
-				.setName("miss")
-				.setDescription("Stops logging the specified event")
-				.addStringOption((stringOption) =>
-					stringOption
-						.setName("event")
-						.setDescription("Miss a specific event or all")
-						.setRequired(true)
-
 						.setAutocomplete(true)
 				)
 		)
@@ -73,7 +61,7 @@ export const config = new GuildCommand({
 		)
 		.addSubcommand((subCommand) =>
 			subCommand
-				.setName("watch-user")
+				.setName("toggle-watch-user")
 				.setDescription(
 					"Explicitly logs events that are related to the specified user"
 				)
@@ -111,14 +99,14 @@ export const config = new GuildCommand({
 						.setRequired(true)
 				)
 		) as SlashCommandBuilder,
+	neededIntents: new Intents(["GUILDS"]),
 	execute: {
 		show: (command) => {},
-		["log"]: (command) => {},
-		["miss"]: (command) => {},
+		["toggle-log"]: (command) => {},
 		["toggle-ignore-channel"]: (command) => {},
-		["watch-channel"]: (command) => {},
+		["toggle-watch-channel"]: (command) => {},
 		["toggle-ignore-user"]: (command) => {},
-		["watch-user"]: (command) => {},
+		["toggle-watch-user"]: (command) => {},
 		template: (command) => {}
 	}
 });

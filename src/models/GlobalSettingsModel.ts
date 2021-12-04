@@ -1,11 +1,12 @@
-import { MessageEmbedOptions, WSEventType } from "discord.js";
+import { MessageEmbedOptions } from "discord.js";
 import { model, Schema, Document } from "mongoose";
+import { UserEventNames } from "../Constants";
 
 interface GlobalSettingsDocument extends Document {
 	id: string;
 	ignoredChannels: string[];
 	ignoredUsers: string[];
-	templates: Map<WSEventType, MessageEmbedOptions>;
+	templates: Map<string | keyof typeof UserEventNames, MessageEmbedOptions>;
 }
 
 const createGlobalSettingsSchemaDefinition = () => ({

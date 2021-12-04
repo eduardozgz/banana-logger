@@ -1,4 +1,9 @@
-import { IntentsString, WSEventType } from "discord.js";
+import {
+	ClientEvents,
+	IntentsString,
+	MessageEmbedOptions,
+	WSEventType
+} from "discord.js";
 
 export const Colors = {
 	RED: 0xed4245,
@@ -80,33 +85,77 @@ export const IntentsEventMap: IntentsEventMap = {
 	DIRECT_MESSAGE_TYPING: ["TYPING_START"]
 };
 
-export const UserEventNames: { [key in WSEventType]?: string } = {
-	GUILD_MEMBER_ADD: "member join",
-	GUILD_MEMBER_UPDATE: "member update",
-	GUILD_MEMBER_REMOVE: "member leave",
-	GUILD_BAN_ADD: "member ban",
-	GUILD_BAN_REMOVE: "member ban remove",
-	CHANNEL_CREATE: "new channel",
-	CHANNEL_UPDATE: "edit channel",
-	CHANNEL_DELETE: "delete channel",
-	CHANNEL_PINS_UPDATE: "message pin update",
-	GUILD_ROLE_CREATE: "new role",
-	GUILD_ROLE_UPDATE: "edit role",
-	GUILD_ROLE_DELETE: "delete role",
-	GUILD_UPDATE: "update guild",
-	GUILD_EMOJIS_UPDATE: "emoji update",
-	GUILD_STICKERS_UPDATE: "stickers update",
-	MESSAGE_CREATE: "new message",
-	MESSAGE_UPDATE: "message edit",
-	MESSAGE_DELETE: "message delete",
-	MESSAGE_DELETE_BULK: "bulk message delete",
-	MESSAGE_REACTION_ADD: "new reaction",
-	MESSAGE_REACTION_REMOVE: "reaction remove",
-	MESSAGE_REACTION_REMOVE_EMOJI: "remove emoji",
-	INVITE_CREATE: "invite create",
-	INVITE_DELETE: "invite delete",
-	VOICE_STATE_UPDATE: "voice state update"
-	// TODO add the rest of the events
+// some of (keyof DiscordJS.ClientEvents)
+export const UserEventsString = [
+	"applicationCommandCreate",
+	"applicationCommandDelete",
+	"applicationCommandUpdate",
+	"channelCreate",
+	"channelDelete",
+	"channelPinsUpdate",
+	"channelUpdate",
+	"emojiCreate",
+	"emojiDelete",
+	"emojiUpdate",
+	"guildBanAdd",
+	"guildBanRemove",
+	"guildIntegrationsUpdate",
+	"guildMemberAdd",
+	"guildMemberRemove",
+	"guildMemberUpdate",
+	"guildUpdate",
+	"inviteCreate",
+	"inviteDelete",
+	"messageCreate",
+	"messageDelete",
+	"messageReactionRemoveAll",
+	"messageReactionRemoveEmoji",
+	"messageDeleteBulk",
+	"messageReactionAdd",
+	"messageReactionRemove",
+	"messageUpdate",
+	"presenceUpdate",
+	"roleCreate",
+	"roleDelete",
+	"roleUpdate",
+	"threadCreate",
+	"threadDelete",
+	"threadMemberUpdate",
+	"threadMembersUpdate",
+	"threadUpdate",
+	"userUpdate",
+	"voiceStateUpdate",
+	"webhookUpdate",
+	"stageInstanceCreate",
+	"stageInstanceUpdate",
+	"stageInstanceDelete",
+	"stickerCreate",
+	"stickerDelete",
+	"stickerUpdate"
+] as const;
+
+export type UserEventsType = typeof UserEventsString[number];
+
+// TODO do all
+//@ts-ignore
+export const UserEventNames: { [key in UserEventsType]: string } = {
+	guildMemberAdd: "member join",
+	guildMemberRemove: "member leave"
+};
+
+// TODO do all
+//@ts-ignore
+export const EmbedTemplateBase: {
+	[key in UserEventsType]: MessageEmbedOptions;
+} = {
+	guildMemberAdd: {
+		title: "A member joined the server",
+		description: "{MEMBER} joined the server."
+	},
+	guildMemberRemove: {
+		title: "A member left the server",
+		description: "{MEMBER} left the server."
+	}
 };
 
 export const UserTemplateFieldNames: { [key: string]: string } = {
@@ -121,7 +170,9 @@ export const UserTemplateFieldNames: { [key: string]: string } = {
 export const Constants = {
 	Colors,
 	IntentsEventMap,
+	UserEvents: UserEventsString,
 	UserEventNames,
+	EmbedTemplateBase,
 	UserTemplateFieldNames
 };
 
