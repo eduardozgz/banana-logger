@@ -32,7 +32,10 @@ class Paginator {
 				.createMessageComponentCollector({
 					time: timeoutTime,
 					filter: (interaction) => {
-						if (!interaction.isMessageComponent()) return false;
+						if (
+							!(interaction.isMessageComponent() || interaction.isSelectMenu())
+						)
+							return false;
 						const [type, id] = interaction.customId.split(":");
 						return (
 							type === "paginator" &&
@@ -42,16 +45,12 @@ class Paginator {
 					}
 				})
 				.on("collect", async (interaction) => {
-					if (interaction.isMessageComponent()) {
+					if (interaction.isButton()) {
 						interaction.deferUpdate();
 						const [type, id, page] = interaction.customId.split(":");
 						if (page === "showJump") {
 							this.commandInteraction.editReply({
-								components: this.generateComponents("jump")
-							});
-						} else if (page === "showNav") {
-							this.commandInteraction.editReply({
-								components: this.generateComponents("nav")
+								components: this.generateComponents(true)
 							});
 						} else {
 							const pageInt = Number(page);
@@ -71,6 +70,7 @@ class Paginator {
 	 * Sends Pager to channel
 	 */
 	async displayPage(page: number) {
+		this.currentPage = page;
 		// Clone the embed and modify it by adding a page indicator
 		const embedToSend: MessageEmbedOptions = _.cloneDeep(this.pages[page]);
 
@@ -96,89 +96,78 @@ class Paginator {
 	/**
 	 * Adds needed components for pagination based on page count
 	 */
-	private generateComponents(type: "nav" | "jump" = "nav"): MessageActionRow[] {
+	private generateComponents(showJump = false): MessageActionRow[] {
 		const rows = [];
 		// If more than 1 page, display navigation controls
 		if (this.pages.length > 1) {
-			if (type === "nav") {
+			rows.push(
+				new MessageActionRow()
+					.addComponents(
+						new MessageButton()
+							.setCustomId(`paginator:${this.commandInteraction.id}:0:0`)
+							.setLabel("First")
+							.setStyle("PRIMARY")
+							.setDisabled(this.currentPage === 0)
+					)
+					.addComponents(
+						new MessageButton()
+							.setCustomId(
+								`paginator:${this.commandInteraction.id}:${
+									this.currentPage - 1
+								}:1`
+							)
+							.setLabel("Previous")
+							.setStyle("PRIMARY")
+							.setDisabled(this.currentPage === 0)
+					)
+					.addComponents(
+						new MessageButton()
+							.setCustomId(
+								`paginator:${this.commandInteraction.id}:${
+									this.currentPage + 1
+								}:2`
+							)
+							.setLabel("Next")
+							.setStyle("PRIMARY")
+							.setDisabled(this.currentPage === this.pages.length - 1)
+					)
+					.addComponents(
+						new MessageButton()
+							.setCustomId(
+								`paginator:${this.commandInteraction.id}:${
+									this.pages.length - 1
+								}:3`
+							)
+							.setLabel("Last")
+							.setStyle("PRIMARY")
+							.setDisabled(this.currentPage === this.pages.length - 1)
+					)
+					.addComponents(
+						new MessageButton()
+							.setCustomId(`paginator:${this.commandInteraction.id}:showJump`)
+							.setLabel("Jump")
+							.setStyle("PRIMARY")
+							.setDisabled(showJump)
+					)
+			);
+
+			if (showJump) {
 				rows.push(
-					new MessageActionRow()
-						.addComponents(
-							new MessageButton()
-								.setCustomId(`paginator:${this.commandInteraction.id}:0:0`)
-								.setLabel("First")
-								.setStyle("PRIMARY")
-								.setDisabled(this.currentPage === 0)
-						)
-						.addComponents(
-							new MessageButton()
-								.setCustomId(
-									`paginator:${this.commandInteraction.id}:${
-										this.currentPage - 1
-									}:1`
-								)
-								.setLabel("Previous")
-								.setStyle("PRIMARY")
-								.setDisabled(this.currentPage === 0)
-						)
-						.addComponents(
-							new MessageButton()
-								.setCustomId(
-									`paginator:${this.commandInteraction.id}:${
-										this.currentPage + 1
-									}:2`
-								)
-								.setLabel("Next")
-								.setStyle("PRIMARY")
-								.setDisabled(this.currentPage === this.pages.length - 1)
-						)
-						.addComponents(
-							new MessageButton()
-								.setCustomId(
-									`paginator:${this.commandInteraction.id}:${
-										this.currentPage + 1
-									}:3`
-								)
-								.setLabel("Last")
-								.setStyle("PRIMARY")
-								.setDisabled(this.currentPage === this.pages.length - 1)
-						)
-						.addComponents(
-							new MessageButton()
-								.setCustomId(`paginator:${this.commandInteraction.id}:showJump`)
-								.setLabel("Jump")
-								.setStyle("PRIMARY")
-								.setDisabled(false)
-						)
-				);
-			} else {
-				rows.push(
-					new MessageActionRow()
-						.addComponents(
-							new MessageButton()
-								.setCustomId(`paginator:${this.commandInteraction.id}:showNav`)
-								.setStyle("PRIMARY")
-								.setLabel("Go back")
-						)
-						.addComponents(
-							new MessageSelectMenu()
-								.setCustomId(`paginator:${this.commandInteraction.id}`)
-								.setPlaceholder("Select a page")
-								.addOptions([
-									{
-										label: "Page #1",
-										value: "0"
-									},
-									{
-										label: "Page #2",
-										value: "1"
-									},
-									{
-										label: "Page #3",
-										value: "2"
-									}
-								])
-						)
+					new MessageActionRow().addComponents(
+						new MessageSelectMenu()
+							.setCustomId(`paginator:${this.commandInteraction.id}`)
+							.setPlaceholder("Select a page")
+							.addOptions(
+								_.range(0, 5)
+									.map((n) => Math.floor(n * (this.pages.length / 5)))
+									.map((page) => {
+										return {
+											label: `Page #${page + 1}`,
+											value: page.toString()
+										};
+									})
+							)
+					)
 				);
 			}
 		}
@@ -193,6 +182,7 @@ class Paginator {
 		const pageText = "Page {CURRENT_PAGE}/{TOTAL_PAGES}"
 			.replace(/\{CURRENT_PAGE\}/, (this.currentPage + 1).toString())
 			.replace(/\{TOTAL_PAGES\}/, this.pages.length.toString());
+
 		if (embed.footer) {
 			embed.footer.text = pageText + " - " + embed.footer.text;
 		} else {
