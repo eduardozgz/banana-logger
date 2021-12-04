@@ -10,7 +10,7 @@ const allEventsNeededPermissions: Permissions = new Permissions(
 );
 
 const allEventsNeededIntents: Intents = new Intents(
-	allEvents.reduce((acc, e) => acc | e.neededIntent.bitfield, 0)
+	allEvents.reduce((acc, e) => acc | e.neededIntents.bitfield, 0)
 );
 
 export { allEvents, allEventsNeededPermissions, allEventsNeededIntents };

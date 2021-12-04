@@ -1,10 +1,13 @@
-import { Client } from "discord.js";
+import { Client, Intents } from "discord.js";
 import { allEvents, allEventsNeededIntents } from "./events";
+import { allCommandsNeededIntents } from "./interactions/commands";
 
 export default class Bot {
 	client: Client;
 	constructor() {
-		this.client = new Client({ intents: allEventsNeededIntents });
+		const intents =
+			allEventsNeededIntents.bitfield | allCommandsNeededIntents.bitfield;
+		this.client = new Client({ intents });
 		this.setupEvents();
 	}
 

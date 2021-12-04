@@ -13,12 +13,14 @@ interface EventOptions<E extends keyof ClientEvents> {
 	name: E;
 	handler: (...args: ClientEvents[E]) => void | Promise<void>;
 	neededPermissions?: PermissionResolvable[];
+	extraIntents?: Intents;
 }
 
 export class Event<E extends keyof ClientEvents> {
 	name: E;
 	handler: (...args: ClientEvents[E]) => void | Promise<void>;
 	neededPermissions: Permissions;
+	private extraIntents: Intents;
 
 	constructor(options: EventOptions<E>) {
 		this.name = options.name;
@@ -29,21 +31,26 @@ export class Event<E extends keyof ClientEvents> {
 			neededPermissions.add(permission);
 		});
 		this.neededPermissions = neededPermissions;
+
+		this.extraIntents = new Intents(options.extraIntents);
 	}
 
-	get neededIntent(): Intents {
+	get neededIntents(): Intents {
+		const neededIntents = new Intents();
 		for (const [intent, events] of Object.entries(IntentsEventMap) as [
 			IntentsString,
 			WSEventType[]
 		][]) {
 			for (const event of events) {
 				if (this.name.includes(Constants.Events[event])) {
-					return new Intents(intent);
+					neededIntents.add(intent);
+					break;
 				}
 			}
 		}
 
-		return new Intents();
+		neededIntents.add(this.extraIntents);
+		return neededIntents;
 	}
 }
 

@@ -1,5 +1,10 @@
 import { bold, hyperlink, inlineCode } from "@discordjs/builders";
-import { CommandInteraction, Constants, Permissions } from "discord.js";
+import {
+	CommandInteraction,
+	Constants,
+	Intents,
+	Permissions
+} from "discord.js";
 import { Colors } from "../../Constants";
 import type { BaseCommand } from "../../structures";
 import BananaLoggerEmbed from "../../utils/BananaLoggerEmbed";
@@ -16,6 +21,10 @@ export const allCommandsNeededPermissions: Permissions = new Permissions(
 		(acc, c) => (c.isGuildCommand() ? c.botPermissions.bitfield | acc : acc),
 		0n
 	)
+);
+
+export const allCommandsNeededIntents: Intents = new Intents(
+	allCommands.reduce((acc, e) => acc | e.neededIntents.bitfield, 0)
 );
 
 async function handleInteractionCommandError(
