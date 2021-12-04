@@ -1,4 +1,4 @@
-import { GuildChannel, MessageEmbedOptions } from "discord.js";
+import { Guild, GuildTextBasedChannel, MessageEmbedOptions } from "discord.js";
 import Constants, {
 	UserEventsType,
 	UserTemplateFieldNames
@@ -16,8 +16,8 @@ export class SettingsService {
 	) {}
 
 	public static async init(
-		channel: GuildChannel,
-		globalSettingsService?: GlobalSettingsService
+		channel: GuildTextBasedChannel,
+		globalSettingsService?: GlobalSettingsService | Guild
 	): Promise<SettingsService> {
 		const document = await SettingsModel.findOneAndUpdate(
 			{ id: channel.id },
@@ -27,7 +27,9 @@ export class SettingsService {
 
 		return new SettingsService(
 			document,
-			globalSettingsService || (await GlobalSettingsService.init(channel.guild))
+			globalSettingsService instanceof GlobalSettingsService
+				? globalSettingsService
+				: await GlobalSettingsService.init(globalSettingsService)
 		);
 	}
 
@@ -52,10 +54,10 @@ export class SettingsService {
 	}
 
 	get watchChannels() {
-		return this.doc.watchChannels;
+		return [...this.doc.watchChannels];
 	}
 
-	async toggleWatchChannels(channelId: string) {
+	async toggleWatchChannel(channelId: string) {
 		this.doc.watchChannels = toggleArrayItem(this.doc.watchChannels, channelId);
 		this.doc.markModified("watchChannels");
 		await this.doc.save();
@@ -75,10 +77,10 @@ export class SettingsService {
 	}
 
 	get watchUsers() {
-		return this.doc.watchUsers;
+		return [...this.doc.watchUsers];
 	}
 
-	async toggleWatchUsers(userId: string) {
+	async toggleWatchUser(userId: string) {
 		this.doc.watchUsers = toggleArrayItem(this.doc.watchUsers, userId);
 		this.doc.markModified("watchUsers");
 		await this.doc.save();
@@ -118,16 +120,23 @@ export class SettingsService {
 	}
 
 	get events(): UserEventsType[] {
-		return this.doc.events;
+		return [...this.doc.events];
 	}
 
-	async toggleEvent(event: string) {
+	async toggleEvent(event: "all" | UserEventsType) {
 		const validEvents = Constants.UserEvents;
 
-		if (!validEvents.includes(event as UserEventsType))
+		if (event === "all") {
+			if (this.events.length === 0) {
+				this.doc.events = [...Constants.UserEvents];
+			} else {
+				this.doc.events = [];
+			}
+		} else if (validEvents.includes(event)) {
+			this.doc.events = toggleArrayItem(this.doc.events, event);
+		} else {
 			throw new UserError("Provided event is not valid");
-
-		this.doc.watchUsers = toggleArrayItem(this.doc.events, event);
+		}
 		this.doc.markModified("events");
 		await this.doc.save();
 	}

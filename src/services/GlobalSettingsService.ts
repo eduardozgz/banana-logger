@@ -28,7 +28,7 @@ export class GlobalSettingsService {
 	}
 
 	get ignoredChannels() {
-		return this.doc.ignoredChannels;
+		return [...this.doc.ignoredChannels];
 	}
 	async toggleIgnoreChannel(channelId: string) {
 		this.doc.ignoredChannels = toggleArrayItem(
@@ -40,7 +40,7 @@ export class GlobalSettingsService {
 	}
 
 	get ignoredUsers() {
-		return this.doc.ignoredUsers;
+		return [...this.doc.ignoredUsers];
 	}
 	async toggleIgnoreUser(userId: string) {
 		this.doc.ignoredUsers = toggleArrayItem(this.doc.ignoredUsers, userId);

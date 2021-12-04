@@ -1,5 +1,4 @@
 import {
-	blockQuote,
 	bold,
 	channelMention,
 	quote,
@@ -13,7 +12,6 @@ import GlobalSettingsService from "../../services/GlobalSettingsService";
 import BananaLoggerEmbed from "../../utils/BananaLoggerEmbed";
 import Paginator from "../../utils/Paginator";
 import safeDiscordString from "../../utils/safeDiscordString";
-import { Intents } from "discord.js";
 
 export const globalConfig = new GuildCommand({
 	definition: new SlashCommandBuilder()
@@ -131,15 +129,12 @@ export const globalConfig = new GuildCommand({
 
 			const embeds = [];
 
-			// TODO remove split by 100, used for testing paginator
-			safeDiscordString(settingsContent, 100).forEach(
-				(settingsContentPortion) => {
-					const embed = new BananaLoggerEmbed();
-					embed.setTitle("Global settings (applied to all channels)");
-					embed.setDescription(settingsContentPortion);
-					embeds.push(embed);
-				}
-			);
+			safeDiscordString(settingsContent).forEach((settingsContentPortion) => {
+				const embed = new BananaLoggerEmbed();
+				embed.setTitle("Global settings (applied to all channels)");
+				embed.setDescription(settingsContentPortion);
+				embeds.push(embed);
+			});
 
 			const paginator = new Paginator(command, embeds, true);
 			await paginator.displayPage(0);

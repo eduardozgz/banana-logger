@@ -5,6 +5,7 @@ import {
 	Intents,
 	Permissions
 } from "discord.js";
+import { v4 as uuid } from "uuid";
 import { Colors } from "../../Constants";
 import type { BaseCommand } from "../../structures";
 import BananaLoggerEmbed from "../../utils/BananaLoggerEmbed";
@@ -37,8 +38,13 @@ async function handleInteractionCommandError(
 	if (error instanceof UserError) {
 		embed.setDescription(error.message);
 	} else {
-		embed.setDescription("Something went wrong, please, try again later");
-		console.error("Interaction error:", error);
+		const id = uuid();
+		embed.setDescription(
+			`Something went wrong, please, try again later\nError ID: ${inlineCode(
+				id
+			)}`
+		);
+		console.error(`Interaction error ${id}:`, error);
 	}
 	commandInteraction
 		.reply({ embeds: [embed], ephemeral: true })

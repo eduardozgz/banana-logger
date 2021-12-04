@@ -13,7 +13,7 @@ export const eventTypes = (autocomplete: AutocompleteInteraction) => {
 	}));
 
 	if (autocomplete.options.getSubcommand(false) !== "template") {
-		events.push({ name: "all", value: "all" });
+		events.push({ name: "all events", value: "all" });
 	}
 
 	const bestResults = searchInTexts(

@@ -1,7 +1,38 @@
-import { SlashCommandBuilder } from "@discordjs/builders";
+import {
+	bold,
+	channelMention,
+	quote,
+	SlashCommandBuilder,
+	underscore,
+	userMention
+} from "@discordjs/builders";
 import { GuildCommand } from "../../structures";
-import { UserTemplateFieldNames } from "../../Constants";
-import { Intents } from "discord.js";
+import Constants, {
+	UserEventNames,
+	UserEventsType,
+	UserTemplateFieldNames
+} from "../../Constants";
+import { GuildTextBasedChannel, Intents, TextBasedChannels } from "discord.js";
+import safeDiscordString from "../../utils/safeDiscordString";
+import BananaLoggerEmbed from "../../utils/BananaLoggerEmbed";
+import Paginator from "../../utils/Paginator";
+import SettingsService from "../../services/SettingsService";
+
+function checkChannelType(channel: TextBasedChannels): GuildTextBasedChannel {
+	let rchannel: GuildTextBasedChannel;
+
+	if (channel.isThread()) {
+		rchannel = channel.parent;
+	} else if (channel.type === "GUILD_NEWS" || channel.type === "GUILD_TEXT") {
+		rchannel = channel;
+	} else {
+		throw new Error(
+			"User used the command in a channel that is not a text, news nor thread channel"
+		);
+	}
+
+	return rchannel;
+}
 
 export const config = new GuildCommand({
 	definition: new SlashCommandBuilder()
@@ -99,13 +130,267 @@ export const config = new GuildCommand({
 						.setRequired(true)
 				)
 		) as SlashCommandBuilder,
+	neededIntents: new Intents(["GUILDS"]),
 	execute: {
-		show: (command) => {},
-		["toggle-log"]: (command) => {},
-		["toggle-ignore-channel"]: (command) => {},
-		["toggle-watch-channel"]: (command) => {},
-		["toggle-ignore-user"]: (command) => {},
-		["toggle-watch-user"]: (command) => {},
-		template: (command) => {}
+		show: async (command) => {
+			const channel = checkChannelType(command.channel);
+
+			const settingsService = await SettingsService.init(
+				channel,
+				command.guild
+			);
+
+			let settingsContent = "";
+
+			const eventsLoggedString = settingsService.events.length
+				? settingsService.events
+						.map((event) => UserEventNames[event])
+						.join(", ")
+				: "There are no events being logged";
+			settingsContent += `${bold(
+				underscore("EVENTS")
+			)}:\n${eventsLoggedString}\n\n`;
+
+			// Ignored users
+			const ignoredUsersString = settingsService.ignoredUsers.length
+				? settingsService.ignoredUsers
+						.map((user) => userMention(user))
+						.join(", ")
+				: "There are no users being ignored";
+			settingsContent += `${bold(
+				underscore("IGNORED USERS")
+			)}:\n${ignoredUsersString}\n\n`;
+
+			// Users being watched
+			const watchUsersString = settingsService.watchUsers.length
+				? settingsService.watchUsers.map((user) => userMention(user)).join(", ")
+				: "There are no users being watched";
+			settingsContent += `${bold(
+				underscore("WATCHED USERS")
+			)}:\n${watchUsersString}\n\n`;
+
+			// Ignored channels
+			const ignoredChannelsString = settingsService.ignoredChannels.length
+				? settingsService.ignoredChannels
+						.map((channel) => channelMention(channel))
+						.join(", ")
+				: "There are no channels being ignored";
+			settingsContent += `${bold(
+				underscore("IGNORED CHANNELS")
+			)}:\n${ignoredChannelsString}\n\n`;
+
+			// Watched channels
+			const watchedChannelsString = settingsService.watchChannels.length
+				? settingsService.watchChannels
+						.map((channel) => channelMention(channel))
+						.join(", ")
+				: "There are no channels being watched";
+			settingsContent += `${bold(
+				underscore("WATCHED CHANNELS")
+			)}:\n${watchedChannelsString}\n\n`;
+
+			// Templates
+			const templatesString = Object.entries(Constants.UserEventNames)
+				.map(([code, name]) => {
+					const {
+						title,
+						description,
+						thumbnail,
+						image,
+						color,
+						url
+					} = settingsService.getTemplate(code);
+
+					let template = `${underscore(name)}:\n`;
+					template += quote(`title: ${title}\n`);
+					template += quote(`description: ${description}\n`);
+					template += quote(`thumbnail: ${thumbnail?.url}\n`);
+					template += quote(`image: ${image?.url}\n`);
+					template += quote(`color: ${color}\n`);
+					template += quote(`url: ${url}\n`);
+
+					return template;
+				})
+				.join("\n");
+
+			settingsContent += `${bold(
+				underscore("TEMPLATES")
+			)}:\n${templatesString}\n\n`;
+
+			const embeds = [];
+
+			safeDiscordString(settingsContent).forEach((settingsContentPortion) => {
+				const embed = new BananaLoggerEmbed();
+				embed.setTitle("Settings for #" + channel.name);
+				embed.setDescription(settingsContentPortion);
+				embeds.push(embed);
+			});
+
+			const paginator = new Paginator(command, embeds, true);
+			await paginator.displayPage(0);
+		},
+		["toggle-log"]: async (command) => {
+			const channel = checkChannelType(command.channel);
+
+			const settingsService = await SettingsService.init(
+				channel,
+				command.guild
+			);
+
+			const eventToToggle = command.options.getString("event") as
+				| "all"
+				| UserEventsType;
+
+			let wasBeingLogged: boolean;
+
+			if (eventToToggle === "all") {
+				wasBeingLogged = settingsService.events.length !== 0;
+			} else {
+				wasBeingLogged = settingsService.events.includes(eventToToggle);
+			}
+
+			await settingsService.toggleEvent(eventToToggle);
+
+			const embed = new BananaLoggerEmbed();
+			embed.setTitle("Done!");
+
+			embed.setDescription(
+				(eventToToggle === "all"
+					? "Everything"
+					: UserEventNames[eventToToggle]) +
+					(wasBeingLogged
+						? ` is not being logged anymore`
+						: ` is now being logged`)
+			);
+			await command.reply({ embeds: [embed], ephemeral: true });
+		},
+		["toggle-ignore-channel"]: async (command) => {
+			const channel = checkChannelType(command.channel);
+
+			const settingsService = await SettingsService.init(
+				channel,
+				command.guild
+			);
+
+			const channelToToggle = command.options.getChannel("channel");
+
+			const wasIgnored = settingsService.ignoredChannels.includes(
+				channelToToggle.id
+			);
+			await settingsService.toggleIgnoreChannel(channelToToggle.id);
+
+			const embed = new BananaLoggerEmbed();
+			embed.setTitle("Done!");
+
+			embed.setDescription(
+				channelMention(channelToToggle.id) +
+					(wasIgnored
+						? ` is not being ignored anymore`
+						: ` is now being ignored`)
+			);
+			await command.reply({ embeds: [embed], ephemeral: true });
+		},
+		["toggle-watch-channel"]: async (command) => {
+			const channel = checkChannelType(command.channel);
+
+			const settingsService = await SettingsService.init(
+				channel,
+				command.guild
+			);
+			const channelToToggle = command.options.getChannel("channel");
+
+			const wasWatched = settingsService.watchChannels.includes(
+				channelToToggle.id
+			);
+			await settingsService.toggleWatchChannel(channelToToggle.id);
+
+			const embed = new BananaLoggerEmbed();
+			embed.setTitle("Done!");
+
+			embed.setDescription(
+				channelMention(channelToToggle.id) +
+					(wasWatched
+						? ` is not being watched anymore`
+						: ` is now being watched`)
+			);
+			await command.reply({ embeds: [embed], ephemeral: true });
+		},
+		["toggle-ignore-user"]: async (command) => {
+			const channel = checkChannelType(command.channel);
+
+			const settingsService = await SettingsService.init(
+				channel,
+				command.guild
+			);
+
+			const userToToggle = command.options.getUser("user");
+
+			const wasIgnored = settingsService.ignoredUsers.includes(userToToggle.id);
+			await settingsService.toggleIgnoreUser(userToToggle.id);
+
+			const embed = new BananaLoggerEmbed();
+			embed.setTitle("Done!");
+
+			embed.setDescription(
+				userMention(userToToggle.id) +
+					(wasIgnored
+						? ` is not being ignored anymore`
+						: ` is now being ignored`)
+			);
+			await command.reply({ embeds: [embed], ephemeral: true });
+		},
+		["toggle-watch-user"]: async (command) => {
+			const channel = checkChannelType(command.channel);
+
+			const settingsService = await SettingsService.init(
+				channel,
+				command.guild
+			);
+
+			const userToToggle = command.options.getUser("user");
+
+			const wasWatched = settingsService.ignoredUsers.includes(userToToggle.id);
+			await settingsService.toggleWatchUser(userToToggle.id);
+
+			const embed = new BananaLoggerEmbed();
+			embed.setTitle("Done!");
+
+			embed.setDescription(
+				userMention(userToToggle.id) +
+					(wasWatched
+						? ` is not being watched anymore`
+						: ` is now being watched`)
+			);
+			await command.reply({ embeds: [embed], ephemeral: true });
+		},
+		template: async (command) => {
+			const channel = checkChannelType(command.channel);
+
+			const settingsService = await SettingsService.init(
+				channel,
+				command.guild
+			);
+
+			const event = command.options.getString("event");
+			const field = command.options.getString("field");
+			const content = command.options.getString("content");
+
+			await settingsService.setTemplate(event, field, content);
+
+			const embed = new BananaLoggerEmbed();
+
+			embed.setTitle("Done!");
+			embed.setDescription(
+				"The template has been modified, it will looks like this"
+			);
+
+			const embedPreview = new BananaLoggerEmbed(
+				settingsService.getTemplate(event)
+			);
+			await command.reply({
+				embeds: [embed, embedPreview],
+				ephemeral: true
+			});
+		}
 	}
 });
