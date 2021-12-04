@@ -1,6 +1,7 @@
 import _ from "lodash";
 import {
 	CommandInteraction,
+	InteractionCollector,
 	MessageActionRow,
 	MessageButton,
 	MessageEmbedOptions,
@@ -28,22 +29,19 @@ class Paginator {
 			// Timeout time in milliseconds to stop listening for interactions
 			const timeoutTime = 60 * 1000 * 5 * pages.length;
 
-			commandInteraction.channel
-				.createMessageComponentCollector({
-					time: timeoutTime,
-					filter: (interaction) => {
-						if (
-							!(interaction.isMessageComponent() || interaction.isSelectMenu())
-						)
-							return false;
-						const [type, id] = interaction.customId.split(":");
-						return (
-							type === "paginator" &&
-							id === this.commandInteraction.id &&
-							interaction.user.id === commandInteraction.user.id
-						);
-					}
-				})
+			new InteractionCollector(this.commandInteraction.client, {
+				time: timeoutTime,
+				filter: (interaction) => {
+					if (!(interaction.isMessageComponent() || interaction.isSelectMenu()))
+						return false;
+					const [type, id] = interaction.customId.split(":");
+					return (
+						type === "paginator" &&
+						id === this.commandInteraction.id &&
+						interaction.user.id === commandInteraction.user.id
+					);
+				}
+			})
 				.on("collect", async (interaction) => {
 					if (interaction.isButton()) {
 						interaction.deferUpdate();

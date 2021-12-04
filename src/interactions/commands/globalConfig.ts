@@ -73,7 +73,6 @@ export const globalConfig = new GuildCommand({
 						.setRequired(true)
 				)
 		) as SlashCommandBuilder,
-	neededIntents: new Intents(["GUILDS"]),
 	execute: {
 		show: async (command) => {
 			const globalSettingsService = await GlobalSettingsService.init(

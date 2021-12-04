@@ -99,7 +99,6 @@ export const config = new GuildCommand({
 						.setRequired(true)
 				)
 		) as SlashCommandBuilder,
-	neededIntents: new Intents(["GUILDS"]),
 	execute: {
 		show: (command) => {},
 		["toggle-log"]: (command) => {},
