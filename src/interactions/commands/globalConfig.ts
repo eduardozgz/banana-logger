@@ -145,10 +145,9 @@ export const globalConfig = new GuildCommand({
 			);
 			const channelToToggle = command.options.getChannel("channel");
 
-			const wasIgnored = globalSettingsService.ignoredChannels.includes(
+			const wasIgnored = await globalSettingsService.toggleIgnoreChannel(
 				channelToToggle.id
 			);
-			await globalSettingsService.toggleIgnoreChannel(channelToToggle.id);
 
 			const embed = new BananaLoggerEmbed();
 			embed.setTitle("Done!");
@@ -167,10 +166,9 @@ export const globalConfig = new GuildCommand({
 			);
 			const userToToggle = command.options.getUser("user");
 
-			const wasIgnored = globalSettingsService.ignoredUsers.includes(
+			const wasIgnored = await globalSettingsService.toggleIgnoreUser(
 				userToToggle.id
 			);
-			await globalSettingsService.toggleIgnoreUser(userToToggle.id);
 
 			const embed = new BananaLoggerEmbed();
 			embed.setTitle("Done!");

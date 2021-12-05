@@ -44,23 +44,30 @@ export class SettingsService {
 		];
 	}
 
-	async toggleIgnoreChannel(channelId: string) {
-		this.doc.ignoredChannels = toggleArrayItem(
+	async toggleIgnoreChannel(channelId: string): Promise<boolean> {
+		const [result, wasAdded] = toggleArrayItem(
 			this.doc.ignoredChannels,
 			channelId
 		);
+		this.doc.ignoredChannels = result;
 		this.doc.markModified("ignoredChannels");
 		await this.doc.save();
+		return wasAdded;
 	}
 
 	get watchChannels() {
 		return [...this.doc.watchChannels];
 	}
 
-	async toggleWatchChannel(channelId: string) {
-		this.doc.watchChannels = toggleArrayItem(this.doc.watchChannels, channelId);
+	async toggleWatchChannel(channelId: string): Promise<boolean> {
+		const [result, wasAdded] = toggleArrayItem(
+			this.doc.watchChannels,
+			channelId
+		);
+		this.doc.watchChannels = result;
 		this.doc.markModified("watchChannels");
 		await this.doc.save();
+		return wasAdded;
 	}
 
 	get ignoredUsers() {
@@ -70,20 +77,24 @@ export class SettingsService {
 		];
 	}
 
-	async toggleIgnoreUser(userId: string) {
-		this.doc.ignoredUsers = toggleArrayItem(this.doc.ignoredUsers, userId);
+	async toggleIgnoreUser(userId: string): Promise<boolean> {
+		const [result, wasAdded] = toggleArrayItem(this.doc.ignoredUsers, userId);
+		this.doc.ignoredUsers = result;
 		this.doc.markModified("ignoredUsers");
 		await this.doc.save();
+		return wasAdded;
 	}
 
 	get watchUsers() {
 		return [...this.doc.watchUsers];
 	}
 
-	async toggleWatchUser(userId: string) {
-		this.doc.watchUsers = toggleArrayItem(this.doc.watchUsers, userId);
+	async toggleWatchUser(userId: string): Promise<boolean> {
+		const [result, wasAdded] = toggleArrayItem(this.doc.watchUsers, userId);
+		this.doc.watchUsers = result;
 		this.doc.markModified("watchUsers");
 		await this.doc.save();
+		return wasAdded;
 	}
 
 	getTemplate(event: string): MessageEmbedOptions {
@@ -123,22 +134,30 @@ export class SettingsService {
 		return [...this.doc.events];
 	}
 
-	async toggleEvent(event: "all" | UserEventsType) {
+	async toggleEvent(event: "all" | UserEventsType): Promise<boolean> {
 		const validEvents = Constants.UserEvents;
-
+		let wasAdded;
 		if (event === "all") {
 			if (this.events.length === 0) {
+				wasAdded = true;
 				this.doc.events = [...Constants.UserEvents];
 			} else {
+				wasAdded = false;
 				this.doc.events = [];
 			}
 		} else if (validEvents.includes(event)) {
-			this.doc.events = toggleArrayItem(this.doc.events, event);
+			const [result, found] = toggleArrayItem(
+				this.doc.events,
+				event as UserEventsType
+			);
+			this.doc.events = result;
+			wasAdded = found;
 		} else {
 			throw new UserError("Provided event is not valid");
 		}
 		this.doc.markModified("events");
 		await this.doc.save();
+		return wasAdded;
 	}
 }
 

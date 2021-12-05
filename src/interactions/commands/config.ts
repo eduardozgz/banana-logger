@@ -241,15 +241,7 @@ export const config = new GuildCommand({
 				| "all"
 				| UserEventsType;
 
-			let wasBeingLogged: boolean;
-
-			if (eventToToggle === "all") {
-				wasBeingLogged = settingsService.events.length !== 0;
-			} else {
-				wasBeingLogged = settingsService.events.includes(eventToToggle);
-			}
-
-			await settingsService.toggleEvent(eventToToggle);
+			const wasBeingLogged = await settingsService.toggleEvent(eventToToggle);
 
 			const embed = new BananaLoggerEmbed();
 			embed.setTitle("Done!");
@@ -274,10 +266,9 @@ export const config = new GuildCommand({
 
 			const channelToToggle = command.options.getChannel("channel");
 
-			const wasIgnored = settingsService.ignoredChannels.includes(
+			const wasIgnored = await settingsService.toggleIgnoreChannel(
 				channelToToggle.id
 			);
-			await settingsService.toggleIgnoreChannel(channelToToggle.id);
 
 			const embed = new BananaLoggerEmbed();
 			embed.setTitle("Done!");
@@ -299,10 +290,9 @@ export const config = new GuildCommand({
 			);
 			const channelToToggle = command.options.getChannel("channel");
 
-			const wasWatched = settingsService.watchChannels.includes(
+			const wasWatched = await settingsService.toggleWatchChannel(
 				channelToToggle.id
 			);
-			await settingsService.toggleWatchChannel(channelToToggle.id);
 
 			const embed = new BananaLoggerEmbed();
 			embed.setTitle("Done!");
@@ -325,8 +315,9 @@ export const config = new GuildCommand({
 
 			const userToToggle = command.options.getUser("user");
 
-			const wasIgnored = settingsService.ignoredUsers.includes(userToToggle.id);
-			await settingsService.toggleIgnoreUser(userToToggle.id);
+			const wasIgnored = await settingsService.toggleIgnoreUser(
+				userToToggle.id
+			);
 
 			const embed = new BananaLoggerEmbed();
 			embed.setTitle("Done!");
@@ -349,8 +340,7 @@ export const config = new GuildCommand({
 
 			const userToToggle = command.options.getUser("user");
 
-			const wasWatched = settingsService.ignoredUsers.includes(userToToggle.id);
-			await settingsService.toggleWatchUser(userToToggle.id);
+			const wasWatched = await settingsService.toggleWatchUser(userToToggle.id);
 
 			const embed = new BananaLoggerEmbed();
 			embed.setTitle("Done!");

@@ -30,22 +30,27 @@ export class GlobalSettingsService {
 	get ignoredChannels() {
 		return [...this.doc.ignoredChannels];
 	}
-	async toggleIgnoreChannel(channelId: string) {
-		this.doc.ignoredChannels = toggleArrayItem(
+	async toggleIgnoreChannel(channelId: string): Promise<boolean> {
+		const [result, wasAdded] = toggleArrayItem(
 			this.doc.ignoredChannels,
 			channelId
 		);
+		this.doc.ignoredChannels = result;
 		this.doc.markModified("ignoredChannels");
 		await this.doc.save();
+		return wasAdded;
 	}
 
 	get ignoredUsers() {
 		return [...this.doc.ignoredUsers];
 	}
-	async toggleIgnoreUser(userId: string) {
-		this.doc.ignoredUsers = toggleArrayItem(this.doc.ignoredUsers, userId);
+
+	async toggleIgnoreUser(userId: string): Promise<boolean> {
+		const [result, wasAdded] = toggleArrayItem(this.doc.ignoredUsers, userId);
+		this.doc.ignoredUsers = result;
 		this.doc.markModified("ignoredUsers");
 		await this.doc.save();
+		return wasAdded;
 	}
 
 	getTemplate(event: string): MessageEmbedOptions {
