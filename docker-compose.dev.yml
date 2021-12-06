@@ -19,7 +19,7 @@ services:
       - default
   banana-logger-db:
     image: mongo:3.6
-    container_name: Banana-Logger-Bot-DB
+    container_name: Banana-Logger-DB
     restart: always
     volumes:
       - ./storage/db:/data/db
@@ -28,5 +28,20 @@ services:
       - "27017:27017"
     networks:
       - default
+
+  banana-logger-mongoex:
+    image: mongo-express
+    container_name: Banana-Logger-MongoEX
+    logging:
+      driver: "none"
+    environment:
+      - ME_CONFIG_OPTIONS_EDITORTHEME=monokai
+      - ME_CONFIG_MONGODB_SERVER=banana-logger-db
+      - ME_CONFIG_MONGODB_PORT=27017
+    ports:
+      - "8081:8081"
+    depends_on:
+      - banana-logger-db
+    restart: unless-stopped
 networks:
   default:
