@@ -20,7 +20,7 @@ export class SettingsService {
 		globalSettingsService?: GlobalSettingsService | Guild
 	): Promise<SettingsService> {
 		const document = await SettingsModel.findOneAndUpdate(
-			{ id: channel.id },
+			{ id: channel.id, guildId: channel.guild.id },
 			{},
 			{ new: true, upsert: true }
 		);
@@ -31,6 +31,19 @@ export class SettingsService {
 				? globalSettingsService
 				: await GlobalSettingsService.init(globalSettingsService)
 		);
+	}
+
+	public static async getByEventName(
+		eventName: UserEventsType,
+		guild: Guild
+	): Promise<SettingsService[]> {
+		const globalSettings = await GlobalSettingsService.init(guild);
+		const documents = await SettingsModel.find({
+			guildId: guild.id,
+			events: eventName
+		});
+
+		return documents.map((doc) => new SettingsService(doc, globalSettings));
 	}
 
 	get id() {

@@ -6,6 +6,7 @@ import {
 } from "./GlobalSettingsModel";
 
 interface SettingsDocument extends GlobalSettingsDocument {
+	guildId: string;
 	events: UserEventsType[];
 	watchChannels: string[];
 	watchUsers: string[];
@@ -13,6 +14,7 @@ interface SettingsDocument extends GlobalSettingsDocument {
 
 const SettingsSchema = new Schema({
 	...createGlobalSettingsSchemaDefinition(),
+	guildId: { type: String, required: true },
 	events: { type: [String], default: [] },
 	watchChannels: { type: [String], default: [] },
 	watchUsers: { type: [String], default: [] }

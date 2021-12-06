@@ -150,11 +150,13 @@ export const EmbedTemplateBase: {
 } = {
 	guildMemberAdd: {
 		title: "A member joined the server",
-		description: "{MEMBER} joined the server."
+		description: "{MEMBER_NAME} joined the server.",
+		thumbnail: { url: "{MEMBER_AVATAR}" }
 	},
 	guildMemberRemove: {
 		title: "A member left the server",
-		description: "{MEMBER} left the server."
+		description: "{MEMBER_NAME} left the server.",
+		thumbnail: { url: "{MEMBER_AVATAR}" }
 	}
 };
 

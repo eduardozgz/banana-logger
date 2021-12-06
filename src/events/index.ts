@@ -1,9 +1,16 @@
 import { Intents, Permissions } from "discord.js";
 import type { Event } from "../structures";
+import { guildMemberAddEvent } from "./guildMemberAdd";
+import { guildMemberRemoveEvent } from "./guildMemberRemove";
 import { interactionCreateEvent } from "./interactionCreate";
 import { readyEvent } from "./ready";
 
-const allEvents: Event<any>[] = [interactionCreateEvent, readyEvent];
+const allEvents: Event<any>[] = [
+	interactionCreateEvent,
+	readyEvent,
+	guildMemberAddEvent,
+	guildMemberRemoveEvent
+];
 
 const allEventsNeededPermissions: Permissions = new Permissions(
 	allEvents.reduce((acc, e) => acc | e.neededPermissions.bitfield, 0n)
