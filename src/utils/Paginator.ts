@@ -156,14 +156,16 @@ class Paginator {
 							.setCustomId(`paginator:${this.commandInteraction.id}`)
 							.setPlaceholder("Select a page")
 							.addOptions(
-								_.range(0, 5)
-									.map((n) => Math.floor(n * (this.pages.length / 5)))
-									.map((page) => {
-										return {
-											label: `Page #${page + 1}`,
-											value: page.toString()
-										};
-									})
+								_.uniq(
+									_.range(0, 5).map((n) =>
+										Math.floor(n * (this.pages.length / 5))
+									)
+								).map((page) => {
+									return {
+										label: `Page #${page + 1}`,
+										value: page.toString()
+									};
+								})
 							)
 					)
 				);
