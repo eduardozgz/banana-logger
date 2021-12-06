@@ -2,15 +2,14 @@ import { userMention } from "@discordjs/builders";
 import { LogService } from "../services/LogService";
 import { Event } from "../structures";
 
-const eventName = "guildMemberAdd";
 export const guildMemberAddEvent = new Event({
-	name: eventName,
+	name: "guildMemberAdd",
 	handler: async (member) => {
-		// Loggiging
-		// TODO get what invite was used
+		// Loggiging guildMemberAdd
 		{
+			// TODO get what invite was used
 			const [data, log] = await LogService.setup({
-				eventName,
+				eventName: "guildMemberAdd",
 				relatedUsers: [member.id],
 				relatedChannels: [],
 				guild: member.guild

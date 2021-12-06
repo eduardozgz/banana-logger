@@ -2,16 +2,15 @@ import { channelMention, userMention } from "@discordjs/builders";
 import { LogService } from "../services/LogService";
 import { Event } from "../structures";
 
-const eventName = "messageUpdate";
 export const messageUpdateEvent = new Event({
-	name: eventName,
+	name: "messageUpdate",
 	neededPermissions: ["VIEW_CHANNEL", "READ_MESSAGE_HISTORY"],
 	handler: async (oldMessage, newMessage) => {
-		// Loggiging
-		// TODO fix: not loggiging when not cached
+		// Loggiging messageUpdate
 		{
+			// TODO fix: not loggiging when not cached
 			const [data, log] = await LogService.setup({
-				eventName,
+				eventName: "messageUpdate",
 				relatedUsers: [oldMessage.author.id],
 				relatedChannels: [],
 				guild: oldMessage.guild

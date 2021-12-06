@@ -2,16 +2,15 @@ import { channelMention, userMention } from "@discordjs/builders";
 import { LogService } from "../services/LogService";
 import { Event } from "../structures";
 
-const eventName = "messageDelete";
 export const messageDeleteEvent = new Event({
-	name: eventName,
+	name: "messageDelete",
 	neededPermissions: ["VIEW_CHANNEL", "READ_MESSAGE_HISTORY"],
 	handler: async (message) => {
-		// Loggiging
-		// TODO fix: not loggiging when not cached
+		// Loggiging messageDelete
 		{
+			// TODO fix: not loggiging when not cached
 			const [data, log] = await LogService.setup({
-				eventName,
+				eventName: "messageDelete",
 				relatedUsers: [message.author.id],
 				relatedChannels: [],
 				guild: message.guild
