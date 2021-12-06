@@ -7,5 +7,5 @@ export function toggleArrayItem<T>(array: T[], item: T): [T[], boolean] {
 	} else {
 		arrayToToggle.push(item);
 	}
-	return [arrayToToggle, !found];
+	return [arrayToToggle, found];
 }

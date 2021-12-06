@@ -139,10 +139,10 @@ export class SettingsService {
 		let wasAdded;
 		if (event === "all") {
 			if (this.events.length === 0) {
-				wasAdded = true;
+				wasAdded = false;
 				this.doc.events = [...Constants.UserEvents];
 			} else {
-				wasAdded = false;
+				wasAdded = true;
 				this.doc.events = [];
 			}
 		} else if (validEvents.includes(event)) {
