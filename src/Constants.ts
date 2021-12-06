@@ -188,11 +188,45 @@ export const EmbedTemplateBase: {
 		description:
 			"{AUTHOR_MENTION} deleted a [message]({MESSAGE_URL}) in {CHANNEL_MENTION}\n\n__**Content:**__\n{OLD_CONTENT}"
 	},
+	messageBulkDelete: {},
 	messageUpdate: {
 		title: "A message has been edited",
 		description:
 			"{AUTHOR_MENTION} edited this [message]({MESSAGE_URL}) in {CHANNEL_MENTION}\n\n__**Old content:**__\n{OLD_CONTENT}\n\n__**New content:**__\n{NEW_CONTENT}"
-	}
+	},
+	messageReactionAdd: {},
+	messageReactionRemove: {},
+	memberNicknameChange: {},
+	memberProfileChange: {},
+	memberRoleAdd: {},
+	memberRoleRemove: {},
+	memberBan: {},
+	memberUnban: {},
+	memberKick: {},
+	memberRulesAccepted: {},
+	roleCreate: {},
+	roleUpdate: {},
+	roleDelete: {},
+	invitePosted: {},
+	inviteCreate: {},
+	inviteDelete: {},
+	channelCreate: {},
+	channelUpdate: {},
+	channelDelete: {},
+	channelPermissionUpdate: {},
+	voiceChannelJoin: {},
+	voiceChannelMove: {},
+	voiceChannelLeave: {},
+	voiceChannelMemberMute: {},
+	voiceChannelMemberDeafened: {},
+	emojiAdd: {},
+	emojiUpdate: {},
+	emojiDelete: {},
+	stickerAdd: {},
+	stickerUpdate: {},
+	stickerDelete: {},
+	botAdd: {},
+	guildUpdate: {}
 };
 
 export const UserTemplateFieldNames: { [key: string]: string } = {
