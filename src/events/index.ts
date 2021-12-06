@@ -3,13 +3,17 @@ import type { Event } from "../structures";
 import { guildMemberAddEvent } from "./guildMemberAdd";
 import { guildMemberRemoveEvent } from "./guildMemberRemove";
 import { interactionCreateEvent } from "./interactionCreate";
+import { messageDeleteEvent } from "./messageDelete";
+import { messageUpdateEvent } from "./messageUpdate";
 import { readyEvent } from "./ready";
 
 const allEvents: Event<any>[] = [
 	interactionCreateEvent,
 	readyEvent,
 	guildMemberAddEvent,
-	guildMemberRemoveEvent
+	guildMemberRemoveEvent,
+	messageDeleteEvent,
+	messageUpdateEvent
 ];
 
 const allEventsNeededPermissions: Permissions = new Permissions(

@@ -15,7 +15,7 @@ export const guildMemberRemoveEvent = new Event({
 				relatedChannels: [],
 				guild: member.guild
 			});
-			data.set("{MEMBER_NAME}", userMention(member.id));
+			data.set("{AUTHOR_MENTION}", userMention(member.id));
 			data.set("{MEMBER_AVATAR}", member.displayAvatarURL());
 			log(data);
 		}

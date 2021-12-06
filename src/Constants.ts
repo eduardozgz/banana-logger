@@ -114,7 +114,6 @@ export const UserEventsString = [
 	"messageReactionAdd",
 	"messageReactionRemove",
 	"messageUpdate",
-	"presenceUpdate",
 	"roleCreate",
 	"roleDelete",
 	"roleUpdate",
@@ -140,7 +139,9 @@ export type UserEventsType = typeof UserEventsString[number];
 //@ts-ignore
 export const UserEventNames: { [key in UserEventsType]: string } = {
 	guildMemberAdd: "member join",
-	guildMemberRemove: "member leave"
+	guildMemberRemove: "member leave",
+	messageDelete: "delete message",
+	messageUpdate: "edit message"
 };
 
 // TODO do all
@@ -150,13 +151,23 @@ export const EmbedTemplateBase: {
 } = {
 	guildMemberAdd: {
 		title: "A member joined the server",
-		description: "{MEMBER_NAME} joined the server.",
+		description: "{MEMBER_MENTION} joined the server.",
 		thumbnail: { url: "{MEMBER_AVATAR}" }
 	},
 	guildMemberRemove: {
 		title: "A member left the server",
-		description: "{MEMBER_NAME} left the server.",
+		description: "{MEMBER_MENTION} left the server.",
 		thumbnail: { url: "{MEMBER_AVATAR}" }
+	},
+	messageDelete: {
+		title: "A message has been deleted",
+		description:
+			"{AUTHOR_MENTION} deleted a [message]({MESSAGE_URL}) in {CHANNEL_MENTION}\n\n__**Content:**__\n{OLD_CONTENT}"
+	},
+	messageUpdate: {
+		title: "A message has been edited",
+		description:
+			"{AUTHOR_MENTION} edited this [message]({MESSAGE_URL}) in {CHANNEL_MENTION}\n\n__**Old content:**__\n{OLD_CONTENT}\n\n__**New content:**__\n{NEW_CONTENT}"
 	}
 };
 
