@@ -1,4 +1,4 @@
-import { Guild, GuildTextBasedChannel } from "discord.js";
+import { Guild, GuildTextBasedChannel, MessageEmbed } from "discord.js";
 import _ from "lodash";
 import { UserEventsType } from "../Constants";
 import BananaLoggerEmbed from "../utils/BananaLoggerEmbed";
@@ -32,6 +32,8 @@ export class LogService {
 					const ignoredUsers = serviceSettings.ignoredUsers;
 					_.pull(ignoredUsers, ...serviceSettings.watchUsers);
 
+					ignoredUsers.push(guild.client.user.id);
+
 					if (
 						ignoredChannels.some((ignoredChannel) =>
 							relatedChannels.includes(ignoredChannel)
@@ -61,4 +63,7 @@ export class LogService {
 
 		return [data, log];
 	}
+
+	// TODO
+	private static logQueue;
 }
