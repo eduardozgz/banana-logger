@@ -20,10 +20,8 @@ export const guildMemberUpdateEvent = new Event({
 			log(data);
 		}
 
-		// TODO fix
 		// Loggiging guildMemberNicknameChange
-		console.log(oldMember, member);
-		if (member.nickname && oldMember.nickname !== member.nickname) {
+		if (oldMember.nickname !== member.nickname) {
 			const [data, log] = LogService.setup({
 				eventName: "guildMemberNicknameChange",
 				relatedUsers: [member.id],
@@ -53,20 +51,21 @@ export const guildMemberUpdateEvent = new Event({
 				"OLD_AVATAR",
 				oldMember.displayAvatarURL() ?? member.user.displayAvatarURL()
 			);
-			data.set("NEW_AVATAR", member.displayAvatarURL());
+			data.set(
+				"NEW_AVATAR",
+				member.displayAvatarURL() ?? member.user.displayAvatarURL()
+			);
 
 			log(data);
 		}
 
-		// TODO fix bulk update, its being fired when something in the user that arent the roles changes
-		// TODO use audit logs for related users
 		const newRoles = Array.from(member.roles.cache.keys());
 		const oldRoles = Array.from(oldMember.roles.cache.keys());
 		if (!_.isEqual(newRoles, oldRoles)) {
 			const addedRoles = _.difference(newRoles, oldRoles);
 			const removedRoles = _.difference(oldRoles, newRoles);
-			// Loggiging guildMemberRolesBulkUpdate
 			if (addedRoles.length > 1 || removedRoles.length > 1) {
+				// Loggiging guildMemberRolesBulkUpdate
 				const [data, log] = LogService.setup({
 					eventName: "guildMemberRoleBulkUpdate",
 					relatedUsers: [member.id],
@@ -86,6 +85,7 @@ export const guildMemberUpdateEvent = new Event({
 
 				log(data);
 			} else if (addedRoles.length > removedRoles.length) {
+				// Loggiging guildMemberRoleAdd
 				const [data, log] = LogService.setup({
 					eventName: "guildMemberRoleAdd",
 					relatedUsers: [member.id],
@@ -98,6 +98,7 @@ export const guildMemberUpdateEvent = new Event({
 
 				log(data);
 			} else {
+				// Loggiging guildMemberRoleRemove
 				const [data, log] = LogService.setup({
 					eventName: "guildMemberRoleRemove",
 					relatedUsers: [member.id],

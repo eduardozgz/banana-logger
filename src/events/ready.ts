@@ -6,5 +6,10 @@ export const readyEvent = new Event({
 	handler: (client) => {
 		console.log(`Bot ready, logged in as ${client.user.tag}`);
 		console.log(`Invite link: ${getBotInviteLink()}`);
+		client.guilds.cache.forEach((guild) =>
+			guild.members.fetch().catch((err) => {
+				console.error(`Error while fetching members of guild ${guild.id}`, err);
+			})
+		);
 	}
 });
