@@ -9,6 +9,7 @@ export const messageUpdateEvent = new Event({
 		if (oldMessage.partial) await oldMessage.fetch();
 		if (newMessage.partial) await newMessage.fetch();
 
+		// TODO attachments
 		// Loggiging messageUpdate
 		{
 			const [data, log] = LogService.setup({

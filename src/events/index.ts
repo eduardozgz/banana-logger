@@ -2,6 +2,7 @@ import { Intents, Permissions } from "discord.js";
 import type { Event } from "../structures";
 import { guildMemberAddEvent } from "./guildMemberAdd";
 import { guildMemberRemoveEvent } from "./guildMemberRemove";
+import { guildMemberUpdateEvent } from "./guildMemberUpdate";
 import { interactionCreateEvent } from "./interactionCreate";
 import { messageDeleteEvent } from "./messageDelete";
 import { messageReactionAddEvent } from "./messageReactionAdd";
@@ -17,7 +18,8 @@ const allEvents: Event<any>[] = [
 	messageDeleteEvent,
 	messageUpdateEvent,
 	messageReactionAddEvent,
-	messageReactionRemoveEvent
+	messageReactionRemoveEvent,
+	guildMemberUpdateEvent
 ];
 
 const allEventsNeededPermissions: Permissions = new Permissions(

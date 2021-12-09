@@ -1,9 +1,4 @@
-import {
-	ClientEvents,
-	IntentsString,
-	MessageEmbedOptions,
-	WSEventType
-} from "discord.js";
+import { IntentsString, MessageEmbedOptions, WSEventType } from "discord.js";
 
 export const Colors = {
 	RED: 0xed4245,
@@ -93,14 +88,15 @@ export const UserEventsString = [
 	"messageUpdate",
 	"messageReactionAdd",
 	"messageReactionRemove",
-	"memberNicknameChange",
-	"memberProfileChange",
-	"memberRoleAdd",
-	"memberRoleRemove",
-	"memberBan",
-	"memberUnban",
-	"memberKick",
-	"memberRulesAccepted",
+	"guildMemberNicknameChange",
+	"guildMemberAvatarChange",
+	"guildMemberRoleAdd",
+	"guildMemberRoleRemove",
+	"guildMemberRoleBulkUpdate",
+	"guildMemberBan",
+	"guildMemberUnban",
+	"guildMemberKick",
+	"guildMemberRulesAccepted",
 	"roleCreate",
 	"roleUpdate",
 	"roleDelete",
@@ -137,14 +133,15 @@ export const UserEventNames: { [key in UserEventsType]: string } = {
 	messageUpdate: "edit message",
 	messageReactionAdd: "reaction add",
 	messageReactionRemove: "reaction remove",
-	memberNicknameChange: "member nickname change",
-	memberProfileChange: "member profile change",
-	memberRoleAdd: "member role add",
-	memberRoleRemove: "member role remove",
-	memberBan: "member ban",
-	memberUnban: "member unban",
-	memberKick: "member kick",
-	memberRulesAccepted: "rules aggreed",
+	guildMemberNicknameChange: "member nickname change",
+	guildMemberAvatarChange: "member avatar change",
+	guildMemberRoleAdd: "member role add",
+	guildMemberRoleRemove: "member role remove",
+	guildMemberRoleBulkUpdate: "member role bulk update",
+	guildMemberBan: "member ban",
+	guildMemberUnban: "member unban",
+	guildMemberKick: "member kick",
+	guildMemberRulesAccepted: "rules agreed",
 	roleCreate: "role create",
 	roleUpdate: "role update",
 	roleDelete: "reole delete",
@@ -213,14 +210,36 @@ export const EmbedTemplateBase: {
 			url: "{REACTION_IMAGE_URL}"
 		}
 	},
-	memberNicknameChange: {},
-	memberProfileChange: {},
-	memberRoleAdd: {},
-	memberRoleRemove: {},
-	memberBan: {},
-	memberUnban: {},
-	memberKick: {},
-	memberRulesAccepted: {},
+	guildMemberNicknameChange: {
+		title: "A member changed their nickname",
+		description:
+			"{MEMBER_MENTION} changed their nickname from {OLD_NICKNAME} to {NEW_NICKNAME}"
+	},
+	guildMemberAvatarChange: {
+		title: "A member changed their nickname",
+		description: "{MEMBER_MENTION} changed their server avatar",
+		thumbnail: { url: "{OLD_AVATAR}" }
+	},
+	guildMemberRoleAdd: {
+		title: "Member roles updated",
+		description: "{MEMBER_MENTION} got a new role: {ROLE_MENTION}"
+	},
+	guildMemberRoleRemove: {
+		title: "Member roles updated",
+		description: "{MEMBER_MENTION} got a role removed: {ROLE_MENTION}"
+	},
+	guildMemberRoleBulkUpdate: {
+		title: "Member roles updated",
+		description:
+			"{MEMBER_MENTION} got some roles updated:\n\nAdded roles:\n{ADDED_ROLES_MENTION}\n\nRemoved roles:\n{REMOVED_ROLES_MENTION}"
+	},
+	guildMemberBan: {},
+	guildMemberUnban: {},
+	guildMemberKick: {},
+	guildMemberRulesAccepted: {
+		title: "A member accepted the rules",
+		description: "{MEMBER_MENTION} accepted the rules"
+	},
 	roleCreate: {},
 	roleUpdate: {},
 	roleDelete: {},
