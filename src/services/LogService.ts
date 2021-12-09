@@ -33,6 +33,7 @@ export class LogService {
 					_.pull(ignoredUsers, ...serviceSettings.watchUsers);
 
 					ignoredUsers.push(guild.client.user.id);
+					ignoredChannels.push(serviceSettings.id);
 
 					if (
 						ignoredChannels.some((ignoredChannel) =>
@@ -48,7 +49,7 @@ export class LogService {
 					const template = serviceSettings.getTemplate(eventName);
 
 					for (const [key, value] of data.entries()) {
-						deepReplaceAll(template, key, value);
+						deepReplaceAll(template, `{${key}}`, value);
 					}
 
 					const channel = (await guild.channels.fetch(

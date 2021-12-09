@@ -170,6 +170,7 @@ export const UserEventNames: { [key in UserEventsType]: string } = {
 	guildUpdate: "server update"
 };
 
+// @ts-ignore
 export const EmbedTemplateBase: {
 	[key in UserEventsType]: MessageEmbedOptions;
 } = {
@@ -188,14 +189,30 @@ export const EmbedTemplateBase: {
 		description:
 			"{AUTHOR_MENTION} deleted a [message]({MESSAGE_URL}) in {CHANNEL_MENTION}\n\n__**Content:**__\n{OLD_CONTENT}"
 	},
-	messageBulkDelete: {},
+	messageBulkDelete: {
+		// TODO
+	},
 	messageUpdate: {
 		title: "A message has been edited",
 		description:
 			"{AUTHOR_MENTION} edited this [message]({MESSAGE_URL}) in {CHANNEL_MENTION}\n\n__**Old content:**__\n{OLD_CONTENT}\n\n__**New content:**__\n{NEW_CONTENT}"
 	},
-	messageReactionAdd: {},
-	messageReactionRemove: {},
+	messageReactionAdd: {
+		title: "A reaction has been added",
+		description:
+			'{REACTOR_MENTION} has reacted with "{REACTION_EMOJI}" to {AUTHOR_MENTION}\'s [message]({MESSAGE_URL}) in {CHANNEL_MENTION}',
+		thumbnail: {
+			url: "{REACTION_IMAGE_URL}"
+		}
+	},
+	messageReactionRemove: {
+		title: "A reaction has been removed",
+		description:
+			'{REACTOR_MENTION} removed their reaction "{REACTION_EMOJI}" from {AUTHOR_MENTION}\'s [message]({MESSAGE_URL}) in {CHANNEL_MENTION}',
+		thumbnail: {
+			url: "{REACTION_IMAGE_URL}"
+		}
+	},
 	memberNicknameChange: {},
 	memberProfileChange: {},
 	memberRoleAdd: {},

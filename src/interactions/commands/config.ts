@@ -190,7 +190,7 @@ export const config = new GuildCommand({
 			)}:\n${watchedChannelsString}\n\n`;
 
 			// Templates
-			const templatesString = Object.entries(Constants.UserEventNames)
+			const tempaltesContent = Object.entries(Constants.UserEventNames)
 				.map(([code, name]) => {
 					const {
 						title,
@@ -213,16 +213,19 @@ export const config = new GuildCommand({
 				})
 				.join("\n");
 
-			settingsContent += `${bold(
-				underscore("TEMPLATES")
-			)}:\n${templatesString}\n\n`;
-
 			const embeds = [];
 
-			safeDiscordString(settingsContent).forEach((settingsContentPortion) => {
+			safeDiscordString(settingsContent).forEach((portion) => {
 				const embed = new BananaLoggerEmbed();
 				embed.setTitle("Settings for #" + channel.name);
-				embed.setDescription(settingsContentPortion);
+				embed.setDescription(portion);
+				embeds.push(embed);
+			});
+
+			safeDiscordString(tempaltesContent, 500).forEach((portion) => {
+				const embed = new BananaLoggerEmbed();
+				embed.setTitle("Templates for #" + channel.name);
+				embed.setDescription(portion);
 				embeds.push(embed);
 			});
 

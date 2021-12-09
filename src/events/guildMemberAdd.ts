@@ -8,15 +8,15 @@ export const guildMemberAddEvent = new Event({
 		// Loggiging guildMemberAdd
 		{
 			// TODO get what invite was used
-			const [data, log] = await LogService.setup({
+			const [data, log] = LogService.setup({
 				eventName: "guildMemberAdd",
 				relatedUsers: [member.id],
 				relatedChannels: [],
 				guild: member.guild
 			});
 
-			data.set("{AUTHOR_MENTION}", userMention(member.id));
-			data.set("{MEMBER_AVATAR}", member.displayAvatarURL());
+			data.set("AUTHOR_MENTION", userMention(member.id));
+			data.set("MEMBER_AVATAR", member.displayAvatarURL());
 
 			log(data);
 		}

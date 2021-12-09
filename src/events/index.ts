@@ -4,6 +4,8 @@ import { guildMemberAddEvent } from "./guildMemberAdd";
 import { guildMemberRemoveEvent } from "./guildMemberRemove";
 import { interactionCreateEvent } from "./interactionCreate";
 import { messageDeleteEvent } from "./messageDelete";
+import { messageReactionAddEvent } from "./messageReactionAdd";
+import { messageReactionRemoveEvent } from "./messageReactionRemove";
 import { messageUpdateEvent } from "./messageUpdate";
 import { readyEvent } from "./ready";
 
@@ -13,7 +15,9 @@ const allEvents: Event<any>[] = [
 	guildMemberAddEvent,
 	guildMemberRemoveEvent,
 	messageDeleteEvent,
-	messageUpdateEvent
+	messageUpdateEvent,
+	messageReactionAddEvent,
+	messageReactionRemoveEvent
 ];
 
 const allEventsNeededPermissions: Permissions = new Permissions(

@@ -8,14 +8,14 @@ export const guildMemberRemoveEvent = new Event({
 		// Loggiging guildMemberRemove
 		{
 			// TODO get what invite was used
-			const [data, log] = await LogService.setup({
+			const [data, log] = LogService.setup({
 				eventName: "guildMemberRemove",
 				relatedUsers: [member.id],
 				relatedChannels: [],
 				guild: member.guild
 			});
-			data.set("{AUTHOR_MENTION}", userMention(member.id));
-			data.set("{MEMBER_AVATAR}", member.displayAvatarURL());
+			data.set("AUTHOR_MENTION", userMention(member.id));
+			data.set("MEMBER_AVATAR", member.displayAvatarURL());
 			log(data);
 		}
 	}

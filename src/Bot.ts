@@ -7,7 +7,10 @@ export default class Bot {
 	constructor() {
 		const intents =
 			allEventsNeededIntents.bitfield | allCommandsNeededIntents.bitfield;
-		this.client = new Client({ intents });
+		this.client = new Client({
+			intents,
+			partials: ["CHANNEL", "GUILD_MEMBER", "MESSAGE", "REACTION", "USER"]
+		});
 		this.setupEvents();
 	}
 
