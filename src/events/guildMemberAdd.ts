@@ -15,7 +15,7 @@ export const guildMemberAddEvent = new Event({
 				guild: member.guild
 			});
 
-			data.set("AUTHOR_MENTION", userMention(member.id));
+			data.set("MEMBER_MENTION", userMention(member.id));
 			data.set("MEMBER_AVATAR", member.displayAvatarURL());
 
 			log(data);
