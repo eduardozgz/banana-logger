@@ -93,8 +93,8 @@ export const UserEventsString = [
 	"guildMemberRoleAdd",
 	"guildMemberRoleRemove",
 	"guildMemberRoleBulkUpdate",
-	"guildMemberBan",
-	"guildMemberUnban",
+	"guildBanAdd",
+	"guildBanRemove",
 	"guildMemberKick",
 	"guildMemberRulesAccepted",
 	"roleCreate",
@@ -138,8 +138,8 @@ export const UserEventNames: { [key in UserEventsType]: string } = {
 	guildMemberRoleAdd: "member role add",
 	guildMemberRoleRemove: "member role remove",
 	guildMemberRoleBulkUpdate: "member role bulk update",
-	guildMemberBan: "member ban",
-	guildMemberUnban: "member unban",
+	guildBanAdd: "member ban",
+	guildBanRemove: "member unban",
 	guildMemberKick: "member kick",
 	guildMemberRulesAccepted: "rules agreed",
 	roleCreate: "role create",
@@ -233,8 +233,16 @@ export const EmbedTemplateBase: {
 		description:
 			"{MEMBER_MENTION} got some roles updated:\n\nAdded roles:\n{ADDED_ROLES_MENTION}\n\nRemoved roles:\n{REMOVED_ROLES_MENTION}"
 	},
-	guildMemberBan: {},
-	guildMemberUnban: {},
+	guildBanAdd: {
+		title: "Member banned",
+		description:
+			"{MEMBER_BANNED_MENTION} has been banned. Banned by: {MOD_MENTION}. Ban reason: {REASON}"
+	},
+	guildBanRemove: {
+		title: "Member unbanned",
+		description:
+			"{MEMBER_BANNED_MENTION} has been unbanned. Banned by: {MOD_MENTION}. Unbanned by: {UNBAN_MOD_MENTION}. Ban reason: {REASON}"
+	},
 	guildMemberKick: {},
 	guildMemberRulesAccepted: {
 		title: "A member accepted the rules",

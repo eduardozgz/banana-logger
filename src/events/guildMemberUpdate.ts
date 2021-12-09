@@ -20,6 +20,7 @@ export const guildMemberUpdateEvent = new Event({
 			log(data);
 		}
 
+		// TODO get from audit logs who did this
 		// Loggiging guildMemberNicknameChange
 		if (oldMember.nickname !== member.nickname) {
 			const [data, log] = LogService.setup({
@@ -59,6 +60,7 @@ export const guildMemberUpdateEvent = new Event({
 			log(data);
 		}
 
+		// TODO get from audit logs who did this
 		const newRoles = Array.from(member.roles.cache.keys());
 		const oldRoles = Array.from(oldMember.roles.cache.keys());
 		if (!_.isEqual(newRoles, oldRoles)) {
