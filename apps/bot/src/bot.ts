@@ -1,6 +1,6 @@
 import { Client } from "discord.js";
 
-import { generateBotIntents } from "@/common/botIntents";
+import { botIntents } from "@/common/botIntents";
 
 import type { BotInstanceOptions } from "~/@types/BotInstanceOptions";
 import { setupEvents } from "./events";
@@ -12,7 +12,7 @@ export async function startBot(options: BotInstanceOptions) {
   const { logger } = options;
 
   const botClient = new Client({
-    intents: generateBotIntents(),
+    intents: botIntents,
   });
 
   botClient.botInstanceOptions = options;
