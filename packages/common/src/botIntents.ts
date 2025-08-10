@@ -1,7 +1,7 @@
 import { IntentsBitField } from "discord.js";
 
-export function generateBotIntents() {
-  const intents = new IntentsBitField();
+const AllIntents = Object.values(IntentsBitField.Flags)
+  .filter((flag) => typeof flag === "number")
+  .reduce((acc, flag) => acc | flag, 0);
 
-  return intents;
-}
+export const botIntents = new IntentsBitField(AllIntents);
