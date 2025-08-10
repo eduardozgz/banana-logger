@@ -5,6 +5,184 @@
         "title": "ERROR!",
         "description": "Something went wrong, please try again later.\n\nError ID: {{ERROR_ID}}"
       }
+    },
+    "commands": {
+      "invite": {
+        "addToServer": "Add to server",
+        "addToServerAgain": "Add to this server again",
+        "definition": {
+          "slash": {
+            "description": "Provides an invite link to add the bot.",
+            "name": "invite"
+          }
+        },
+        "description": "Your invite link is ready:\n{{INVITE_URL}}",
+        "joinSupportServer": "Join support server"
+      },
+      "config": {
+        "definition": {
+          "slash": {
+            "name": "config",
+            "description": "Configurations applied to this channel",
+            "sub-commands": {
+              "show": {
+                "name": "show",
+                "description": "Shows the configurations applied to this channel"
+              },
+              "toggle-log": {
+                "name": "toggle-log",
+                "description": "Starts or stops logging the specified event",
+                "options": {
+                  "event": {
+                    "name": "event",
+                    "description": "A specific event or all",
+                    "choices": {
+                      "all": "All"
+                    }
+                  }
+                }
+              },
+              "toggle-ignore-channel": {
+                "name": "toggle-ignore-channel",
+                "description": "Ignores any event coming from the specified channel",
+                "options": {
+                  "channel": {
+                    "name": "channel",
+                    "description": "Channel to toggle the ignore status"
+                  }
+                }
+              },
+              "toggle-watch-channel": {
+                "name": "toggle-watch-channel",
+                "description": "Explicitly logs events that comes from the specified channel",
+                "options": {
+                  "channel": {
+                    "name": "channel",
+                    "description": "Channel to toggle the watch status"
+                  }
+                }
+              },
+              "toggle-ignore-user": {
+                "name": "toggle-ignore-user",
+                "description": "Ignores any event related from the specified user",
+                "options": {
+                  "user": {
+                    "name": "user",
+                    "description": "User to toggle the ignore status"
+                  }
+                }
+              },
+              "toggle-watch-user": {
+                "name": "toggle-watch-user",
+                "description": "Explicitly logs events that are related to the specified user",
+                "options": {
+                  "user": {
+                    "name": "user",
+                    "description": "User to toggle the watch status"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "sub-commands": {
+          "toggle-ignore-channel": {
+            "done": "Done!",
+            "is-not-being-ignored-anymore": "{{CHANNEL_MENTION}} is not being ignored anymore",
+            "is-now-being-ignored": "{{CHANNEL_MENTION}} is now being ignored"
+          },
+          "show": {
+            "settings-for": "Settings for #{{CHANNEL_NAME}}",
+            "all-events-are-being-logged": "All events are being logged",
+            "no-events-are-being-logged": "There are no events being logged",
+            "no-users-are-being-ignored": "There are no users being ignored",
+            "no-users-are-being-watched": "There are no users being watched",
+            "no-channels-are-being-ignored": "There are no channels being ignored",
+            "no-channels-are-being-watched": "There are no channels being watched",
+            "ignored-users": "Ignored users",
+            "watched-users": "Watched users",
+            "ignored-channels": "Ignored channels",
+            "watched-channels": "Watched channels"
+          },
+          "toggle-ignore-user": {
+            "done": "Done!",
+            "is-not-being-ignored-anymore": "{{USER_MENTION}} is not being ignored anymore",
+            "is-now-being-ignored": "{{USER_MENTION}} is now being ignored"
+          },
+          "toggle-log": {
+            "done": "Done!",
+            "everything-event-name": "Everything",
+            "is-not-being-logged-anymore": "{{EVENT_NAME}} is not being logged anymore",
+            "is-now-being-logged": "{{EVENT_NAME}} is now being logged"
+          },
+          "toggle-watch-channel": {
+            "done": "Done!",
+            "is-not-being-watched-anymore": "{{CHANNEL_MENTION}} is not being watched anymore",
+            "is-now-being-watched": "{{CHANNEL_MENTION}} is now being watched"
+          },
+          "toggle-watch-user": {
+            "done": "Done!",
+            "is-not-being-watched-anymore": "{{USER_MENTION}} is not being watched anymore",
+            "is-now-being-watched": "{{USER_MENTION}} is now being watched"
+          }
+        }
+      },
+      "globalConfig": {
+        "definition": {
+          "slash": {
+            "name": "global-config",
+            "description": "Global configurations applied to all channels",
+            "sub-commands": {
+              "show": {
+                "name": "show",
+                "description": "Shows the configurations applied to all the channels"
+              },
+              "toggle-ignore-channel": {
+                "name": "toggle-ignore-channel",
+                "description": "Ignores any event coming from the specified channel",
+                "options": {
+                  "channel": {
+                    "name": "channel",
+                    "description": "Channel to toggle the ignore status"
+                  }
+                }
+              },
+              "toggle-ignore-user": {
+                "name": "toggle-ignore-user",
+                "description": "Ignores any event related from the specified user",
+                "options": {
+                  "user": {
+                    "name": "user",
+                    "description": "User to toggle the ignore status"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "sub-commands": {
+          "show": {
+            "global-settings": "Global settings (applied to all channels)",
+            "ignored-users": "Ignored users",
+            "no-ignored-users": "There are no users being ignored globally",
+            "ignored-channels": "Ignored channels",
+            "no-ignored-channels": "There are no channels being ignored globally"
+          },
+          "toggle-ignore-user": {
+            "done": "Done!",
+            "is-not-being-ignored-anymore": "{{USER_MENTION}} is not being ignored anymore",
+            "is-now-being-ignored": "{{USER_MENTION}} is now being ignored"
+          },
+          "toggle-ignore-channel": {
+            "done": "Done!",
+            "is-not-being-ignored-anymore": "{{CHANNEL_MENTION}} is not being ignored anymore",
+            "is-now-being-ignored": "{{CHANNEL_MENTION}} is now being ignored"
+          }
+        }
+      }
     }
+  },
+  "paginator": {
+    "page": "Page {CURRENT_PAGE}/{TOTAL_PAGES}"
   }
 }

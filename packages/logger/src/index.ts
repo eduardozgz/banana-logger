@@ -1,4 +1,5 @@
 import { inspect } from "util";
+import type { Logger } from "winston";
 import winston from "winston";
 
 import { env } from "./env";
@@ -49,4 +50,5 @@ const logger = winston.createLogger({
   ],
 });
 
+export type { Logger };
 export default logger;

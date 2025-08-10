@@ -6,6 +6,7 @@ export const env = createEnv({
     NODE_ENV: z
       .enum(["development", "test", "production"])
       .default("development"),
+    DISCORD_CLIENT_ID: z.string(),
   },
   server: {},
 

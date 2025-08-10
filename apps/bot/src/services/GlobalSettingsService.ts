@@ -19,7 +19,7 @@ export class GlobalSettingsService {
     },
   ) {}
 
-  public static async load(guild: Guild): Promise<GlobalSettingsService> {
+  public static async init(guild: Guild): Promise<GlobalSettingsService> {
     const settings = await db.globalSettings.upsert({
       where: { guildId: guild.id },
       update: {},

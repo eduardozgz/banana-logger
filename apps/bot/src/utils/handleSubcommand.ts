@@ -1,6 +1,6 @@
+import type { i18n } from "@/i18n";
 import assert from "assert";
-import type { CommandInteraction } from "discord.js";
-import type { i18n } from "i18next";
+import type { CommandInteraction } from "discord.js"; 
 
 import type { CommandHandle } from "~/structures";
 

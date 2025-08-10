@@ -47,7 +47,7 @@ export class SettingsService {
       settings,
       globalSettingsService instanceof GlobalSettingsService
         ? globalSettingsService
-        : await GlobalSettingsService.load(
+        : await GlobalSettingsService.init(
             globalSettingsService ?? channel.guild,
           ),
     );
@@ -57,7 +57,7 @@ export class SettingsService {
     eventType: EventType,
     guild: Guild,
   ): Promise<SettingsService[]> {
-    const globalSettings = await GlobalSettingsService.load(guild);
+    const globalSettings = await GlobalSettingsService.init(guild);
     const settings = await db.settings.findMany({
       where: {
         guildId: guild.id,

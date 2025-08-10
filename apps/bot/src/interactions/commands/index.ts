@@ -1,4 +1,9 @@
-import type { CommandInteraction } from "discord.js";
+import type {
+  CacheType,
+  ChatInputCommandInteraction,
+  CommandInteraction,
+} from "discord.js";
+import { MessageFlags } from "discord.js";
 
 import { i18nDefault } from "@/i18n";
 
@@ -8,7 +13,23 @@ import { commandDefinitionTKeyMap } from "~/utils/prepareLocalization";
 
 export const allCommands: Command[] = [];
 
-export function throwUnsupported(command: CommandInteraction) {
+export function assertCachedGuild(
+  command: CommandInteraction,
+): asserts command is CommandInteraction<"cached"> {
+  if (!command.inCachedGuild()) {
+    throw new Error("This command can only be used in a cached guild");
+  }
+}
+
+export function assertChatInputCommand(
+  command: CommandInteraction<CacheType>,
+): asserts command is ChatInputCommandInteraction<CacheType> {
+  if (!command.isChatInputCommand()) {
+    throw new Error("This command can only be used in a chat input command");
+  }
+}
+
+export function throwUnsupported(command: CommandInteraction): never {
   throw new Error(`Unsupported command type ${command.commandType}`);
 }
 
@@ -17,7 +38,7 @@ export default async function handleCommand(
 ): Promise<void> {
   const { logger } = commandInteraction.client.botInstanceOptions;
 
-  await commandInteraction.deferReply({ ephemeral: true });
+  await commandInteraction.deferReply({ flags: MessageFlags.Ephemeral });
 
   const command = allCommands.find((c) => {
     const commandNames = [c.slashDefinition?.name, c.contextDefinition?.name]
