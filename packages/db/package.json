@@ -10,7 +10,7 @@
   "license": "MIT",
   "scripts": {
     "clean": "rm -rf .turbo node_modules",
-    "format": "prettier --check . --ignore-path ../../.gitignore ./prisma/.gitignore",
+    "format": "prettier --check . --ignore-path ../../.gitignore --ignore-path ./prisma/.gitignore",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
     "postinstall": "pnpm run generate",
