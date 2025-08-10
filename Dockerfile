@@ -6,13 +6,13 @@ RUN corepack enable
 RUN apk update && apk add --no-cache libc6-compat
  
 FROM base AS app-deps
-WORKDIR /app
 RUN apk update && apk add --no-cache make gcc g++ python3 git curl
-COPY pnpm-lock.yaml package.json pnpm-workspace.yaml ./
-RUN pnpm install --frozen-lockfile
+WORKDIR /app-deps
+COPY pnpm-lock.yaml .
+RUN pnpm fetch
 
 FROM app-deps AS full
-WORKDIR /app
 RUN pnpm install -g turbo@2
 WORKDIR /app
 COPY . .
+RUN pnpm install --frozen-lockfile
