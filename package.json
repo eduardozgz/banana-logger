@@ -1,0 +1,35 @@
+{
+  "name": "banana-logger-bot",
+  "version": "1.0.0",
+  "private": true,
+  "engines": {
+    "node": ">=22.16.0"
+  },
+  "scripts": {
+    "build": "turbo build",
+    "clean": "git clean -xdf node_modules",
+    "clean:workspaces": "turbo clean",
+    "db:push": "pnpm -F db push",
+    "dev": "turbo dev --parallel",
+    "dev:docker:up": "docker compose -f docker-compose.dev.yml up -d",
+    "dev:docker:down": "docker compose -f docker-compose.dev.yml down",
+    "start": "turbo start --parallel",
+    "format": "turbo format --continue -- --cache --cache-location node_modules/.cache/.prettiercache",
+    "generate-i18next-res": "turbo generate-i18next-res",
+    "format:fix": "turbo format --continue -- --write --cache --cache-location node_modules/.cache/.prettiercache",
+    "lint": "turbo lint --continue -- --cache --cache-location node_modules/.cache/.eslintcache",
+    "lint:fix": "turbo lint --continue -- --fix --cache --cache-location node_modules/.cache/.eslintcache",
+    "lint:ws": "pnpm dlx sherif@latest",
+    "postinstall": "pnpm lint:ws",
+    "typecheck": "turbo typecheck",
+    "test": "turbo test"
+  },
+  "devDependencies": {
+    "@/prettier-config": "workspace:*",
+    "prettier": "catalog:prettier",
+    "turbo": "^2.0.6",
+    "typescript": "catalog:"
+  },
+  "prettier": "@/prettier-config",
+  "packageManager": "pnpm@9.15.5+sha512.845196026aab1cc3f098a0474b64dfbab2afe7a1b4e91dd86895d8e4aa32a7a6d03049e2d0ad770bbe4de023a7122fb68c1a1d6e0d033c7076085f9d5d4800d4"
+}

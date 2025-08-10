@@ -1,0 +1,35 @@
+{
+  "name": "@/common",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "exports": {
+    "./*": "./src/*.ts"
+  },
+  "license": "MIT",
+  "scripts": {
+    "clean": "rm -rf .turbo node_modules",
+    "format": "prettier --check . --ignore-path ../../.gitignore",
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@/db": "workspace:*",
+    "@/logger": "workspace:*",
+    "@t3-oss/env-core": "catalog:",
+    "discord-api-types": "^0.38.18",
+    "discord.js": "^14.21.0",
+    "utf-8-validate": "^6.0.3",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@/eslint-config": "workspace:*",
+    "@/prettier-config": "workspace:*",
+    "@/tsconfig": "workspace:*",
+    "@total-typescript/ts-reset": "catalog:",
+    "eslint": "catalog:eslint",
+    "prettier": "catalog:prettier",
+    "typescript": "catalog:"
+  },
+  "prettier": "@/prettier-config"
+}

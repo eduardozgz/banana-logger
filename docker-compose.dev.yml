@@ -1,0 +1,98 @@
+services:
+  mongo:
+    image: mongo:7
+    container_name: MongoDB
+    command: ["--replSet", "rs0", "--bind_ip_all", "--port", "27017"]
+    healthcheck:
+      test: echo 'db.runCommand({serverStatus:1}).ok' | mongosh --quiet | grep 1
+      interval: 5s
+      timeout: 10s
+      retries: 30
+      start_period: 20s
+    ports:
+      - 27017:27017
+    volumes:
+      - ./storage/db:/data/db
+    expose:
+      - 27017
+    restart: unless-stopped
+    networks:
+      - banana-logger-dev
+
+  setup-mongo-rs:
+    image: mongo:7
+    container_name: Setup-MongoDB-ReplicaSet
+    command: 'mongosh mongodb://mongo:27017/banana-logger-bot --eval=''rs.initiate({ _id: "rs0", members: [{_id: 0, host:"mongo:27017"}] }).ok'' --quiet | grep 1'
+    depends_on:
+      mongo:
+        condition: service_healthy
+        restart: true
+    restart: "no"
+    networks:
+      - banana-logger-dev
+
+  mongoex:
+    image: mongo-express
+    container_name: MongoEX
+    ports:
+      - "3001:8081"
+    depends_on:
+      mongo:
+        condition: service_healthy
+        restart: true
+    restart: unless-stopped
+    networks:
+      - banana-logger-dev
+
+  redis:
+    image: redis
+    command: redis-server
+    container_name: Redis
+    restart: unless-stopped
+    networks:
+      - banana-logger-dev
+    ports:
+      - "6379:6379"
+
+  redis-insight:
+    container_name: Redis-Insight
+    image: redis/redisinsight:latest
+    depends_on:
+      - redis
+    healthcheck:
+      test: wget -qO- http://redis-insight:5540/api/health | grep up
+      interval: 5s
+      timeout: 10s
+      retries: 30
+      start_period: 20s
+    ports:
+      - "3003:5540"
+    restart: unless-stopped
+    networks:
+      - banana-logger-dev
+
+  setup-redis-insight:
+    container_name: Setup-Redis-Insight
+    image: curlimages/curl
+    depends_on:
+      redis-insight:
+        condition: service_healthy
+        restart: true
+    command: |
+      curl
+        --connect-timeout 5 --max-time 10 --retry 10 --retry-delay 2 --retry-max-time 40 --retry-connrefused
+        --location --request POST 'http://redis-insight:5540/api/databases/'
+        --header 'Content-Type: application/json'
+        --data-raw '{
+            "name": "Local",
+            "host": "redis",
+            "port": 6379,
+            "compressor": "NONE",
+            "db": 0,
+            "timeout": 30000
+        }'
+    networks:
+      - banana-logger-dev
+
+networks:
+  banana-logger-dev:

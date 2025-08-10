@@ -1,0 +1,37 @@
+{
+  "name": "@/trpc-redis",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./Constants": "./src/Constants.ts"
+  },
+  "license": "MIT",
+  "scripts": {
+    "clean": "rm -rf .turbo node_modules",
+    "format": "prettier --check . --ignore-path ../../.gitignore",
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@/eslint-config": "workspace:*",
+    "@/prettier-config": "workspace:*",
+    "@/tsconfig": "workspace:*",
+    "@total-typescript/ts-reset": "catalog:",
+    "eslint": "catalog:eslint",
+    "prettier": "catalog:prettier",
+    "typescript": "catalog:"
+  },
+  "prettier": "@/prettier-config",
+  "dependencies": {
+    "@opentelemetry/api": "^1.9.0",
+    "@sesamecare-oss/redlock": "^1.4.0",
+    "zod": "catalog:"
+  },
+  "peerDependencies": {
+    "@trpc/client": "catalog:trpc",
+    "@trpc/server": "catalog:trpc",
+    "ioredis": "^5.4.1"
+  }
+}

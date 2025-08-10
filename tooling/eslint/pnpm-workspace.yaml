@@ -1,0 +1,31 @@
+packages:
+  - apps/*
+  - packages/*
+  - tooling/*
+catalog:
+  prettier: ^3.5.3
+  typescript: ^5.8.3
+  zod: ^4.0.17
+  "@types/node": ^22.15.30
+  dotenv-cli: ^8.0.0
+  "@t3-oss/env-core": ^0.13.8
+  "@total-typescript/ts-reset": ^0.6.1
+catalogs:
+  react19:
+    react: 19.1.1
+    react-dom: 19.1.1
+    "@types/react": ^19.1.6
+    "@types/react-dom": ^19.1.5
+  tailwindcss4:
+    "@tailwindcss/vite": ^4.1.8
+    tailwindcss: ^4.1.8
+  eslint:
+    eslint: ^9.28.0
+    eslint-plugin-import: ^2.31.0
+    eslint-plugin-jsx-a11y: ^6.10.2
+    eslint-plugin-react: ^7.37.5
+    eslint-plugin-react-hooks: ^6.0.0-rc.1
+    eslint-plugin-react-refresh: ^0.4.20
+    eslint-plugin-turbo: ^2.5.4
+    typescript-eslint: ^8.33.1
+onlyBuiltDependencies:
