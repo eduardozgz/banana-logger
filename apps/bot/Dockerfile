@@ -14,7 +14,7 @@ RUN turbo prune @/bot --docker
 
 FROM base AS build_deps
 RUN apk update && apk add --no-cache make gcc g++ python3 git curl
-COPY --from=ghcr.io/eduardozgz/banana-logger-deps:latest $PNPM_HOME/store $PNPM_HOME/store
+COPY --from=ghcr.io/eduardozgz/banana-logger-ci:latest $PNPM_HOME/store $PNPM_HOME/store
 WORKDIR /app
 COPY .gitignore .gitignore
 COPY --from=repo /app/out/json/ .

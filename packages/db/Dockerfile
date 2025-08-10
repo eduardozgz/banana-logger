@@ -12,7 +12,7 @@ COPY . .
 RUN turbo prune @/db --docker
 
 FROM base AS deps
-COPY --from=ghcr.io/eduardozgz/banana-logger-deps:latest $PNPM_HOME/store $PNPM_HOME/store
+COPY --from=ghcr.io/eduardozgz/banana-logger-ci:latest $PNPM_HOME/store $PNPM_HOME/store
 WORKDIR /app
 COPY .gitignore .gitignore
 COPY --from=repo /app/out/json/ .

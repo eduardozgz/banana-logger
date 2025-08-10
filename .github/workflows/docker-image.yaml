@@ -9,7 +9,7 @@ on:
     branches: [main]
 
 jobs:
-  pnpm-store-cache:
+  prepare-ci:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -35,14 +35,35 @@ jobs:
           file: Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
-          cache-from: type=registry,ref=ghcr.io/eduardozgz/banana-logger-deps:build-cache
-          cache-to: type=registry,ref=ghcr.io/eduardozgz/banana-logger-deps:build-cache,mode=max
+          cache-from: type=registry,ref=ghcr.io/eduardozgz/banana-logger-ci:build-cache
+          cache-to: type=registry,ref=ghcr.io/eduardozgz/banana-logger-ci:build-cache,mode=max
           tags: |
-            ghcr.io/eduardozgz/banana-logger-deps:latest
+            ghcr.io/eduardozgz/banana-logger-ci:latest
+
+  typecheck:
+    runs-on: ubuntu-latest
+    needs: prepare-ci
+    steps:
+      - name: Typecheck
+        run: docker run ghcr.io/eduardozgz/banana-logger-ci:latest pnpm run typecheck
+
+  lint:
+    runs-on: ubuntu-latest
+    needs: prepare-ci
+    steps:
+      - name: Lint
+        run: docker run ghcr.io/eduardozgz/banana-logger-ci:latest pnpm run lint
+
+  format:
+    runs-on: ubuntu-latest
+    needs: prepare-ci
+    steps:
+      - name: Format
+        run: docker run ghcr.io/eduardozgz/banana-logger-ci:latest pnpm run format
 
   build-bot:
     runs-on: ubuntu-latest
-    needs: pnpm-store-cache
+    needs: [typecheck, lint, format]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -74,7 +95,7 @@ jobs:
 
   build-frontend:
     runs-on: ubuntu-latest
-    needs: pnpm-store-cache
+    needs: [typecheck, lint, format]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -108,7 +129,7 @@ jobs:
 
   build-backend:
     runs-on: ubuntu-latest
-    needs: pnpm-store-cache
+    needs: [typecheck, lint, format]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -140,7 +161,7 @@ jobs:
 
   build-db-utils:
     runs-on: ubuntu-latest
-    needs: pnpm-store-cache
+    needs: [typecheck, lint, format]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
