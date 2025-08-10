@@ -1,10 +1,10 @@
 import type { AutocompleteInteraction } from "discord.js";
 
-import type { initI18n } from "~/i18n";
+import type { i18n } from "@/i18n";
 
 export type AutocompleteHandle = (
   autocomplete: AutocompleteInteraction,
-  i18n: Awaited<ReturnType<typeof initI18n>>,
+  i18n: i18n,
 ) => void | Promise<void>;
 
 export class Autocomplete {

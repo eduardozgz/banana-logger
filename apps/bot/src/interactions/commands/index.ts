@@ -1,7 +1,9 @@
 import type { CommandInteraction } from "discord.js";
 
+import { i18nDefault } from "@/i18n";
+
 import type { Command } from "~/structures/Command";
-import { i18nDefault, initI18n } from "~/i18n";
+import { initI18nFromInteraction } from "~/utils/initI18nFromInteraction";
 import { commandDefinitionTKeyMap } from "~/utils/prepareLocalization";
 
 export const allCommands: Command[] = [];
@@ -47,7 +49,7 @@ export default async function handleCommand(
       commandInteraction.channel?.toString() ?? commandInteraction.channelId
     }`,
   );
-  const i18n = await initI18n(commandInteraction);
+  const i18n = await initI18nFromInteraction(commandInteraction);
 
   await command.handle(commandInteraction, i18n);
 }

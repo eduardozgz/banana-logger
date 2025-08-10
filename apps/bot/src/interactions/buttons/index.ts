@@ -1,7 +1,7 @@
 import type { ButtonInteraction } from "discord.js";
 import type { i18n } from "i18next";
 
-import { initI18n } from "~/i18n";
+import { initI18nFromInteraction } from "~/utils/initI18nFromInteraction";
 
 type ButtonHandler = (
   buttonInteraction: ButtonInteraction,
@@ -13,7 +13,7 @@ const buttons: ButtonHandler[] = [];
 export default async function handleButton(
   buttonInteraction: ButtonInteraction,
 ): Promise<void> {
-  const i18n = await initI18n(buttonInteraction);
+  const i18n = await initI18nFromInteraction(buttonInteraction);
   const { logger } = buttonInteraction.client.botInstanceOptions;
 
   buttons.forEach((handle) => {

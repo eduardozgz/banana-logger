@@ -6,7 +6,7 @@ import { Colors, inlineCode } from "discord.js";
 import handleAutocomplete from "~/interactions/autocomplete";
 import handleButton from "~/interactions/buttons";
 import handleSelectMenu from "~/interactions/selectMenus";
-import { initI18n } from "../i18n";
+import { initI18nFromInteraction } from "~/utils/initI18nFromInteraction";
 import handleCommand from "../interactions/commands";
 import { EventHandler } from "../structures";
 import { UserError } from "../utils/UserError";
@@ -40,9 +40,11 @@ export const interactionCreateEvent = new EventHandler({
         let title: string, description: string;
 
         try {
-          i18n = await initI18n(interaction);
-          title = i18n.t("interaction.commandHandler.error.title");
-          description = i18n.t("interaction.commandHandler.error.description");
+          i18n = await initI18nFromInteraction(interaction);
+          title = i18n.t("bot:interaction.commandHandler.error.title");
+          description = i18n.t(
+            "bot:interaction.commandHandler.error.description",
+          );
         } catch (e) {
           logger.error(e);
           title = "ERROR!";

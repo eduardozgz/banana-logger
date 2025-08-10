@@ -1,7 +1,7 @@
 import type { Client } from "discord.js";
 
-import type { TKey } from "~/i18n";
-import { DEFAULT_LANGUAGE, initI18n } from "~/i18n";
+import type { TKey } from "@/i18n";
+import { DEFAULT_LANGUAGE, initI18n } from "@/i18n";
 
 export async function fetchCommandId(client: Client<true>, tkey: TKey) {
   const defaultI18nInstance = await initI18n(DEFAULT_LANGUAGE);

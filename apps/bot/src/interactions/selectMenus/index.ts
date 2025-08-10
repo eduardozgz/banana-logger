@@ -1,7 +1,7 @@
 import type { AnySelectMenuInteraction } from "discord.js";
 import type { i18n } from "i18next";
 
-import { initI18n } from "~/i18n";
+import { initI18nFromInteraction } from "~/utils/initI18nFromInteraction";
 
 type SelectMenuHandler = (
   selectMenuInteraction: AnySelectMenuInteraction,
@@ -13,7 +13,7 @@ const buttons: SelectMenuHandler[] = [];
 export default async function handleSelectMenu(
   selectMenuInteraction: AnySelectMenuInteraction,
 ): Promise<void> {
-  const i18n = await initI18n(selectMenuInteraction);
+  const i18n = await initI18nFromInteraction(selectMenuInteraction);
   const { logger } = selectMenuInteraction.client.botInstanceOptions;
 
   buttons.forEach((handle) => {

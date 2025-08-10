@@ -1,7 +1,7 @@
 import type { AutocompleteInteraction } from "discord.js";
 
 import type { Autocomplete } from "~/structures/Autocomplete";
-import { initI18n } from "~/i18n";
+import { initI18nFromInteraction } from "~/utils/initI18nFromInteraction";
 
 const autocompletes: Autocomplete[] = [];
 
@@ -18,7 +18,7 @@ export default async function handleAutocomplete(
     throw new Error(`Autocomplete "${autocompleteFocused.name}" wasn't found`);
   }
 
-  const i18n = await initI18n(autocomplateInteraction);
+  const i18n = await initI18nFromInteraction(autocomplateInteraction);
 
   await command.handle(autocomplateInteraction, i18n);
 }

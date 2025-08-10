@@ -1,9 +1,7 @@
-import type {
-  APIApplicationCommandOption,
-  LocaleString,
-  LocalizationMap,
-} from "discord.js";
+import type { APIApplicationCommandOption, LocalizationMap } from "discord.js";
 import type { i18n } from "i18next";
+
+import type { LocaleString } from "@/i18n";
 
 import { commandDefinitionTKeyMap } from "./prepareLocalization";
 

@@ -2,8 +2,8 @@ import { Routes } from "discord-api-types/v10";
 import { REST } from "discord.js";
 
 import type logger from "@/logger";
+import { AVAILABLE_LANGUAGES, DEFAULT_LANGUAGE, initI18n } from "@/i18n";
 
-import { AVAILABLE_LANGUAGES, DEFAULT_LANGUAGE, initI18n } from "~/i18n";
 import { allCommands } from "~/interactions/commands";
 import { localizeCommand } from "./localizeCommands";
 

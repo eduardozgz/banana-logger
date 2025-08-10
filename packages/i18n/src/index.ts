@@ -1,28 +1,28 @@
-import type { BaseInteraction, LocaleString } from "discord.js";
+import { Locale } from "discord.js";
 import { createInstance } from "i18next";
 
+import "./@types/i18next";
+
+import baseTemplatesUS from "./locales/en-US/baseTemplates.json";
+import botUS from "./locales/en-US/bot.json";
 import mainUS from "./locales/en-US/main.json";
 
-export const AVAILABLE_LANGUAGES: LocaleString[] = ["en-US"] as const;
-export const DEFAULT_LANGUAGE: LocaleString = "en-US";
+export type LocaleString = `${Locale}`;
+export const AVAILABLE_LANGUAGES: LocaleString[] = [Locale.EnglishUS] as const;
 
-export async function initI18n(interaction: LocaleString | BaseInteraction) {
-  let requestedLanguage: string;
+export const DEFAULT_LANGUAGE: LocaleString = Locale.EnglishUS;
 
-  if (typeof interaction === "string") {
-    requestedLanguage = interaction;
-  } else {
-    requestedLanguage = interaction.locale;
-  }
-
+export async function initI18n(locale: LocaleString) {
   const i18nextInstance = createInstance({
-    lng: requestedLanguage,
+    lng: locale,
     supportedLngs: AVAILABLE_LANGUAGES,
-    fallbackLng: [requestedLanguage, DEFAULT_LANGUAGE],
+    fallbackLng: [locale, DEFAULT_LANGUAGE],
     defaultNS: "main",
     resources: {
-      "en-US": {
+      [Locale.EnglishUS]: {
         main: mainUS,
+        bot: botUS,
+        baseTemplates: baseTemplatesUS,
       },
     },
     interpolation: {
@@ -34,6 +34,8 @@ export async function initI18n(interaction: LocaleString | BaseInteraction) {
 
   return i18nextInstance;
 }
+
+export type i18n = Awaited<ReturnType<typeof initI18n>>;
 
 export const i18nDefault = await initI18n(DEFAULT_LANGUAGE);
 
