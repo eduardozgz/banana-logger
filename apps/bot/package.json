@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "clean": "git clean -xdf .next .turbo node_modules",
-    "build": "pnpm run generate-i18next-res && tsup-node",
+    "build": "tsup-node",
     "dev": "pnpm with-env pnpm build --watch . --watch ../../packages --onSuccess \"node dist/index.js\"",
     "format": "prettier --check . --ignore-path ../../.gitignore",
     "lint": "eslint",
@@ -34,6 +34,7 @@
     "@/redis": "workspace:*",
     "@discordjs/builders": "^1.11.2",
     "@t3-oss/env-core": "^0.13.4",
+    "@twemoji/api": "^16.0.1",
     "bufferutil": "^4.0.8",
     "cron": "^3.1.7",
     "discord-api-types": "^0.38.18",

@@ -202,6 +202,7 @@ interface Resources {
               "watched-users": "Watched users";
               "ignored-channels": "Ignored channels";
               "watched-channels": "Watched channels";
+              "events-logged": "Events logged";
             };
             "toggle-ignore-user": {
               done: "Done!";

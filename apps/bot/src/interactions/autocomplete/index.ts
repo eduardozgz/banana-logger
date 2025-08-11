@@ -2,8 +2,9 @@ import type { AutocompleteInteraction } from "discord.js";
 
 import type { Autocomplete } from "~/structures/Autocomplete";
 import { initI18nFromInteraction } from "~/utils/initI18nFromInteraction";
+import { eventTypes } from "./eventTypes";
 
-const autocompletes: Autocomplete[] = [];
+const autocompletes: Autocomplete[] = [eventTypes];
 
 export default async function handleAutocomplete(
   autocomplateInteraction: AutocompleteInteraction,

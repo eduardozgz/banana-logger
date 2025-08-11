@@ -10,8 +10,15 @@ import { i18nDefault } from "@/i18n";
 import type { Command } from "~/structures/Command";
 import { initI18nFromInteraction } from "~/utils/initI18nFromInteraction";
 import { commandDefinitionTKeyMap } from "~/utils/prepareLocalization";
+import { configCommand } from "./config";
+import { globalConfigCommand } from "./globalConfig";
+import { inviteCommand } from "./invite";
 
-export const allCommands: Command[] = [];
+export const allCommands: Command[] = [
+  inviteCommand,
+  configCommand,
+  globalConfigCommand,
+];
 
 export function assertCachedGuild(
   command: CommandInteraction,

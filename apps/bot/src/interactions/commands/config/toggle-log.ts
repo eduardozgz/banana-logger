@@ -6,13 +6,12 @@ import { EventType } from "@/db/client";
 import { i18nDefault } from "@/i18n";
 
 import type { CommandHandle } from "~/structures";
+import { ALL_EVENTS_CHOICE } from "~/Constants";
 import SettingsService from "~/services/SettingsService";
 import BananaLoggerEmbed from "~/utils/BananaLoggerEmbed";
 import { prepareLocalization } from "~/utils/prepareLocalization";
 import { extractSupportedChannel } from ".";
 import { assertCachedGuild, assertChatInputCommand } from "..";
-
-export const ALL_EVENTS_CHOICE = "all";
 
 export const toggleLogSlashDef = new SlashCommandSubcommandBuilder()
   .setName(
@@ -70,24 +69,27 @@ export const toggleLogHandle: CommandHandle = async (command, i18n) => {
     i18n.t("bot:interaction.commands.config.sub-commands.toggle-log.done"),
   );
 
-  embed.setDescription(
+  const eventName =
     eventToToggleValidated === ALL_EVENTS_CHOICE
       ? i18n.t(
           "bot:interaction.commands.config.sub-commands.toggle-log.everything-event-name",
         )
-      : wasBeingLogged
-        ? i18n.t(
-            "bot:interaction.commands.config.sub-commands.toggle-log.is-not-being-logged-anymore",
-            {
-              EVENT_NAME: i18n.t(`common:eventNames.${eventToToggleValidated}`),
-            },
-          )
-        : i18n.t(
-            "bot:interaction.commands.config.sub-commands.toggle-log.is-now-being-logged",
-            {
-              EVENT_NAME: i18n.t(`common:eventNames.${eventToToggleValidated}`),
-            },
-          ),
+      : i18n.t(`common:eventNames.${eventToToggleValidated}`);
+
+  embed.setDescription(
+    wasBeingLogged
+      ? i18n.t(
+          "bot:interaction.commands.config.sub-commands.toggle-log.is-not-being-logged-anymore",
+          {
+            EVENT_NAME: eventName,
+          },
+        )
+      : i18n.t(
+          "bot:interaction.commands.config.sub-commands.toggle-log.is-now-being-logged",
+          {
+            EVENT_NAME: eventName,
+          },
+        ),
   );
   await command.editReply({ embeds: [embed] });
 };

@@ -1,7 +1,7 @@
 import { Locale } from "discord.js";
 import { createInstance } from "i18next";
 
-import "./@types/i18next";
+import "./@types/i18next.d.ts";
 
 import baseTemplatesUS from "./locales/en-US/baseTemplates.json";
 import botUS from "./locales/en-US/bot.json";

@@ -51,7 +51,11 @@ export const showHandle: CommandHandle = async (command, i18n) => {
     : i18n.t(
         "bot:interaction.commands.config.sub-commands.show.no-events-are-being-logged",
       );
-  settingsContent += `${bold(underline("EVENTS"))}:\n${eventsLoggedString}\n\n`;
+  settingsContent += `${bold(
+    underline(
+      i18n.t("bot:interaction.commands.config.sub-commands.show.events-logged"),
+    ),
+  )}:\n${eventsLoggedString}\n\n`;
 
   // Ignored users
   const ignoredUsersString = settingsService.ignoredUsers.length

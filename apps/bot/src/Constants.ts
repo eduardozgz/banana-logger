@@ -15,6 +15,7 @@ export const EmbedTemplatePlaceholders = {
   guildMemberRemove: ["MEMBER_MENTION", "MEMBER_AVATAR"],
   messageDelete: [
     "AUTHOR_MENTION",
+    "AUTHOR_AVATAR",
     "MESSAGE_URL",
     "CHANNEL_MENTION",
     "OLD_CONTENT",
@@ -90,3 +91,5 @@ export const EmbedTemplatePlaceholders = {
   botAdd: ["BOT_MENTION"],
   guildUpdate: ["GUILD_MENTION"],
 } as const satisfies Record<EventType, string[]>;
+
+export const ALL_EVENTS_CHOICE = "all";

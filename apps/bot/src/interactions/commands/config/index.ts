@@ -31,10 +31,12 @@ export function extractSupportedChannel(
   channel: Channel,
 ): TextChannel | NewsChannel {
   let parent = channel;
-  if (channel.isThread() && channel.parent) {
-    parent = channel.parent;
-  } else {
-    throw new Error("Channel thread has no parent");
+  if (channel.isThread()) {
+    if (channel.parent) {
+      parent = channel.parent;
+    } else {
+      throw new Error("Channel thread has no parent");
+    }
   }
 
   if (
@@ -50,7 +52,7 @@ export function extractSupportedChannel(
   );
 }
 
-export const config = new Command({
+export const configCommand = new Command({
   slashDefinition: new SlashCommandBuilder()
     .setName(
       prepareLocalization(
@@ -63,6 +65,7 @@ export const config = new Command({
       ),
     )
     .setContexts(InteractionContextType.Guild)
+    .setDefaultMemberPermissions("0")
     .addSubcommand(showSlashDef)
     .addSubcommand(toggleLogSlashDef)
     .addSubcommand(toggleIgnoreChannelSlashDef)

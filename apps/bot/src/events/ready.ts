@@ -1,5 +1,4 @@
-import { botPermissions } from "@/common/botPermissions";
-import { generateInviteLink } from "@/common/generateInviteLink";
+import { getBotInviteLink } from "@/common/getBotInviteLink";
 
 import { EventHandler } from "../structures";
 
@@ -10,8 +9,16 @@ export const readyEvent = new EventHandler({
 
     logger.info("Bot ready");
     logger.info(`Logged in as ${client.user.tag}`);
-    logger.info(
-      `Invite link: ${generateInviteLink({ clientId: client.user.id, permissions: botPermissions })}`,
+    logger.info(`Invite link: ${getBotInviteLink()}`);
+
+    client.guilds.cache.forEach(
+      (guild) =>
+        void guild.members.fetch().catch((err) => {
+          logger.error(
+            `Error while fetching members of guild ${guild.id}`,
+            err,
+          );
+        }),
     );
   },
 });

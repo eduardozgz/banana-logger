@@ -1,11 +1,11 @@
-import type { APIEmbed } from "discord.js";
-import { Guild, GuildTextBasedChannel } from "discord.js";
+import type { APIEmbed, Guild, GuildTextBasedChannel } from "discord.js";
 import _ from "lodash";
 
 import type { Settings, SettingsTemplate, Template } from "@/db/client";
 import { db } from "@/db";
 import { EventType } from "@/db/client";
 
+import { ALL_EVENTS_CHOICE } from "~/Constants";
 import { toggleArrayItem } from "~/utils/toggleArrayItem";
 import { UserError } from "~/utils/UserError";
 import GlobalSettingsService from "./GlobalSettingsService";
@@ -253,32 +253,34 @@ export class SettingsService {
     return [...this.settings.watchingEvents];
   }
 
-  async toggleEvent(event: "all" | EventType): Promise<boolean> {
+  async toggleEvent(
+    event: typeof ALL_EVENTS_CHOICE | EventType,
+  ): Promise<boolean> {
     let wasAdded: boolean;
 
-    if (event === "all") {
+    if (event === ALL_EVENTS_CHOICE) {
       const allEvents = Object.values(EventType);
-      if (this.events.length === 0) {
+
+      if (this.events.length === allEvents.length) {
         wasAdded = true;
-        await db.settings.update({
-          where: { id: this.settings.id },
-          data: { watchingEvents: allEvents },
-        });
-        this.settings.watchingEvents = allEvents;
-      } else {
-        wasAdded = false;
+
         await db.settings.update({
           where: { id: this.settings.id },
           data: { watchingEvents: [] },
         });
+
         this.settings.watchingEvents = [];
+      } else {
+        wasAdded = false;
+
+        await db.settings.update({
+          where: { id: this.settings.id },
+          data: { watchingEvents: allEvents },
+        });
+
+        this.settings.watchingEvents = allEvents;
       }
     } else {
-      // Validate event type
-      if (!Object.values(EventType).includes(event)) {
-        throw new UserError("Provided event type is not valid");
-      }
-
       const [result, found] = toggleArrayItem(
         this.settings.watchingEvents,
         event,

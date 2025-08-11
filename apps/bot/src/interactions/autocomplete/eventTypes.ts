@@ -3,9 +3,9 @@ import type { ApplicationCommandOptionChoiceData } from "discord.js";
 import { EventType } from "@/db/client";
 import { i18nDefault } from "@/i18n";
 
+import { ALL_EVENTS_CHOICE } from "~/Constants";
 import { Autocomplete } from "~/structures/Autocomplete";
 import searchInTexts from "~/utils/search";
-import { ALL_EVENTS_CHOICE } from "../commands/config/toggle-log";
 
 export const eventTypes = new Autocomplete({
   name: i18nDefault.t(

@@ -16,7 +16,7 @@ import {
   toggleIgnoreUserSlashDef,
 } from "./toggle-ignore-user";
 
-export const globalConfig = new Command({
+export const globalConfigCommand = new Command({
   slashDefinition: new SlashCommandBuilder()
     .setName(
       prepareLocalization(
