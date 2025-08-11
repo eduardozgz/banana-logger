@@ -41,6 +41,12 @@ export const toggleIgnoreChannelHandle: CommandHandle = async (
   command,
   i18n,
 ) => {
+  const t = i18n.getFixedT(
+    i18n.language,
+    "bot",
+    "interaction.commands.config.sub-commands.toggle-ignore-channel",
+  );
+
   assertCachedGuild(command);
   assertChatInputCommand(command);
   assert(command.channel);
@@ -61,26 +67,16 @@ export const toggleIgnoreChannelHandle: CommandHandle = async (
   );
 
   const embed = new BananaLoggerEmbed();
-  embed.setTitle(
-    i18n.t(
-      "bot:interaction.commands.config.sub-commands.toggle-ignore-channel.done",
-    ),
-  );
+  embed.setTitle(t("done"));
 
   embed.setDescription(
     wasIgnored
-      ? i18n.t(
-          "bot:interaction.commands.config.sub-commands.toggle-ignore-channel.is-not-being-ignored-anymore",
-          {
-            CHANNEL_MENTION: channelMention(channelToToggle.id),
-          },
-        )
-      : i18n.t(
-          "bot:interaction.commands.config.sub-commands.toggle-ignore-channel.is-now-being-ignored",
-          {
-            CHANNEL_MENTION: channelMention(channelToToggle.id),
-          },
-        ),
+      ? t("is-not-being-ignored-anymore", {
+          CHANNEL_MENTION: channelMention(channelToToggle.id),
+        })
+      : t("is-now-being-ignored", {
+          CHANNEL_MENTION: channelMention(channelToToggle.id),
+        }),
   );
   await command.editReply({ embeds: [embed] });
 };

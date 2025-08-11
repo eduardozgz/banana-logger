@@ -36,6 +36,12 @@ export const toggleIgnoreUserSlashDef = new SlashCommandSubcommandBuilder()
   );
 
 export const toggleIgnoreUserHandle: CommandHandle = async (command, i18n) => {
+  const t = i18n.getFixedT(
+    i18n.language,
+    "bot",
+    "interaction.commands.globalConfig.sub-commands.toggle-ignore-user",
+  );
+
   assertCachedGuild(command);
   assertChatInputCommand(command);
 
@@ -53,26 +59,16 @@ export const toggleIgnoreUserHandle: CommandHandle = async (command, i18n) => {
   );
 
   const embed = new BananaLoggerEmbed();
-  embed.setTitle(
-    i18n.t(
-      "bot:interaction.commands.globalConfig.sub-commands.toggle-ignore-user.done",
-    ),
-  );
+  embed.setTitle(t("done"));
 
   embed.setDescription(
     wasIgnored
-      ? i18n.t(
-          "bot:interaction.commands.globalConfig.sub-commands.toggle-ignore-user.is-not-being-ignored-anymore",
-          {
-            USER_MENTION: userMention(userToToggle.id),
-          },
-        )
-      : i18n.t(
-          "bot:interaction.commands.globalConfig.sub-commands.toggle-ignore-user.is-now-being-ignored",
-          {
-            USER_MENTION: userMention(userToToggle.id),
-          },
-        ),
+      ? t("is-not-being-ignored-anymore", {
+          USER_MENTION: userMention(userToToggle.id),
+        })
+      : t("is-now-being-ignored", {
+          USER_MENTION: userMention(userToToggle.id),
+        }),
   );
   await command.editReply({ embeds: [embed] });
 };

@@ -28,11 +28,17 @@ export const inviteCommand = new Command({
       InteractionContextType.BotDM,
       InteractionContextType.PrivateChannel,
     ),
-  handle: async (command, { t }) => {
+  handle: async (command, i18n) => {
+    const t = i18n.getFixedT(
+      i18n.language,
+      "bot",
+      "interaction.commands.invite",
+    );
+
     const embed = new BananaLoggerEmbed();
 
     embed.setDescription(
-      t("bot:interaction.commands.invite.description", {
+      t("description", {
         INVITE_URL: getBotInviteLink(),
       }),
     );
@@ -42,7 +48,7 @@ export const inviteCommand = new Command({
       new ButtonBuilder({
         style: ButtonStyle.Link,
         url: getBotInviteLink(),
-        label: t("bot:interaction.commands.invite.addToServer"),
+        label: t("addToServer"),
       }),
     );
 
@@ -51,7 +57,7 @@ export const inviteCommand = new Command({
         new ButtonBuilder({
           style: ButtonStyle.Link,
           url: getBotInviteLink(command.guildId),
-          label: t("bot:interaction.commands.invite.addToServerAgain"),
+          label: t("addToServerAgain"),
         }),
       );
     }

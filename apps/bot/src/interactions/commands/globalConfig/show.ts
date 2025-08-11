@@ -22,6 +22,12 @@ export const showSlashDef = new SlashCommandSubcommandBuilder()
   );
 
 export const showHandle: CommandHandle = async (command, i18n) => {
+  const t = i18n.getFixedT(
+    i18n.language,
+    "bot",
+    "interaction.commands.globalConfig.sub-commands.show",
+  );
+
   if (!command.inCachedGuild()) {
     throw new Error("This command can only be used in a cachedguild");
   }
@@ -31,50 +37,34 @@ export const showHandle: CommandHandle = async (command, i18n) => {
   let settingsContent = "";
 
   // Ignored users
-  const ignoredUsersString = globalSettingsService.ignoredUsers.length
+  settingsContent += bold(underline(t("ignored-users")));
+  settingsContent += "\n";
+  settingsContent += globalSettingsService.ignoredUsers.length
     ? listFormat(
         globalSettingsService.ignoredUsers.map((user) => userMention(user)),
         i18n.language,
       )
-    : i18n.t(
-        "bot:interaction.commands.globalConfig.sub-commands.show.no-ignored-users",
-      );
-  settingsContent += `${bold(
-    underline(
-      i18n.t(
-        "bot:interaction.commands.globalConfig.sub-commands.show.ignored-users",
-      ),
-    ),
-  )}:\n${ignoredUsersString}\n\n`;
+    : t("no-ignored-users");
+  settingsContent += "\n\n";
 
   // Ignored channels
-  const ignoredChannelsString = globalSettingsService.ignoredChannels.length
+  settingsContent += bold(underline(t("ignored-channels")));
+  settingsContent += "\n";
+  settingsContent += globalSettingsService.ignoredChannels.length
     ? listFormat(
         globalSettingsService.ignoredChannels.map((channel) =>
           channelMention(channel),
         ),
         i18n.language,
       )
-    : i18n.t(
-        "bot:interaction.commands.globalConfig.sub-commands.show.no-ignored-channels",
-      );
-  settingsContent += `${bold(
-    underline(
-      i18n.t(
-        "bot:interaction.commands.globalConfig.sub-commands.show.ignored-channels",
-      ),
-    ),
-  )}:\n${ignoredChannelsString}\n\n`;
+    : t("no-ignored-channels");
+  settingsContent += "\n\n";
 
   const embeds: BananaLoggerEmbed[] = [];
 
   safeDiscordString(settingsContent).forEach((portion) => {
     const embed = new BananaLoggerEmbed();
-    embed.setTitle(
-      i18n.t(
-        "bot:interaction.commands.globalConfig.sub-commands.show.global-settings",
-      ),
-    );
+    embed.setTitle(t("global-settings"));
     embed.setDescription(portion);
     embeds.push(embed);
   });

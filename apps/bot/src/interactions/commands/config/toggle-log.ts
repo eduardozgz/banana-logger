@@ -41,6 +41,12 @@ export const toggleLogSlashDef = new SlashCommandSubcommandBuilder()
   );
 
 export const toggleLogHandle: CommandHandle = async (command, i18n) => {
+  const t = i18n.getFixedT(
+    i18n.language,
+    "bot",
+    "interaction.commands.config.sub-commands.toggle-log",
+  );
+
   assertCachedGuild(command);
   assertChatInputCommand(command);
   assert(command.channel);
@@ -65,31 +71,21 @@ export const toggleLogHandle: CommandHandle = async (command, i18n) => {
   );
 
   const embed = new BananaLoggerEmbed();
-  embed.setTitle(
-    i18n.t("bot:interaction.commands.config.sub-commands.toggle-log.done"),
-  );
+  embed.setTitle(t("done"));
 
   const eventName =
     eventToToggleValidated === ALL_EVENTS_CHOICE
-      ? i18n.t(
-          "bot:interaction.commands.config.sub-commands.toggle-log.everything-event-name",
-        )
+      ? t("everything-event-name")
       : i18n.t(`common:eventNames.${eventToToggleValidated}`);
 
   embed.setDescription(
     wasBeingLogged
-      ? i18n.t(
-          "bot:interaction.commands.config.sub-commands.toggle-log.is-not-being-logged-anymore",
-          {
-            EVENT_NAME: eventName,
-          },
-        )
-      : i18n.t(
-          "bot:interaction.commands.config.sub-commands.toggle-log.is-now-being-logged",
-          {
-            EVENT_NAME: eventName,
-          },
-        ),
+      ? t("is-not-being-logged-anymore", {
+          EVENT_NAME: eventName,
+        })
+      : t("is-now-being-logged", {
+          EVENT_NAME: eventName,
+        }),
   );
   await command.editReply({ embeds: [embed] });
 };

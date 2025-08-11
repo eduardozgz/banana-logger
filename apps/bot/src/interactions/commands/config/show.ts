@@ -28,6 +28,12 @@ export const showSlashDef = new SlashCommandSubcommandBuilder()
   );
 
 export const showHandle: CommandHandle = async (command, i18n) => {
+  const t = i18n.getFixedT(
+    i18n.language,
+    "bot",
+    "interaction.commands.config.sub-commands.show",
+  );
+
   assertCachedGuild(command);
   assert(command.channel);
 
@@ -37,98 +43,72 @@ export const showHandle: CommandHandle = async (command, i18n) => {
 
   let settingsContent = "";
 
-  const eventsLoggedString = settingsService.events.length
+  settingsContent += bold(underline(t("events-logged")));
+  settingsContent += "\n";
+  settingsContent += settingsService.events.length
     ? settingsService.events.length === Object.values(EventType).length
-      ? i18n.t(
-          "bot:interaction.commands.config.sub-commands.show.all-events-are-being-logged",
-        )
+      ? t("all-events-are-being-logged")
       : listFormat(
           settingsService.events.map((event) =>
             i18n.t(`common:eventNames.${event}`),
           ),
           i18n.language,
         )
-    : i18n.t(
-        "bot:interaction.commands.config.sub-commands.show.no-events-are-being-logged",
-      );
-  settingsContent += `${bold(
-    underline(
-      i18n.t("bot:interaction.commands.config.sub-commands.show.events-logged"),
-    ),
-  )}:\n${eventsLoggedString}\n\n`;
+    : t("no-events-are-being-logged");
+  settingsContent += "\n\n";
 
   // Ignored users
-  const ignoredUsersString = settingsService.ignoredUsers.length
+  settingsContent += bold(underline(t("ignored-users")));
+  settingsContent += "\n";
+  settingsContent += settingsService.ignoredUsers.length
     ? listFormat(
         settingsService.ignoredUsers.map((user) => userMention(user)),
         i18n.language,
       )
-    : i18n.t(
-        "bot:interaction.commands.config.sub-commands.show.no-users-are-being-ignored",
-      );
-  settingsContent += `${bold(
-    underline(
-      i18n.t("bot:interaction.commands.config.sub-commands.show.ignored-users"),
-    ),
-  )}:\n${ignoredUsersString}\n\n`;
+    : t("no-users-are-being-ignored");
+  settingsContent += "\n\n";
 
   // Users being watched
-  const watchUsersString = settingsService.watchUsers.length
+  settingsContent += bold(underline(t("watched-users")));
+  settingsContent += "\n";
+  settingsContent += settingsService.watchUsers.length
     ? listFormat(
         settingsService.watchUsers.map((user) => userMention(user)),
         i18n.language,
       )
-    : i18n.t(
-        "bot:interaction.commands.config.sub-commands.show.no-users-are-being-watched",
-      );
-  settingsContent += `${bold(
-    underline(
-      i18n.t("bot:interaction.commands.config.sub-commands.show.watched-users"),
-    ),
-  )}:\n${watchUsersString}\n\n`;
+    : t("no-users-are-being-watched");
+  settingsContent += "\n\n";
 
   // Ignored channels
-  const ignoredChannelsString = settingsService.ignoredChannels.length
+  settingsContent += bold(underline(t("ignored-channels")));
+  settingsContent += "\n";
+  settingsContent += settingsService.ignoredChannels.length
     ? listFormat(
         settingsService.ignoredChannels.map((channel) =>
           channelMention(channel),
         ),
         i18n.language,
       )
-    : i18n.t(
-        "bot:interaction.commands.config.sub-commands.show.no-channels-are-being-ignored",
-      );
-  settingsContent += `${bold(
-    underline(
-      i18n.t(
-        "bot:interaction.commands.config.sub-commands.show.ignored-channels",
-      ),
-    ),
-  )}:\n${ignoredChannelsString}\n\n`;
+    : t("no-channels-are-being-ignored");
+  settingsContent += "\n\n";
 
   // Watched channels
-  const watchedChannelsString = settingsService.watchChannels.length
+  settingsContent += bold(underline(t("watched-channels")));
+  settingsContent += "\n";
+  settingsContent += settingsService.watchChannels.length
     ? listFormat(
         settingsService.watchChannels.map((channel) => channelMention(channel)),
         i18n.language,
       )
-    : i18n.t(
-        "bot:interaction.commands.config.sub-commands.show.no-channels-are-being-watched",
-      );
-  settingsContent += `${bold(
-    underline(
-      i18n.t(
-        "bot:interaction.commands.config.sub-commands.show.watched-channels",
-      ),
-    ),
-  )}:\n${watchedChannelsString}\n\n`;
+    : t("no-channels-are-being-watched");
+  settingsContent += "\n\n";
 
   const embeds: EmbedBuilder[] = [];
 
   safeDiscordString(settingsContent).forEach((portion) => {
     const embed = new BananaLoggerEmbed();
     embed.setTitle(
-      i18n.t("bot:interaction.commands.config.sub-commands.show.settings-for", {
+      t("settings-for", {
         CHANNEL_NAME: channel.name,
       }),
     );

@@ -38,6 +38,12 @@ export const toggleWatchUserSlashDef = new SlashCommandSubcommandBuilder()
   );
 
 export const toggleWatchUserHandle: CommandHandle = async (command, i18n) => {
+  const t = i18n.getFixedT(
+    i18n.language,
+    "bot",
+    "interaction.commands.config.sub-commands.toggle-watch-user",
+  );
+
   assertCachedGuild(command);
   assertChatInputCommand(command);
   assert(command.channel);
@@ -56,26 +62,16 @@ export const toggleWatchUserHandle: CommandHandle = async (command, i18n) => {
   const wasWatched = await settingsService.toggleWatchUser(userToToggle.id);
 
   const embed = new BananaLoggerEmbed();
-  embed.setTitle(
-    i18n.t(
-      "bot:interaction.commands.config.sub-commands.toggle-watch-user.done",
-    ),
-  );
+  embed.setTitle(t("done"));
 
   embed.setDescription(
     wasWatched
-      ? i18n.t(
-          "bot:interaction.commands.config.sub-commands.toggle-watch-user.is-not-being-watched-anymore",
-          {
-            USER_MENTION: userMention(userToToggle.id),
-          },
-        )
-      : i18n.t(
-          "bot:interaction.commands.config.sub-commands.toggle-watch-user.is-now-being-watched",
-          {
-            USER_MENTION: userMention(userToToggle.id),
-          },
-        ),
+      ? t("is-not-being-watched-anymore", {
+          USER_MENTION: userMention(userToToggle.id),
+        })
+      : t("is-now-being-watched", {
+          USER_MENTION: userMention(userToToggle.id),
+        }),
   );
   await command.editReply({ embeds: [embed] });
 };

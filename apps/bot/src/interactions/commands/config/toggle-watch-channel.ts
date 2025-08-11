@@ -41,6 +41,12 @@ export const toggleWatchChannelHandle: CommandHandle = async (
   command,
   i18n,
 ) => {
+  const t = i18n.getFixedT(
+    i18n.language,
+    "bot",
+    "interaction.commands.config.sub-commands.toggle-watch-channel",
+  );
+
   assertCachedGuild(command);
   assertChatInputCommand(command);
   assert(command.channel);
@@ -60,26 +66,16 @@ export const toggleWatchChannelHandle: CommandHandle = async (
   );
 
   const embed = new BananaLoggerEmbed();
-  embed.setTitle(
-    i18n.t(
-      "bot:interaction.commands.config.sub-commands.toggle-watch-channel.done",
-    ),
-  );
+  embed.setTitle(t("done"));
 
   embed.setDescription(
     wasWatched
-      ? i18n.t(
-          "bot:interaction.commands.config.sub-commands.toggle-watch-channel.is-not-being-watched-anymore",
-          {
-            CHANNEL_MENTION: channelMention(channelToToggle.id),
-          },
-        )
-      : i18n.t(
-          "bot:interaction.commands.config.sub-commands.toggle-watch-channel.is-now-being-watched",
-          {
-            CHANNEL_MENTION: channelMention(channelToToggle.id),
-          },
-        ),
+      ? t("is-not-being-watched-anymore", {
+          CHANNEL_MENTION: channelMention(channelToToggle.id),
+        })
+      : t("is-now-being-watched", {
+          CHANNEL_MENTION: channelMention(channelToToggle.id),
+        }),
   );
 
   await command.editReply({ embeds: [embed] });
