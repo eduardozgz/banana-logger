@@ -1,1 +1,15 @@
-{}
+{
+  "interaction": {
+    "commandHandler": {
+      "error": {
+        "title": "ERROR!",
+        "description": "Something went wrong, please try again later.\n\nError ID: {{ERROR_ID}}"
+      }
+    }
+  },
+  "log": {
+    "unknown": {
+      "executor": "Unknown"
+    }
+  }
+}

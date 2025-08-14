@@ -89,43 +89,5 @@ model Session {
 }
 
 enum EventType {
-  guildMemberAdd
-  guildMemberRemove
-  messageDelete
-  messageBulkDelete
-  messageUpdate
-  messageReactionAdd
-  messageReactionRemove
   guildMemberNicknameChange
-  guildMemberAvatarChange
-  guildMemberRoleAdd
-  guildMemberRoleRemove
-  guildMemberRoleBulkUpdate
-  guildBanAdd
-  guildBanRemove
-  guildMemberKick
-  guildMemberRulesAccepted
-  roleCreate
-  roleUpdate
-  roleDelete
-  inviteCreate
-  invitePosted
-  inviteDelete
-  channelCreate
-  channelUpdate
-  channelDelete
-  channelPermissionUpdate
-  voiceChannelJoin
-  voiceChannelMove
-  voiceChannelLeave
-  voiceChannelMemberMute
-  voiceChannelMemberDeafened
-  emojiAdd
-  emojiUpdate
-  emojiDelete
-  stickerAdd
-  stickerUpdate
-  stickerDelete
-  botAdd
-  guildUpdate
 }

@@ -1,101 +1,9 @@
 interface Resources {
   baseTemplates: {
-    guildMemberAdd: {
-      title: "A member joined the server";
-      description: "{MEMBER_MENTION} joined the server.";
-      thumbnail: {
-        url: "{MEMBER_AVATAR}";
-      };
-    };
-    guildMemberRemove: {
-      title: "A member left the server";
-      description: "{MEMBER_MENTION} left the server.";
-      thumbnail: {
-        url: "{MEMBER_AVATAR}";
-      };
-    };
-    messageDelete: {
-      title: "A message has been deleted";
-      description: "{AUTHOR_MENTION} deleted a [message]({MESSAGE_URL}) in {CHANNEL_MENTION}\n\n__**Content:**__\n{OLD_CONTENT}";
-    };
-    messageBulkDelete: {};
-    messageUpdate: {
-      title: "A message has been edited";
-      description: "{AUTHOR_MENTION} edited this [message]({MESSAGE_URL}) in {CHANNEL_MENTION}\n\n__**Old content:**__\n{OLD_CONTENT}\n\n__**New content:**__\n{NEW_CONTENT}";
-    };
-    messageReactionAdd: {
-      title: "A reaction has been added";
-      description: '{REACTOR_MENTION} has reacted with "{REACTION_EMOJI}" to {AUTHOR_MENTION}\'s [message]({MESSAGE_URL}) in {CHANNEL_MENTION}';
-      thumbnail: {
-        url: "{REACTION_IMAGE_URL}";
-      };
-    };
-    messageReactionRemove: {
-      title: "A reaction has been removed";
-      description: '{REACTOR_MENTION} removed their reaction "{REACTION_EMOJI}" from {AUTHOR_MENTION}\'s [message]({MESSAGE_URL}) in {CHANNEL_MENTION}';
-      thumbnail: {
-        url: "{REACTION_IMAGE_URL}";
-      };
-    };
     guildMemberNicknameChange: {
-      title: "A member changed their nickname";
-      description: "{MEMBER_MENTION} changed their nickname from {OLD_NICKNAME} to {NEW_NICKNAME}";
+      title: "Member Nickname Change";
+      description: "{EXECUTOR_MENTION} changed {MEMBER_MENTION}'s nickname from {OLD_NICKNAME} to {NEW_NICKNAME}.";
     };
-    guildMemberAvatarChange: {
-      title: "A member changed their nickname";
-      description: "{MEMBER_MENTION} changed their server avatar";
-      thumbnail: {
-        url: "{OLD_AVATAR}";
-      };
-    };
-    guildMemberRoleAdd: {
-      title: "Member roles updated";
-      description: "{MEMBER_MENTION} got a new role: {ROLE_MENTION}";
-    };
-    guildMemberRoleRemove: {
-      title: "Member roles updated";
-      description: "{MEMBER_MENTION} got a role removed: {ROLE_MENTION}";
-    };
-    guildMemberRoleBulkUpdate: {
-      title: "Member roles updated";
-      description: "{MEMBER_MENTION} got some roles updated:\n\nAdded roles:\n{ADDED_ROLES_MENTION}\n\nRemoved roles:\n{REMOVED_ROLES_MENTION}";
-    };
-    guildBanAdd: {
-      title: "Member banned";
-      description: "{MEMBER_BANNED_MENTION} has been banned. Banned by: {MOD_MENTION}. Ban reason: {REASON}";
-    };
-    guildBanRemove: {
-      title: "Member unbanned";
-      description: "{MEMBER_BANNED_MENTION} has been unbanned. Banned by: {MOD_MENTION}. Unbanned by: {UNBAN_MOD_MENTION}. Ban reason: {REASON}";
-    };
-    guildMemberKick: {};
-    guildMemberRulesAccepted: {
-      title: "A member accepted the rules";
-      description: "{MEMBER_MENTION} accepted the rules";
-    };
-    roleCreate: {};
-    roleUpdate: {};
-    roleDelete: {};
-    invitePosted: {};
-    inviteCreate: {};
-    inviteDelete: {};
-    channelCreate: {};
-    channelUpdate: {};
-    channelDelete: {};
-    channelPermissionUpdate: {};
-    voiceChannelJoin: {};
-    voiceChannelMove: {};
-    voiceChannelLeave: {};
-    voiceChannelMemberMute: {};
-    voiceChannelMemberDeafened: {};
-    emojiAdd: {};
-    emojiUpdate: {};
-    emojiDelete: {};
-    stickerAdd: {};
-    stickerUpdate: {};
-    stickerDelete: {};
-    botAdd: {};
-    guildUpdate: {};
   };
   bot: {
     interaction: {
@@ -288,48 +196,25 @@ interface Resources {
   };
   common: {
     eventNames: {
-      guildMemberAdd: "member join";
-      guildMemberRemove: "member leave";
-      messageBulkDelete: "bulk delete message";
-      messageDelete: "delete message";
-      messageUpdate: "edit message";
-      messageReactionAdd: "reaction add";
-      messageReactionRemove: "reaction remove";
-      guildMemberNicknameChange: "member nickname change";
-      guildMemberAvatarChange: "member avatar change";
-      guildMemberRoleAdd: "member role add";
-      guildMemberRoleRemove: "member role remove";
-      guildMemberRoleBulkUpdate: "member role bulk update";
-      guildBanAdd: "member ban";
-      guildBanRemove: "member unban";
-      guildMemberKick: "member kick";
-      guildMemberRulesAccepted: "rules agreed";
-      roleCreate: "role create";
-      roleUpdate: "role update";
-      roleDelete: "reole delete";
-      invitePosted: "invite sent";
-      inviteCreate: "invite create";
-      inviteDelete: "invite delete";
-      channelCreate: "channel create";
-      channelUpdate: "channel update";
-      channelDelete: "channel delete";
-      channelPermissionUpdate: "channel permissions update";
-      voiceChannelJoin: "voice channel join";
-      voiceChannelMove: "voice channel move";
-      voiceChannelLeave: "voice channel leave";
-      voiceChannelMemberMute: "member mute";
-      voiceChannelMemberDeafened: "member deafen";
-      emojiAdd: "emoji create";
-      emojiUpdate: "emoji update";
-      emojiDelete: "emoji delete";
-      stickerAdd: "sticker create";
-      stickerUpdate: "sticker update";
-      stickerDelete: "sticker delete";
-      botAdd: "bot add";
-      guildUpdate: "server update";
+      something: "something";
+      something2: "something2";
     };
   };
-  main: {};
+  main: {
+    interaction: {
+      commandHandler: {
+        error: {
+          title: "ERROR!";
+          description: "Something went wrong, please try again later.\n\nError ID: {{ERROR_ID}}";
+        };
+      };
+    };
+    log: {
+      unknown: {
+        executor: "Unknown";
+      };
+    };
+  };
 }
 
 export default Resources;
