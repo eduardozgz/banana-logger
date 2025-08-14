@@ -1,11 +1,11 @@
-import type { Guild, GuildTextBasedChannel } from "discord.js";
-import { EmbedBuilder } from "discord.js";
+import type { EmbedBuilder, Guild, GuildTextBasedChannel } from "discord.js";
 import _ from "lodash";
 
 import type { EventType } from "@/db/client";
-import { initI18n } from "@/i18n";
+import type { i18n } from "@/i18n";
 
 import type { EmbedTemplatePlaceholders } from "~/Constants";
+import BananaLoggerEmbed from "~/utils/BananaLoggerEmbed";
 import { deepReplaceAll } from "~/utils/deepReplaceAll";
 import SettingsService from "./SettingsService";
 
@@ -17,33 +17,33 @@ type LogData<E extends EventType> = Record<
 interface SetupOptions<E extends EventType> {
   eventName: E;
   guild: Guild;
-  relatedChannels: string[];
-  relatedUsers: string[];
+  relatedChannels?: string[];
+  relatedUsers: (string | undefined | null)[];
   data: LogData<E>;
+  i18n: i18n;
 }
 
 export class LogService {
   static async log<E extends EventType>({
     eventName,
     guild,
-    relatedChannels,
-    relatedUsers,
+    relatedChannels = [],
+    relatedUsers = [],
     data,
+    i18n,
   }: SetupOptions<E>) {
     try {
       for (const serviceSettings of await SettingsService.getByEventName(
         eventName,
         guild,
       )) {
-        const i18n = await initI18n(guild.preferredLocale);
-
         const ignoredChannels = serviceSettings.ignoredChannels;
         _.pull(ignoredChannels, ...serviceSettings.watchChannels);
         const ignoredUsers = serviceSettings.ignoredUsers;
         _.pull(ignoredUsers, ...serviceSettings.watchUsers);
 
         ignoredUsers.push(guild.client.user.id);
-        ignoredChannels.push(serviceSettings.id);
+        ignoredChannels.push(serviceSettings.channelId);
 
         if (
           ignoredChannels.some((ignoredChannel) =>
@@ -68,11 +68,13 @@ export class LogService {
           template = deepReplaceAll(template, `{${key}}`, value as string);
         }
 
-        const channel = (await guild.channels.fetch(
-          serviceSettings.id,
-        )) as GuildTextBasedChannel;
+        const channel = await guild.channels.fetch(serviceSettings.channelId);
 
-        const embed = new EmbedBuilder(template);
+        if (!channel?.isTextBased()) {
+          continue;
+        }
+
+        const embed = new BananaLoggerEmbed(template);
         await LogService.sendLog(channel, embed);
       }
     } catch (e) {
