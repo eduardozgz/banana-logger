@@ -83,6 +83,10 @@ export class SettingsService {
     return this.settings.id;
   }
 
+  get channelId() {
+    return this.settings.channelId;
+  }
+
   get ignoredChannels() {
     return [
       ...this.settings.ignoredChannels,
