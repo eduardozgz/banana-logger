@@ -13,8 +13,8 @@ import { UserError } from "../utils/UserError";
 
 export const interactionCreateEvent = new EventHandler({
   name: "interactionCreate",
-  handler: async (interaction) => {
-    const { logger } = interaction.client.botInstanceOptions;
+  handler: async (client, interaction) => {
+    const { logger } = client.botInstanceOptions;
 
     try {
       if (interaction.isCommand()) {
