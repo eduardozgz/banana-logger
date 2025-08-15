@@ -1,4 +1,9 @@
-import type { EmbedBuilder, Guild, GuildTextBasedChannel } from "discord.js";
+import type {
+  APIEmbed,
+  EmbedBuilder,
+  Guild,
+  GuildTextBasedChannel,
+} from "discord.js";
 import _ from "lodash";
 
 import type { EventType } from "@/db/client";
@@ -54,18 +59,16 @@ export class LogService {
           continue;
         }
 
-        let template = serviceSettings.getTemplate(eventName);
-
         // Fall back to base template if no custom template is set
         // Typescript will fail to typecheck this when eventName is "E extend EventType" instead of "EventType"
         const castedEventName: EventType = eventName;
-        template ??= i18n.t(`baseTemplates:${castedEventName}`, {
+        let templates: APIEmbed[] = i18n.t(`baseTemplates:${castedEventName}`, {
           returnObjects: true,
         });
 
         // Process template variables
         for (const [key, value] of Object.entries(data)) {
-          template = deepReplaceAll(template, `{${key}}`, value as string);
+          templates = deepReplaceAll(templates, `{${key}}`, value as string);
         }
 
         const channel = await guild.channels.fetch(serviceSettings.channelId);
@@ -74,8 +77,11 @@ export class LogService {
           continue;
         }
 
-        const embed = new BananaLoggerEmbed(template);
-        await LogService.sendLog(channel, embed);
+        const embeds = templates.map(
+          (template) => new BananaLoggerEmbed(template),
+        );
+
+        await LogService.sendLog(channel, embeds);
       }
     } catch (e) {
       console.error(e);
@@ -86,8 +92,8 @@ export class LogService {
   private static logQueue: unknown[] = [];
   private static async sendLog(
     channel: GuildTextBasedChannel,
-    embed: EmbedBuilder,
+    embeds: EmbedBuilder[],
   ) {
-    await channel.send({ embeds: [embed] });
+    await channel.send({ embeds });
   }
 }

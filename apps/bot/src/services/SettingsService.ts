@@ -1,20 +1,16 @@
-import type { APIEmbed, Guild, GuildTextBasedChannel } from "discord.js";
-import _ from "lodash";
+import type { Guild, GuildTextBasedChannel } from "discord.js";
 
-import type { Settings, SettingsTemplate, Template } from "@/db/client";
+import type { Settings } from "@/db/client";
 import { db } from "@/db";
 import { EventType } from "@/db/client";
 
 import { ALL_EVENTS_CHOICE } from "~/Constants";
 import { toggleArrayItem } from "~/utils/toggleArrayItem";
-import { UserError } from "~/utils/UserError";
 import GlobalSettingsService from "./GlobalSettingsService";
 
 export class SettingsService {
   private constructor(
-    private settings: Settings & {
-      templates: (SettingsTemplate & { template: Template })[];
-    },
+    private settings: Settings,
     private globalSettingsService: GlobalSettingsService,
   ) {}
 
@@ -33,13 +29,6 @@ export class SettingsService {
       create: {
         guildId: channel.guild.id,
         channelId: channel.id,
-      },
-      include: {
-        templates: {
-          include: {
-            template: true,
-          },
-        },
       },
     });
 
@@ -63,13 +52,6 @@ export class SettingsService {
         guildId: guild.id,
         watchingEvents: {
           has: eventType,
-        },
-      },
-      include: {
-        templates: {
-          include: {
-            template: true,
-          },
         },
       },
     });
@@ -169,90 +151,6 @@ export class SettingsService {
     return wasAdded;
   }
 
-  getTemplate(eventType: EventType): APIEmbed | null {
-    // First try to get template from local settings
-    const localTemplateAssignment = this.settings.templates.find(
-      (t) => t.eventType === eventType,
-    );
-
-    if (localTemplateAssignment) {
-      return localTemplateAssignment.template.embedOptions as APIEmbed;
-    }
-
-    // Fall back to global template
-    return this.globalSettingsService.getTemplate(eventType);
-  }
-
-  async setTemplate(eventType: EventType, templateId: string): Promise<void> {
-    // Validate event type
-    if (!Object.values(EventType).includes(eventType)) {
-      throw new UserError("Provided event type is not valid");
-    }
-
-    // Check if template exists
-    const template = await db.template.findUnique({
-      where: { id: templateId },
-    });
-
-    if (!template) {
-      throw new UserError("Template not found");
-    }
-
-    // Upsert the template assignment
-    await db.settingsTemplate.upsert({
-      where: {
-        settingsId_eventType: {
-          settingsId: this.settings.id,
-          eventType: eventType,
-        },
-      },
-      update: {
-        templateId: templateId,
-      },
-      create: {
-        settingsId: this.settings.id,
-        templateId: templateId,
-        eventType: eventType,
-      },
-    });
-
-    // Update local cache - reload the settings to get the updated data
-    const updatedSettings = await db.settings.findUnique({
-      where: { id: this.settings.id },
-      include: {
-        templates: {
-          include: {
-            template: true,
-          },
-        },
-      },
-    });
-
-    if (updatedSettings) {
-      this.settings.templates = updatedSettings.templates;
-    }
-  }
-
-  async removeTemplate(eventType: EventType): Promise<void> {
-    // Validate event type
-    if (!Object.values(EventType).includes(eventType)) {
-      throw new UserError("Provided event type is not valid");
-    }
-
-    // Remove the template assignment
-    await db.settingsTemplate.deleteMany({
-      where: {
-        settingsId: this.settings.id,
-        eventType: eventType,
-      },
-    });
-
-    // Update local cache
-    this.settings.templates = this.settings.templates.filter(
-      (t) => t.eventType !== eventType,
-    );
-  }
-
   get events(): EventType[] {
     return [...this.settings.watchingEvents];
   }
@@ -300,13 +198,6 @@ export class SettingsService {
     }
 
     return wasAdded;
-  }
-
-  getAssignedTemplates(): { eventType: EventType; template: Template }[] {
-    return this.settings.templates.map((t) => ({
-      eventType: t.eventType,
-      template: t.template,
-    }));
   }
 }
 
