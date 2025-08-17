@@ -17,7 +17,7 @@
     "@/db": "workspace:*",
     "@/logger": "workspace:*",
     "@t3-oss/env-core": "catalog:",
-    "discord-api-types": "^0.38.18",
+    "discord-api-types": "^0.38.20",
     "discord.js": "^14.21.0",
     "utf-8-validate": "^6.0.3",
     "zod": "catalog:"

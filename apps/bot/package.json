@@ -37,7 +37,7 @@
     "@twemoji/api": "^16.0.1",
     "bufferutil": "^4.0.8",
     "cron": "^3.1.7",
-    "discord-api-types": "^0.38.18",
+    "discord-api-types": "^0.38.20",
     "discord.js": "^14.21.0",
     "lodash": "^4.17.21",
     "ollama": "^0.5.9",
