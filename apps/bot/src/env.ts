@@ -4,6 +4,7 @@ import { z } from "zod/v4";
 export const env = createEnv({
   server: {
     NODE_ENV: z.enum(["development", "production", "test"]),
+    PUBLIC_URL: z.string(),
     DISCORD_BOT_INSTANCE_TOKEN: z.string(),
     DISCORD_CLIENT_ID: z.string(),
     DISCORD_BOT_INSTANCE_DEPLOY_COMMANDS: z

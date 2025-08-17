@@ -1,6 +1,370 @@
 {
-  "guildMemberNicknameChange": {
-    "title": "Member Nickname Change",
-    "description": "{EXECUTOR_MENTION} changed {MEMBER_MENTION}'s nickname from `{OLD_NICKNAME}` to `{NEW_NICKNAME}`."
-  }
+  "guildUpdateName": [
+    {
+      "title": "Server Name Change",
+      "description": "{EXECUTOR_MENTION} changed the server name",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "fields": [
+        { "name": "__Old Name__", "value": "{OLD_VALUE}" },
+        { "name": "__New Name__", "value": "{NEW_VALUE}" }
+      ]
+    }
+  ],
+  "guildUpdateDescription": [
+    {
+      "title": "Server Description Change",
+      "description": "{EXECUTOR_MENTION} changed the server description",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "fields": [
+        { "name": "__Old Description__", "value": "{OLD_VALUE}" },
+        { "name": "__New Description__", "value": "{NEW_VALUE}" }
+      ]
+    }
+  ],
+  "guildUpdateIcon": [
+    {
+      "title": "Server Icon Change",
+      "description": "{EXECUTOR_MENTION} changed the server icon",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "image": {
+        "url": "https://cdn.discordapp.com/icons/{GUILD_ID}/{OLD_VALUE}.png?size=1024"
+      },
+      "fields": [
+        { "name": "__Old Icon Hash__", "value": "`{OLD_VALUE}`" },
+        { "name": "__New Icon Hash__", "value": "`{NEW_VALUE}`" }
+      ]
+    },
+    {
+      "image": {
+        "url": "https://cdn.discordapp.com/icons/{GUILD_ID}/{NEW_VALUE}.png?size=1024"
+      }
+    }
+  ],
+  "guildUpdateSplash": [
+    {
+      "title": "Server Splash Change",
+      "description": "{EXECUTOR_MENTION} changed the server splash",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "image": {
+        "url": "https://cdn.discordapp.com/splashes/{GUILD_ID}/{OLD_VALUE}.png?size=1024"
+      },
+      "fields": [
+        { "name": "__Old Splash Hash__", "value": "`{OLD_VALUE}`" },
+        { "name": "__New Splash Hash__", "value": "`{NEW_VALUE}`" }
+      ]
+    },
+    {
+      "image": {
+        "url": "https://cdn.discordapp.com/splashes/{GUILD_ID}/{NEW_VALUE}.png?size=1024"
+      }
+    }
+  ],
+  "guildUpdateDiscoverySplash": [
+    {
+      "title": "Server Discovery Splash Change",
+      "description": "{EXECUTOR_MENTION} changed the server discovery splash",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "image": {
+        "url": "https://cdn.discordapp.com/discovery-splashes/{GUILD_ID}/{OLD_VALUE}.png?size=1024"
+      },
+      "fields": [
+        { "name": "__Old Discovery Splash Hash__", "value": "`{OLD_VALUE}`" },
+        { "name": "__New Discovery Splash Hash__", "value": "`{NEW_VALUE}`" }
+      ]
+    },
+    {
+      "image": {
+        "url": "https://cdn.discordapp.com/discovery-splashes/{GUILD_ID}/{NEW_VALUE}.png?size=1024"
+      }
+    }
+  ],
+  "guildUpdateBanner": [
+    {
+      "title": "Server Banner Change",
+      "description": "{EXECUTOR_MENTION} changed the server banner",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "image": {
+        "url": "https://cdn.discordapp.com/banners/{GUILD_ID}/{OLD_VALUE}.png?size=1024"
+      },
+      "fields": [
+        { "name": "__Old Banner Hash__", "value": "`{OLD_VALUE}`" },
+        { "name": "__New Banner Hash__", "value": "`{NEW_VALUE}`" }
+      ]
+    },
+    {
+      "image": {
+        "url": "https://cdn.discordapp.com/banners/{GUILD_ID}/{NEW_VALUE}.png?size=1024"
+      }
+    }
+  ],
+  "guildUpdateOwner": [
+    {
+      "title": "Server Owner Change",
+      "description": "{EXECUTOR_MENTION} changed the server owner",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "fields": [
+        { "name": "__Old Owner__", "value": "{OLD_VALUE}" },
+        { "name": "__New Owner__", "value": "{NEW_VALUE}" }
+      ]
+    }
+  ],
+  "guildUpdateRegion": [
+    {
+      "title": "Server Region Change",
+      "description": "{EXECUTOR_MENTION} changed the server region",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "fields": [
+        { "name": "__Old Region__", "value": "`{OLD_VALUE}`" },
+        { "name": "__New Region__", "value": "`{NEW_VALUE}`" }
+      ]
+    }
+  ],
+  "guildUpdatePreferredLocale": [
+    {
+      "title": "Server Primary Language Change",
+      "description": "{EXECUTOR_MENTION} changed the server primary language",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "fields": [
+        { "name": "__Old primary language__", "value": "{OLD_VALUE}" },
+        { "name": "__New primary language__", "value": "{NEW_VALUE}" }
+      ]
+    }
+  ],
+  "guildUpdateAfkChannel": [
+    {
+      "title": "AFK Channel Change",
+      "description": "{EXECUTOR_MENTION} changed the AFK channel",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "fields": [
+        { "name": "__Old AFK Channel__", "value": "{OLD_VALUE}" },
+        { "name": "__New AFK Channel__", "value": "{NEW_VALUE}" }
+      ]
+    }
+  ],
+  "guildUpdateAfkTimeout": [
+    {
+      "title": "AFK Timeout Change",
+      "description": "{EXECUTOR_MENTION} changed the AFK timeout",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "fields": [
+        { "name": "__Old AFK Timeout__", "value": "{OLD_VALUE} seconds" },
+        { "name": "__New AFK Timeout__", "value": "{NEW_VALUE} seconds" }
+      ]
+    }
+  ],
+  "guildUpdateRulesChannel": [
+    {
+      "title": "Rules Channel Change",
+      "description": "{EXECUTOR_MENTION} changed the rules channel",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "fields": [
+        { "name": "__Old Rules Channel__", "value": "{OLD_VALUE}" },
+        { "name": "__New Rules Channel__", "value": "{NEW_VALUE}" }
+      ]
+    }
+  ],
+  "guildUpdatePublicUpdatesChannel": [
+    {
+      "title": "Public Updates Channel Change",
+      "description": "{EXECUTOR_MENTION} changed the public updates channel",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "fields": [
+        { "name": "__Old Public Updates Channel__", "value": "{OLD_VALUE}" },
+        { "name": "__New Public Updates Channel__", "value": "{NEW_VALUE}" }
+      ]
+    }
+  ],
+  "guildUpdateSafetyAlertsChannel": [
+    {
+      "title": "Safety Alerts Channel Change",
+      "description": "{EXECUTOR_MENTION} changed the safety alerts channel",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "fields": [
+        { "name": "__Old Safety Alerts Channel__", "value": "{OLD_VALUE}" },
+        { "name": "__New Safety Alerts Channel__", "value": "{NEW_VALUE}" }
+      ]
+    }
+  ],
+  "guildUpdateMfaLevel": [
+    {
+      "title": "Server MFA Level Change",
+      "description": "{EXECUTOR_MENTION} changed the server MFA level",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "fields": [
+        { "name": "__Old MFA Level__", "value": "{OLD_VALUE}" },
+        { "name": "__New MFA Level__", "value": "{NEW_VALUE}" }
+      ]
+    }
+  ],
+  "guildUpdateVerificationLevel": [
+    {
+      "title": "Server Verification Level Change",
+      "description": "{EXECUTOR_MENTION} changed the server verification level",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "fields": [
+        { "name": "__Old Verification Level__", "value": "{OLD_VALUE}" },
+        { "name": "__New Verification Level__", "value": "{NEW_VALUE}" }
+      ]
+    }
+  ],
+  "guildUpdateExplicitContentFilter": [
+    {
+      "title": "Server Explicit Content Filter Change",
+      "description": "{EXECUTOR_MENTION} changed the explicit content filter",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "fields": [
+        { "name": "__Old Filter__", "value": "{OLD_VALUE}" },
+        { "name": "__New Filter__", "value": "{NEW_VALUE}" }
+      ]
+    }
+  ],
+  "guildUpdateDefaultMessageNotifications": [
+    {
+      "title": "Default Message Notifications Change",
+      "description": "{EXECUTOR_MENTION} changed the default message notifications",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "fields": [
+        { "name": "__Old Setting__", "value": "{OLD_VALUE}" },
+        { "name": "__New Setting__", "value": "{NEW_VALUE}" }
+      ]
+    }
+  ],
+  "guildUpdateVanityUrlCode": [
+    {
+      "title": "Server Vanity URL Change",
+      "description": "{EXECUTOR_MENTION} changed the server vanity URL",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "fields": [
+        { "name": "__Old Vanity URL Code__", "value": "{OLD_VALUE}" },
+        { "name": "__New Vanity URL Code__", "value": "{NEW_VALUE}" }
+      ]
+    }
+  ],
+  "guildUpdatePremiumProgressBarEnabled": [
+    {
+      "title": "Premium Progress Bar Change",
+      "description": "{EXECUTOR_MENTION} changed the premium/nitro progress bar visibility",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "fields": [
+        { "name": "__Old Status__", "value": "{OLD_VALUE}" },
+        { "name": "__New Status__", "value": "{NEW_VALUE}" }
+      ]
+    }
+  ],
+  "guildUpdateWidgetEnabled": [
+    {
+      "title": "Server Widget Enabled State Change",
+      "description": "{EXECUTOR_MENTION} changed the server widget enabled state",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "fields": [
+        { "name": "__Old Status__", "value": "{OLD_VALUE}" },
+        { "name": "__New Status__", "value": "{NEW_VALUE}" }
+      ]
+    }
+  ],
+  "guildUpdateWidgetChannel": [
+    {
+      "title": "Server Widget Channel Change",
+      "description": "{EXECUTOR_MENTION} changed the server widget channel",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "fields": [
+        { "name": "__Old Channel__", "value": "{OLD_VALUE}" },
+        { "name": "__New Channel__", "value": "{NEW_VALUE}" }
+      ]
+    }
+  ],
+  "guildUpdateSystemChannelFlags": [
+    {
+      "title": "Server System Channel Flags Change",
+      "description": "{EXECUTOR_MENTION} changed the server system channel flags",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "fields": [
+        { "name": "__Old Flags__", "value": "{OLD_VALUE}" },
+        { "name": "__New Flags__", "value": "{NEW_VALUE}" }
+      ]
+    }
+  ],
+  "guildUpdateSystemChannel": [
+    {
+      "title": "Server System Channel Change",
+      "description": "{EXECUTOR_MENTION} changed the server system channel",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "fields": [
+        { "name": "__Old Channel__", "value": "{OLD_VALUE}" },
+        { "name": "__New Channel__", "value": "{NEW_VALUE}" }
+      ]
+    }
+  ]
 }

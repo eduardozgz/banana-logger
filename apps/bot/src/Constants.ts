@@ -1,4 +1,8 @@
+import { randomUUID } from "node:crypto";
+
 import type { EventType } from "@/db/client";
+
+import { env } from "./env";
 
 export const Colors = {
   RED: 0xed4245,
@@ -10,16 +14,119 @@ export const Colors = {
   BLACK: 0x000000,
 };
 
+export const baseGalleryEmbedUrl = () =>
+  `${env.PUBLIC_URL}/embeds#${randomUUID()}`;
+
+export const BasePlaceholders = ["GUILD_ID"];
+
+export const AuditLogBasedEventBasePlaceholders = [
+  "OLD_VALUE",
+  "NEW_VALUE",
+  "EXECUTOR_MENTION",
+  "EXECUTOR_NAME",
+  "EXECUTOR_ID",
+  "EXECUTOR_AVATAR",
+] as const;
+
 export const EmbedTemplatePlaceholders = {
-  guildMemberNicknameChange: [
-    "MEMBER_MENTION",
-    "MEMBER_AVATAR",
-    "MEMBER_ID",
-    "OLD_NICKNAME",
-    "NEW_NICKNAME",
-    "EXECUTOR_MENTION",
-    "EXECUTOR_ID",
-    "EXECUTOR_AVATAR",
+  // guildMemberNicknameChange: [
+  //   ...BasePlaceholders,
+  //   ...AuditLogBasedEventBasePlaceholders,
+  //   "MEMBER_MENTION",
+  //   "MEMBER_AVATAR",
+  //   "MEMBER_ID",
+  //   "OLD_NICKNAME",
+  //   "NEW_NICKNAME",
+  // ],
+  guildUpdateName: [...BasePlaceholders, ...AuditLogBasedEventBasePlaceholders],
+  guildUpdateDescription: [
+    ...BasePlaceholders,
+    ...AuditLogBasedEventBasePlaceholders,
+  ],
+  guildUpdateIcon: [...BasePlaceholders, ...AuditLogBasedEventBasePlaceholders],
+  guildUpdateSplash: [
+    ...BasePlaceholders,
+    ...AuditLogBasedEventBasePlaceholders,
+  ],
+  guildUpdateDiscoverySplash: [
+    ...BasePlaceholders,
+    ...AuditLogBasedEventBasePlaceholders,
+  ],
+  guildUpdateBanner: [
+    ...BasePlaceholders,
+    ...AuditLogBasedEventBasePlaceholders,
+  ],
+  guildUpdateOwner: [
+    ...BasePlaceholders,
+    ...AuditLogBasedEventBasePlaceholders,
+  ],
+  guildUpdateRegion: [
+    ...BasePlaceholders,
+    ...AuditLogBasedEventBasePlaceholders,
+  ],
+  guildUpdatePreferredLocale: [
+    ...BasePlaceholders,
+    ...AuditLogBasedEventBasePlaceholders,
+  ],
+  guildUpdateAfkChannel: [
+    ...BasePlaceholders,
+    ...AuditLogBasedEventBasePlaceholders,
+  ],
+  guildUpdateAfkTimeout: [
+    ...BasePlaceholders,
+    ...AuditLogBasedEventBasePlaceholders,
+  ],
+  guildUpdateRulesChannel: [
+    ...BasePlaceholders,
+    ...AuditLogBasedEventBasePlaceholders,
+  ],
+  guildUpdatePublicUpdatesChannel: [
+    ...BasePlaceholders,
+    ...AuditLogBasedEventBasePlaceholders,
+  ],
+  guildUpdateSafetyAlertsChannel: [
+    ...BasePlaceholders,
+    ...AuditLogBasedEventBasePlaceholders,
+  ],
+  guildUpdateMfaLevel: [
+    ...BasePlaceholders,
+    ...AuditLogBasedEventBasePlaceholders,
+  ],
+  guildUpdateVerificationLevel: [
+    ...BasePlaceholders,
+    ...AuditLogBasedEventBasePlaceholders,
+  ],
+  guildUpdateExplicitContentFilter: [
+    ...BasePlaceholders,
+    ...AuditLogBasedEventBasePlaceholders,
+  ],
+  guildUpdateDefaultMessageNotifications: [
+    ...BasePlaceholders,
+    ...AuditLogBasedEventBasePlaceholders,
+  ],
+  guildUpdateVanityUrlCode: [
+    ...BasePlaceholders,
+    ...AuditLogBasedEventBasePlaceholders,
+  ],
+  guildUpdatePremiumProgressBarEnabled: [
+    ...BasePlaceholders,
+    ...AuditLogBasedEventBasePlaceholders,
+  ],
+  guildUpdateSystemChannelFlags: [
+    ...BasePlaceholders,
+    ...AuditLogBasedEventBasePlaceholders,
+  ],
+  guildUpdateSystemChannel: [
+    ...BasePlaceholders,
+    ...AuditLogBasedEventBasePlaceholders,
+  ],
+  guildUpdateWidgetEnabled: [
+    ...BasePlaceholders,
+    ...AuditLogBasedEventBasePlaceholders,
+  ],
+  guildUpdateWidgetChannel: [
+    ...BasePlaceholders,
+    ...AuditLogBasedEventBasePlaceholders,
   ],
 } as const satisfies Record<EventType, string[]>;
 

@@ -3,6 +3,8 @@ import type {
   EmbedBuilder,
   Guild,
   GuildTextBasedChannel,
+  PartialUser,
+  User,
 } from "discord.js";
 import _ from "lodash";
 
@@ -10,6 +12,7 @@ import type { EventType } from "@/db/client";
 import type { i18n } from "@/i18n";
 
 import type { EmbedTemplatePlaceholders } from "~/Constants";
+import { baseGalleryEmbedUrl } from "~/Constants";
 import BananaLoggerEmbed from "~/utils/BananaLoggerEmbed";
 import { deepReplaceAll } from "~/utils/deepReplaceAll";
 import SettingsService from "./SettingsService";
@@ -22,6 +25,7 @@ type LogData<E extends EventType> = Record<
 interface SetupOptions<E extends EventType> {
   eventName: E;
   guild: Guild;
+  executor?: User | PartialUser | null;
   relatedChannels?: string[];
   relatedUsers: (string | undefined | null)[];
   data: LogData<E>;
@@ -36,7 +40,21 @@ export class LogService {
     relatedUsers = [],
     data,
     i18n,
+    executor,
   }: SetupOptions<E>) {
+    data = {
+      ...data,
+      GUILD_ID: guild.id,
+      EXECUTOR_MENTION: executor?.toString(),
+      EXECUTOR_NAME:
+        executor?.username ??
+        i18n.t("main:eventTemplatePlaceholdersDefaults.EXECUTOR_MENTION"),
+      EXECUTOR_ID: executor?.id ?? "",
+      EXECUTOR_AVATAR:
+        executor?.displayAvatarURL() ??
+        "https://cdn.discordapp.com/embed/avatars/0.png",
+    };
+
     try {
       for (const serviceSettings of await SettingsService.getByEventName(
         eventName,
@@ -59,7 +77,6 @@ export class LogService {
           continue;
         }
 
-        // Fall back to base template if no custom template is set
         // Typescript will fail to typecheck this when eventName is "E extend EventType" instead of "EventType"
         const castedEventName: EventType = eventName;
         let templates: APIEmbed[] = i18n.t(`baseTemplates:${castedEventName}`, {
@@ -81,10 +98,21 @@ export class LogService {
           (template) => new BananaLoggerEmbed(template),
         );
 
+        const galleryEmbedUrl = baseGalleryEmbedUrl();
+
+        embeds.forEach((embed) => {
+          embed.setURL(galleryEmbedUrl);
+        });
+
         await LogService.sendLog(channel, embeds);
       }
     } catch (e) {
-      console.error(e);
+      guild.client.botInstanceOptions.logger
+        .child({
+          component: "LogService",
+          method: "log",
+        })
+        .error(e);
     }
   }
 
@@ -94,6 +122,8 @@ export class LogService {
     channel: GuildTextBasedChannel,
     embeds: EmbedBuilder[],
   ) {
-    await channel.send({ embeds });
+    await channel.send({
+      embeds,
+    });
   }
 }

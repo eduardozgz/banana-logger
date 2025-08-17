@@ -1,5 +1,6 @@
 import type { Client } from "discord.js";
 
+import { guildAuditLogEntryCreateEvent } from "./guildAuditLogEntryCreate";
 import { guildMemberUpdateEvent } from "./guildMemberUpdate";
 import { interactionCreateEvent } from "./interactionCreate";
 import { readyEvent } from "./ready";
@@ -8,6 +9,7 @@ const allEvents = [
   readyEvent,
   interactionCreateEvent,
   guildMemberUpdateEvent,
+  guildAuditLogEntryCreateEvent,
 ] as const;
 
 export function setupEvents(client: Client) {

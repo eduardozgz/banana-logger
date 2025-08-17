@@ -40,5 +40,28 @@ model Session {
 }
 
 enum EventType {
-  guildMemberNicknameChange
+  guildUpdateName
+  guildUpdateDescription
+  guildUpdateIcon
+  guildUpdateSplash
+  guildUpdateDiscoverySplash
+  guildUpdateBanner
+  guildUpdateOwner
+  guildUpdateRegion
+  guildUpdatePreferredLocale
+  guildUpdateAfkChannel
+  guildUpdateAfkTimeout
+  guildUpdateRulesChannel
+  guildUpdatePublicUpdatesChannel
+  guildUpdateSafetyAlertsChannel
+  guildUpdateMfaLevel
+  guildUpdateVerificationLevel
+  guildUpdateExplicitContentFilter
+  guildUpdateDefaultMessageNotifications
+  guildUpdateVanityUrlCode
+  guildUpdatePremiumProgressBarEnabled
+  guildUpdateWidgetEnabled
+  guildUpdateWidgetChannel
+  guildUpdateSystemChannelFlags
+  guildUpdateSystemChannel
 }
