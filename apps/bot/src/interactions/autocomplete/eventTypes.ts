@@ -15,7 +15,7 @@ export const eventTypes = new Autocomplete({
     const events: ApplicationCommandOptionChoiceData[] = Object.entries(
       EventType,
     ).map(([_key, value]) => ({
-      name: i18n.t(`common:eventNames.${value}`),
+      name: i18n.t(`main:eventNames.${value}`),
       value: value,
     }));
 

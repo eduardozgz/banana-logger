@@ -1,15 +1,111 @@
 {
-  "interaction": {
-    "commandHandler": {
-      "error": {
-        "title": "ERROR!",
-        "description": "Something went wrong, please try again later.\n\nError ID: {{ERROR_ID}}"
-      }
-    }
+  "eventTemplatePlaceholdersDefaults": {
+    "EXECUTOR_MENTION": "Unknown executor",
+    "UNKNOWN_VALUE": "Unknown"
   },
-  "log": {
-    "unknown": {
-      "executor": "Unknown"
+  "eventNames": {
+    "guildUpdateName": "server name change",
+    "guildUpdateDescription": "server description change",
+    "guildUpdateIcon": "server icon change",
+    "guildUpdateSplash": "server splash change",
+    "guildUpdateDiscoverySplash": "server discovery splash change",
+    "guildUpdateBanner": "server banner change",
+    "guildUpdateOwner": "server owner change",
+    "guildUpdateRegion": "server region change",
+    "guildUpdatePreferredLocale": "server primary language change",
+    "guildUpdateAfkChannel": "server afk channel change",
+    "guildUpdateAfkTimeout": "server afk timeout change",
+    "guildUpdateRulesChannel": "server rules channel change",
+    "guildUpdatePublicUpdatesChannel": "server public updates channel change",
+    "guildUpdateSafetyAlertsChannel": "server safety alerts channel change",
+    "guildUpdateMfaLevel": "server mfa level change",
+    "guildUpdateVerificationLevel": "server verification level change",
+    "guildUpdateExplicitContentFilter": "server explicit content filter change",
+    "guildUpdateDefaultMessageNotifications": "server default message notifications change",
+    "guildUpdateVanityUrlCode": "server vanity url change",
+    "guildUpdatePremiumProgressBarEnabled": "server premium/nitro progress bar change",
+    "guildUpdateWidgetEnabled": "server widget enabled change",
+    "guildUpdateWidgetChannel": "server widget channel change",
+    "guildUpdateSystemChannelFlags": "server system channel flags change",
+    "guildUpdateSystemChannel": "server system channel change"
+  },
+  "eventDataTransformers": {
+    "guildUpdatePreferredLocale": {
+      "id": "Indonesia",
+      "en-US": "English (United States)",
+      "en-GB": "English (United Kingdom)",
+      "bg": "Bulgarian",
+      "zh-CN": "Chinese (China)",
+      "zh-TW": "Chinese (Taiwan)",
+      "hr": "Croatian",
+      "cs": "Czech",
+      "da": "Danish",
+      "nl": "Dutch",
+      "fi": "Finnish",
+      "fr": "French",
+      "de": "German",
+      "el": "Greek",
+      "hi": "Hindi",
+      "hu": "Hungarian",
+      "it": "Italian",
+      "ja": "Japanese",
+      "ko": "Korean",
+      "lt": "Lithuanian",
+      "no": "Norwegian",
+      "pl": "Polish",
+      "pt-BR": "Portuguese (Brazil)",
+      "ro": "Romanian",
+      "ru": "Russian",
+      "es-ES": "Spanish (Spain)",
+      "es-419": "Spanish (Latin America)",
+      "sv-SE": "Swedish",
+      "th": "Thai",
+      "tr": "Turkish",
+      "uk": "Ukrainian",
+      "vi": "Vietnamese"
+    },
+    "guildUpdateMfaLevel": {
+      "0": "None",
+      "1": "Elevated"
+    },
+    "guildUpdateVerificationLevel": {
+      "0": "None: unrestricted",
+      "1": "Low: must have verified email on account",
+      "2": "Medium: must be registered on Discord for longer than 5 minutes",
+      "3": "High: must be a member of the server for longer than 10 minutes",
+      "4": "Very High: must have a verified phone number"
+    },
+    "guildUpdateExplicitContentFilter": {
+      "0": "Default",
+      "1": "Explicit",
+      "2": "Safe",
+      "3": "Age restricted"
+    },
+    "guildUpdatePremiumProgressBarEnabled": {
+      "true": "Show",
+      "false": "Hide"
+    },
+    "guildUpdateDefaultMessageNotifications": {
+      "0": "All messages",
+      "1": "Only @mentions"
+    },
+    "guildUpdateWidgetEnabled": {
+      "true": "Enabled",
+      "false": "Disabled"
+    },
+    "guildUpdateSystemChannelFlags": {
+      "flags": {
+        "SuppressJoinNotifications": "Random welcome message on member join",
+        "SuppressPremiumSubscriptions": "Server boost notifications",
+        "SuppressGuildReminderNotifications": "Server setup tips",
+        "SuppressJoinNotificationReplies": "Prompt users to send stickers to new members",
+        "SuppressRoleSubscriptionPurchaseNotifications": "Role subscription purchase and renewal notifications",
+        "SuppressRoleSubscriptionPurchaseNotificationReplies": "Role subscription sticker reply buttons"
+      },
+      "labels": {
+        "Show": "Show",
+        "Suppress": "Hide"
+      }
     }
   }
 }

@@ -1,17 +1,13 @@
-import { userMention } from "@discordjs/builders";
-import { AuditLogEvent } from "discord.js";
 import _ from "lodash";
 
 import { initI18n } from "@/i18n";
 
-import { AuditLogCollector } from "~/services/AuditLogCollector";
-import { LogService } from "~/services/LogService";
 import { EventHandler } from "~/structures";
 
 export const guildMemberUpdateEvent = new EventHandler({
   name: "guildMemberUpdate",
   handler: async (client, oldMember, member) => {
-    const i18n = await initI18n(member.guild.preferredLocale);
+    const _i18n = await initI18n(member.guild.preferredLocale);
 
     // Loggiging guildMemberRulesAccepted
     // if (oldMember.pending && !member.pending) {
@@ -27,32 +23,32 @@ export const guildMemberUpdateEvent = new EventHandler({
     // }
 
     // Loggiging guildMemberNicknameChange
-    if (oldMember.nickname !== member.nickname) {
-      const auditLogEntry = await AuditLogCollector.get({
-        guild: member.guild,
-        type: AuditLogEvent.MemberUpdate,
-        targetId: member.id,
-      });
+    // if (oldMember.nickname !== member.nickname) {
+    //   const auditLogEntry = await AuditLogCollector.get({
+    //     guild: member.guild,
+    //     type: AuditLogEvent.MemberUpdate,
+    //     targetId: member.id,
+    //   });
 
-      await LogService.log({
-        eventName: "guildMemberNicknameChange",
-        relatedUsers: [member.id, auditLogEntry?.executorId],
-        guild: member.guild,
-        i18n,
-        data: {
-          MEMBER_AVATAR: member.displayAvatarURL(),
-          MEMBER_MENTION: userMention(member.id),
-          MEMBER_ID: member.id,
-          OLD_NICKNAME: oldMember.nickname ?? member.user.username,
-          NEW_NICKNAME: member.nickname ?? member.user.username,
-          EXECUTOR_MENTION: auditLogEntry?.executorId
-            ? userMention(auditLogEntry.executorId)
-            : i18n.t("log.unknown.executor"),
-          EXECUTOR_ID: auditLogEntry?.executorId ?? "",
-          EXECUTOR_AVATAR: auditLogEntry?.executor?.displayAvatarURL() ?? "",
-        },
-      });
-    }
+    //   await LogService.log({
+    //     eventName: "guildMemberNicknameChange",
+    //     relatedUsers: [member.id, auditLogEntry?.executorId],
+    //     guild: member.guild,
+    //     i18n,
+    //     data: {
+    //       MEMBER_AVATAR: member.displayAvatarURL(),
+    //       MEMBER_MENTION: userMention(member.id),
+    //       MEMBER_ID: member.id,
+    //       OLD_NICKNAME: oldMember.nickname ?? member.user.username,
+    //       NEW_NICKNAME: member.nickname ?? member.user.username,
+    //       EXECUTOR_MENTION: auditLogEntry?.executorId
+    //         ? userMention(auditLogEntry.executorId)
+    //         : i18n.t("log.unknown.executor"),
+    //       EXECUTOR_ID: auditLogEntry?.executorId ?? "",
+    //       EXECUTOR_AVATAR: auditLogEntry?.executor?.displayAvatarURL() ?? "",
+    //     },
+    //   });
+    // }
 
     // // TODO test this
     // // Loggiging guildMemberAvatarChange

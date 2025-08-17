@@ -5,7 +5,6 @@ import "./@types/i18next.d.ts";
 
 import baseTemplatesUS from "./locales/en-US/baseTemplates.json";
 import botUS from "./locales/en-US/bot.json";
-import commonUS from "./locales/en-US/common.json";
 import mainUS from "./locales/en-US/main.json";
 
 export type LocaleString = `${Locale}`;
@@ -24,7 +23,6 @@ export async function initI18n(locale: LocaleString) {
         main: mainUS,
         bot: botUS,
         baseTemplates: baseTemplatesUS,
-        common: commonUS,
       },
     },
     interpolation: {

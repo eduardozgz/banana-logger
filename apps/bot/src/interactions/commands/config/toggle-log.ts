@@ -76,7 +76,7 @@ export const toggleLogHandle: CommandHandle = async (command, i18n) => {
   const eventName =
     eventToToggleValidated === ALL_EVENTS_CHOICE
       ? t("everything-event-name")
-      : i18n.t(`common:eventNames.${eventToToggleValidated}`);
+      : i18n.t(`main:eventNames.${eventToToggleValidated}`);
 
   embed.setDescription(
     wasBeingLogged

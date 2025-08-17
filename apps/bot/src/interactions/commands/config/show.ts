@@ -50,7 +50,7 @@ export const showHandle: CommandHandle = async (command, i18n) => {
       ? t("all-events-are-being-logged")
       : listFormat(
           settingsService.events.map((event) =>
-            i18n.t(`common:eventNames.${event}`),
+            i18n.t(`main:eventNames.${event}`),
           ),
           i18n.language,
         )
