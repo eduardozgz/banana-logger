@@ -243,11 +243,11 @@ interface Resources {
         fields: [
           {
             name: "__Old AFK Timeout__";
-            value: "{OLD_VALUE} seconds";
+            value: "{OLD_VALUE}";
           },
           {
             name: "__New AFK Timeout__";
-            value: "{NEW_VALUE} seconds";
+            value: "{NEW_VALUE}";
           },
         ];
       },
@@ -522,6 +522,206 @@ interface Resources {
         };
       },
     ];
+    channelUpdateName: [
+      {
+        title: "Channel Name Change";
+        description: "{EXECUTOR_MENTION} changed the name of {TARGET_ID}";
+        author: {
+          name: "{EXECUTOR_NAME}";
+          icon_url: "{EXECUTOR_AVATAR}";
+        };
+        fields: [
+          {
+            name: "__Old Name__";
+            value: "{OLD_VALUE}";
+          },
+          {
+            name: "__New Name__";
+            value: "{NEW_VALUE}";
+          },
+        ];
+      },
+    ];
+    channelUpdateType: [
+      {
+        title: "Channel Type Change";
+        description: "{EXECUTOR_MENTION} changed the channel type of {TARGET_ID}";
+        author: {
+          name: "{EXECUTOR_NAME}";
+          icon_url: "{EXECUTOR_AVATAR}";
+        };
+        fields: [
+          {
+            name: "__Old Type__";
+            value: "{OLD_VALUE}";
+          },
+          {
+            name: "__New Type__";
+            value: "{NEW_VALUE}";
+          },
+        ];
+      },
+    ];
+    channelUpdateTopic: [
+      {
+        title: "Channel Topic Change";
+        description: "{EXECUTOR_MENTION} changed the topic of {TARGET_ID}";
+        author: {
+          name: "{EXECUTOR_NAME}";
+          icon_url: "{EXECUTOR_AVATAR}";
+        };
+        fields: [
+          {
+            name: "__Old Topic__";
+            value: "{OLD_VALUE}";
+          },
+          {
+            name: "__New Topic__";
+            value: "{NEW_VALUE}";
+          },
+        ];
+      },
+    ];
+    channelUpdateNsfw: [
+      {
+        title: "Channel NSFW Change";
+        description: "{EXECUTOR_MENTION} changed the NSFW status of {TARGET_ID}";
+        author: {
+          name: "{EXECUTOR_NAME}";
+          icon_url: "{EXECUTOR_AVATAR}";
+        };
+        fields: [
+          {
+            name: "__Old NSFW__";
+            value: "{OLD_VALUE}";
+          },
+          {
+            name: "__New NSFW__";
+            value: "{NEW_VALUE}";
+          },
+        ];
+      },
+    ];
+    channelUpdateBitrate: [
+      {
+        title: "Channel Bitrate Change";
+        description: "{EXECUTOR_MENTION} changed the bitrate of {TARGET_ID}";
+        author: {
+          name: "{EXECUTOR_NAME}";
+          icon_url: "{EXECUTOR_AVATAR}";
+        };
+        fields: [
+          {
+            name: "__Old Bitrate__";
+            value: "{OLD_VALUE}";
+          },
+          {
+            name: "__New Bitrate__";
+            value: "{NEW_VALUE}";
+          },
+        ];
+      },
+    ];
+    channelUpdateUserLimit: [
+      {
+        title: "Channel User Limit Change";
+        description: "{EXECUTOR_MENTION} changed the user limit of {TARGET_ID}";
+        author: {
+          name: "{EXECUTOR_NAME}";
+          icon_url: "{EXECUTOR_AVATAR}";
+        };
+        fields: [
+          {
+            name: "__Old User Limit__";
+            value: "{OLD_VALUE}";
+          },
+          {
+            name: "__New User Limit__";
+            value: "{NEW_VALUE}";
+          },
+        ];
+      },
+    ];
+    channelUpdateRateLimitPerUser: [
+      {
+        title: "Channel Rate Limit Per User Change";
+        description: "{EXECUTOR_MENTION} changed the rate limit per user of {TARGET_ID}";
+        author: {
+          name: "{EXECUTOR_NAME}";
+          icon_url: "{EXECUTOR_AVATAR}";
+        };
+        fields: [
+          {
+            name: "__Old Rate Limit Per User__";
+            value: "{OLD_VALUE}";
+          },
+          {
+            name: "__New Rate Limit Per User__";
+            value: "{NEW_VALUE}";
+          },
+        ];
+      },
+    ];
+    channelUpdatePosition: [
+      {
+        title: "Channel Position Change";
+        description: "{EXECUTOR_MENTION} changed the position of {TARGET_ID}";
+        author: {
+          name: "{EXECUTOR_NAME}";
+          icon_url: "{EXECUTOR_AVATAR}";
+        };
+        fields: [
+          {
+            name: "__Old Position__";
+            value: "{OLD_VALUE}";
+          },
+          {
+            name: "__New Position__";
+            value: "{NEW_VALUE}";
+          },
+        ];
+      },
+    ];
+    channelUpdatePermissionOverwrites: [
+      {
+        title: "Channel Permission Overwrites Change";
+        description: "{EXECUTOR_MENTION} changed the permission overwrites of {TARGET_ID}";
+        author: {
+          name: "{EXECUTOR_NAME}";
+          icon_url: "{EXECUTOR_AVATAR}";
+        };
+      },
+    ];
+    channelUpdateDefaultAutoArchiveDurations: [
+      {
+        title: "Channel Default Auto Archive Durations Change";
+        description: "{EXECUTOR_MENTION} changed the default auto archive duration of {TARGET_ID}";
+        author: {
+          name: "{EXECUTOR_NAME}";
+          icon_url: "{EXECUTOR_AVATAR}";
+        };
+        fields: [
+          {
+            name: "__Old Default Auto Archive Duration__";
+            value: "{OLD_VALUE}";
+          },
+          {
+            name: "__New Default Auto Archive Duration__";
+            value: "{NEW_VALUE}";
+          },
+        ];
+      },
+    ];
+    channelDelete: [
+      {
+        title: "Channel Deleted";
+        description: '{EXECUTOR_MENTION} deleted {TARGET_ID} (previously known as "{CHANNEL_NAME}")';
+        author: {
+          name: "{EXECUTOR_NAME}";
+          icon_url: "{EXECUTOR_AVATAR}";
+        };
+      },
+    ];
   };
   bot: {
     interaction: {
@@ -743,6 +943,17 @@ interface Resources {
       guildUpdateSystemChannelFlags: "server system channel flags change";
       guildUpdateSystemChannel: "server system channel change";
       channelCreate: "channel create";
+      channelUpdateName: "channel name change";
+      channelUpdateType: "channel type change";
+      channelUpdateTopic: "channel topic change";
+      channelUpdateNsfw: "channel nsfw change";
+      channelUpdateBitrate: "channel bitrate change";
+      channelUpdateUserLimit: "channel user limit change";
+      channelUpdateRateLimitPerUser: "channel rate limit per user change";
+      channelUpdatePosition: "channel position change";
+      channelUpdatePermissionOverwrites: "channel permission overwrites change";
+      channelUpdateDefaultAutoArchiveDurations: "channel default auto archive durations change";
+      channelDelete: "channel delete";
     };
     eventDataTransformers: {
       guildUpdatePreferredLocale: {
@@ -821,6 +1032,25 @@ interface Resources {
           Show: "Show";
           Suppress: "Hide";
         };
+      };
+      channelUpdateType: {
+        "0": "Text";
+        "1": "DM";
+        "2": "Voice";
+        "3": "Group DM";
+        "4": "Category";
+        "5": "Announcement";
+        "10": "Announcement Thread";
+        "11": "Public Thread";
+        "12": "Private Thread";
+        "13": "Stage Voice";
+        "14": "Directory";
+        "15": "Forum";
+        "16": "Media";
+      };
+      channelUpdateNsfw: {
+        true: "Enabled";
+        false: "Disabled";
       };
     };
   };

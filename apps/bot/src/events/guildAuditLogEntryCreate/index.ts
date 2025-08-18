@@ -13,6 +13,8 @@ import { initI18n } from "@/i18n";
 import { LogService } from "~/services/LogService";
 import { EventHandler } from "~/structures";
 import { channelCreateHandler } from "./channelCreate";
+import { channelDeleteHandler } from "./channelDelete";
+import { channelUpdate } from "./channelUpdate";
 import { guildUpdate } from "./guildUpdate";
 
 export type Handler<T extends AuditLogEvent> = (
@@ -28,6 +30,11 @@ export type AuditLogChangeTransformers<
 > = Partial<{
   [key in LocalKeys]: AuditLogChangeTransformer<key>;
 }>;
+
+export type TargetIdTransformer<T extends AuditLogEvent = AuditLogEvent> = (
+  i18n: i18n,
+  change: GuildAuditLogsEntry<T>,
+) => string;
 
 export type AuditLogChangeTransformer<
   K extends AuditLogChange["key"] = AuditLogChange["key"],
@@ -48,17 +55,10 @@ const defaultTransformer: AuditLogChangeTransformer = (i18n, change) => {
 };
 
 const handlers = {
-  [AuditLogEvent.GuildUpdate]: createGenericAuditLogHandler({
-    changesMap: guildUpdate.changesMap,
-    changesWithRelatedChannels: guildUpdate.changesWithRelatedChannels,
-    changesTransformers: guildUpdate.changesTransformers,
-  }),
+  [AuditLogEvent.GuildUpdate]: createGenericAuditLogHandler(guildUpdate),
   [AuditLogEvent.ChannelCreate]: channelCreateHandler,
-  [AuditLogEvent.ChannelUpdate]: createGenericAuditLogHandler({
-    changesMap: {},
-    changesWithRelatedChannels: [],
-    changesTransformers: {},
-  }),
+  [AuditLogEvent.ChannelUpdate]: createGenericAuditLogHandler(channelUpdate),
+  [AuditLogEvent.ChannelDelete]: channelDeleteHandler,
 } as const;
 
 export const guildAuditLogEntryCreateEvent = new EventHandler({
@@ -76,16 +76,20 @@ export const guildAuditLogEntryCreateEvent = new EventHandler({
   },
 });
 
-interface CreateGenericAuditLogHandlerOptions<CM extends ChangeMap> {
+export interface CreateGenericAuditLogHandlerOptions<
+  CM extends ChangeMap,
+  T extends AuditLogEvent = AuditLogEvent,
+> {
   changesMap: CM;
   changesWithRelatedChannels: RelatedChannels<CM>;
   changesTransformers: AuditLogChangeTransformers;
-  targetIdTransformer?: (i18n: i18n, change: AuditLogChange) => string;
+  targetIdTransformer?: TargetIdTransformer<T>;
 }
 
-function createGenericAuditLogHandler<CM extends ChangeMap>(
-  options: CreateGenericAuditLogHandlerOptions<CM>,
-): Handler<AuditLogEvent> {
+function createGenericAuditLogHandler<
+  CM extends ChangeMap,
+  T extends AuditLogEvent = AuditLogEvent,
+>(options: CreateGenericAuditLogHandlerOptions<CM, T>): Handler<T> {
   return (auditLogEntry, guild, i18n) => {
     for (const change of auditLogEntry.changes) {
       const relatedChannels: string[] = [];
@@ -120,7 +124,7 @@ function createGenericAuditLogHandler<CM extends ChangeMap>(
         relatedUsers: [auditLogEntry.executor?.id],
         executor: auditLogEntry.executor,
         data: {
-          TARGET_ID: options.targetIdTransformer?.(i18n, change) ?? "",
+          TARGET_ID: options.targetIdTransformer?.(i18n, auditLogEntry) ?? "",
           OLD_VALUE,
           NEW_VALUE,
         },

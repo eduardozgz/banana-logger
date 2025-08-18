@@ -130,6 +130,51 @@ export const EmbedTemplatePlaceholders = {
     ...AuditLogBasedEventBasePlaceholders,
   ],
   channelCreate: [...BasePlaceholders, ...AuditLogBasedEventBasePlaceholders],
+  channelUpdateName: [
+    ...BasePlaceholders,
+    ...AuditLogBasedEventBasePlaceholders,
+  ],
+  channelUpdateType: [
+    ...BasePlaceholders,
+    ...AuditLogBasedEventBasePlaceholders,
+  ],
+  channelUpdateTopic: [
+    ...BasePlaceholders,
+    ...AuditLogBasedEventBasePlaceholders,
+  ],
+  channelUpdateNsfw: [
+    ...BasePlaceholders,
+    ...AuditLogBasedEventBasePlaceholders,
+  ],
+  channelUpdateBitrate: [
+    ...BasePlaceholders,
+    ...AuditLogBasedEventBasePlaceholders,
+  ],
+  channelUpdateUserLimit: [
+    ...BasePlaceholders,
+    ...AuditLogBasedEventBasePlaceholders,
+  ],
+  channelUpdateRateLimitPerUser: [
+    ...BasePlaceholders,
+    ...AuditLogBasedEventBasePlaceholders,
+  ],
+  channelUpdatePosition: [
+    ...BasePlaceholders,
+    ...AuditLogBasedEventBasePlaceholders,
+  ],
+  channelUpdatePermissionOverwrites: [
+    ...BasePlaceholders,
+    ...AuditLogBasedEventBasePlaceholders,
+  ],
+  channelUpdateDefaultAutoArchiveDurations: [
+    ...BasePlaceholders,
+    ...AuditLogBasedEventBasePlaceholders,
+  ],
+  channelDelete: [
+    ...BasePlaceholders,
+    ...AuditLogBasedEventBasePlaceholders,
+    "CHANNEL_NAME",
+  ],
 } as const satisfies Record<EventType, string[]>;
 
 export const ALL_EVENTS_CHOICE = "all";

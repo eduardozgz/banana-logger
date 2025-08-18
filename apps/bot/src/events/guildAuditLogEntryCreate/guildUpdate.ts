@@ -7,9 +7,16 @@ import {
   userMention,
 } from "discord.js";
 
-import type { AuditLogChangeTransformers, ChangeMap, RelatedChannels } from ".";
+import type {
+  AuditLogChangeTransformers,
+  ChangeMap,
+  CreateGenericAuditLogHandlerOptions,
+  RelatedChannels,
+} from ".";
+import { formatTimeDuration } from "~/formatters/formatTimeDuration";
 
 const guildUpdateChangesMap = {
+  // TODO banner color
   name: "guildUpdateName",
   description: "guildUpdateDescription",
   icon_hash: "guildUpdateIcon",
@@ -74,6 +81,16 @@ const guildUpdateChangesTransformers = {
         : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
       new: change.new
         ? channelMention(change.new)
+        : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
+    };
+  },
+  afk_timeout: (i18n, change) => {
+    return {
+      old: change.old
+        ? formatTimeDuration(i18n.language, change.old)
+        : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
+      new: change.new
+        ? formatTimeDuration(i18n.language, change.new)
         : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
     };
   },
@@ -266,7 +283,9 @@ const guildUpdateChangesTransformers = {
   },
 } satisfies AuditLogChangeTransformers<keyof typeof guildUpdateChangesMap>;
 
-export const guildUpdate = {
+export const guildUpdate: CreateGenericAuditLogHandlerOptions<
+  typeof guildUpdateChangesMap
+> = {
   changesMap: guildUpdateChangesMap,
   changesWithRelatedChannels: guildUpdateChangesWithRelatedChannels,
   changesTransformers: guildUpdateChangesTransformers,

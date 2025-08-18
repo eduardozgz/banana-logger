@@ -33,6 +33,7 @@
     "@/logger": "workspace:*",
     "@/redis": "workspace:*",
     "@discordjs/builders": "^1.11.2",
+    "@formatjs/intl-durationformat": "^0.7.4",
     "@t3-oss/env-core": "^0.13.4",
     "@twemoji/api": "^16.0.1",
     "bufferutil": "^4.0.8",

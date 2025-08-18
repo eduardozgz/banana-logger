@@ -28,7 +28,18 @@
     "guildUpdateWidgetChannel": "server widget channel change",
     "guildUpdateSystemChannelFlags": "server system channel flags change",
     "guildUpdateSystemChannel": "server system channel change",
-    "channelCreate": "channel create"
+    "channelCreate": "channel create",
+    "channelUpdateName": "channel name change",
+    "channelUpdateType": "channel type change",
+    "channelUpdateTopic": "channel topic change",
+    "channelUpdateNsfw": "channel nsfw change",
+    "channelUpdateBitrate": "channel bitrate change",
+    "channelUpdateUserLimit": "channel user limit change",
+    "channelUpdateRateLimitPerUser": "channel rate limit per user change",
+    "channelUpdatePosition": "channel position change",
+    "channelUpdatePermissionOverwrites": "channel permission overwrites change",
+    "channelUpdateDefaultAutoArchiveDurations": "channel default auto archive durations change",
+    "channelDelete": "channel delete"
   },
   "eventDataTransformers": {
     "guildUpdatePreferredLocale": {
@@ -107,6 +118,25 @@
         "Show": "Show",
         "Suppress": "Hide"
       }
+    },
+    "channelUpdateType": {
+      "0": "Text",
+      "1": "DM",
+      "2": "Voice",
+      "3": "Group DM",
+      "4": "Category",
+      "5": "Announcement",
+      "10": "Announcement Thread",
+      "11": "Public Thread",
+      "12": "Private Thread",
+      "13": "Stage Voice",
+      "14": "Directory",
+      "15": "Forum",
+      "16": "Media"
+    },
+    "channelUpdateNsfw": {
+      "true": "Enabled",
+      "false": "Disabled"
     }
   }
 }

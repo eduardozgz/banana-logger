@@ -65,4 +65,15 @@ enum EventType {
   guildUpdateSystemChannelFlags
   guildUpdateSystemChannel
   channelCreate
+  channelUpdateName
+  channelUpdateType
+  channelUpdateTopic
+  channelUpdateNsfw
+  channelUpdateBitrate
+  channelUpdateUserLimit
+  channelUpdateRateLimitPerUser
+  channelUpdatePosition
+  channelUpdatePermissionOverwrites
+  channelUpdateDefaultAutoArchiveDurations
+  channelDelete
 }
