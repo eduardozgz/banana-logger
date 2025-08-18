@@ -20,6 +20,7 @@ export const baseGalleryEmbedUrl = () =>
 export const BasePlaceholders = ["GUILD_ID"];
 
 export const AuditLogBasedEventBasePlaceholders = [
+  "TARGET_ID",
   "OLD_VALUE",
   "NEW_VALUE",
   "EXECUTOR_MENTION",
@@ -128,6 +129,7 @@ export const EmbedTemplatePlaceholders = {
     ...BasePlaceholders,
     ...AuditLogBasedEventBasePlaceholders,
   ],
+  channelCreate: [...BasePlaceholders, ...AuditLogBasedEventBasePlaceholders],
 } as const satisfies Record<EventType, string[]>;
 
 export const ALL_EVENTS_CHOICE = "all";

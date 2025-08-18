@@ -366,5 +366,15 @@
         { "name": "__New Channel__", "value": "{NEW_VALUE}" }
       ]
     }
+  ],
+  "channelCreate": [
+    {
+      "title": "Channel Created",
+      "description": "{EXECUTOR_MENTION} created {TARGET_ID}",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      }
+    }
   ]
 }

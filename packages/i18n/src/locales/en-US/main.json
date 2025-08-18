@@ -27,7 +27,8 @@
     "guildUpdateWidgetEnabled": "server widget enabled change",
     "guildUpdateWidgetChannel": "server widget channel change",
     "guildUpdateSystemChannelFlags": "server system channel flags change",
-    "guildUpdateSystemChannel": "server system channel change"
+    "guildUpdateSystemChannel": "server system channel change",
+    "channelCreate": "channel create"
   },
   "eventDataTransformers": {
     "guildUpdatePreferredLocale": {

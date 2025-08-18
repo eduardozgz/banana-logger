@@ -64,4 +64,5 @@ enum EventType {
   guildUpdateWidgetChannel
   guildUpdateSystemChannelFlags
   guildUpdateSystemChannel
+  channelCreate
 }

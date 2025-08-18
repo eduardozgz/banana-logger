@@ -12,6 +12,7 @@ import { initI18n } from "@/i18n";
 
 import { LogService } from "~/services/LogService";
 import { EventHandler } from "~/structures";
+import { channelCreateHandler } from "./channelCreate";
 import { guildUpdate } from "./guildUpdate";
 
 export type Handler<T extends AuditLogEvent> = (
@@ -52,6 +53,12 @@ const handlers = {
     changesWithRelatedChannels: guildUpdate.changesWithRelatedChannels,
     changesTransformers: guildUpdate.changesTransformers,
   }),
+  [AuditLogEvent.ChannelCreate]: channelCreateHandler,
+  [AuditLogEvent.ChannelUpdate]: createGenericAuditLogHandler({
+    changesMap: {},
+    changesWithRelatedChannels: [],
+    changesTransformers: {},
+  }),
 } as const;
 
 export const guildAuditLogEntryCreateEvent = new EventHandler({
@@ -60,8 +67,8 @@ export const guildAuditLogEntryCreateEvent = new EventHandler({
     const i18n = await initI18n(guild.preferredLocale);
 
     if (auditLogEntry.action in handlers) {
-      handlers[auditLogEntry.action as keyof typeof handlers](
-        auditLogEntry,
+      void handlers[auditLogEntry.action as keyof typeof handlers](
+        auditLogEntry as never,
         guild,
         i18n,
       );
@@ -73,12 +80,13 @@ interface CreateGenericAuditLogHandlerOptions<CM extends ChangeMap> {
   changesMap: CM;
   changesWithRelatedChannels: RelatedChannels<CM>;
   changesTransformers: AuditLogChangeTransformers;
+  targetIdTransformer?: (i18n: i18n, change: AuditLogChange) => string;
 }
 
 function createGenericAuditLogHandler<CM extends ChangeMap>(
   options: CreateGenericAuditLogHandlerOptions<CM>,
-) {
-  return (auditLogEntry: GuildAuditLogsEntry, guild: Guild, i18n: i18n) => {
+): Handler<AuditLogEvent> {
+  return (auditLogEntry, guild, i18n) => {
     for (const change of auditLogEntry.changes) {
       const relatedChannels: string[] = [];
       if (options.changesWithRelatedChannels.includes(change.key)) {
@@ -112,6 +120,7 @@ function createGenericAuditLogHandler<CM extends ChangeMap>(
         relatedUsers: [auditLogEntry.executor?.id],
         executor: auditLogEntry.executor,
         data: {
+          TARGET_ID: options.targetIdTransformer?.(i18n, change) ?? "",
           OLD_VALUE,
           NEW_VALUE,
         },

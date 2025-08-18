@@ -10,11 +10,11 @@ interface Resources {
         };
         fields: [
           {
-            name: "Old Name";
+            name: "__Old Name__";
             value: "{OLD_VALUE}";
           },
           {
-            name: "New Name";
+            name: "__New Name__";
             value: "{NEW_VALUE}";
           },
         ];
@@ -30,11 +30,11 @@ interface Resources {
         };
         fields: [
           {
-            name: "Old Description";
+            name: "__Old Description__";
             value: "{OLD_VALUE}";
           },
           {
-            name: "New Description";
+            name: "__New Description__";
             value: "{NEW_VALUE}";
           },
         ];
@@ -53,11 +53,11 @@ interface Resources {
         };
         fields: [
           {
-            name: "Old Icon Hash";
+            name: "__Old Icon Hash__";
             value: "`{OLD_VALUE}`";
           },
           {
-            name: "New Icon Hash";
+            name: "__New Icon Hash__";
             value: "`{NEW_VALUE}`";
           },
         ];
@@ -81,11 +81,11 @@ interface Resources {
         };
         fields: [
           {
-            name: "Old Splash Hash";
+            name: "__Old Splash Hash__";
             value: "`{OLD_VALUE}`";
           },
           {
-            name: "New Splash Hash";
+            name: "__New Splash Hash__";
             value: "`{NEW_VALUE}`";
           },
         ];
@@ -109,11 +109,11 @@ interface Resources {
         };
         fields: [
           {
-            name: "Old Discovery Splash Hash";
+            name: "__Old Discovery Splash Hash__";
             value: "`{OLD_VALUE}`";
           },
           {
-            name: "New Discovery Splash Hash";
+            name: "__New Discovery Splash Hash__";
             value: "`{NEW_VALUE}`";
           },
         ];
@@ -137,11 +137,11 @@ interface Resources {
         };
         fields: [
           {
-            name: "Old Banner Hash";
+            name: "__Old Banner Hash__";
             value: "`{OLD_VALUE}`";
           },
           {
-            name: "New Banner Hash";
+            name: "__New Banner Hash__";
             value: "`{NEW_VALUE}`";
           },
         ];
@@ -162,11 +162,11 @@ interface Resources {
         };
         fields: [
           {
-            name: "Old Owner";
+            name: "__Old Owner__";
             value: "{OLD_VALUE}";
           },
           {
-            name: "New Owner";
+            name: "__New Owner__";
             value: "{NEW_VALUE}";
           },
         ];
@@ -182,11 +182,11 @@ interface Resources {
         };
         fields: [
           {
-            name: "Old Region";
+            name: "__Old Region__";
             value: "`{OLD_VALUE}`";
           },
           {
-            name: "New Region";
+            name: "__New Region__";
             value: "`{NEW_VALUE}`";
           },
         ];
@@ -202,11 +202,11 @@ interface Resources {
         };
         fields: [
           {
-            name: "Old primary language";
+            name: "__Old primary language__";
             value: "{OLD_VALUE}";
           },
           {
-            name: "New primary language";
+            name: "__New primary language__";
             value: "{NEW_VALUE}";
           },
         ];
@@ -222,11 +222,11 @@ interface Resources {
         };
         fields: [
           {
-            name: "Old AFK Channel";
+            name: "__Old AFK Channel__";
             value: "{OLD_VALUE}";
           },
           {
-            name: "New AFK Channel";
+            name: "__New AFK Channel__";
             value: "{NEW_VALUE}";
           },
         ];
@@ -242,11 +242,11 @@ interface Resources {
         };
         fields: [
           {
-            name: "Old AFK Timeout";
+            name: "__Old AFK Timeout__";
             value: "{OLD_VALUE} seconds";
           },
           {
-            name: "New AFK Timeout";
+            name: "__New AFK Timeout__";
             value: "{NEW_VALUE} seconds";
           },
         ];
@@ -262,11 +262,11 @@ interface Resources {
         };
         fields: [
           {
-            name: "Old Rules Channel";
+            name: "__Old Rules Channel__";
             value: "{OLD_VALUE}";
           },
           {
-            name: "New Rules Channel";
+            name: "__New Rules Channel__";
             value: "{NEW_VALUE}";
           },
         ];
@@ -282,11 +282,11 @@ interface Resources {
         };
         fields: [
           {
-            name: "Old Public Updates Channel";
+            name: "__Old Public Updates Channel__";
             value: "{OLD_VALUE}";
           },
           {
-            name: "New Public Updates Channel";
+            name: "__New Public Updates Channel__";
             value: "{NEW_VALUE}";
           },
         ];
@@ -302,11 +302,11 @@ interface Resources {
         };
         fields: [
           {
-            name: "Old Safety Alerts Channel";
+            name: "__Old Safety Alerts Channel__";
             value: "{OLD_VALUE}";
           },
           {
-            name: "New Safety Alerts Channel";
+            name: "__New Safety Alerts Channel__";
             value: "{NEW_VALUE}";
           },
         ];
@@ -322,11 +322,11 @@ interface Resources {
         };
         fields: [
           {
-            name: "Old MFA Level";
+            name: "__Old MFA Level__";
             value: "{OLD_VALUE}";
           },
           {
-            name: "New MFA Level";
+            name: "__New MFA Level__";
             value: "{NEW_VALUE}";
           },
         ];
@@ -342,11 +342,11 @@ interface Resources {
         };
         fields: [
           {
-            name: "Old Verification Level";
+            name: "__Old Verification Level__";
             value: "{OLD_VALUE}";
           },
           {
-            name: "New Verification Level";
+            name: "__New Verification Level__";
             value: "{NEW_VALUE}";
           },
         ];
@@ -362,11 +362,11 @@ interface Resources {
         };
         fields: [
           {
-            name: "Old Filter";
+            name: "__Old Filter__";
             value: "{OLD_VALUE}";
           },
           {
-            name: "New Filter";
+            name: "__New Filter__";
             value: "{NEW_VALUE}";
           },
         ];
@@ -382,11 +382,11 @@ interface Resources {
         };
         fields: [
           {
-            name: "Old Setting";
+            name: "__Old Setting__";
             value: "{OLD_VALUE}";
           },
           {
-            name: "New Setting";
+            name: "__New Setting__";
             value: "{NEW_VALUE}";
           },
         ];
@@ -402,11 +402,11 @@ interface Resources {
         };
         fields: [
           {
-            name: "Old Vanity URL Code";
+            name: "__Old Vanity URL Code__";
             value: "{OLD_VALUE}";
           },
           {
-            name: "New Vanity URL Code";
+            name: "__New Vanity URL Code__";
             value: "{NEW_VALUE}";
           },
         ];
@@ -422,11 +422,11 @@ interface Resources {
         };
         fields: [
           {
-            name: "Old Status";
+            name: "__Old Status__";
             value: "{OLD_VALUE}";
           },
           {
-            name: "New Status";
+            name: "__New Status__";
             value: "{NEW_VALUE}";
           },
         ];
@@ -442,11 +442,11 @@ interface Resources {
         };
         fields: [
           {
-            name: "Old Status";
+            name: "__Old Status__";
             value: "{OLD_VALUE}";
           },
           {
-            name: "New Status";
+            name: "__New Status__";
             value: "{NEW_VALUE}";
           },
         ];
@@ -462,11 +462,11 @@ interface Resources {
         };
         fields: [
           {
-            name: "Old Channel";
+            name: "__Old Channel__";
             value: "{OLD_VALUE}";
           },
           {
-            name: "New Channel";
+            name: "__New Channel__";
             value: "{NEW_VALUE}";
           },
         ];
@@ -482,11 +482,11 @@ interface Resources {
         };
         fields: [
           {
-            name: "Old Flags";
+            name: "__Old Flags__";
             value: "{OLD_VALUE}";
           },
           {
-            name: "New Flags";
+            name: "__New Flags__";
             value: "{NEW_VALUE}";
           },
         ];
@@ -502,14 +502,24 @@ interface Resources {
         };
         fields: [
           {
-            name: "Old Channel";
+            name: "__Old Channel__";
             value: "{OLD_VALUE}";
           },
           {
-            name: "New Channel";
+            name: "__New Channel__";
             value: "{NEW_VALUE}";
           },
         ];
+      },
+    ];
+    channelCreate: [
+      {
+        title: "Channel Created";
+        description: "{EXECUTOR_MENTION} created {TARGET_ID}";
+        author: {
+          name: "{EXECUTOR_NAME}";
+          icon_url: "{EXECUTOR_AVATAR}";
+        };
       },
     ];
   };
@@ -732,6 +742,7 @@ interface Resources {
       guildUpdateWidgetChannel: "server widget channel change";
       guildUpdateSystemChannelFlags: "server system channel flags change";
       guildUpdateSystemChannel: "server system channel change";
+      channelCreate: "channel create";
     };
     eventDataTransformers: {
       guildUpdatePreferredLocale: {
@@ -799,16 +810,16 @@ interface Resources {
       };
       guildUpdateSystemChannelFlags: {
         flags: {
-          SuppressJoinNotifications: "Member join notifications";
+          SuppressJoinNotifications: "Random welcome message on member join";
           SuppressPremiumSubscriptions: "Server boost notifications";
           SuppressGuildReminderNotifications: "Server setup tips";
-          SuppressJoinNotificationReplies: "Member join sticker reply buttons";
+          SuppressJoinNotificationReplies: "Prompt users to send stickers to new members";
           SuppressRoleSubscriptionPurchaseNotifications: "Role subscription purchase and renewal notifications";
           SuppressRoleSubscriptionPurchaseNotificationReplies: "Role subscription sticker reply buttons";
         };
         labels: {
           Show: "Show";
-          Suppress: "Suppress";
+          Suppress: "Hide";
         };
       };
     };
