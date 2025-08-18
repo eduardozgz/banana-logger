@@ -91,8 +91,13 @@ function createGenericAuditLogHandler<
   T extends AuditLogEvent = AuditLogEvent,
 >(options: CreateGenericAuditLogHandlerOptions<CM, T>): Handler<T> {
   return (auditLogEntry, guild, i18n) => {
+    const relatedChannels: string[] = [];
+
+    if (auditLogEntry.targetType === "Channel" && auditLogEntry.targetId) {
+      relatedChannels.push(auditLogEntry.targetId);
+    }
+
     for (const change of auditLogEntry.changes) {
-      const relatedChannels: string[] = [];
       if (options.changesWithRelatedChannels.includes(change.key)) {
         relatedChannels.push(change.new as string);
         relatedChannels.push(change.old as string);
