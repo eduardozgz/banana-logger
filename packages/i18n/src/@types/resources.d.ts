@@ -49,22 +49,22 @@ interface Resources {
           icon_url: "{EXECUTOR_AVATAR}";
         };
         image: {
-          url: "https://cdn.discordapp.com/icons/{GUILD_ID}/{OLD_VALUE}.png?size=1024";
+          url: "{OLD_VALUE}";
         };
         fields: [
           {
             name: "__Old Icon Hash__";
-            value: "`{OLD_VALUE}`";
+            value: "`{OLD_VALUE_RAW}`";
           },
           {
             name: "__New Icon Hash__";
-            value: "`{NEW_VALUE}`";
+            value: "`{NEW_VALUE_RAW}`";
           },
         ];
       },
       {
         image: {
-          url: "https://cdn.discordapp.com/icons/{GUILD_ID}/{NEW_VALUE}.png?size=1024";
+          url: "{NEW_VALUE}";
         };
       },
     ];
@@ -77,22 +77,22 @@ interface Resources {
           icon_url: "{EXECUTOR_AVATAR}";
         };
         image: {
-          url: "https://cdn.discordapp.com/splashes/{GUILD_ID}/{OLD_VALUE}.png?size=1024";
+          url: "{OLD_VALUE}";
         };
         fields: [
           {
             name: "__Old Splash Hash__";
-            value: "`{OLD_VALUE}`";
+            value: "`{OLD_VALUE_RAW}`";
           },
           {
             name: "__New Splash Hash__";
-            value: "`{NEW_VALUE}`";
+            value: "`{NEW_VALUE_RAW}`";
           },
         ];
       },
       {
         image: {
-          url: "https://cdn.discordapp.com/splashes/{GUILD_ID}/{NEW_VALUE}.png?size=1024";
+          url: "{NEW_VALUE}";
         };
       },
     ];
@@ -105,22 +105,22 @@ interface Resources {
           icon_url: "{EXECUTOR_AVATAR}";
         };
         image: {
-          url: "https://cdn.discordapp.com/discovery-splashes/{GUILD_ID}/{OLD_VALUE}.png?size=1024";
+          url: "{OLD_VALUE}";
         };
         fields: [
           {
             name: "__Old Discovery Splash Hash__";
-            value: "`{OLD_VALUE}`";
+            value: "`{OLD_VALUE_RAW}`";
           },
           {
             name: "__New Discovery Splash Hash__";
-            value: "`{NEW_VALUE}`";
+            value: "`{NEW_VALUE_RAW}`";
           },
         ];
       },
       {
         image: {
-          url: "https://cdn.discordapp.com/discovery-splashes/{GUILD_ID}/{NEW_VALUE}.png?size=1024";
+          url: "{NEW_VALUE}";
         };
       },
     ];
@@ -133,22 +133,22 @@ interface Resources {
           icon_url: "{EXECUTOR_AVATAR}";
         };
         image: {
-          url: "https://cdn.discordapp.com/banners/{GUILD_ID}/{OLD_VALUE}.png?size=1024";
+          url: "{OLD_VALUE}";
         };
         fields: [
           {
             name: "__Old Banner Hash__";
-            value: "`{OLD_VALUE}`";
+            value: "`{OLD_VALUE_RAW}`";
           },
           {
             name: "__New Banner Hash__";
-            value: "`{NEW_VALUE}`";
+            value: "`{NEW_VALUE_RAW}`";
           },
         ];
       },
       {
         image: {
-          url: "https://cdn.discordapp.com/banners/{GUILD_ID}/{NEW_VALUE}.png?size=1024";
+          url: "{NEW_VALUE}";
         };
       },
     ];
@@ -722,6 +722,138 @@ interface Resources {
         };
       },
     ];
+    memberKick: [
+      {
+        title: "Member Kicked";
+        description: '{EXECUTOR_MENTION} kicked {TARGET_ID} (previously known as "{TARGET_NAME}")\n\n**Reason:** {REASON}';
+      },
+    ];
+    memberPrune: [
+      {
+        title: "Member Pruned";
+        description: "{EXECUTOR_MENTION} pruned {MEMBERS_REMOVED} members that were inactive in the last {DELETE_MEMBER_DAYS} days\n**Reason:** {REASON}";
+      },
+    ];
+    memberBanAdd: [
+      {
+        title: "Member Banned";
+        description: '{EXECUTOR_MENTION} banned {TARGET_ID} (previously known as "{TARGET_NAME}")\n\n**Reason:** {REASON}';
+      },
+    ];
+    memberBanRemove: [
+      {
+        title: "Member Unbanned";
+        description: '{EXECUTOR_MENTION} unbanned {TARGET_ID} (previously known as "{TARGET_NAME}")\n\n**Reason:** {REASON}';
+      },
+    ];
+    memberUpdateNick: [
+      {
+        title: "Member Nickname Change";
+        description: "{EXECUTOR_MENTION} changed the nickname of {TARGET_ID}  ";
+        author: {
+          name: "{EXECUTOR_NAME}";
+          icon_url: "{EXECUTOR_AVATAR}";
+        };
+        fields: [
+          {
+            name: "__Old Nickname__";
+            value: "{OLD_VALUE}";
+          },
+          {
+            name: "__New Nickname__";
+            value: "{NEW_VALUE}";
+          },
+        ];
+      },
+    ];
+    memberUpdateDeaf: [
+      {
+        title: "Member Deaf Change";
+        description: "{EXECUTOR_MENTION} changed the deaf status of {TARGET_ID}";
+        author: {
+          name: "{EXECUTOR_NAME}";
+          icon_url: "{EXECUTOR_AVATAR}";
+        };
+        fields: [
+          {
+            name: "__Old Deaf Status__";
+            value: "{OLD_VALUE}";
+          },
+          {
+            name: "__New Deaf Status__";
+            value: "{NEW_VALUE}";
+          },
+        ];
+      },
+    ];
+    memberUpdateMute: [
+      {
+        title: "Member Mute Change";
+        description: "{EXECUTOR_MENTION} changed the mute status of {TARGET_ID}";
+        author: {
+          name: "{EXECUTOR_NAME}";
+          icon_url: "{EXECUTOR_AVATAR}";
+        };
+        fields: [
+          {
+            name: "__Old Mute Status__";
+            value: "{OLD_VALUE}";
+          },
+          {
+            name: "__New Mute Status__";
+            value: "{NEW_VALUE}";
+          },
+        ];
+      },
+    ];
+    memberUpdateAvatar: [
+      {
+        title: "Member Avatar Change";
+        description: "{EXECUTOR_MENTION} changed the avatar of {TARGET_ID}";
+        author: {
+          name: "{EXECUTOR_NAME}";
+          icon_url: "{EXECUTOR_AVATAR}";
+        };
+        image: {
+          url: "https://cdn.discordapp.com/avatars/{TARGET_ID}/{OLD_VALUE}.png?size=1024";
+        };
+        fields: [
+          {
+            name: "__Old Avatar Hash__";
+            value: "`{OLD_VALUE_RAW}`";
+          },
+          {
+            name: "__New Avatar Hash__";
+            value: "`{NEW_VALUE_RAW}`";
+          },
+        ];
+      },
+      {
+        image: {
+          url: "https://cdn.discordapp.com/avatars/{TARGET_ID}/{NEW_VALUE}.png?size=1024";
+        };
+      },
+    ];
+    memberUpdateTimeout: [
+      {
+        title: "Member Timeout Change";
+        description: "{EXECUTOR_MENTION} changed the timeout of {TARGET_ID}\n\n**Reason:** {REASON}";
+        author: {
+          name: "{EXECUTOR_NAME}";
+          icon_url: "{EXECUTOR_AVATAR}";
+        };
+        fields: [
+          {
+            name: "__Old Timeout__";
+            value: "{OLD_VALUE}";
+          },
+          {
+            name: "__New Timeout__";
+            value: "{NEW_VALUE}";
+          },
+        ];
+      },
+    ];
   };
   bot: {
     interaction: {
@@ -837,8 +969,9 @@ interface Resources {
             };
             "toggle-log": {
               done: "Done!";
-              "everything-event-name": "Everything";
               "is-not-being-logged-anymore": "{{EVENT_NAME}} is not being logged anymore";
+              "nothing-is-being-logged": "Nothing is being logged anymore";
+              "everything-is-now-being-logged": "Everything is now being logged";
               "is-now-being-logged": "{{EVENT_NAME}} is now being logged";
             };
             "toggle-watch-channel": {
@@ -954,8 +1087,22 @@ interface Resources {
       channelUpdatePermissionOverwrites: "channel permission overwrites change";
       channelUpdateDefaultAutoArchiveDurations: "channel default auto archive durations change";
       channelDelete: "channel delete";
+      memberKick: "member kick";
+      memberPrune: "member prune";
+      memberBanAdd: "member ban";
+      memberBanRemove: "member unban";
+      memberUpdateNick: "member nick change";
+      memberUpdateDeaf: "member deaf change";
+      memberUpdateMute: "member mute change";
+      memberUpdateAvatar: "member avatar change";
+      memberUpdateTimeout: "member timeout change";
     };
     eventDataTransformers: {
+      common: {
+        true: "Enabled";
+        false: "Disabled";
+        none: "None";
+      };
       guildUpdatePreferredLocale: {
         id: "Indonesia";
         "en-US": "English (United States)";
@@ -1015,10 +1162,6 @@ interface Resources {
         "0": "All messages";
         "1": "Only @mentions";
       };
-      guildUpdateWidgetEnabled: {
-        true: "Enabled";
-        false: "Disabled";
-      };
       guildUpdateSystemChannelFlags: {
         flags: {
           SuppressJoinNotifications: "Random welcome message on member join";
@@ -1048,9 +1191,13 @@ interface Resources {
         "15": "Forum";
         "16": "Media";
       };
-      channelUpdateNsfw: {
-        true: "Enabled";
-        false: "Disabled";
+      memberUpdateDeaf: {
+        true: "Deafened";
+        false: "Undeafened";
+      };
+      memberUpdateMute: {
+        true: "Muted";
+        false: "Unmuted";
       };
     };
   };

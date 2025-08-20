@@ -51,11 +51,11 @@ const channelUpdateChangesTransformers = {
     return {
       old:
         change.old !== undefined
-          ? i18n.t(`main:eventDataTransformers.channelUpdateNsfw.${change.old}`)
+          ? i18n.t(`main:eventDataTransformers.common.${change.old}`)
           : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
       new:
         change.new !== undefined
-          ? i18n.t(`main:eventDataTransformers.channelUpdateNsfw.${change.new}`)
+          ? i18n.t(`main:eventDataTransformers.common.${change.new}`)
           : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
     };
   },

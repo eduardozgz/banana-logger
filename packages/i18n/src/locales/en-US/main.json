@@ -39,9 +39,23 @@
     "channelUpdatePosition": "channel position change",
     "channelUpdatePermissionOverwrites": "channel permission overwrites change",
     "channelUpdateDefaultAutoArchiveDurations": "channel default auto archive durations change",
-    "channelDelete": "channel delete"
+    "channelDelete": "channel delete",
+    "memberKick": "member kick",
+    "memberPrune": "member prune",
+    "memberBanAdd": "member ban",
+    "memberBanRemove": "member unban",
+    "memberUpdateNick": "member nick change",
+    "memberUpdateDeaf": "member deaf change",
+    "memberUpdateMute": "member mute change",
+    "memberUpdateAvatar": "member avatar change",
+    "memberUpdateTimeout": "member timeout change"
   },
   "eventDataTransformers": {
+    "common": {
+      "true": "Enabled",
+      "false": "Disabled",
+      "none": "None"
+    },
     "guildUpdatePreferredLocale": {
       "id": "Indonesia",
       "en-US": "English (United States)",
@@ -101,10 +115,6 @@
       "0": "All messages",
       "1": "Only @mentions"
     },
-    "guildUpdateWidgetEnabled": {
-      "true": "Enabled",
-      "false": "Disabled"
-    },
     "guildUpdateSystemChannelFlags": {
       "flags": {
         "SuppressJoinNotifications": "Random welcome message on member join",
@@ -134,9 +144,13 @@
       "15": "Forum",
       "16": "Media"
     },
-    "channelUpdateNsfw": {
-      "true": "Enabled",
-      "false": "Disabled"
+    "memberUpdateDeaf": {
+      "true": "Deafened",
+      "false": "Undeafened"
+    },
+    "memberUpdateMute": {
+      "true": "Muted",
+      "false": "Unmuted"
     }
   }
 }

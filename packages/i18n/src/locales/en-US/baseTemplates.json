@@ -36,16 +36,16 @@
         "icon_url": "{EXECUTOR_AVATAR}"
       },
       "image": {
-        "url": "https://cdn.discordapp.com/icons/{GUILD_ID}/{OLD_VALUE}.png?size=1024"
+        "url": "{OLD_VALUE}"
       },
       "fields": [
-        { "name": "__Old Icon Hash__", "value": "`{OLD_VALUE}`" },
-        { "name": "__New Icon Hash__", "value": "`{NEW_VALUE}`" }
+        { "name": "__Old Icon Hash__", "value": "`{OLD_VALUE_RAW}`" },
+        { "name": "__New Icon Hash__", "value": "`{NEW_VALUE_RAW}`" }
       ]
     },
     {
       "image": {
-        "url": "https://cdn.discordapp.com/icons/{GUILD_ID}/{NEW_VALUE}.png?size=1024"
+        "url": "{NEW_VALUE}"
       }
     }
   ],
@@ -58,16 +58,16 @@
         "icon_url": "{EXECUTOR_AVATAR}"
       },
       "image": {
-        "url": "https://cdn.discordapp.com/splashes/{GUILD_ID}/{OLD_VALUE}.png?size=1024"
+        "url": "{OLD_VALUE}"
       },
       "fields": [
-        { "name": "__Old Splash Hash__", "value": "`{OLD_VALUE}`" },
-        { "name": "__New Splash Hash__", "value": "`{NEW_VALUE}`" }
+        { "name": "__Old Splash Hash__", "value": "`{OLD_VALUE_RAW}`" },
+        { "name": "__New Splash Hash__", "value": "`{NEW_VALUE_RAW}`" }
       ]
     },
     {
       "image": {
-        "url": "https://cdn.discordapp.com/splashes/{GUILD_ID}/{NEW_VALUE}.png?size=1024"
+        "url": "{NEW_VALUE}"
       }
     }
   ],
@@ -80,16 +80,22 @@
         "icon_url": "{EXECUTOR_AVATAR}"
       },
       "image": {
-        "url": "https://cdn.discordapp.com/discovery-splashes/{GUILD_ID}/{OLD_VALUE}.png?size=1024"
+        "url": "{OLD_VALUE}"
       },
       "fields": [
-        { "name": "__Old Discovery Splash Hash__", "value": "`{OLD_VALUE}`" },
-        { "name": "__New Discovery Splash Hash__", "value": "`{NEW_VALUE}`" }
+        {
+          "name": "__Old Discovery Splash Hash__",
+          "value": "`{OLD_VALUE_RAW}`"
+        },
+        {
+          "name": "__New Discovery Splash Hash__",
+          "value": "`{NEW_VALUE_RAW}`"
+        }
       ]
     },
     {
       "image": {
-        "url": "https://cdn.discordapp.com/discovery-splashes/{GUILD_ID}/{NEW_VALUE}.png?size=1024"
+        "url": "{NEW_VALUE}"
       }
     }
   ],
@@ -102,16 +108,16 @@
         "icon_url": "{EXECUTOR_AVATAR}"
       },
       "image": {
-        "url": "https://cdn.discordapp.com/banners/{GUILD_ID}/{OLD_VALUE}.png?size=1024"
+        "url": "{OLD_VALUE}"
       },
       "fields": [
-        { "name": "__Old Banner Hash__", "value": "`{OLD_VALUE}`" },
-        { "name": "__New Banner Hash__", "value": "`{NEW_VALUE}`" }
+        { "name": "__Old Banner Hash__", "value": "`{OLD_VALUE_RAW}`" },
+        { "name": "__New Banner Hash__", "value": "`{NEW_VALUE_RAW}`" }
       ]
     },
     {
       "image": {
-        "url": "https://cdn.discordapp.com/banners/{GUILD_ID}/{NEW_VALUE}.png?size=1024"
+        "url": "{NEW_VALUE}"
       }
     }
   ],
@@ -527,6 +533,108 @@
         "name": "{EXECUTOR_NAME}",
         "icon_url": "{EXECUTOR_AVATAR}"
       }
+    }
+  ],
+  "memberKick": [
+    {
+      "title": "Member Kicked",
+      "description": "{EXECUTOR_MENTION} kicked {TARGET_ID} (previously known as \"{TARGET_NAME}\")\n\n**Reason:** {REASON}"
+    }
+  ],
+  "memberPrune": [
+    {
+      "title": "Member Pruned",
+      "description": "{EXECUTOR_MENTION} pruned {MEMBERS_REMOVED} members that were inactive in the last {DELETE_MEMBER_DAYS} days\n**Reason:** {REASON}"
+    }
+  ],
+  "memberBanAdd": [
+    {
+      "title": "Member Banned",
+      "description": "{EXECUTOR_MENTION} banned {TARGET_ID} (previously known as \"{TARGET_NAME}\")\n\n**Reason:** {REASON}"
+    }
+  ],
+  "memberBanRemove": [
+    {
+      "title": "Member Unbanned",
+      "description": "{EXECUTOR_MENTION} unbanned {TARGET_ID} (previously known as \"{TARGET_NAME}\")\n\n**Reason:** {REASON}"
+    }
+  ],
+  "memberUpdateNick": [
+    {
+      "title": "Member Nickname Change",
+      "description": "{EXECUTOR_MENTION} changed the nickname of {TARGET_ID}  ",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "fields": [
+        { "name": "__Old Nickname__", "value": "{OLD_VALUE}" },
+        { "name": "__New Nickname__", "value": "{NEW_VALUE}" }
+      ]
+    }
+  ],
+  "memberUpdateDeaf": [
+    {
+      "title": "Member Deaf Change",
+      "description": "{EXECUTOR_MENTION} changed the deaf status of {TARGET_ID}",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "fields": [
+        { "name": "__Old Deaf Status__", "value": "{OLD_VALUE}" },
+        { "name": "__New Deaf Status__", "value": "{NEW_VALUE}" }
+      ]
+    }
+  ],
+  "memberUpdateMute": [
+    {
+      "title": "Member Mute Change",
+      "description": "{EXECUTOR_MENTION} changed the mute status of {TARGET_ID}",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "fields": [
+        { "name": "__Old Mute Status__", "value": "{OLD_VALUE}" },
+        { "name": "__New Mute Status__", "value": "{NEW_VALUE}" }
+      ]
+    }
+  ],
+  "memberUpdateAvatar": [
+    {
+      "title": "Member Avatar Change",
+      "description": "{EXECUTOR_MENTION} changed the avatar of {TARGET_ID}",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "image": {
+        "url": "https://cdn.discordapp.com/avatars/{TARGET_ID}/{OLD_VALUE}.png?size=1024"
+      },
+      "fields": [
+        { "name": "__Old Avatar Hash__", "value": "`{OLD_VALUE_RAW}`" },
+        { "name": "__New Avatar Hash__", "value": "`{NEW_VALUE_RAW}`" }
+      ]
+    },
+    {
+      "image": {
+        "url": "https://cdn.discordapp.com/avatars/{TARGET_ID}/{NEW_VALUE}.png?size=1024"
+      }
+    }
+  ],
+  "memberUpdateTimeout": [
+    {
+      "title": "Member Timeout Change",
+      "description": "{EXECUTOR_MENTION} changed the timeout of {TARGET_ID}\n\n**Reason:** {REASON}",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "fields": [
+        { "name": "__Old Timeout__", "value": "{OLD_VALUE}" },
+        { "name": "__New Timeout__", "value": "{NEW_VALUE}" }
+      ]
     }
   ]
 }

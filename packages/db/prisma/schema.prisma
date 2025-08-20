@@ -76,4 +76,13 @@ enum EventType {
   channelUpdatePermissionOverwrites
   channelUpdateDefaultAutoArchiveDurations
   channelDelete
+  memberKick
+  memberBanAdd
+  memberBanRemove
+  memberPrune
+  memberUpdateNick
+  memberUpdateDeaf
+  memberUpdateMute
+  memberUpdateAvatar
+  memberUpdateTimeout
 }

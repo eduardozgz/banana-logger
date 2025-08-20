@@ -23,6 +23,8 @@ export const AuditLogBasedEventBasePlaceholders = [
   "TARGET_ID",
   "OLD_VALUE",
   "NEW_VALUE",
+  "OLD_VALUE_RAW",
+  "NEW_VALUE_RAW",
   "EXECUTOR_MENTION",
   "EXECUTOR_NAME",
   "EXECUTOR_ID",
@@ -174,6 +176,51 @@ export const EmbedTemplatePlaceholders = {
     ...BasePlaceholders,
     ...AuditLogBasedEventBasePlaceholders,
     "CHANNEL_NAME",
+  ],
+  memberKick: [
+    ...BasePlaceholders,
+    ...AuditLogBasedEventBasePlaceholders,
+    "TARGET_NAME",
+    "REASON",
+  ],
+  memberBanAdd: [
+    ...BasePlaceholders,
+    ...AuditLogBasedEventBasePlaceholders,
+    "TARGET_NAME",
+    "REASON",
+  ],
+  memberBanRemove: [
+    ...BasePlaceholders,
+    ...AuditLogBasedEventBasePlaceholders,
+    "TARGET_NAME",
+    "REASON",
+  ],
+  memberPrune: [
+    ...BasePlaceholders,
+    ...AuditLogBasedEventBasePlaceholders,
+    "REASON",
+    "DELETE_MEMBER_DAYS",
+    "MEMBERS_REMOVED",
+  ],
+  memberUpdateNick: [
+    ...BasePlaceholders,
+    ...AuditLogBasedEventBasePlaceholders,
+  ],
+  memberUpdateDeaf: [
+    ...BasePlaceholders,
+    ...AuditLogBasedEventBasePlaceholders,
+  ],
+  memberUpdateMute: [
+    ...BasePlaceholders,
+    ...AuditLogBasedEventBasePlaceholders,
+  ],
+  memberUpdateAvatar: [
+    ...BasePlaceholders,
+    ...AuditLogBasedEventBasePlaceholders,
+  ],
+  memberUpdateTimeout: [
+    ...BasePlaceholders,
+    ...AuditLogBasedEventBasePlaceholders,
   ],
 } as const satisfies Record<EventType, string[]>;
 

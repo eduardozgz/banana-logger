@@ -1,8 +1,11 @@
 import type { GuildSystemChannelFlags } from "discord.js";
 import { bold } from "@discordjs/builders";
 import {
+  CDNRoutes,
   channelMention,
+  ImageFormat,
   Locale,
+  RouteBases,
   SystemChannelFlagsBitField,
   userMention,
 } from "discord.js";
@@ -209,15 +212,11 @@ const guildUpdateChangesTransformers = {
     return {
       old:
         change.old !== undefined
-          ? i18n.t(
-              `main:eventDataTransformers.guildUpdateWidgetEnabled.${change.old}`,
-            )
+          ? i18n.t(`main:eventDataTransformers.common.${change.old}`)
           : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
       new:
         change.new !== undefined
-          ? i18n.t(
-              `main:eventDataTransformers.guildUpdateWidgetEnabled.${change.new}`,
-            )
+          ? i18n.t(`main:eventDataTransformers.common.${change.new}`)
           : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
     };
   },
@@ -279,6 +278,46 @@ const guildUpdateChangesTransformers = {
         change.new !== undefined
           ? channelMention(change.new)
           : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
+    };
+  },
+  icon_hash: (i18n, change, guild) => {
+    return {
+      old: change.old
+        ? `${RouteBases.cdn}${CDNRoutes.guildIcon(guild.id, change.old, ImageFormat.PNG)}?size=1024`
+        : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
+      new: change.new
+        ? `${RouteBases.cdn}${CDNRoutes.guildIcon(guild.id, change.new, ImageFormat.PNG)}?size=1024`
+        : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
+    };
+  },
+  splash_hash: (i18n, change, guild) => {
+    return {
+      old: change.old
+        ? `${RouteBases.cdn}${CDNRoutes.guildSplash(guild.id, change.old, ImageFormat.PNG)}?size=1024`
+        : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
+      new: change.new
+        ? `${RouteBases.cdn}${CDNRoutes.guildSplash(guild.id, change.new, ImageFormat.PNG)}?size=1024`
+        : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
+    };
+  },
+  discovery_splash_hash: (i18n, change, guild) => {
+    return {
+      old: change.old
+        ? `${RouteBases.cdn}${CDNRoutes.guildDiscoverySplash(guild.id, change.old, ImageFormat.PNG)}?size=1024`
+        : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
+      new: change.new
+        ? `${RouteBases.cdn}${CDNRoutes.guildDiscoverySplash(guild.id, change.new, ImageFormat.PNG)}?size=1024`
+        : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
+    };
+  },
+  banner_hash: (i18n, change, guild) => {
+    return {
+      old: change.old
+        ? `${RouteBases.cdn}${CDNRoutes.guildBanner(guild.id, change.old, ImageFormat.PNG)}?size=1024`
+        : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
+      new: change.new
+        ? `${RouteBases.cdn}${CDNRoutes.guildBanner(guild.id, change.new, ImageFormat.PNG)}?size=1024`
+        : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
     };
   },
 } satisfies AuditLogChangeTransformers<keyof typeof guildUpdateChangesMap>;
