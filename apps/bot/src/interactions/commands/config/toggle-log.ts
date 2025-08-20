@@ -73,19 +73,19 @@ export const toggleLogHandle: CommandHandle = async (command, i18n) => {
   const embed = new BananaLoggerEmbed();
   embed.setTitle(t("done"));
 
-  const eventName =
+  const description =
     eventToToggleValidated === ALL_EVENTS_CHOICE
-      ? t("everything-event-name")
-      : i18n.t(`main:eventNames.${eventToToggleValidated}`);
+      ? wasBeingLogged
+        ? t("everything-is-now-being-logged")
+        : t("nothing-is-being-logged")
+      : wasBeingLogged
+        ? t("is-not-being-logged-anymore", {
+            EVENT_NAME: i18n.t(`main:eventNames.${eventToToggleValidated}`),
+          })
+        : t("is-now-being-logged", {
+            EVENT_NAME: i18n.t(`main:eventNames.${eventToToggleValidated}`),
+          });
 
-  embed.setDescription(
-    wasBeingLogged
-      ? t("is-not-being-logged-anymore", {
-          EVENT_NAME: eventName,
-        })
-      : t("is-now-being-logged", {
-          EVENT_NAME: eventName,
-        }),
-  );
+  embed.setDescription(description);
   await command.editReply({ embeds: [embed] });
 };

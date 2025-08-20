@@ -164,7 +164,7 @@ export class SettingsService {
       const allEvents = Object.values(EventType);
 
       if (this.events.length === allEvents.length) {
-        wasAdded = true;
+        wasAdded = false;
 
         await db.settings.update({
           where: { id: this.settings.id },
@@ -173,7 +173,7 @@ export class SettingsService {
 
         this.settings.watchingEvents = [];
       } else {
-        wasAdded = false;
+        wasAdded = true;
 
         await db.settings.update({
           where: { id: this.settings.id },

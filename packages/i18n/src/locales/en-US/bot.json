@@ -112,8 +112,9 @@
           },
           "toggle-log": {
             "done": "Done!",
-            "everything-event-name": "Everything",
             "is-not-being-logged-anymore": "{{EVENT_NAME}} is not being logged anymore",
+            "nothing-is-being-logged": "Nothing is being logged anymore",
+            "everything-is-now-being-logged": "Everything is now being logged",
             "is-now-being-logged": "{{EVENT_NAME}} is now being logged"
           },
           "toggle-watch-channel": {
