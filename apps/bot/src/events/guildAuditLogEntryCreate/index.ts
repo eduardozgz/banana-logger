@@ -87,20 +87,16 @@ export const guildAuditLogEntryCreateEvent = new EventHandler({
   },
 });
 
-export interface CreateGenericAuditLogHandlerOptions<
-  CM extends ChangeMap,
-  T extends AuditLogEvent = AuditLogEvent,
-> {
+export interface CreateGenericAuditLogHandlerOptions<CM extends ChangeMap> {
   changesMap: CM;
   changesWithRelatedChannels: RelatedChannels<CM>;
   changesTransformers: AuditLogChangeTransformers;
-  targetIdTransformer?: TargetIdTransformer<T>;
 }
 
 function createGenericAuditLogHandler<
   CM extends ChangeMap,
   T extends AuditLogEvent = AuditLogEvent,
->(options: CreateGenericAuditLogHandlerOptions<CM, T>): Handler<T> {
+>(options: CreateGenericAuditLogHandlerOptions<CM>): Handler<T> {
   return (auditLogEntry, guild, i18n) => {
     const relatedChannels: string[] = [];
 
@@ -139,9 +135,8 @@ function createGenericAuditLogHandler<
         relatedChannels,
         relatedUsers: [auditLogEntry.executor?.id],
         executor: auditLogEntry.executor,
+        target: auditLogEntry.target,
         data: {
-          TARGET_ID:
-            options.targetIdTransformer?.(i18n, auditLogEntry, guild) ?? "",
           REASON:
             auditLogEntry.reason ??
             i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),

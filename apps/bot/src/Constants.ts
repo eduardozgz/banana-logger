@@ -21,6 +21,9 @@ export const BasePlaceholders = ["GUILD_ID"];
 
 export const AuditLogBasedEventBasePlaceholders = [
   "TARGET_ID",
+  "TARGET_NAME",
+  "TARGET_MENTION",
+  "TARGET_IMAGE_URL",
   "OLD_VALUE",
   "NEW_VALUE",
   "OLD_VALUE_RAW",
@@ -180,19 +183,16 @@ export const EmbedTemplatePlaceholders = {
   memberKick: [
     ...BasePlaceholders,
     ...AuditLogBasedEventBasePlaceholders,
-    "TARGET_NAME",
     "REASON",
   ],
   memberBanAdd: [
     ...BasePlaceholders,
     ...AuditLogBasedEventBasePlaceholders,
-    "TARGET_NAME",
     "REASON",
   ],
   memberBanRemove: [
     ...BasePlaceholders,
     ...AuditLogBasedEventBasePlaceholders,
-    "TARGET_NAME",
     "REASON",
   ],
   memberPrune: [

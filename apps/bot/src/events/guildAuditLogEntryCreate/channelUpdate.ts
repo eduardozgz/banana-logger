@@ -1,13 +1,10 @@
-import assert from "node:assert";
-import type { AuditLogEvent, ChannelType } from "discord.js";
-import { channelMention } from "discord.js";
+import type { ChannelType } from "discord.js";
 
 import type {
   AuditLogChangeTransformers,
   ChangeMap,
   CreateGenericAuditLogHandlerOptions,
   RelatedChannels,
-  TargetIdTransformer,
 } from ".";
 import { formatBandwidth } from "~/formatters/formatBandwidth";
 import { formatTimeDuration } from "~/formatters/formatTimeDuration";
@@ -91,19 +88,10 @@ const channelUpdateChangesTransformers = {
   },
 } satisfies AuditLogChangeTransformers<keyof typeof channelUpdateChangesMap>;
 
-const channelUpdateTargetIdTransformer: TargetIdTransformer<
-  AuditLogEvent.ChannelUpdate
-> = (_i18n, change) => {
-  assert(change.targetId);
-  return channelMention(change.targetId);
-};
-
 export const channelUpdate: CreateGenericAuditLogHandlerOptions<
-  typeof channelUpdateChangesMap,
-  AuditLogEvent.ChannelUpdate
+  typeof channelUpdateChangesMap
 > = {
   changesMap: channelUpdateChangesMap,
   changesWithRelatedChannels: channelUpdateChangesWithRelatedChannels,
   changesTransformers: channelUpdateChangesTransformers,
-  targetIdTransformer: channelUpdateTargetIdTransformer,
 };

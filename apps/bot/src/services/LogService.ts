@@ -2,10 +2,12 @@ import type {
   APIEmbed,
   EmbedBuilder,
   Guild,
+  GuildAuditLogsEntry,
   GuildTextBasedChannel,
   PartialUser,
-  User,
 } from "discord.js";
+import { CDNRoutes, RouteBases } from "discord-api-types/v10";
+import { GuildChannel, User } from "discord.js";
 import _ from "lodash";
 
 import type { EventType } from "@/db/client";
@@ -30,6 +32,7 @@ interface SetupOptions<E extends EventType> {
   relatedUsers: (string | undefined | null)[];
   data: LogData<E>;
   i18n: i18n;
+  target?: GuildAuditLogsEntry["target"];
 }
 
 export class LogService {
@@ -41,6 +44,7 @@ export class LogService {
     data,
     i18n,
     executor,
+    target,
   }: SetupOptions<E>) {
     data = {
       ...data,
@@ -50,9 +54,33 @@ export class LogService {
         executor?.username ??
         i18n.t("main:eventTemplatePlaceholdersDefaults.EXECUTOR_MENTION"),
       EXECUTOR_ID: executor?.id ?? "",
-      EXECUTOR_AVATAR:
-        executor?.displayAvatarURL() ??
-        "https://cdn.discordapp.com/embed/avatars/0.png",
+      EXECUTOR_AVATAR: executor?.displayAvatarURL(),
+      TARGET_ID: "",
+      TARGET_NAME: i18n.t(
+        "main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE",
+      ),
+      TARGET_IMAGE_URL: `${RouteBases.cdn}${CDNRoutes.defaultUserAvatar(0)} `,
+      ...(target &&
+        "id" in target && {
+          TARGET_ID: target.id,
+        }),
+      ...(target &&
+        "name" in target && {
+          TARGET_NAME: target.name,
+        }),
+      ...(target &&
+        "username" in target && {
+          TARGET_NAME: target.username,
+        }),
+      ...(target &&
+        target instanceof User && {
+          TARGET_MENTION: target.toString(),
+          TARGET_IMAGE_URL: target.displayAvatarURL(),
+        }),
+      ...(target &&
+        target instanceof GuildChannel && {
+          TARGET_MENTION: target.toString(),
+        }),
     };
 
     try {

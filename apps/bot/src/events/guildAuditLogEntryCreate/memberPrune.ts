@@ -15,6 +15,7 @@ export const memberPruneHandler: Handler<AuditLogEvent.MemberPrune> = (
     relatedChannels: [],
     relatedUsers: [auditLogEntry.executor?.id],
     executor: auditLogEntry.executor,
+    target: auditLogEntry.target,
     data: {
       DELETE_MEMBER_DAYS: auditLogEntry.extra.days.toString(),
       MEMBERS_REMOVED: auditLogEntry.extra.removed.toString(),

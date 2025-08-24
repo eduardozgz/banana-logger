@@ -1,18 +1,9 @@
-import assert from "node:assert";
-import type { AuditLogEvent } from "discord.js";
-import {
-  CDNRoutes,
-  ImageFormat,
-  RouteBases,
-  time,
-  userMention,
-} from "discord.js";
+import { CDNRoutes, ImageFormat, RouteBases, time } from "discord.js";
 
 import type {
   AuditLogChangeTransformers,
   ChangeMap,
   CreateGenericAuditLogHandlerOptions,
-  TargetIdTransformer,
 } from ".";
 
 const memberUpdateChangesMap = {
@@ -59,31 +50,24 @@ const memberUpdateChangesTransformers = {
         : i18n.t("main:eventDataTransformers.common.none"),
     };
   },
+
+  // TODO if change.[key] is undefined, use the user's default avatar
   avatar_hash: (i18n, change, guild) => {
     return {
       old: change.old
-        ? `${RouteBases.cdn}${CDNRoutes.guildIcon(guild.id, change.old, ImageFormat.PNG)}?size=1024`
+        ? `${RouteBases.cdn}${CDNRoutes.userAvatar(guild.id, change.old, ImageFormat.PNG)}?size=1024`
         : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
       new: change.new
-        ? `${RouteBases.cdn}${CDNRoutes.guildIcon(guild.id, change.new, ImageFormat.PNG)}?size=1024`
+        ? `${RouteBases.cdn}${CDNRoutes.userAvatar(guild.id, change.new, ImageFormat.PNG)}?size=1024`
         : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
     };
   },
 } satisfies AuditLogChangeTransformers<keyof typeof memberUpdateChangesMap>;
 
-const memberUpdateTargetIdTransformer: TargetIdTransformer<
-  AuditLogEvent.MemberUpdate
-> = (_i18n, change) => {
-  assert(change.targetId);
-  return userMention(change.targetId);
-};
-
 export const memberUpdate: CreateGenericAuditLogHandlerOptions<
-  typeof memberUpdateChangesMap,
-  AuditLogEvent.MemberUpdate
+  typeof memberUpdateChangesMap
 > = {
   changesMap: memberUpdateChangesMap,
   changesWithRelatedChannels: [],
   changesTransformers: memberUpdateChangesTransformers,
-  targetIdTransformer: memberUpdateTargetIdTransformer,
 };
