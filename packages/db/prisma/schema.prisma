@@ -88,4 +88,5 @@ enum EventType {
   memberRoleUpdate
   memberMove
   memberDisconnect
+  botAdd
 }

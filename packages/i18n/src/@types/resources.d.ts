@@ -921,6 +921,19 @@ interface Resources {
         };
       },
     ];
+    botAdd: [
+      {
+        title: "Bot Added";
+        description: "{EXECUTOR_MENTION} added {TARGET_MENTION} to the server";
+        thumbnail: {
+          url: "{TARGET_IMAGE_URL}";
+        };
+        author: {
+          name: "{EXECUTOR_NAME}";
+          icon_url: "{EXECUTOR_AVATAR}";
+        };
+      },
+    ];
   };
   bot: {
     interaction: {
@@ -1166,6 +1179,7 @@ interface Resources {
       memberRoleUpdate: "member role change";
       memberMove: "member voice channel move";
       memberDisconnect: "member disconnect";
+      botAdd: "bot add";
     };
     eventDataTransformers: {
       common: {

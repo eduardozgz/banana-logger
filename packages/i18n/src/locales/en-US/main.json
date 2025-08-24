@@ -51,7 +51,8 @@
     "memberUpdateTimeout": "member timeout change",
     "memberRoleUpdate": "member role change",
     "memberMove": "member voice channel move",
-    "memberDisconnect": "member disconnect"
+    "memberDisconnect": "member disconnect",
+    "botAdd": "bot add"
   },
   "eventDataTransformers": {
     "common": {

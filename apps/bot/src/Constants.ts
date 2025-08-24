@@ -238,6 +238,7 @@ export const EmbedTemplatePlaceholders = {
     ...BasePlaceholders,
     ...AuditLogBasedEventBasePlaceholders,
   ],
+  botAdd: [...BasePlaceholders, ...AuditLogBasedEventBasePlaceholders],
 } as const satisfies Record<EventType, string[]>;
 
 export const ALL_EVENTS_CHOICE = "all";
