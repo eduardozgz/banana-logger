@@ -48,7 +48,8 @@
     "memberUpdateDeaf": "member deaf change",
     "memberUpdateMute": "member mute change",
     "memberUpdateAvatar": "member avatar change",
-    "memberUpdateTimeout": "member timeout change"
+    "memberUpdateTimeout": "member timeout change",
+    "memberRoleUpdate": "member role change"
   },
   "eventDataTransformers": {
     "common": {
@@ -151,6 +152,10 @@
     "memberUpdateMute": {
       "true": "Muted",
       "false": "Unmuted"
+    },
+    "memberRoleUpdate": {
+      "nothingRemoved": "No roles were removed",
+      "nothingAdded": "No roles were added"
     }
   }
 }

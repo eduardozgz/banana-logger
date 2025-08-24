@@ -85,4 +85,5 @@ enum EventType {
   memberUpdateMute
   memberUpdateAvatar
   memberUpdateTimeout
+  memberRoleUpdate
 }

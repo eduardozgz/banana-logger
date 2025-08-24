@@ -854,6 +854,29 @@ interface Resources {
         ];
       },
     ];
+    memberRoleUpdate: [
+      {
+        title: "Member Role Change";
+        description: "{EXECUTOR_MENTION} changed the roles of {TARGET_ID}";
+        thumbnail: {
+          url: "{TARGET_AVATAR}";
+        };
+        author: {
+          name: "{EXECUTOR_NAME}";
+          icon_url: "{EXECUTOR_AVATAR}";
+        };
+        fields: [
+          {
+            name: "__Removed Roles__";
+            value: "{REMOVED_ROLES}";
+          },
+          {
+            name: "__Added Roles__";
+            value: "{ADDED_ROLES}";
+          },
+        ];
+      },
+    ];
   };
   bot: {
     interaction: {
@@ -1096,6 +1119,7 @@ interface Resources {
       memberUpdateMute: "member mute change";
       memberUpdateAvatar: "member avatar change";
       memberUpdateTimeout: "member timeout change";
+      memberRoleUpdate: "member role change";
     };
     eventDataTransformers: {
       common: {
@@ -1198,6 +1222,10 @@ interface Resources {
       memberUpdateMute: {
         true: "Muted";
         false: "Unmuted";
+      };
+      memberRoleUpdate: {
+        nothingRemoved: "No roles were removed";
+        nothingAdded: "No roles were added";
       };
     };
   };

@@ -20,6 +20,7 @@ import { memberBanAddHandler } from "./memberBanAdd";
 import { memberBanRemoveHandler } from "./memberBanRemove";
 import { memberKickHandler } from "./memberKick";
 import { memberPruneHandler } from "./memberPrune";
+import { memberRoleUpdateHandler } from "./memberRoleUpdate";
 import { memberUpdate } from "./memberUpdate";
 
 export type Handler<T extends AuditLogEvent> = (
@@ -70,6 +71,7 @@ const handlers = {
   [AuditLogEvent.MemberBanAdd]: memberBanAddHandler,
   [AuditLogEvent.MemberBanRemove]: memberBanRemoveHandler,
   [AuditLogEvent.MemberUpdate]: createGenericAuditLogHandler(memberUpdate),
+  [AuditLogEvent.MemberRoleUpdate]: memberRoleUpdateHandler,
 } as const;
 
 export const guildAuditLogEntryCreateEvent = new EventHandler({

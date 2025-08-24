@@ -661,5 +661,22 @@
         { "name": "__New Timeout__", "value": "{NEW_VALUE}" }
       ]
     }
+  ],
+  "memberRoleUpdate": [
+    {
+      "title": "Member Role Change",
+      "description": "{EXECUTOR_MENTION} changed the roles of {TARGET_MENTION}",
+      "thumbnail": {
+        "url": "{TARGET_IMAGE_URL}"
+      },
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "fields": [
+        { "name": "__Removed Roles__", "value": "{REMOVED_ROLES}" },
+        { "name": "__Added Roles__", "value": "{ADDED_ROLES}" }
+      ]
+    }
   ]
 }

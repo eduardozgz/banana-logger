@@ -222,6 +222,12 @@ export const EmbedTemplatePlaceholders = {
     ...BasePlaceholders,
     ...AuditLogBasedEventBasePlaceholders,
   ],
+  memberRoleUpdate: [
+    ...BasePlaceholders,
+    ...AuditLogBasedEventBasePlaceholders,
+    "REMOVED_ROLES",
+    "ADDED_ROLES",
+  ],
 } as const satisfies Record<EventType, string[]>;
 
 export const ALL_EVENTS_CHOICE = "all";
