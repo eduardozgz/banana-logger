@@ -17,5 +17,6 @@ export const memberDisconnectHandler: Handler<
     relatedUsers: [auditLogEntry.executorId],
     executor: auditLogEntry.executor,
     target: auditLogEntry.target,
+    data: {},
   });
 };

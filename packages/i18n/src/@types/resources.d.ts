@@ -515,7 +515,7 @@ interface Resources {
     channelCreate: [
       {
         title: "Channel Created";
-        description: "{EXECUTOR_MENTION} created {TARGET_ID}";
+        description: "{EXECUTOR_MENTION} created {TARGET_MENTION}";
         author: {
           name: "{EXECUTOR_NAME}";
           icon_url: "{EXECUTOR_AVATAR}";
@@ -525,7 +525,7 @@ interface Resources {
     channelUpdateName: [
       {
         title: "Channel Name Change";
-        description: "{EXECUTOR_MENTION} changed the name of {TARGET_ID}";
+        description: "{EXECUTOR_MENTION} changed the name of {TARGET_MENTION}";
         author: {
           name: "{EXECUTOR_NAME}";
           icon_url: "{EXECUTOR_AVATAR}";
@@ -545,7 +545,7 @@ interface Resources {
     channelUpdateType: [
       {
         title: "Channel Type Change";
-        description: "{EXECUTOR_MENTION} changed the channel type of {TARGET_ID}";
+        description: "{EXECUTOR_MENTION} changed the channel type of {TARGET_MENTION}";
         author: {
           name: "{EXECUTOR_NAME}";
           icon_url: "{EXECUTOR_AVATAR}";
@@ -565,7 +565,7 @@ interface Resources {
     channelUpdateTopic: [
       {
         title: "Channel Topic Change";
-        description: "{EXECUTOR_MENTION} changed the topic of {TARGET_ID}";
+        description: "{EXECUTOR_MENTION} changed the topic of {TARGET_MENTION}";
         author: {
           name: "{EXECUTOR_NAME}";
           icon_url: "{EXECUTOR_AVATAR}";
@@ -585,7 +585,7 @@ interface Resources {
     channelUpdateNsfw: [
       {
         title: "Channel NSFW Change";
-        description: "{EXECUTOR_MENTION} changed the NSFW status of {TARGET_ID}";
+        description: "{EXECUTOR_MENTION} changed the NSFW status of {TARGET_MENTION}";
         author: {
           name: "{EXECUTOR_NAME}";
           icon_url: "{EXECUTOR_AVATAR}";
@@ -605,7 +605,7 @@ interface Resources {
     channelUpdateBitrate: [
       {
         title: "Channel Bitrate Change";
-        description: "{EXECUTOR_MENTION} changed the bitrate of {TARGET_ID}";
+        description: "{EXECUTOR_MENTION} changed the bitrate of {TARGET_MENTION}";
         author: {
           name: "{EXECUTOR_NAME}";
           icon_url: "{EXECUTOR_AVATAR}";
@@ -625,7 +625,7 @@ interface Resources {
     channelUpdateUserLimit: [
       {
         title: "Channel User Limit Change";
-        description: "{EXECUTOR_MENTION} changed the user limit of {TARGET_ID}";
+        description: "{EXECUTOR_MENTION} changed the user limit of {TARGET_MENTION}";
         author: {
           name: "{EXECUTOR_NAME}";
           icon_url: "{EXECUTOR_AVATAR}";
@@ -645,7 +645,7 @@ interface Resources {
     channelUpdateRateLimitPerUser: [
       {
         title: "Channel Rate Limit Per User Change";
-        description: "{EXECUTOR_MENTION} changed the rate limit per user of {TARGET_ID}";
+        description: "{EXECUTOR_MENTION} changed the rate limit per user of {TARGET_MENTION}";
         author: {
           name: "{EXECUTOR_NAME}";
           icon_url: "{EXECUTOR_AVATAR}";
@@ -665,7 +665,7 @@ interface Resources {
     channelUpdatePosition: [
       {
         title: "Channel Position Change";
-        description: "{EXECUTOR_MENTION} changed the position of {TARGET_ID}";
+        description: "{EXECUTOR_MENTION} changed the position of {TARGET_MENTION}";
         author: {
           name: "{EXECUTOR_NAME}";
           icon_url: "{EXECUTOR_AVATAR}";
@@ -685,7 +685,7 @@ interface Resources {
     channelUpdatePermissionOverwrites: [
       {
         title: "Channel Permission Overwrites Change";
-        description: "{EXECUTOR_MENTION} changed the permission overwrites of {TARGET_ID}";
+        description: "{EXECUTOR_MENTION} changed the permission overwrites of {TARGET_MENTION}";
         author: {
           name: "{EXECUTOR_NAME}";
           icon_url: "{EXECUTOR_AVATAR}";
@@ -695,7 +695,7 @@ interface Resources {
     channelUpdateDefaultAutoArchiveDurations: [
       {
         title: "Channel Default Auto Archive Durations Change";
-        description: "{EXECUTOR_MENTION} changed the default auto archive duration of {TARGET_ID}";
+        description: "{EXECUTOR_MENTION} changed the default auto archive duration of {TARGET_MENTION}";
         author: {
           name: "{EXECUTOR_NAME}";
           icon_url: "{EXECUTOR_AVATAR}";
@@ -715,7 +715,7 @@ interface Resources {
     channelDelete: [
       {
         title: "Channel Deleted";
-        description: '{EXECUTOR_MENTION} deleted {TARGET_ID} (previously known as "{CHANNEL_NAME}")';
+        description: '{EXECUTOR_MENTION} deleted {TARGET_MENTION} (previously known as "{TARGET_NAME}")';
         author: {
           name: "{EXECUTOR_NAME}";
           icon_url: "{EXECUTOR_AVATAR}";
@@ -725,7 +725,10 @@ interface Resources {
     memberKick: [
       {
         title: "Member Kicked";
-        description: '{EXECUTOR_MENTION} kicked {TARGET_ID} (previously known as "{TARGET_NAME}")\n\n**Reason:** {REASON}';
+        description: '{EXECUTOR_MENTION} kicked {TARGET_MENTION} (previously known as "{TARGET_NAME}")\n\n**Reason:** {REASON}';
+        thumbnail: {
+          url: "{TARGET_IMAGE_URL}";
+        };
       },
     ];
     memberPrune: [
@@ -737,19 +740,28 @@ interface Resources {
     memberBanAdd: [
       {
         title: "Member Banned";
-        description: '{EXECUTOR_MENTION} banned {TARGET_ID} (previously known as "{TARGET_NAME}")\n\n**Reason:** {REASON}';
+        description: '{EXECUTOR_MENTION} banned {TARGET_MENTION} (previously known as "{TARGET_NAME}")\n\n**Reason:** {REASON}';
+        thumbnail: {
+          url: "{TARGET_IMAGE_URL}";
+        };
       },
     ];
     memberBanRemove: [
       {
         title: "Member Unbanned";
-        description: '{EXECUTOR_MENTION} unbanned {TARGET_ID} (previously known as "{TARGET_NAME}")\n\n**Reason:** {REASON}';
+        description: '{EXECUTOR_MENTION} unbanned {TARGET_MENTION} (previously known as "{TARGET_NAME}")\n\n**Reason:** {REASON}';
+        thumbnail: {
+          url: "{TARGET_IMAGE_URL}";
+        };
       },
     ];
     memberUpdateNick: [
       {
         title: "Member Nickname Change";
-        description: "{EXECUTOR_MENTION} changed the nickname of {TARGET_ID}  ";
+        description: "{EXECUTOR_MENTION} changed the nickname of {TARGET_MENTION}  ";
+        thumbnail: {
+          url: "{TARGET_IMAGE_URL}";
+        };
         author: {
           name: "{EXECUTOR_NAME}";
           icon_url: "{EXECUTOR_AVATAR}";
@@ -769,7 +781,10 @@ interface Resources {
     memberUpdateDeaf: [
       {
         title: "Member Deaf Change";
-        description: "{EXECUTOR_MENTION} changed the deaf status of {TARGET_ID}";
+        description: "{EXECUTOR_MENTION} changed the deaf status of {TARGET_MENTION}";
+        thumbnail: {
+          url: "{TARGET_IMAGE_URL}";
+        };
         author: {
           name: "{EXECUTOR_NAME}";
           icon_url: "{EXECUTOR_AVATAR}";
@@ -789,7 +804,10 @@ interface Resources {
     memberUpdateMute: [
       {
         title: "Member Mute Change";
-        description: "{EXECUTOR_MENTION} changed the mute status of {TARGET_ID}";
+        description: "{EXECUTOR_MENTION} changed the mute status of {TARGET_MENTION}";
+        thumbnail: {
+          url: "{TARGET_IMAGE_URL}";
+        };
         author: {
           name: "{EXECUTOR_NAME}";
           icon_url: "{EXECUTOR_AVATAR}";
@@ -809,13 +827,16 @@ interface Resources {
     memberUpdateAvatar: [
       {
         title: "Member Avatar Change";
-        description: "{EXECUTOR_MENTION} changed the avatar of {TARGET_ID}";
+        description: "{EXECUTOR_MENTION} changed the avatar of {TARGET_MENTION}";
+        thumbnail: {
+          url: "{TARGET_IMAGE_URL}";
+        };
         author: {
           name: "{EXECUTOR_NAME}";
           icon_url: "{EXECUTOR_AVATAR}";
         };
         image: {
-          url: "https://cdn.discordapp.com/avatars/{TARGET_ID}/{OLD_VALUE}.png?size=1024";
+          url: "{OLD_VALUE}";
         };
         fields: [
           {
@@ -830,14 +851,17 @@ interface Resources {
       },
       {
         image: {
-          url: "https://cdn.discordapp.com/avatars/{TARGET_ID}/{NEW_VALUE}.png?size=1024";
+          url: "{NEW_VALUE}";
         };
       },
     ];
     memberUpdateTimeout: [
       {
         title: "Member Timeout Change";
-        description: "{EXECUTOR_MENTION} changed the timeout of {TARGET_ID}\n\n**Reason:** {REASON}";
+        description: "{EXECUTOR_MENTION} changed the timeout of {TARGET_MENTION}\n\n**Reason:** {REASON}";
+        thumbnail: {
+          url: "{TARGET_IMAGE_URL}";
+        };
         author: {
           name: "{EXECUTOR_NAME}";
           icon_url: "{EXECUTOR_AVATAR}";
@@ -857,9 +881,9 @@ interface Resources {
     memberRoleUpdate: [
       {
         title: "Member Role Change";
-        description: "{EXECUTOR_MENTION} changed the roles of {TARGET_ID}";
+        description: "{EXECUTOR_MENTION} changed the roles of {TARGET_MENTION}";
         thumbnail: {
-          url: "{TARGET_AVATAR}";
+          url: "{TARGET_IMAGE_URL}";
         };
         author: {
           name: "{EXECUTOR_NAME}";
@@ -875,6 +899,26 @@ interface Resources {
             value: "{ADDED_ROLES}";
           },
         ];
+      },
+    ];
+    memberMove: [
+      {
+        title: "Member Voice Channel Move";
+        description: "{EXECUTOR_MENTION} moved {COUNT} member(s) to {CHANNEL_MENTION}";
+        author: {
+          name: "{EXECUTOR_NAME}";
+          icon_url: "{EXECUTOR_AVATAR}";
+        };
+      },
+    ];
+    memberDisconnect: [
+      {
+        title: "Member Disconnected";
+        description: "{EXECUTOR_MENTION} disconnected someone from a voice channel";
+        author: {
+          name: "{EXECUTOR_NAME}";
+          icon_url: "{EXECUTOR_AVATAR}";
+        };
       },
     ];
   };
@@ -1120,6 +1164,8 @@ interface Resources {
       memberUpdateAvatar: "member avatar change";
       memberUpdateTimeout: "member timeout change";
       memberRoleUpdate: "member role change";
+      memberMove: "member voice channel move";
+      memberDisconnect: "member disconnect";
     };
     eventDataTransformers: {
       common: {
