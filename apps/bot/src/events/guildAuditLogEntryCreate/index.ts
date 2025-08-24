@@ -12,6 +12,7 @@ import { initI18n } from "@/i18n";
 
 import { LogService } from "~/services/LogService";
 import { EventHandler } from "~/structures";
+import { botAddHandler } from "./botAdd";
 import { channelCreateHandler } from "./channelCreate";
 import { channelDeleteHandler } from "./channelDelete";
 import { channelUpdate } from "./channelUpdate";
@@ -76,6 +77,7 @@ const handlers = {
   [AuditLogEvent.MemberRoleUpdate]: memberRoleUpdateHandler,
   [AuditLogEvent.MemberMove]: memberMoveHandler,
   [AuditLogEvent.MemberDisconnect]: memberDisconnectHandler,
+  [AuditLogEvent.BotAdd]: botAddHandler,
 } as const;
 
 export const guildAuditLogEntryCreateEvent = new EventHandler({
@@ -105,9 +107,18 @@ function createGenericAuditLogHandler<
 >(options: CreateGenericAuditLogHandlerOptions<CM>): Handler<T> {
   return (auditLogEntry, guild, i18n) => {
     const relatedChannels: string[] = [];
+    const relatedUsers: string[] = [];
 
     if (auditLogEntry.targetType === "Channel" && auditLogEntry.targetId) {
       relatedChannels.push(auditLogEntry.targetId);
+    }
+
+    if (auditLogEntry.executorId) {
+      relatedUsers.push(auditLogEntry.executorId);
+    }
+
+    if (auditLogEntry.targetType === "User" && auditLogEntry.targetId) {
+      relatedUsers.push(auditLogEntry.targetId);
     }
 
     for (const change of auditLogEntry.changes) {
@@ -139,7 +150,7 @@ function createGenericAuditLogHandler<
         guild,
         i18n,
         relatedChannels,
-        relatedUsers: [auditLogEntry.executor?.id],
+        relatedUsers,
         executor: auditLogEntry.executor,
         target: auditLogEntry.target,
         data: {

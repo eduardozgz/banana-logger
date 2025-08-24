@@ -17,7 +17,7 @@ export const memberMoveHandler: Handler<AuditLogEvent.MemberMove> = (
     guild,
     i18n,
     relatedChannels: [auditLogEntry.extra.channel.id],
-    relatedUsers: [auditLogEntry.executorId],
+    relatedUsers: [auditLogEntry.executorId, auditLogEntry.targetId],
     executor: auditLogEntry.executor,
     target: auditLogEntry.target,
     data: {

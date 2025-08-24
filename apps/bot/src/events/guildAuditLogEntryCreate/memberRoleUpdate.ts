@@ -32,8 +32,8 @@ export const memberRoleUpdateHandler: Handler<
     eventName: "memberRoleUpdate",
     guild,
     i18n,
-    relatedChannels: [auditLogEntry.targetId],
-    relatedUsers: [auditLogEntry.executor?.id],
+    relatedChannels: [],
+    relatedUsers: [auditLogEntry.executorId, auditLogEntry.targetId],
     executor: auditLogEntry.executor,
     target: auditLogEntry.target,
     data: {

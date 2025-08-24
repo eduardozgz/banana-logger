@@ -13,7 +13,7 @@ export const memberPruneHandler: Handler<AuditLogEvent.MemberPrune> = (
     guild,
     i18n,
     relatedChannels: [],
-    relatedUsers: [auditLogEntry.executor?.id],
+    relatedUsers: [auditLogEntry.executorId, auditLogEntry.targetId],
     executor: auditLogEntry.executor,
     target: auditLogEntry.target,
     data: {

@@ -16,7 +16,7 @@ export const memberBanRemoveHandler: Handler<AuditLogEvent.MemberBanRemove> = (
     guild,
     i18n,
     relatedChannels: [auditLogEntry.targetId],
-    relatedUsers: [auditLogEntry.executor?.id],
+    relatedUsers: [auditLogEntry.executorId, auditLogEntry.targetId],
     executor: auditLogEntry.executor,
     target: auditLogEntry.target,
     data: {
