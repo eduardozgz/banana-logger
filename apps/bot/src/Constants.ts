@@ -228,6 +228,16 @@ export const EmbedTemplatePlaceholders = {
     "REMOVED_ROLES",
     "ADDED_ROLES",
   ],
+  memberMove: [
+    ...BasePlaceholders,
+    ...AuditLogBasedEventBasePlaceholders,
+    "COUNT",
+    "CHANNEL_MENTION",
+  ],
+  memberDisconnect: [
+    ...BasePlaceholders,
+    ...AuditLogBasedEventBasePlaceholders,
+  ],
 } as const satisfies Record<EventType, string[]>;
 
 export const ALL_EVENTS_CHOICE = "all";

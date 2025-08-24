@@ -49,7 +49,9 @@
     "memberUpdateMute": "member mute change",
     "memberUpdateAvatar": "member avatar change",
     "memberUpdateTimeout": "member timeout change",
-    "memberRoleUpdate": "member role change"
+    "memberRoleUpdate": "member role change",
+    "memberMove": "member voice channel move",
+    "memberDisconnect": "member disconnect"
   },
   "eventDataTransformers": {
     "common": {

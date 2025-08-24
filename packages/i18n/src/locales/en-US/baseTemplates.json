@@ -678,5 +678,25 @@
         { "name": "__Added Roles__", "value": "{ADDED_ROLES}" }
       ]
     }
+  ],
+  "memberMove": [
+    {
+      "title": "Member Voice Channel Move",
+      "description": "{EXECUTOR_MENTION} moved {COUNT} member(s) to {CHANNEL_MENTION}",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      }
+    }
+  ],
+  "memberDisconnect": [
+    {
+      "title": "Member Disconnected",
+      "description": "{EXECUTOR_MENTION} disconnected someone from a voice channel",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      }
+    }
   ]
 }

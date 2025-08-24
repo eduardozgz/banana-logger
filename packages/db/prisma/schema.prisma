@@ -86,4 +86,6 @@ enum EventType {
   memberUpdateAvatar
   memberUpdateTimeout
   memberRoleUpdate
+  memberMove
+  memberDisconnect
 }
