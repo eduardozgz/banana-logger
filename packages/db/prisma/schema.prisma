@@ -89,4 +89,11 @@ enum EventType {
   memberMove
   memberDisconnect
   botAdd
+  roleCreate
+  roleUpdateName
+  roleUpdateColor
+  roleUpdateHoist
+  roleUpdateMentionable
+  roleUpdatePermissions
+  roleDelete
 }

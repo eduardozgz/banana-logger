@@ -25,6 +25,9 @@ import { memberMoveHandler } from "./memberMove";
 import { memberPruneHandler } from "./memberPrune";
 import { memberRoleUpdateHandler } from "./memberRoleUpdate";
 import { memberUpdate } from "./memberUpdate";
+import { roleCreateHandler } from "./roleCreate";
+import { roleDeleteHandler } from "./roleDelete";
+import { roleUpdate } from "./roleUpdate";
 
 export type Handler<T extends AuditLogEvent> = (
   auditLogEntry: GuildAuditLogsEntry<T>,
@@ -78,6 +81,9 @@ const handlers = {
   [AuditLogEvent.MemberMove]: memberMoveHandler,
   [AuditLogEvent.MemberDisconnect]: memberDisconnectHandler,
   [AuditLogEvent.BotAdd]: botAddHandler,
+  [AuditLogEvent.RoleCreate]: roleCreateHandler,
+  [AuditLogEvent.RoleUpdate]: createGenericAuditLogHandler(roleUpdate),
+  [AuditLogEvent.RoleDelete]: roleDeleteHandler,
 } as const;
 
 export const guildAuditLogEntryCreateEvent = new EventHandler({

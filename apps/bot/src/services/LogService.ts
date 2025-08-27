@@ -7,7 +7,7 @@ import type {
   PartialUser,
 } from "discord.js";
 import { CDNRoutes, RouteBases } from "discord-api-types/v10";
-import { GuildChannel, User } from "discord.js";
+import { GuildChannel, Role, User } from "discord.js";
 import _ from "lodash";
 
 import type { EventType } from "@/db/client";
@@ -79,6 +79,10 @@ export class LogService {
         }),
       ...(target &&
         target instanceof GuildChannel && {
+          TARGET_MENTION: target.toString(),
+        }),
+      ...(target &&
+        target instanceof Role && {
           TARGET_MENTION: target.toString(),
         }),
     };

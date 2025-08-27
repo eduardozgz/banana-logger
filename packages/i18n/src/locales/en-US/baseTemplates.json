@@ -711,5 +711,91 @@
         "icon_url": "{EXECUTOR_AVATAR}"
       }
     }
+  ],
+  "roleCreate": [
+    {
+      "title": "Role Created",
+      "description": "{EXECUTOR_MENTION} created {TARGET_MENTION}",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      }
+    }
+  ],
+  "roleUpdateName": [
+    {
+      "title": "Role Name Change",
+      "description": "{EXECUTOR_MENTION} changed the name of {TARGET_MENTION}",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "fields": [
+        { "name": "__Old Name__", "value": "{OLD_VALUE}" },
+        { "name": "__New Name__", "value": "{NEW_VALUE}" }
+      ]
+    }
+  ],
+  "roleUpdateColor": [
+    {
+      "title": "Role Color Change",
+      "description": "{EXECUTOR_MENTION} changed the color of {TARGET_MENTION}",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "fields": [
+        { "name": "__Old Color__", "value": "{OLD_VALUE_RAW}" },
+        { "name": "__New Color__", "value": "{NEW_VALUE_RAW}" }
+      ]
+    }
+  ],
+  "roleUpdateHoist": [
+    {
+      "title": "Role Hoist Change",
+      "description": "{EXECUTOR_MENTION} changed the hoist (display above members) status of {TARGET_MENTION}",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "fields": [
+        { "name": "__Old Hoist Status__", "value": "{OLD_VALUE}" },
+        { "name": "__New Hoist Status__", "value": "{NEW_VALUE}" }
+      ]
+    }
+  ],
+  "roleUpdateMentionable": [
+    {
+      "title": "Role Mentionable Change",
+      "description": "{EXECUTOR_MENTION} changed the mentionable status of {TARGET_MENTION}",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "fields": [
+        { "name": "__Old Mentionable Status__", "value": "{OLD_VALUE}" },
+        { "name": "__New Mentionable Status__", "value": "{NEW_VALUE}" }
+      ]
+    }
+  ],
+  "roleUpdatePermissions": [
+    {
+      "title": "Role Permissions Change",
+      "description": "{EXECUTOR_MENTION} changed the permissions of {TARGET_MENTION}",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "fields": [
+        { "name": "__Old Permissions__", "value": "{OLD_VALUE_RAW}" },
+        { "name": "__New Permissions__", "value": "{NEW_VALUE_RAW}" }
+      ]
+    }
+  ],
+  "roleDelete": [
+    {
+      "title": "Role Deleted",
+      "description": "{EXECUTOR_MENTION} deleted {TARGET_MENTION} (previously known as \"{TARGET_NAME}\")"
+    }
   ]
 }

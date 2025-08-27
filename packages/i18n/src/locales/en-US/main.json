@@ -52,7 +52,14 @@
     "memberRoleUpdate": "member role change",
     "memberMove": "member voice channel move",
     "memberDisconnect": "member disconnect",
-    "botAdd": "bot add"
+    "botAdd": "bot add",
+    "roleCreate": "role create",
+    "roleUpdateName": "role name change",
+    "roleUpdateColor": "role color change",
+    "roleUpdateHoist": "role hoist change",
+    "roleUpdateMentionable": "role mentionable change",
+    "roleUpdatePermissions": "role permissions change",
+    "roleDelete": "role delete"
   },
   "eventDataTransformers": {
     "common": {
@@ -159,6 +166,10 @@
     "memberRoleUpdate": {
       "nothingRemoved": "No roles were removed",
       "nothingAdded": "No roles were added"
+    },
+    "roleUpdateMentionable": {
+      "true": "Mentionable",
+      "false": "Not mentionable"
     }
   }
 }

@@ -175,11 +175,7 @@ export const EmbedTemplatePlaceholders = {
     ...BasePlaceholders,
     ...AuditLogBasedEventBasePlaceholders,
   ],
-  channelDelete: [
-    ...BasePlaceholders,
-    ...AuditLogBasedEventBasePlaceholders,
-    "CHANNEL_NAME",
-  ],
+  channelDelete: [...BasePlaceholders, ...AuditLogBasedEventBasePlaceholders],
   memberKick: [
     ...BasePlaceholders,
     ...AuditLogBasedEventBasePlaceholders,
@@ -239,6 +235,19 @@ export const EmbedTemplatePlaceholders = {
     ...AuditLogBasedEventBasePlaceholders,
   ],
   botAdd: [...BasePlaceholders, ...AuditLogBasedEventBasePlaceholders],
+  roleCreate: [...BasePlaceholders, ...AuditLogBasedEventBasePlaceholders],
+  roleUpdateName: [...BasePlaceholders, ...AuditLogBasedEventBasePlaceholders],
+  roleUpdateColor: [...BasePlaceholders, ...AuditLogBasedEventBasePlaceholders],
+  roleUpdateHoist: [...BasePlaceholders, ...AuditLogBasedEventBasePlaceholders],
+  roleUpdateMentionable: [
+    ...BasePlaceholders,
+    ...AuditLogBasedEventBasePlaceholders,
+  ],
+  roleUpdatePermissions: [
+    ...BasePlaceholders,
+    ...AuditLogBasedEventBasePlaceholders,
+  ],
+  roleDelete: [...BasePlaceholders, ...AuditLogBasedEventBasePlaceholders],
 } as const satisfies Record<EventType, string[]>;
 
 export const ALL_EVENTS_CHOICE = "all";
