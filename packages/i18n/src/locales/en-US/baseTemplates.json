@@ -747,10 +747,10 @@
       "fields": [
         {
           "name": "__Old Color__",
-          "value": "{OLD_VALUE_RAW}",
+          "value": "`{OLD_VALUE}`",
           "inline": true
         },
-        { "name": "__New Color__", "value": "{NEW_VALUE_RAW}", "inline": true }
+        { "name": "__New Color__", "value": "`{NEW_VALUE}`", "inline": true }
       ]
     }
   ],
@@ -809,12 +809,12 @@
       "fields": [
         {
           "name": "__Old Permissions__",
-          "value": "{OLD_VALUE_RAW}",
+          "value": "`{OLD_VALUE_RAW}`",
           "inline": true
         },
         {
           "name": "__New Permissions__",
-          "value": "{NEW_VALUE_RAW}",
+          "value": "`{NEW_VALUE_RAW}`",
           "inline": true
         }
       ]
