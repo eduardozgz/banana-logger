@@ -1,7 +1,7 @@
 {
   "eventTemplatePlaceholdersDefaults": {
-    "EXECUTOR_MENTION": "Unknown executor",
-    "UNKNOWN_VALUE": "Unknown"
+    "EXECUTOR_MENTION": "Unknown executor`",
+    "UNKNOWN_VALUE": "`Unknown`"
   },
   "eventNames": {
     "guildUpdateName": "server name change",

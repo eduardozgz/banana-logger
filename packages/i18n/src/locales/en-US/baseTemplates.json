@@ -745,8 +745,12 @@
         "icon_url": "{EXECUTOR_AVATAR}"
       },
       "fields": [
-        { "name": "__Old Color__", "value": "{OLD_VALUE_RAW}" },
-        { "name": "__New Color__", "value": "{NEW_VALUE_RAW}" }
+        {
+          "name": "__Old Color__",
+          "value": "{OLD_VALUE_RAW}",
+          "inline": true
+        },
+        { "name": "__New Color__", "value": "{NEW_VALUE_RAW}", "inline": true }
       ]
     }
   ],
@@ -759,8 +763,16 @@
         "icon_url": "{EXECUTOR_AVATAR}"
       },
       "fields": [
-        { "name": "__Old Hoist Status__", "value": "{OLD_VALUE}" },
-        { "name": "__New Hoist Status__", "value": "{NEW_VALUE}" }
+        {
+          "name": "__Old Hoist Status__",
+          "value": "{OLD_VALUE}",
+          "inline": true
+        },
+        {
+          "name": "__New Hoist Status__",
+          "value": "{NEW_VALUE}",
+          "inline": true
+        }
       ]
     }
   ],
@@ -773,8 +785,16 @@
         "icon_url": "{EXECUTOR_AVATAR}"
       },
       "fields": [
-        { "name": "__Old Mentionable Status__", "value": "{OLD_VALUE}" },
-        { "name": "__New Mentionable Status__", "value": "{NEW_VALUE}" }
+        {
+          "name": "__Old Mentionable Status__",
+          "value": "{OLD_VALUE}",
+          "inline": true
+        },
+        {
+          "name": "__New Mentionable Status__",
+          "value": "{NEW_VALUE}",
+          "inline": true
+        }
       ]
     }
   ],
@@ -787,8 +807,16 @@
         "icon_url": "{EXECUTOR_AVATAR}"
       },
       "fields": [
-        { "name": "__Old Permissions__", "value": "{OLD_VALUE_RAW}" },
-        { "name": "__New Permissions__", "value": "{NEW_VALUE_RAW}" }
+        {
+          "name": "__Old Permissions__",
+          "value": "{OLD_VALUE_RAW}",
+          "inline": true
+        },
+        {
+          "name": "__New Permissions__",
+          "value": "{NEW_VALUE_RAW}",
+          "inline": true
+        }
       ]
     }
   ],

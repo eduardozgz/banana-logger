@@ -7,7 +7,7 @@ import type {
   PartialUser,
 } from "discord.js";
 import { CDNRoutes, RouteBases } from "discord-api-types/v10";
-import { GuildChannel, Role, User } from "discord.js";
+import { channelMention, roleMention, User } from "discord.js";
 import _ from "lodash";
 
 import type { EventType } from "@/db/client";
@@ -78,12 +78,16 @@ export class LogService {
           TARGET_IMAGE_URL: target.displayAvatarURL(),
         }),
       ...(target &&
-        target instanceof GuildChannel && {
-          TARGET_MENTION: target.toString(),
+        "id" in target &&
+        target.id &&
+        eventName.startsWith("role") && {
+          TARGET_MENTION: roleMention(target.id),
         }),
       ...(target &&
-        target instanceof Role && {
-          TARGET_MENTION: target.toString(),
+        "id" in target &&
+        target.id &&
+        eventName.startsWith("channel") && {
+          TARGET_MENTION: channelMention(target.id),
         }),
     };
 

@@ -14,6 +14,7 @@ const roleUpdateChangesMap = {
   // TODO preview permissions change
   permissions: "roleUpdatePermissions",
   // TODO log and preview style
+  // TODO log icon change
 } satisfies ChangeMap;
 
 const roleUpdateChangesWithRelatedChannels = [] satisfies RelatedChannels<

@@ -1,5 +1,5 @@
 import assert from "node:assert";
-import type { AuditLogEvent, Role } from "discord.js";
+import type { AuditLogEvent } from "discord.js";
 
 import type { Handler } from ".";
 import { LogService } from "~/services/LogService";
@@ -18,7 +18,7 @@ export const roleDeleteHandler: Handler<AuditLogEvent.RoleDelete> = (
     relatedChannels: [],
     relatedUsers: [auditLogEntry.executor?.id],
     executor: auditLogEntry.executor,
-    target: auditLogEntry.target as Role,
+    target: auditLogEntry.target,
     data: {},
   });
 };
