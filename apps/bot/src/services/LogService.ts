@@ -19,9 +19,8 @@ import BananaLoggerEmbed from "~/utils/BananaLoggerEmbed";
 import { deepReplaceAll } from "~/utils/deepReplaceAll";
 import SettingsService from "./SettingsService";
 
-type LogData<E extends EventType> = Record<
-  (typeof EmbedTemplatePlaceholders)[E][number],
-  string
+type LogData<E extends EventType> = Partial<
+  Record<(typeof EmbedTemplatePlaceholders)[E][number], string>
 >;
 
 interface SetupOptions<E extends EventType> {
