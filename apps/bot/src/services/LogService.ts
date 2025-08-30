@@ -7,7 +7,7 @@ import type {
   PartialUser,
 } from "discord.js";
 import { CDNRoutes, RouteBases } from "discord-api-types/v10";
-import { channelMention, roleMention, User } from "discord.js";
+import { channelMention, roleMention, User, Webhook } from "discord.js";
 import _ from "lodash";
 
 import type { EventType } from "@/db/client";
@@ -17,6 +17,7 @@ import type { EmbedTemplatePlaceholders } from "~/Constants";
 import { baseGalleryEmbedUrl } from "~/Constants";
 import BananaLoggerEmbed from "~/utils/BananaLoggerEmbed";
 import { deepReplaceAll } from "~/utils/deepReplaceAll";
+import { displayAvatarUrl } from "~/utils/displayAvatarUrl";
 import SettingsService from "./SettingsService";
 
 type LogData<E extends EventType> = Partial<
@@ -58,7 +59,7 @@ export class LogService {
       TARGET_NAME: i18n.t(
         "main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE",
       ),
-      TARGET_IMAGE_URL: `${RouteBases.cdn}${CDNRoutes.defaultUserAvatar(0)} `,
+      TARGET_IMAGE_URL: `${RouteBases.cdn}${CDNRoutes.defaultUserAvatar(0)}`,
       ...(target &&
         "id" in target && {
           TARGET_ID: target.id,
@@ -87,6 +88,14 @@ export class LogService {
         target.id &&
         eventName.startsWith("channel") && {
           TARGET_MENTION: channelMention(target.id),
+        }),
+      ...(target &&
+        target instanceof Webhook && {
+          TARGET_IMAGE_URL: displayAvatarUrl({
+            id: target.id,
+            discriminator: "0",
+            avatarHash: target.avatar,
+          }),
         }),
     };
 

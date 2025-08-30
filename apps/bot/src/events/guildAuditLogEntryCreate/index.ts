@@ -31,6 +31,9 @@ import { memberUpdate } from "./memberUpdate";
 import { roleCreateHandler } from "./roleCreate";
 import { roleDeleteHandler } from "./roleDelete";
 import { roleUpdate } from "./roleUpdate";
+import { webhookCreateHandler } from "./webhookCreate";
+import { webhookDeleteHandler } from "./webhookDelete";
+import { webhookUpdate } from "./webhookUpdate";
 
 export type Handler<T extends AuditLogEvent> = (
   auditLogEntry: GuildAuditLogsEntry<T>,
@@ -54,7 +57,12 @@ export type TargetIdTransformer<T extends AuditLogEvent = AuditLogEvent> = (
 export type AuditLogChangeTransformer<
   K extends AuditLogChange["key"] = AuditLogChange["key"],
   C = AuditLogChange & { key: K },
-> = (i18n: i18n, change: C, guild: Guild) => { old: string; new: string };
+> = (
+  i18n: i18n,
+  change: C,
+  guild: Guild,
+  target: GuildAuditLogsEntry["target"],
+) => { old: string; new: string };
 
 const defaultTransformer: AuditLogChangeTransformer = (i18n, change) => {
   return {
@@ -89,6 +97,9 @@ const handlers = {
   [AuditLogEvent.InviteCreate]: inviteCreateHandler,
   [AuditLogEvent.InviteUpdate]: createGenericAuditLogHandler(inviteUpdate),
   [AuditLogEvent.InviteDelete]: inviteDeleteHandler,
+  [AuditLogEvent.WebhookCreate]: webhookCreateHandler,
+  [AuditLogEvent.WebhookUpdate]: createGenericAuditLogHandler(webhookUpdate),
+  [AuditLogEvent.WebhookDelete]: webhookDeleteHandler,
 } as const;
 
 export const guildAuditLogEntryCreateEvent = new EventHandler({
@@ -142,7 +153,12 @@ function createGenericAuditLogHandler<
           ? options.changesTransformers[change.key as never]
           : defaultTransformer;
 
-      const transforedValues = transformer(i18n, change, guild);
+      const transforedValues = transformer(
+        i18n,
+        change,
+        guild,
+        auditLogEntry.target,
+      );
 
       void LogService.log({
         eventName,

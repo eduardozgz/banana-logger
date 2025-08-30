@@ -68,7 +68,13 @@
     "inviteUpdateMaxAge": "invite max age change",
     "inviteUpdateTemporary": "invite temporary change",
     "inviteUpdateUses": "invite uses change",
-    "inviteDelete": "invite delete"
+    "inviteDelete": "invite delete",
+    "webhookCreate": "webhook create",
+    "webhookUpdateName": "webhook name change",
+    "webhookUpdateAvatar": "webhook avatar change",
+    "webhookUpdateChannel": "webhook channel change",
+    "webhookDelete": "webhook delete",
+    "webhookSelfDelete": "webhook self delete"
   },
   "eventDataTransformers": {
     "common": {

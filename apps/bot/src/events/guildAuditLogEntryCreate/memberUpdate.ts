@@ -1,10 +1,13 @@
-import { CDNRoutes, ImageFormat, RouteBases, time } from "discord.js";
+import assert from "node:assert";
+import type { AuditLogEvent } from "discord.js";
+import { time } from "discord.js";
 
 import type {
   AuditLogChangeTransformers,
   ChangeMap,
   CreateGenericAuditLogHandlerOptions,
 } from ".";
+import { displayAvatarUrl } from "~/utils/displayAvatarUrl";
 
 const memberUpdateChangesMap = {
   nick: "memberUpdateNick",
@@ -51,23 +54,39 @@ const memberUpdateChangesTransformers = {
     };
   },
 
-  // TODO if change.[key] is undefined, use the user's default avatar
-  avatar_hash: (i18n, change, guild) => {
+  avatar_hash: (_i18n, change, _guild, target) => {
+    assert(
+      target !== null &&
+        "id" in target &&
+        typeof target.id === "string" &&
+        "discriminator" in target &&
+        typeof target.discriminator === "string",
+    );
+
     return {
-      old: change.old
-        ? `${RouteBases.cdn}${CDNRoutes.userAvatar(guild.id, change.old, ImageFormat.PNG)}?size=1024`
-        : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
-      new: change.new
-        ? `${RouteBases.cdn}${CDNRoutes.userAvatar(guild.id, change.new, ImageFormat.PNG)}?size=1024`
-        : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
+      old: displayAvatarUrl({
+        id: target.id,
+        discriminator: target.discriminator,
+        avatarHash: change.old,
+      }),
+      new: displayAvatarUrl({
+        id: target.id,
+        discriminator: target.discriminator,
+        avatarHash: change.new,
+      }),
     };
   },
 } satisfies AuditLogChangeTransformers<keyof typeof memberUpdateChangesMap>;
 
 export const memberUpdate: CreateGenericAuditLogHandlerOptions<
-  typeof memberUpdateChangesMap
+  typeof memberUpdateChangesMap,
+  AuditLogEvent.MemberUpdate
 > = {
   changesMap: memberUpdateChangesMap,
-  detectRelatedChannels: [],
+  detectRelatedUsers: (auditLogEntry) => [
+    auditLogEntry.targetId,
+    auditLogEntry.executorId,
+  ],
+  detectRelatedChannels: () => [],
   changesTransformers: memberUpdateChangesTransformers,
 };

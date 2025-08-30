@@ -390,6 +390,40 @@ export const EmbedTemplatePlaceholders = {
     ...AuditLogBasePlaceholders,
     "INVITE_URL",
   ],
+  webhookCreate: [
+    ...BasePlaceholders,
+    ...AuditLogBasePlaceholders,
+    ...AuditLogTargetPlaceholders,
+    "WEBHOOK_CHANNEL_MENTION",
+  ],
+  webhookUpdateName: [
+    ...BasePlaceholders,
+    ...AuditLogBasePlaceholders,
+    ...AuditLogChangePlaceholders,
+    ...AuditLogTargetPlaceholders,
+  ],
+  webhookUpdateAvatar: [
+    ...BasePlaceholders,
+    ...AuditLogBasePlaceholders,
+    ...AuditLogChangePlaceholders,
+    ...AuditLogTargetPlaceholders,
+  ],
+  webhookUpdateChannel: [
+    ...BasePlaceholders,
+    ...AuditLogBasePlaceholders,
+    ...AuditLogChangePlaceholders,
+    ...AuditLogTargetPlaceholders,
+  ],
+  webhookDelete: [
+    ...BasePlaceholders,
+    ...AuditLogBasePlaceholders,
+    ...AuditLogTargetPlaceholders,
+  ],
+  webhookSelfDelete: [
+    ...BasePlaceholders,
+    ...AuditLogBasePlaceholders,
+    ...AuditLogTargetPlaceholders,
+  ],
 } as const satisfies Record<EventType, string[]>;
 
 export const ALL_EVENTS_CHOICE = "all";

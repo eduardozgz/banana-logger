@@ -970,5 +970,97 @@
         "icon_url": "{EXECUTOR_AVATAR}"
       }
     }
+  ],
+  "webhookCreate": [
+    {
+      "title": "Webhook Created",
+      "description": "{EXECUTOR_MENTION} created a webhook",
+      "fields": [
+        { "name": "__Webhook Name__", "value": "{TARGET_NAME}" },
+        { "name": "__Webhook Channel__", "value": "{WEBHOOK_CHANNEL_MENTION}" }
+      ],
+      "thumbnail": {
+        "url": "{TARGET_IMAGE_URL}"
+      },
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      }
+    }
+  ],
+  "webhookUpdateName": [
+    {
+      "title": "Webhook Name Change",
+      "description": "{EXECUTOR_MENTION} changed the name of a webhook: {TARGET_NAME}",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "thumbnail": {
+        "url": "{TARGET_IMAGE_URL}"
+      },
+      "fields": [
+        { "name": "__Old Name__", "value": "{OLD_VALUE}" },
+        { "name": "__New Name__", "value": "{NEW_VALUE}" }
+      ]
+    }
+  ],
+  "webhookUpdateAvatar": [
+    {
+      "title": "Webhook Avatar Change",
+      "description": "{EXECUTOR_MENTION} changed the avatar of a webhook: {TARGET_NAME}",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "thumbnail": {
+        "url": "{TARGET_IMAGE_URL}"
+      },
+      "fields": [
+        { "name": "__Old Avatar__", "value": "{OLD_VALUE}" },
+        { "name": "__New Avatar__", "value": "{NEW_VALUE}" }
+      ],
+      "image": {
+        "url": "{OLD_VALUE}"
+      }
+    },
+    {
+      "image": {
+        "url": "{NEW_VALUE}"
+      }
+    }
+  ],
+  "webhookUpdateChannel": [
+    {
+      "title": "Webhook Channel Change",
+      "description": "{EXECUTOR_MENTION} changed the channel of a webhook: {TARGET_NAME}",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "thumbnail": {
+        "url": "{TARGET_IMAGE_URL}"
+      },
+      "fields": [
+        { "name": "__Old Channel__", "value": "{OLD_VALUE}" },
+        { "name": "__New Channel__", "value": "{NEW_VALUE}" }
+      ]
+    }
+  ],
+  "webhookDelete": [
+    {
+      "title": "Webhook Deleted",
+      "description": "{EXECUTOR_MENTION} deleted a webhook: {TARGET_NAME}",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      }
+    }
+  ],
+  "webhookSelfDelete": [
+    {
+      "title": "Webhook Self Deleted",
+      "description": "Webhook deleted itself: {TARGET_NAME}"
+    }
   ]
 }

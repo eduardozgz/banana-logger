@@ -105,4 +105,10 @@ enum EventType {
   inviteUpdateTemporary
   inviteUpdateUses
   inviteDelete
+  webhookCreate
+  webhookUpdateName
+  webhookUpdateAvatar
+  webhookUpdateChannel
+  webhookDelete
+  webhookSelfDelete
 }
