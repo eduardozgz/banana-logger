@@ -1,4 +1,3 @@
-import assert from "node:assert";
 import type { AuditLogEvent } from "discord.js";
 
 import type { Handler } from ".";
@@ -10,8 +9,6 @@ export const inviteCreateHandler: Handler<AuditLogEvent.InviteCreate> = (
   guild,
   i18n,
 ) => {
-  assert(auditLogEntry.targetId);
-
   void LogService.log({
     eventName: "inviteCreate",
     guild,

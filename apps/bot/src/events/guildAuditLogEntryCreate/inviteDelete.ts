@@ -1,4 +1,3 @@
-import assert from "node:assert";
 import type { AuditLogEvent } from "discord.js";
 
 import type { Handler } from ".";
@@ -9,8 +8,6 @@ export const inviteDeleteHandler: Handler<AuditLogEvent.InviteDelete> = (
   guild,
   i18n,
 ) => {
-  assert(auditLogEntry.targetId);
-
   void LogService.log({
     eventName: "inviteDelete",
     guild,
@@ -19,6 +16,8 @@ export const inviteDeleteHandler: Handler<AuditLogEvent.InviteDelete> = (
     relatedUsers: [auditLogEntry.executor?.id],
     executor: auditLogEntry.executor,
     target: auditLogEntry.target,
-    data: {},
+    data: {
+      INVITE_URL: auditLogEntry.target.url,
+    },
   });
 };
