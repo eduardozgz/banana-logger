@@ -333,6 +333,16 @@ export const EmbedTemplatePlaceholders = {
     ...AuditLogBasePlaceholders,
     ...AuditLogTargetPlaceholders,
   ],
+  inviteCreate: [
+    ...BasePlaceholders,
+    ...AuditLogBasePlaceholders,
+    "INVITE_URL",
+    "INVITE_CODE",
+    "INVITE_CHANNEL_MENTION",
+    "INVITE_MAX_AGE",
+    "INVITE_MAX_USES",
+    "INVITE_TEMPORARY",
+  ],
 } as const satisfies Record<EventType, string[]>;
 
 export const ALL_EVENTS_CHOICE = "all";

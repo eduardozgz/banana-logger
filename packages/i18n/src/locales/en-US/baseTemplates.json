@@ -825,5 +825,42 @@
       "title": "Role Deleted",
       "description": "{EXECUTOR_MENTION} deleted {TARGET_MENTION} (previously known as \"{TARGET_NAME}\")"
     }
+  ],
+  "inviteCreate": [
+    {
+      "title": "Invite Created",
+      "description": "{EXECUTOR_MENTION} created an invite: {INVITE_URL}",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "fields": [
+        {
+          "name": "__Code__",
+          "value": "`{INVITE_CODE}`",
+          "inline": true
+        },
+        {
+          "name": "__Channel__",
+          "value": "{INVITE_CHANNEL_MENTION}",
+          "inline": true
+        },
+        {
+          "name": "__Expire after__",
+          "value": "{INVITE_MAX_AGE}",
+          "inline": true
+        },
+        {
+          "name": "__Max Uses__",
+          "value": "{INVITE_MAX_USES}",
+          "inline": true
+        },
+        {
+          "name": "__Temporary membership__",
+          "value": "{INVITE_TEMPORARY}",
+          "inline": true
+        }
+      ]
+    }
   ]
 }

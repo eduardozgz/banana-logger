@@ -59,7 +59,8 @@
     "roleUpdateHoist": "role hoist change",
     "roleUpdateMentionable": "role mentionable change",
     "roleUpdatePermissions": "role permissions change",
-    "roleDelete": "role delete"
+    "roleDelete": "role delete",
+    "inviteCreate": "invite create"
   },
   "eventDataTransformers": {
     "common": {

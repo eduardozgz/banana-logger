@@ -96,4 +96,5 @@ enum EventType {
   roleUpdateMentionable
   roleUpdatePermissions
   roleDelete
+  inviteCreate
 }

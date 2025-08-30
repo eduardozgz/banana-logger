@@ -975,11 +975,13 @@ interface Resources {
         fields: [
           {
             name: "__Old Color__";
-            value: "{OLD_VALUE_RAW}";
+            value: "`{OLD_VALUE}`";
+            inline: true;
           },
           {
             name: "__New Color__";
-            value: "{NEW_VALUE_RAW}";
+            value: "`{NEW_VALUE}`";
+            inline: true;
           },
         ];
       },
@@ -996,10 +998,12 @@ interface Resources {
           {
             name: "__Old Hoist Status__";
             value: "{OLD_VALUE}";
+            inline: true;
           },
           {
             name: "__New Hoist Status__";
             value: "{NEW_VALUE}";
+            inline: true;
           },
         ];
       },
@@ -1016,10 +1020,12 @@ interface Resources {
           {
             name: "__Old Mentionable Status__";
             value: "{OLD_VALUE}";
+            inline: true;
           },
           {
             name: "__New Mentionable Status__";
             value: "{NEW_VALUE}";
+            inline: true;
           },
         ];
       },
@@ -1035,11 +1041,13 @@ interface Resources {
         fields: [
           {
             name: "__Old Permissions__";
-            value: "{OLD_VALUE_RAW}";
+            value: "`{OLD_VALUE_RAW}`";
+            inline: true;
           },
           {
             name: "__New Permissions__";
-            value: "{NEW_VALUE_RAW}";
+            value: "`{NEW_VALUE_RAW}`";
+            inline: true;
           },
         ];
       },
@@ -1048,6 +1056,43 @@ interface Resources {
       {
         title: "Role Deleted";
         description: '{EXECUTOR_MENTION} deleted {TARGET_MENTION} (previously known as "{TARGET_NAME}")';
+      },
+    ];
+    inviteCreate: [
+      {
+        title: "Invite Created";
+        description: "{EXECUTOR_MENTION} created an invite: {INVITE_URL}";
+        author: {
+          name: "{EXECUTOR_NAME}";
+          icon_url: "{EXECUTOR_AVATAR}";
+        };
+        fields: [
+          {
+            name: "__Code__";
+            value: "`{INVITE_CODE}`";
+            inline: true;
+          },
+          {
+            name: "__Channel__";
+            value: "{INVITE_CHANNEL_MENTION}";
+            inline: true;
+          },
+          {
+            name: "__Expire after__";
+            value: "{INVITE_MAX_AGE}";
+            inline: true;
+          },
+          {
+            name: "__Max Uses__";
+            value: "{INVITE_MAX_USES}";
+            inline: true;
+          },
+          {
+            name: "__Temporary membership__";
+            value: "{INVITE_TEMPORARY}";
+            inline: true;
+          },
+        ];
       },
     ];
   };
@@ -1243,8 +1288,8 @@ interface Resources {
   };
   main: {
     eventTemplatePlaceholdersDefaults: {
-      EXECUTOR_MENTION: "Unknown executor";
-      UNKNOWN_VALUE: "Unknown";
+      EXECUTOR_MENTION: "Unknown executor`";
+      UNKNOWN_VALUE: "`Unknown`";
     };
     eventNames: {
       guildUpdateName: "server name change";
@@ -1303,6 +1348,7 @@ interface Resources {
       roleUpdateMentionable: "role mentionable change";
       roleUpdatePermissions: "role permissions change";
       roleDelete: "role delete";
+      inviteCreate: "invite create";
     };
     eventDataTransformers: {
       common: {

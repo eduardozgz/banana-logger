@@ -11,6 +11,8 @@ export const memberBanAddHandler: Handler<AuditLogEvent.MemberBanAdd> = (
 ) => {
   assert(auditLogEntry.targetId);
 
+  console.log(auditLogEntry);
+
   void LogService.log({
     eventName: "memberBanAdd",
     guild,

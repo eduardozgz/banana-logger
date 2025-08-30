@@ -17,6 +17,7 @@ import { channelCreateHandler } from "./channelCreate";
 import { channelDeleteHandler } from "./channelDelete";
 import { channelUpdate } from "./channelUpdate";
 import { guildUpdate } from "./guildUpdate";
+import { inviteCreateHandler } from "./inviteCreate";
 import { memberBanAddHandler } from "./memberBanAdd";
 import { memberBanRemoveHandler } from "./memberBanRemove";
 import { memberDisconnectHandler } from "./memberDisconnect";
@@ -84,6 +85,7 @@ const handlers = {
   [AuditLogEvent.RoleCreate]: roleCreateHandler,
   [AuditLogEvent.RoleUpdate]: createGenericAuditLogHandler(roleUpdate),
   [AuditLogEvent.RoleDelete]: roleDeleteHandler,
+  [AuditLogEvent.InviteCreate]: inviteCreateHandler,
 } as const;
 
 export const guildAuditLogEntryCreateEvent = new EventHandler({
