@@ -18,6 +18,8 @@ import { channelDeleteHandler } from "./channelDelete";
 import { channelUpdate } from "./channelUpdate";
 import { guildUpdate } from "./guildUpdate";
 import { inviteCreateHandler } from "./inviteCreate";
+import { inviteDeleteHandler } from "./inviteDelete";
+import { inviteUpdate } from "./inviteUpdate";
 import { memberBanAddHandler } from "./memberBanAdd";
 import { memberBanRemoveHandler } from "./memberBanRemove";
 import { memberDisconnectHandler } from "./memberDisconnect";
@@ -37,7 +39,6 @@ export type Handler<T extends AuditLogEvent> = (
 ) => Promise<void> | void;
 
 export type ChangeMap = Partial<Record<APIAuditLogChange["key"], EventType>>;
-export type RelatedChannels<LocalMap> = (keyof LocalMap)[];
 export type AuditLogChangeTransformers<
   LocalKeys extends AuditLogChange["key"] = AuditLogChange["key"],
 > = Partial<{
@@ -86,6 +87,8 @@ const handlers = {
   [AuditLogEvent.RoleUpdate]: createGenericAuditLogHandler(roleUpdate),
   [AuditLogEvent.RoleDelete]: roleDeleteHandler,
   [AuditLogEvent.InviteCreate]: inviteCreateHandler,
+  [AuditLogEvent.InviteUpdate]: createGenericAuditLogHandler(inviteUpdate),
+  [AuditLogEvent.InviteDelete]: inviteDeleteHandler,
 } as const;
 
 export const guildAuditLogEntryCreateEvent = new EventHandler({
@@ -103,38 +106,26 @@ export const guildAuditLogEntryCreateEvent = new EventHandler({
   },
 });
 
-export interface CreateGenericAuditLogHandlerOptions<CM extends ChangeMap> {
+export interface CreateGenericAuditLogHandlerOptions<
+  CM extends ChangeMap,
+  T extends AuditLogEvent = AuditLogEvent,
+> {
   changesMap: CM;
-  changesWithRelatedChannels: RelatedChannels<CM>;
+  detectRelatedChannels: (
+    auditLogEntry: GuildAuditLogsEntry<T>,
+  ) => (string | undefined | null)[];
+  detectRelatedUsers: (
+    auditLogEntry: GuildAuditLogsEntry<T>,
+  ) => (string | undefined | null)[];
   changesTransformers: AuditLogChangeTransformers;
 }
 
 function createGenericAuditLogHandler<
   CM extends ChangeMap,
   T extends AuditLogEvent = AuditLogEvent,
->(options: CreateGenericAuditLogHandlerOptions<CM>): Handler<T> {
+>(options: CreateGenericAuditLogHandlerOptions<CM, T>): Handler<T> {
   return (auditLogEntry, guild, i18n) => {
-    const relatedChannels: string[] = [];
-    const relatedUsers: string[] = [];
-
-    if (auditLogEntry.targetType === "Channel" && auditLogEntry.targetId) {
-      relatedChannels.push(auditLogEntry.targetId);
-    }
-
-    if (auditLogEntry.executorId) {
-      relatedUsers.push(auditLogEntry.executorId);
-    }
-
-    if (auditLogEntry.targetType === "User" && auditLogEntry.targetId) {
-      relatedUsers.push(auditLogEntry.targetId);
-    }
-
     for (const change of auditLogEntry.changes) {
-      if (options.changesWithRelatedChannels.includes(change.key)) {
-        relatedChannels.push(change.new as string);
-        relatedChannels.push(change.old as string);
-      }
-
       const eventName =
         change.key in options.changesMap
           ? (options.changesMap[
@@ -157,8 +148,8 @@ function createGenericAuditLogHandler<
         eventName,
         guild,
         i18n,
-        relatedChannels,
-        relatedUsers,
+        relatedChannels: options.detectRelatedUsers(auditLogEntry),
+        relatedUsers: options.detectRelatedUsers(auditLogEntry),
         executor: auditLogEntry.executor,
         target: auditLogEntry.target,
         data: {

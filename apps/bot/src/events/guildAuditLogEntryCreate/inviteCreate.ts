@@ -16,8 +16,8 @@ export const inviteCreateHandler: Handler<AuditLogEvent.InviteCreate> = (
     eventName: "inviteCreate",
     guild,
     i18n,
-    relatedChannels: [auditLogEntry.targetId],
-    relatedUsers: [auditLogEntry.executorId, auditLogEntry.targetId],
+    relatedChannels: [auditLogEntry.target.channel?.id],
+    relatedUsers: [auditLogEntry.executorId, auditLogEntry.target.inviter?.id],
     executor: auditLogEntry.executor,
     target: auditLogEntry.target,
     data: {

@@ -27,7 +27,7 @@ interface SetupOptions<E extends EventType> {
   eventName: E;
   guild: Guild;
   executor?: User | PartialUser | null;
-  relatedChannels?: string[];
+  relatedChannels?: (string | undefined | null)[];
   relatedUsers: (string | undefined | null)[];
   data: LogData<E>;
   i18n: i18n;

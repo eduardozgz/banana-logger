@@ -1,8 +1,9 @@
+import type { AuditLogEvent } from "discord.js";
+
 import type {
   AuditLogChangeTransformers,
   ChangeMap,
   CreateGenericAuditLogHandlerOptions,
-  RelatedChannels,
 } from ".";
 
 const roleUpdateChangesMap = {
@@ -16,10 +17,6 @@ const roleUpdateChangesMap = {
   // TODO log and preview style
   // TODO log icon change
 } satisfies ChangeMap;
-
-const roleUpdateChangesWithRelatedChannels = [] satisfies RelatedChannels<
-  typeof roleUpdateChangesMap
->;
 
 const roleUpdateChangesTransformers = {
   color: (i18n, change) => {
@@ -53,9 +50,13 @@ const roleUpdateChangesTransformers = {
 } satisfies AuditLogChangeTransformers<keyof typeof roleUpdateChangesMap>;
 
 export const roleUpdate: CreateGenericAuditLogHandlerOptions<
-  typeof roleUpdateChangesMap
+  typeof roleUpdateChangesMap,
+  AuditLogEvent.RoleUpdate
 > = {
   changesMap: roleUpdateChangesMap,
-  changesWithRelatedChannels: roleUpdateChangesWithRelatedChannels,
+  detectRelatedChannels: () => [],
+  detectRelatedUsers: (auditLogEntry) => {
+    return [auditLogEntry.executorId];
+  },
   changesTransformers: roleUpdateChangesTransformers,
 };

@@ -1,10 +1,9 @@
-import type { ChannelType } from "discord.js";
+import type { AuditLogEvent, ChannelType } from "discord.js";
 
 import type {
   AuditLogChangeTransformers,
   ChangeMap,
   CreateGenericAuditLogHandlerOptions,
-  RelatedChannels,
 } from ".";
 import { formatBandwidth } from "~/formatters/formatBandwidth";
 import { formatTimeDuration } from "~/formatters/formatTimeDuration";
@@ -22,10 +21,6 @@ const channelUpdateChangesMap = {
   permission_overwrites: "channelUpdatePermissionOverwrites",
   default_auto_archive_duration: "channelUpdateDefaultAutoArchiveDurations",
 } satisfies ChangeMap;
-
-const channelUpdateChangesWithRelatedChannels = [] satisfies RelatedChannels<
-  typeof channelUpdateChangesMap
->;
 
 const channelUpdateChangesTransformers = {
   type: (i18n, change) => {
@@ -89,9 +84,13 @@ const channelUpdateChangesTransformers = {
 } satisfies AuditLogChangeTransformers<keyof typeof channelUpdateChangesMap>;
 
 export const channelUpdate: CreateGenericAuditLogHandlerOptions<
-  typeof channelUpdateChangesMap
+  typeof channelUpdateChangesMap,
+  AuditLogEvent.ChannelUpdate
 > = {
   changesMap: channelUpdateChangesMap,
-  changesWithRelatedChannels: channelUpdateChangesWithRelatedChannels,
+  detectRelatedChannels: (auditLogEntry) => [auditLogEntry.targetId],
+  detectRelatedUsers: (auditLogEntry) => {
+    return [auditLogEntry.executorId];
+  },
   changesTransformers: channelUpdateChangesTransformers,
 };

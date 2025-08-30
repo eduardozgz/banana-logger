@@ -1,4 +1,4 @@
-import type { GuildSystemChannelFlags } from "discord.js";
+import type { AuditLogEvent, GuildSystemChannelFlags } from "discord.js";
 import { bold } from "@discordjs/builders";
 import {
   CDNRoutes,
@@ -14,7 +14,6 @@ import type {
   AuditLogChangeTransformers,
   ChangeMap,
   CreateGenericAuditLogHandlerOptions,
-  RelatedChannels,
 } from ".";
 import { formatTimeDuration } from "~/formatters/formatTimeDuration";
 
@@ -46,10 +45,6 @@ const guildUpdateChangesMap = {
   system_channel_flags: "guildUpdateSystemChannelFlags",
   system_channel_id: "guildUpdateSystemChannel",
 } satisfies ChangeMap;
-
-const guildUpdateChangesWithRelatedChannels = [] satisfies RelatedChannels<
-  typeof guildUpdateChangesMap
->;
 
 const guildUpdateChangesTransformers = {
   preferred_locale: (i18n, change) => {
@@ -323,9 +318,13 @@ const guildUpdateChangesTransformers = {
 } satisfies AuditLogChangeTransformers<keyof typeof guildUpdateChangesMap>;
 
 export const guildUpdate: CreateGenericAuditLogHandlerOptions<
-  typeof guildUpdateChangesMap
+  typeof guildUpdateChangesMap,
+  AuditLogEvent.GuildUpdate
 > = {
   changesMap: guildUpdateChangesMap,
-  changesWithRelatedChannels: guildUpdateChangesWithRelatedChannels,
+  detectRelatedChannels: () => [], // Empty on purpose, *_channel_id keys may be too important to be ignored
+  detectRelatedUsers: (auditLogEntry) => {
+    return [auditLogEntry.executorId];
+  },
   changesTransformers: guildUpdateChangesTransformers,
 };

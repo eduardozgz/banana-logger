@@ -97,4 +97,12 @@ enum EventType {
   roleUpdatePermissions
   roleDelete
   inviteCreate
+  inviteUpdateCode
+  inviteUpdateChannel
+  inviteUpdateInviter
+  inviteUpdateMaxUses
+  inviteUpdateMaxAge
+  inviteUpdateTemporary
+  inviteUpdateUses
+  inviteDelete
 }

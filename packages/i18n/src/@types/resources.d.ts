@@ -1095,6 +1095,156 @@ interface Resources {
         ];
       },
     ];
+    inviteUpdateCode: [
+      {
+        title: "Invite Code Change";
+        description: "{EXECUTOR_MENTION} changed the code of {INVITE_URL}";
+        fields: [
+          {
+            name: "__Old Code__";
+            value: "{OLD_VALUE}";
+          },
+          {
+            name: "__New Code__";
+            value: "{NEW_VALUE}";
+          },
+        ];
+        author: {
+          name: "{EXECUTOR_NAME}";
+          icon_url: "{EXECUTOR_AVATAR}";
+        };
+      },
+    ];
+    inviteUpdateChannel: [
+      {
+        title: "Invite Channel Change";
+        description: "{EXECUTOR_MENTION} changed the channel of {INVITE_URL}";
+        fields: [
+          {
+            name: "__Old Channel__";
+            value: "{OLD_VALUE}";
+          },
+          {
+            name: "__New Channel__";
+            value: "{NEW_VALUE}";
+          },
+        ];
+        author: {
+          name: "{EXECUTOR_NAME}";
+          icon_url: "{EXECUTOR_AVATAR}";
+        };
+      },
+    ];
+    inviteUpdateInviter: [
+      {
+        title: "Invite Inviter Change";
+        description: "{EXECUTOR_MENTION} changed the inviter of {INVITE_URL}";
+        fields: [
+          {
+            name: "__Old Inviter__";
+            value: "{OLD_VALUE}";
+          },
+          {
+            name: "__New Inviter__";
+            value: "{NEW_VALUE}";
+          },
+        ];
+        author: {
+          name: "{EXECUTOR_NAME}";
+          icon_url: "{EXECUTOR_AVATAR}";
+        };
+      },
+    ];
+    inviteUpdateMaxUses: [
+      {
+        title: "Invite Max Uses Change";
+        description: "{EXECUTOR_MENTION} changed the max uses of {INVITE_URL}";
+        fields: [
+          {
+            name: "__Old Max Uses__";
+            value: "{OLD_VALUE}";
+          },
+          {
+            name: "__New Max Uses__";
+            value: "{NEW_VALUE}";
+          },
+        ];
+        author: {
+          name: "{EXECUTOR_NAME}";
+          icon_url: "{EXECUTOR_AVATAR}";
+        };
+      },
+    ];
+    inviteUpdateMaxAge: [
+      {
+        title: "Invite Max Age Change";
+        description: "{EXECUTOR_MENTION} changed the max age of {INVITE_URL}";
+        fields: [
+          {
+            name: "__Old Max Age__";
+            value: "{OLD_VALUE}";
+          },
+          {
+            name: "__New Max Age__";
+            value: "{NEW_VALUE}";
+          },
+        ];
+        author: {
+          name: "{EXECUTOR_NAME}";
+          icon_url: "{EXECUTOR_AVATAR}";
+        };
+      },
+    ];
+    inviteUpdateTemporary: [
+      {
+        title: "Invite Temporary Change";
+        description: "{EXECUTOR_MENTION} changed the temporary status of {INVITE_URL}";
+        fields: [
+          {
+            name: "__Old Temporary__";
+            value: "{OLD_VALUE}";
+          },
+          {
+            name: "__New Temporary__";
+            value: "{NEW_VALUE}";
+          },
+        ];
+        author: {
+          name: "{EXECUTOR_NAME}";
+          icon_url: "{EXECUTOR_AVATAR}";
+        };
+      },
+    ];
+    inviteUpdateUses: [
+      {
+        title: "Invite Uses Change";
+        description: "{EXECUTOR_MENTION} changed the uses of {INVITE_URL}";
+        fields: [
+          {
+            name: "__Old Uses__";
+            value: "{OLD_VALUE}";
+          },
+          {
+            name: "__New Uses__";
+            value: "{NEW_VALUE}";
+          },
+        ];
+        author: {
+          name: "{EXECUTOR_NAME}";
+          icon_url: "{EXECUTOR_AVATAR}";
+        };
+      },
+    ];
+    inviteDelete: [
+      {
+        title: "Invite Deleted";
+        description: "{EXECUTOR_MENTION} deleted {INVITE_URL}";
+        author: {
+          name: "{EXECUTOR_NAME}";
+          icon_url: "{EXECUTOR_AVATAR}";
+        };
+      },
+    ];
   };
   bot: {
     interaction: {
@@ -1349,6 +1499,14 @@ interface Resources {
       roleUpdatePermissions: "role permissions change";
       roleDelete: "role delete";
       inviteCreate: "invite create";
+      inviteUpdateCode: "invite code change";
+      inviteUpdateChannel: "invite channel change";
+      inviteUpdateInviter: "invite inviter change";
+      inviteUpdateMaxUses: "invite max uses change";
+      inviteUpdateMaxAge: "invite max age change";
+      inviteUpdateTemporary: "invite temporary change";
+      inviteUpdateUses: "invite uses change";
+      inviteDelete: "invite delete";
     };
     eventDataTransformers: {
       common: {

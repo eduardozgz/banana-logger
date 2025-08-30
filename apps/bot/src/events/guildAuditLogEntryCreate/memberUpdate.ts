@@ -68,6 +68,6 @@ export const memberUpdate: CreateGenericAuditLogHandlerOptions<
   typeof memberUpdateChangesMap
 > = {
   changesMap: memberUpdateChangesMap,
-  changesWithRelatedChannels: [],
+  detectRelatedChannels: [],
   changesTransformers: memberUpdateChangesTransformers,
 };

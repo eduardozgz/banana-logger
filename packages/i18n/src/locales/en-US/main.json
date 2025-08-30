@@ -60,7 +60,15 @@
     "roleUpdateMentionable": "role mentionable change",
     "roleUpdatePermissions": "role permissions change",
     "roleDelete": "role delete",
-    "inviteCreate": "invite create"
+    "inviteCreate": "invite create",
+    "inviteUpdateCode": "invite code change",
+    "inviteUpdateChannel": "invite channel change",
+    "inviteUpdateInviter": "invite inviter change",
+    "inviteUpdateMaxUses": "invite max uses change",
+    "inviteUpdateMaxAge": "invite max age change",
+    "inviteUpdateTemporary": "invite temporary change",
+    "inviteUpdateUses": "invite uses change",
+    "inviteDelete": "invite delete"
   },
   "eventDataTransformers": {
     "common": {

@@ -343,6 +343,53 @@ export const EmbedTemplatePlaceholders = {
     "INVITE_MAX_USES",
     "INVITE_TEMPORARY",
   ],
+  inviteUpdateCode: [
+    ...BasePlaceholders,
+    ...AuditLogBasePlaceholders,
+    ...AuditLogChangePlaceholders,
+    "INVITE_URL",
+  ],
+  inviteUpdateChannel: [
+    ...BasePlaceholders,
+    ...AuditLogBasePlaceholders,
+    ...AuditLogChangePlaceholders,
+    "INVITE_URL",
+  ],
+  inviteUpdateInviter: [
+    ...BasePlaceholders,
+    ...AuditLogBasePlaceholders,
+    ...AuditLogChangePlaceholders,
+    "INVITE_URL",
+  ],
+  inviteUpdateMaxUses: [
+    ...BasePlaceholders,
+    ...AuditLogBasePlaceholders,
+    ...AuditLogChangePlaceholders,
+    "INVITE_URL",
+  ],
+  inviteUpdateMaxAge: [
+    ...BasePlaceholders,
+    ...AuditLogBasePlaceholders,
+    ...AuditLogChangePlaceholders,
+    "INVITE_URL",
+  ],
+  inviteUpdateTemporary: [
+    ...BasePlaceholders,
+    ...AuditLogBasePlaceholders,
+    ...AuditLogChangePlaceholders,
+    "INVITE_URL",
+  ],
+  inviteUpdateUses: [
+    ...BasePlaceholders,
+    ...AuditLogBasePlaceholders,
+    ...AuditLogChangePlaceholders,
+    "INVITE_URL",
+  ],
+  inviteDelete: [
+    ...BasePlaceholders,
+    ...AuditLogBasePlaceholders,
+    "INVITE_URL",
+  ],
 } as const satisfies Record<EventType, string[]>;
 
 export const ALL_EVENTS_CHOICE = "all";
