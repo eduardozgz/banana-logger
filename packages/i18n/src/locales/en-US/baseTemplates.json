@@ -979,9 +979,6 @@
         { "name": "__Webhook Name__", "value": "{TARGET_NAME}" },
         { "name": "__Webhook Channel__", "value": "{WEBHOOK_CHANNEL_MENTION}" }
       ],
-      "thumbnail": {
-        "url": "{TARGET_IMAGE_URL}"
-      },
       "author": {
         "name": "{EXECUTOR_NAME}",
         "icon_url": "{EXECUTOR_AVATAR}"
@@ -996,9 +993,6 @@
         "name": "{EXECUTOR_NAME}",
         "icon_url": "{EXECUTOR_AVATAR}"
       },
-      "thumbnail": {
-        "url": "{TARGET_IMAGE_URL}"
-      },
       "fields": [
         { "name": "__Old Name__", "value": "{OLD_VALUE}" },
         { "name": "__New Name__", "value": "{NEW_VALUE}" }
@@ -1012,9 +1006,6 @@
       "author": {
         "name": "{EXECUTOR_NAME}",
         "icon_url": "{EXECUTOR_AVATAR}"
-      },
-      "thumbnail": {
-        "url": "{TARGET_IMAGE_URL}"
       },
       "fields": [
         { "name": "__Old Avatar__", "value": "{OLD_VALUE}" },
@@ -1037,9 +1028,6 @@
       "author": {
         "name": "{EXECUTOR_NAME}",
         "icon_url": "{EXECUTOR_AVATAR}"
-      },
-      "thumbnail": {
-        "url": "{TARGET_IMAGE_URL}"
       },
       "fields": [
         { "name": "__Old Channel__", "value": "{OLD_VALUE}" },

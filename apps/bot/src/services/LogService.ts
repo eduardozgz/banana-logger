@@ -95,15 +95,6 @@ export class LogService {
           TARGET_MENTION: channelMention(target.id),
         }),
       ...(target &&
-        target instanceof Webhook && {
-          TARGET_IMAGE_URL: displayAvatarUrl({
-            id: target.id,
-            discriminator: "0",
-            // TODO fix: this always null, and also .name
-            avatarHash: target.avatar,
-          }),
-        }),
-      ...(target &&
         target instanceof GuildEmoji && {
           TARGET_IMAGE_URL: target.imageURL(),
         }),
