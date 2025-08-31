@@ -105,7 +105,7 @@ export class LogService {
         }),
       ...(target &&
         target instanceof GuildEmoji && {
-          TARGET_IMAGE_URL: target.url,
+          TARGET_IMAGE_URL: target.imageURL(),
         }),
       ...data,
     };

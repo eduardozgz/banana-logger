@@ -9,16 +9,24 @@ export const emojiDeleteHandler: Handler<AuditLogEvent.EmojiDelete> = (
   guild,
   i18n,
 ) => {
-  assert(auditLogEntry.targetId);
+  const name = auditLogEntry.changes.find(
+    (change) => change.key === "name",
+  )?.old;
+
+  assert(name);
+  assert(auditLogEntry.target.id);
 
   void LogService.log({
     eventName: "emojiDelete",
     guild,
     i18n,
-    relatedChannels: [auditLogEntry.targetId],
+    relatedChannels: [],
     relatedUsers: [auditLogEntry.executor?.id],
     executor: auditLogEntry.executor,
-    target: auditLogEntry.target,
+    target: {
+      id: auditLogEntry.target.id,
+      name,
+    },
     data: {},
   });
 };
