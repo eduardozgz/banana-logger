@@ -1078,7 +1078,11 @@
       "description": "{EXECUTOR_MENTION} changed the name of an emoji: {TARGET_NAME}",
       "thumbnail": {
         "url": "{TARGET_IMAGE_URL}"
-      }
+      },
+      "fields": [
+        { "name": "__Old Name__", "value": "{OLD_VALUE}", "inline": true },
+        { "name": "__New Name__", "value": "{NEW_VALUE}", "inline": true }
+      ]
     }
   ],
   "emojiDelete": [
