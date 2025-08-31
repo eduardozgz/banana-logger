@@ -111,4 +111,7 @@ enum EventType {
   webhookUpdateChannel
   webhookDelete
   webhookSelfDelete
+  emojiCreate
+  emojiUpdateName
+  emojiDelete
 }

@@ -16,6 +16,9 @@ import { botAddHandler } from "./botAdd";
 import { channelCreateHandler } from "./channelCreate";
 import { channelDeleteHandler } from "./channelDelete";
 import { channelUpdate } from "./channelUpdate";
+import { emojiCreateHandler } from "./emojiCreate";
+import { emojiDeleteHandler } from "./emojiDelete";
+import { emojiUpdate } from "./emojiUpdate";
 import { guildUpdate } from "./guildUpdate";
 import { inviteCreateHandler } from "./inviteCreate";
 import { inviteDeleteHandler } from "./inviteDelete";
@@ -100,6 +103,9 @@ const handlers = {
   [AuditLogEvent.WebhookCreate]: webhookCreateHandler,
   [AuditLogEvent.WebhookUpdate]: createGenericAuditLogHandler(webhookUpdate),
   [AuditLogEvent.WebhookDelete]: webhookDeleteHandler,
+  [AuditLogEvent.EmojiCreate]: emojiCreateHandler,
+  [AuditLogEvent.EmojiUpdate]: createGenericAuditLogHandler(emojiUpdate),
+  [AuditLogEvent.EmojiDelete]: emojiDeleteHandler,
 } as const;
 
 export const guildAuditLogEntryCreateEvent = new EventHandler({

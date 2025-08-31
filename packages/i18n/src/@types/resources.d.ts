@@ -1359,9 +1359,32 @@ interface Resources {
       {
         title: "Webhook Self Deleted";
         description: "Webhook deleted itself: {TARGET_NAME}";
-        author: {
-          name: "{EXECUTOR_NAME}";
-          icon_url: "{EXECUTOR_AVATAR}";
+      },
+    ];
+    emojiCreate: [
+      {
+        title: "Emoji Created";
+        description: "{EXECUTOR_MENTION} created an emoji: {TARGET_NAME}";
+        thumbnail: {
+          url: "{TARGET_IMAGE_URL}";
+        };
+      },
+    ];
+    emojiUpdateName: [
+      {
+        title: "Emoji Name Change";
+        description: "{EXECUTOR_MENTION} changed the name of an emoji: {TARGET_NAME}";
+        thumbnail: {
+          url: "{TARGET_IMAGE_URL}";
+        };
+      },
+    ];
+    emojiDelete: [
+      {
+        title: "Emoji Deleted";
+        description: "{EXECUTOR_MENTION} deleted an emoji: {TARGET_NAME}";
+        thumbnail: {
+          url: "{TARGET_IMAGE_URL}";
         };
       },
     ];
@@ -1633,6 +1656,9 @@ interface Resources {
       webhookUpdateChannel: "webhook channel change";
       webhookDelete: "webhook delete";
       webhookSelfDelete: "webhook self delete";
+      emojiCreate: "emoji create";
+      emojiUpdateName: "emoji name change";
+      emojiDelete: "emoji delete";
     };
     eventDataTransformers: {
       common: {

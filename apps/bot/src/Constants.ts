@@ -424,6 +424,22 @@ export const EmbedTemplatePlaceholders = {
     ...AuditLogBasePlaceholders,
     ...AuditLogTargetPlaceholders,
   ],
+  emojiCreate: [
+    ...BasePlaceholders,
+    ...AuditLogBasePlaceholders,
+    ...AuditLogTargetPlaceholders,
+  ],
+  emojiUpdateName: [
+    ...BasePlaceholders,
+    ...AuditLogBasePlaceholders,
+    ...AuditLogChangePlaceholders,
+    ...AuditLogTargetPlaceholders,
+  ],
+  emojiDelete: [
+    ...BasePlaceholders,
+    ...AuditLogBasePlaceholders,
+    ...AuditLogTargetPlaceholders,
+  ],
 } as const satisfies Record<EventType, string[]>;
 
 export const ALL_EVENTS_CHOICE = "all";

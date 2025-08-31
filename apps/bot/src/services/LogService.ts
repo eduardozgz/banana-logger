@@ -7,7 +7,13 @@ import type {
   PartialUser,
 } from "discord.js";
 import { CDNRoutes, RouteBases } from "discord-api-types/v10";
-import { channelMention, roleMention, User, Webhook } from "discord.js";
+import {
+  channelMention,
+  GuildEmoji,
+  roleMention,
+  User,
+  Webhook,
+} from "discord.js";
 import _ from "lodash";
 
 import type { EventType } from "@/db/client";
@@ -90,12 +96,8 @@ export class LogService {
           TARGET_MENTION: channelMention(target.id),
         }),
       ...(target &&
-        target instanceof Webhook && {
-          TARGET_IMAGE_URL: displayAvatarUrl({
-            id: target.id,
-            discriminator: "0",
-            avatarHash: target.avatar,
-          }),
+        target instanceof GuildEmoji && {
+          TARGET_IMAGE_URL: target.url,
         }),
     };
 

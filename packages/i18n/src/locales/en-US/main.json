@@ -74,7 +74,10 @@
     "webhookUpdateAvatar": "webhook avatar change",
     "webhookUpdateChannel": "webhook channel change",
     "webhookDelete": "webhook delete",
-    "webhookSelfDelete": "webhook self delete"
+    "webhookSelfDelete": "webhook self delete",
+    "emojiCreate": "emoji create",
+    "emojiUpdateName": "emoji name change",
+    "emojiDelete": "emoji delete"
   },
   "eventDataTransformers": {
     "common": {
