@@ -20,5 +20,8 @@
     "titleBar.activeForeground": "#000000",
     "titleBar.inactiveBackground": "#ffb55a",
     "titleBar.inactiveForeground": "#000000"
+  },
+  "[rust]": {
+    "editor.defaultFormatter": "rust-lang.rust-analyzer"
   }
 }

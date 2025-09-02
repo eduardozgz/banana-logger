@@ -751,7 +751,15 @@
           "inline": true
         },
         { "name": "__New Color__", "value": "`{NEW_VALUE}`", "inline": true }
-      ]
+      ],
+      "image": {
+        "url": "{IMG_PUBLIC_URL}/color/{OLD_VALUE_RAW}"
+      }
+    },
+    {
+      "image": {
+        "url": "{IMG_PUBLIC_URL}/color/{NEW_VALUE_RAW}"
+      }
     }
   ],
   "roleUpdateHoist": [

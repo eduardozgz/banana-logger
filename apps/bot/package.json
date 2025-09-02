@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "clean": "git clean -xdf .next .turbo node_modules",
+    "clean": "git clean -xdf .turbo node_modules",
     "build": "tsup-node",
     "dev": "pnpm with-env pnpm build --watch . --watch ../../packages --onSuccess \"node dist/index.js\"",
     "format": "prettier --check . --ignore-path ../../.gitignore",

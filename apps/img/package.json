@@ -1,0 +1,19 @@
+{
+  "name": "@/img",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "clean": "git clean -xdf .turbo target",
+    "postinstall": "sh -c 'cargo build' --",
+    "dev": "pnpm with-env nodemon --watch src -e rs --exec \"cargo run\"",
+    "build": "sh -c 'pnpm with-env cargo build --release' --",
+    "start": "sh -c 'pnpm with-env cargo run --release' --",
+    "format": "sh -c 'cargo fmt' --",
+    "typecheck": "sh -c 'cargo check' --",
+    "with-env": "dotenv -e ../../.env --"
+  },
+  "devDependencies": {
+    "dotenv-cli": "^7.4.1",
+    "nodemon": "^3.1.10"
+  }
+}

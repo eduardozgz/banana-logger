@@ -7,13 +7,7 @@ import type {
   PartialUser,
 } from "discord.js";
 import { CDNRoutes, RouteBases } from "discord-api-types/v10";
-import {
-  channelMention,
-  GuildEmoji,
-  roleMention,
-  User,
-  Webhook,
-} from "discord.js";
+import { channelMention, GuildEmoji, roleMention, User } from "discord.js";
 import _ from "lodash";
 
 import type { EventType } from "@/db/client";
@@ -21,9 +15,9 @@ import type { i18n } from "@/i18n";
 
 import type { EmbedTemplatePlaceholders } from "~/Constants";
 import { baseGalleryEmbedUrl } from "~/Constants";
+import { env } from "~/env";
 import BananaLoggerEmbed from "~/utils/BananaLoggerEmbed";
 import { deepReplaceAll } from "~/utils/deepReplaceAll";
-import { displayAvatarUrl } from "~/utils/displayAvatarUrl";
 import SettingsService from "./SettingsService";
 
 type LogData<E extends EventType> = Partial<
@@ -53,6 +47,7 @@ export class LogService {
     target,
   }: SetupOptions<E>) {
     data = {
+      IMG_PUBLIC_URL: env.IMG_PUBLIC_URL,
       GUILD_ID: guild.id,
       EXECUTOR_MENTION: executor?.toString(),
       EXECUTOR_NAME:
