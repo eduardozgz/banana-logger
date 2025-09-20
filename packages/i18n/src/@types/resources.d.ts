@@ -1705,6 +1705,7 @@ interface Resources {
       emojiCreate: "emoji create";
       emojiUpdateName: "emoji name change";
       emojiDelete: "emoji delete";
+      messageDelete: "message delete";
     };
     eventDataTransformers: {
       common: {
