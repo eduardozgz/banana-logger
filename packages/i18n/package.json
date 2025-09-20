@@ -12,8 +12,8 @@
     "format": "prettier --check . --ignore-path ../../.gitignore",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
-    "generate-i18next-res": "i18next-resources-for-ts interface -i ./src/locales/en-US -o ./src/@types/resources.d.ts",
-    "postgenerate-i18next-res": "pnpm run format --write ./src/@types/resources.d.ts ./src/locales/**/*.json"
+    "codegen": "i18next-resources-for-ts interface -i ./src/locales/en-US -o ./src/@types/resources.d.ts",
+    "postcodegen": "pnpm run format --write ./src/@types/resources.d.ts ./src/locales/**/*.json"
   },
   "devDependencies": {
     "@/eslint-config": "workspace:*",

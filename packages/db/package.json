@@ -13,8 +13,8 @@
     "format": "prettier --check . --ignore-path ../../.gitignore --ignore-path ./prisma/.gitignore",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
-    "postinstall": "pnpm run generate",
-    "generate": "prisma generate",
+    "postinstall": "pnpm run codegen",
+    "codegen": "prisma generate",
     "push": "pnpm with-env prisma db push",
     "migrate": "TS_NODE_DEV=1 pnpm with-env tsx ./src/migrate.ts",
     "with-env": "dotenv -e ../../.env --"
