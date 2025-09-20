@@ -984,6 +984,14 @@ interface Resources {
             inline: true;
           },
         ];
+        image: {
+          url: "{IMG_PUBLIC_URL}/color/{OLD_VALUE_RAW}";
+        };
+      },
+      {
+        image: {
+          url: "{IMG_PUBLIC_URL}/color/{NEW_VALUE_RAW}";
+        };
       },
     ];
     roleUpdateHoist: [
@@ -1259,9 +1267,6 @@ interface Resources {
             value: "{WEBHOOK_CHANNEL_MENTION}";
           },
         ];
-        thumbnail: {
-          url: "{TARGET_IMAGE_URL}";
-        };
         author: {
           name: "{EXECUTOR_NAME}";
           icon_url: "{EXECUTOR_AVATAR}";
@@ -1275,9 +1280,6 @@ interface Resources {
         author: {
           name: "{EXECUTOR_NAME}";
           icon_url: "{EXECUTOR_AVATAR}";
-        };
-        thumbnail: {
-          url: "{TARGET_IMAGE_URL}";
         };
         fields: [
           {
@@ -1298,9 +1300,6 @@ interface Resources {
         author: {
           name: "{EXECUTOR_NAME}";
           icon_url: "{EXECUTOR_AVATAR}";
-        };
-        thumbnail: {
-          url: "{TARGET_IMAGE_URL}";
         };
         fields: [
           {
@@ -1329,9 +1328,6 @@ interface Resources {
         author: {
           name: "{EXECUTOR_NAME}";
           icon_url: "{EXECUTOR_AVATAR}";
-        };
-        thumbnail: {
-          url: "{TARGET_IMAGE_URL}";
         };
         fields: [
           {
@@ -1364,28 +1360,78 @@ interface Resources {
     emojiCreate: [
       {
         title: "Emoji Created";
-        description: "{EXECUTOR_MENTION} created an emoji: {TARGET_NAME}";
+        description: "{EXECUTOR_MENTION} created an emoji: `{TARGET_NAME}`";
         thumbnail: {
           url: "{TARGET_IMAGE_URL}";
+        };
+        author: {
+          name: "{EXECUTOR_NAME}";
+          icon_url: "{EXECUTOR_AVATAR}";
         };
       },
     ];
     emojiUpdateName: [
       {
         title: "Emoji Name Change";
-        description: "{EXECUTOR_MENTION} changed the name of an emoji: {TARGET_NAME}";
+        description: "{EXECUTOR_MENTION} changed the name of an emoji: `{TARGET_NAME}`";
         thumbnail: {
           url: "{TARGET_IMAGE_URL}";
+        };
+        fields: [
+          {
+            name: "__Old Name__";
+            value: "`{OLD_VALUE}`";
+            inline: true;
+          },
+          {
+            name: "__New Name__";
+            value: "`{NEW_VALUE}`";
+            inline: true;
+          },
+        ];
+        author: {
+          name: "{EXECUTOR_NAME}";
+          icon_url: "{EXECUTOR_AVATAR}";
         };
       },
     ];
     emojiDelete: [
       {
         title: "Emoji Deleted";
-        description: "{EXECUTOR_MENTION} deleted an emoji: {TARGET_NAME}";
-        thumbnail: {
-          url: "{TARGET_IMAGE_URL}";
+        description: "{EXECUTOR_MENTION} deleted an emoji: `{TARGET_NAME}`";
+        author: {
+          name: "{EXECUTOR_NAME}";
+          icon_url: "{EXECUTOR_AVATAR}";
         };
+      },
+    ];
+    messageDelete: [
+      {
+        title: "Message Deleted";
+        description: "A message by {AUTHOR_MENTION} was deleted in {CHANNEL_MENTION} by {EXECUTOR_MENTION}";
+        author: {
+          name: "{EXECUTOR_NAME}";
+          icon_url: "{EXECUTOR_AVATAR}";
+        };
+        thumbnail: {
+          url: "{AUTHOR_AVATAR}";
+        };
+        fields: [
+          {
+            name: "__Message Content__";
+            value: "{OLD_CONTENT}";
+          },
+          {
+            name: "__Channel__";
+            value: "{CHANNEL_MENTION}";
+            inline: true;
+          },
+          {
+            name: "__Message Link__";
+            value: "[Jump to Message]({MESSAGE_URL})";
+            inline: true;
+          },
+        ];
       },
     ];
   };

@@ -440,6 +440,17 @@ export const EmbedTemplatePlaceholders = {
     ...AuditLogBasePlaceholders,
     ...AuditLogTargetPlaceholders,
   ],
+  messageDelete: [
+    ...BasePlaceholders,
+    ...AuditLogBasePlaceholders,
+    "AUTHOR_MENTION",
+    "AUTHOR_NAME",
+    "AUTHOR_ID",
+    "AUTHOR_AVATAR",
+    "OLD_CONTENT",
+    "MESSAGE_URL",
+    "CHANNEL_MENTION",
+  ],
 } as const satisfies Record<EventType, string[]>;
 
 export const ALL_EVENTS_CHOICE = "all";

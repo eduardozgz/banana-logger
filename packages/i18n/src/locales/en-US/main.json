@@ -77,7 +77,8 @@
     "webhookSelfDelete": "webhook self delete",
     "emojiCreate": "emoji create",
     "emojiUpdateName": "emoji name change",
-    "emojiDelete": "emoji delete"
+    "emojiDelete": "emoji delete",
+    "messageDelete": "message delete"
   },
   "eventDataTransformers": {
     "common": {

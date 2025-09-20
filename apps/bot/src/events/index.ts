@@ -2,12 +2,14 @@ import type { Client } from "discord.js";
 
 import { guildAuditLogEntryCreateEvent } from "./guildAuditLogEntryCreate";
 import { interactionCreateEvent } from "./interactionCreate";
+import { messageDeleteEvent } from "./messageDelete";
 import { readyEvent } from "./ready";
 
 const allEvents = [
   readyEvent,
   interactionCreateEvent,
   guildAuditLogEntryCreateEvent,
+  messageDeleteEvent,
 ] as const;
 
 export function setupEvents(client: Client) {
