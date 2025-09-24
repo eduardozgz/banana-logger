@@ -31,6 +31,9 @@ import { memberMoveHandler } from "./memberMove";
 import { memberPruneHandler } from "./memberPrune";
 import { memberRoleUpdateHandler } from "./memberRoleUpdate";
 import { memberUpdate } from "./memberUpdate";
+import { messageBulkDeleteHandler } from "./messageBulkDelete";
+import { messagePinHandler } from "./messagePin";
+import { messageUnpinHandler } from "./messageUnpin";
 import { roleCreateHandler } from "./roleCreate";
 import { roleDeleteHandler } from "./roleDelete";
 import { roleUpdate } from "./roleUpdate";
@@ -106,6 +109,9 @@ const handlers = {
   [AuditLogEvent.EmojiCreate]: emojiCreateHandler,
   [AuditLogEvent.EmojiUpdate]: createGenericAuditLogHandler(emojiUpdate),
   [AuditLogEvent.EmojiDelete]: emojiDeleteHandler,
+  [AuditLogEvent.MessageBulkDelete]: messageBulkDeleteHandler,
+  [AuditLogEvent.MessagePin]: messagePinHandler,
+  [AuditLogEvent.MessageUnpin]: messageUnpinHandler,
 } as const;
 
 export const guildAuditLogEntryCreateEvent = new EventHandler({

@@ -30,12 +30,17 @@ interface TryToGetOptions<E extends AuditLogEvent = AuditLogEvent> {
   timeout?: number;
 }
 
+interface Resolvable {
+  entry: GuildAuditLogsEntry<AuditLogEvent>;
+  remainingResolves: number;
+}
+
+type GuildAuditLogResolvableEntries = Map<Snowflake, Resolvable[]>;
+
 export class AuditLogCollector {
   private static initialized = false;
-  private static auditLogEntries = new Map<
-    Snowflake,
-    GuildAuditLogsEntry<AuditLogEvent>[]
-  >();
+  private static guildAuditLogResolvableEntries: GuildAuditLogResolvableEntries =
+    new Map();
   private static tryToGetCallbacks: AuditLogCollectorCallbacks = new Map();
 
   static initialize(client: Client) {
@@ -100,40 +105,48 @@ export class AuditLogCollector {
     auditLogEntry: GuildAuditLogsEntry<AuditLogEvent>,
     guild: Guild,
   ) {
-    // TODO: message delete entry doesnt get here
-    console.log(auditLogEntry);
-    let guildAuditLogEntries = AuditLogCollector.auditLogEntries.get(guild.id);
+    // TODO: message delete entry doesnt get here sometimes
+    const newEntry: Resolvable = {
+      entry: auditLogEntry,
+      remainingResolves:
+        auditLogEntry.extra && "count" in auditLogEntry.extra
+          ? auditLogEntry.extra.count
+          : 1,
+    };
+
+    let guildAuditLogEntries =
+      AuditLogCollector.guildAuditLogResolvableEntries.get(guild.id);
 
     if (!guildAuditLogEntries) {
       guildAuditLogEntries = [];
-      AuditLogCollector.auditLogEntries.set(guild.id, guildAuditLogEntries);
+      AuditLogCollector.guildAuditLogResolvableEntries.set(
+        guild.id,
+        guildAuditLogEntries,
+      );
     }
 
-    guildAuditLogEntries.push(auditLogEntry);
+    guildAuditLogEntries.push(newEntry);
 
-    AuditLogCollector.tryToResolveFromEntry(auditLogEntry, guild);
+    AuditLogCollector.tryToResolveFromEntry(newEntry, guild);
   }
 
-  private static tryToResolveFromEntry(
-    auditLogEntry: GuildAuditLogsEntry<AuditLogEvent>,
-    guild: Guild,
-  ) {
+  private static tryToResolveFromEntry(resolvable: Resolvable, guild: Guild) {
     const guildFilters = AuditLogCollector.tryToGetCallbacks.get(guild.id);
-    const actionCallbacks = guildFilters?.get(auditLogEntry.action);
+    const actionCallbacks = guildFilters?.get(resolvable.entry.action);
 
     if (!actionCallbacks) return;
 
     let matched = false as boolean;
 
     actionCallbacks.forEach((callback) => {
-      if (callback.filter(auditLogEntry)) {
-        callback.resolve(auditLogEntry);
+      if (callback.filter(resolvable.entry)) {
+        callback.resolve(resolvable.entry);
         matched = true;
       }
     });
 
     if (matched) {
-      AuditLogCollector.popEntry(guild, auditLogEntry);
+      AuditLogCollector.popEntry(guild, resolvable);
     }
   }
 
@@ -141,18 +154,19 @@ export class AuditLogCollector {
     tryCallbacks: TryCallbacks,
     guild: Guild,
   ) {
-    const auditLogEntries = AuditLogCollector.auditLogEntries.get(guild.id);
+    const auditLogEntries =
+      AuditLogCollector.guildAuditLogResolvableEntries.get(guild.id);
     if (!auditLogEntries) return;
 
     // Iterate from newest to oldest
     for (let i = auditLogEntries.length - 1; i >= 0; i--) {
-      const auditLogEntry = auditLogEntries[i];
+      const resolvable = auditLogEntries[i];
 
-      assert(auditLogEntry);
+      assert(resolvable);
 
-      if (tryCallbacks.filter(auditLogEntry)) {
-        tryCallbacks.resolve(auditLogEntry);
-        AuditLogCollector.popEntry(guild, auditLogEntry);
+      if (tryCallbacks.filter(resolvable.entry)) {
+        tryCallbacks.resolve(resolvable.entry);
+        AuditLogCollector.popEntry(guild, resolvable);
         return; // Stop after first match
       }
     }
@@ -203,25 +217,31 @@ export class AuditLogCollector {
   }
 
   private static deleteOldEntries() {
-    AuditLogCollector.auditLogEntries.forEach((entries, guildId) => {
-      const fiveMinutesAgo = Date.now() - 5 * 60 * 1000;
-      entries = entries.filter(
-        (entry) => entry.createdTimestamp > fiveMinutesAgo,
-      );
-      AuditLogCollector.auditLogEntries.set(guildId, entries);
-    });
+    AuditLogCollector.guildAuditLogResolvableEntries.forEach(
+      (entries, guildId) => {
+        const fiveMinutesAgo = Date.now() - 5 * 60 * 1000;
+        entries = entries.filter(
+          (resolvable) => resolvable.entry.createdTimestamp > fiveMinutesAgo,
+        );
+        AuditLogCollector.guildAuditLogResolvableEntries.set(guildId, entries);
+      },
+    );
   }
 
-  private static popEntry(
-    guild: Guild,
-    auditLogEntry: GuildAuditLogsEntry<AuditLogEvent>,
-  ) {
-    const entries = AuditLogCollector.auditLogEntries.get(guild.id);
+  private static popEntry(guild: Guild, resolvable: Resolvable) {
+    const entries = AuditLogCollector.guildAuditLogResolvableEntries.get(
+      guild.id,
+    );
     if (!entries) {
       return;
     }
-    const index = entries.findIndex((entry) => entry.id === auditLogEntry.id);
-    if (index > -1) {
+    const index = entries.findIndex(
+      (resolvable) => resolvable.entry.id === resolvable.entry.id,
+    );
+
+    resolvable.remainingResolves--;
+
+    if (index > -1 && resolvable.remainingResolves <= 0) {
       entries.splice(index, 1);
     }
   }

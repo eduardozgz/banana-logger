@@ -78,7 +78,10 @@
     "emojiCreate": "emoji create",
     "emojiUpdateName": "emoji name change",
     "emojiDelete": "emoji delete",
-    "messageDelete": "message delete"
+    "messageDelete": "message delete",
+    "messageBulkDelete": "message bulk delete",
+    "messagePin": "message pin",
+    "messageUnpin": "message unpin"
   },
   "eventDataTransformers": {
     "common": {

@@ -451,6 +451,23 @@ export const EmbedTemplatePlaceholders = {
     "MESSAGE_URL",
     "CHANNEL_MENTION",
   ],
+  messageBulkDelete: [
+    ...BasePlaceholders,
+    ...AuditLogBasePlaceholders,
+    "COUNT",
+  ],
+  messagePin: [
+    ...BasePlaceholders,
+    ...AuditLogBasePlaceholders,
+    ...AuditLogTargetPlaceholders,
+    "MESSAGE_URL",
+  ],
+  messageUnpin: [
+    ...BasePlaceholders,
+    ...AuditLogBasePlaceholders,
+    ...AuditLogTargetPlaceholders,
+    "MESSAGE_URL",
+  ],
 } as const satisfies Record<EventType, string[]>;
 
 export const ALL_EVENTS_CHOICE = "all";

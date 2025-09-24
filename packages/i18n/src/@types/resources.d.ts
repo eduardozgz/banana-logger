@@ -1434,6 +1434,36 @@ interface Resources {
         ];
       },
     ];
+    messageBulkDelete: [
+      {
+        title: "Message Bulk Deleted";
+        description: "{EXECUTOR_MENTION} bulk deleted {COUNT} messages in {TARGET_MENTION}";
+        author: {
+          name: "{EXECUTOR_NAME}";
+          icon_url: "{EXECUTOR_AVATAR}";
+        };
+      },
+    ];
+    messagePin: [
+      {
+        title: "Message Pinned";
+        description: "{EXECUTOR_MENTION} pinned {MESSAGE_URL}";
+        author: {
+          name: "{EXECUTOR_NAME}";
+          icon_url: "{EXECUTOR_AVATAR}";
+        };
+      },
+    ];
+    messageUnpin: [
+      {
+        title: "Message Unpinned";
+        description: "{EXECUTOR_MENTION} unpinned {MESSAGE_URL}";
+        author: {
+          name: "{EXECUTOR_NAME}";
+          icon_url: "{EXECUTOR_AVATAR}";
+        };
+      },
+    ];
   };
   bot: {
     interaction: {
@@ -1706,6 +1736,9 @@ interface Resources {
       emojiUpdateName: "emoji name change";
       emojiDelete: "emoji delete";
       messageDelete: "message delete";
+      messageBulkDelete: "message bulk delete";
+      messagePin: "message pin";
+      messageUnpin: "message unpin";
     };
     eventDataTransformers: {
       common: {

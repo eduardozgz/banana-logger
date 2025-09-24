@@ -115,4 +115,7 @@ enum EventType {
   emojiUpdateName
   emojiDelete
   messageDelete
+  messageBulkDelete
+  messagePin
+  messageUnpin
 }
