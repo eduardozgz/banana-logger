@@ -16,14 +16,14 @@
     "@/eslint-config": "workspace:*",
     "@/prettier-config": "workspace:*",
     "@/tsconfig": "workspace:*",
-    "@total-typescript/ts-reset": "^0.5.1",
-    "@types/lodash": "^4.17.20",
-    "@types/node": "^22.10.10",
-    "dotenv-cli": "^7.4.1",
-    "eslint": "^9.27.0",
-    "prettier": "^3.4.2",
-    "tsup": "^8.0.2",
-    "typescript": "^5.8.3"
+    "@total-typescript/ts-reset": "catalog:",
+    "@types/lodash": "^4.17.23",
+    "@types/node": "catalog:",
+    "dotenv-cli": "catalog:",
+    "eslint": "catalog:eslint",
+    "prettier": "catalog:prettier",
+    "tsup": "^8.5.1",
+    "typescript": "catalog:"
   },
   "prettier": "@/prettier-config",
   "dependencies": {
@@ -32,17 +32,16 @@
     "@/i18n": "workspace:*",
     "@/logger": "workspace:*",
     "@/redis": "workspace:*",
-    "@discordjs/builders": "^1.11.2",
+    "@discordjs/builders": "catalog:discord",
     "@formatjs/intl-durationformat": "^0.7.4",
-    "@t3-oss/env-core": "^0.13.4",
-    "@twemoji/api": "^16.0.1",
-    "bufferutil": "^4.0.8",
+    "@t3-oss/env-core": "catalog:",
+    "@twemoji/api": "^17.0.2",
+    "bufferutil": "catalog:",
     "cron": "^3.1.7",
-    "discord-api-types": "^0.38.20",
-    "discord.js": "^14.21.0",
+    "discord-api-types": "catalog:discord",
+    "discord.js": "catalog:discord",
     "lodash": "^4.17.21",
-    "ollama": "^0.5.9",
-    "utf-8-validate": "^6.0.3",
-    "zod": "^3.24.4"
+    "utf-8-validate": "catalog:",
+    "zod": "catalog:"
   }
 }

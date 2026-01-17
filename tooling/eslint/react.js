@@ -5,7 +5,7 @@ import * as tseslint from "typescript-eslint";
 
 /** @type {Awaited<import('typescript-eslint').Config>} */
 export default tseslint.config([
-  reactHooks.configs.recommended,
+  reactHooks.configs.flat.recommended,
   {
     files: ["**/*.ts", "**/*.tsx"],
     plugins: {

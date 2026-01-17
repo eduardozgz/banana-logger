@@ -32,6 +32,6 @@
   "peerDependencies": {
     "@trpc/client": "catalog:trpc",
     "@trpc/server": "catalog:trpc",
-    "ioredis": "^5.4.1"
+    "ioredis": "^5.9.2"
   }
 }

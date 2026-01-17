@@ -25,6 +25,6 @@
   "prettier": "@/prettier-config",
   "dependencies": {
     "@t3-oss/env-core": "catalog:",
-    "winston": "^3.17.0"
+    "winston": "^3.19.0"
   }
 }

@@ -1,5 +1,4 @@
 import type { AuditLogEvent } from "discord.js";
-import { channelMention } from "@discordjs/builders";
 
 import type { Handler } from ".";
 import { LogService } from "~/services/LogService";
