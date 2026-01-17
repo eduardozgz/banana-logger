@@ -2,8 +2,8 @@ import { getBotInviteLink } from "@/common/getBotInviteLink";
 
 import { EventHandler } from "../structures";
 
-export const readyEvent = new EventHandler({
-  name: "ready",
+export const clientReadyEvent = new EventHandler({
+  name: "clientReady",
   handler: (client) => {
     const { logger } = client.botInstanceOptions;
 

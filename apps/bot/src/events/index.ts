@@ -3,10 +3,10 @@ import type { Client } from "discord.js";
 import { guildAuditLogEntryCreateEvent } from "./guildAuditLogEntryCreate";
 import { interactionCreateEvent } from "./interactionCreate";
 import { messageDeleteEvent } from "./messageDelete";
-import { readyEvent } from "./ready";
+import { clientReadyEvent } from "./clientReady";
 
 const allEvents = [
-  readyEvent,
+  clientReadyEvent,
   interactionCreateEvent,
   guildAuditLogEntryCreateEvent,
   messageDeleteEvent,
