@@ -9,7 +9,6 @@ import { formatBandwidth } from "~/formatters/formatBandwidth";
 import { formatTimeDuration } from "~/formatters/formatTimeDuration";
 
 const channelUpdateChangesMap = {
-  // TODO: video quality
   name: "channelUpdateName",
   type: "channelUpdateType",
   topic: "channelUpdateTopic",
@@ -20,6 +19,7 @@ const channelUpdateChangesMap = {
   position: "channelUpdatePosition",
   permission_overwrites: "channelUpdatePermissionOverwrites",
   default_auto_archive_duration: "channelUpdateDefaultAutoArchiveDurations",
+  // TODO check other fields
 } satisfies ChangeMap;
 
 const channelUpdateChangesTransformers = {

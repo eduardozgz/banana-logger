@@ -13,6 +13,7 @@ const webhookUpdateChangesMap = {
   name: "webhookUpdateName",
   avatar_hash: "webhookUpdateAvatar",
   channel_id: "webhookUpdateChannel",
+  // TODO check other fields
 } satisfies ChangeMap;
 
 const webhookUpdateChangesTransformers = {

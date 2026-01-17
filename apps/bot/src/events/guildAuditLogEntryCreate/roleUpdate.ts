@@ -16,6 +16,7 @@ const roleUpdateChangesMap = {
   permissions: "roleUpdatePermissions",
   // TODO log and preview style
   // TODO log icon change
+  // TODO check other fields
 } satisfies ChangeMap;
 
 const roleUpdateChangesTransformers = {

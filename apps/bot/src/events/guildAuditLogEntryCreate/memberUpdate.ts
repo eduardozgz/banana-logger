@@ -16,6 +16,7 @@ const memberUpdateChangesMap = {
   avatar_hash: "memberUpdateAvatar",
   communication_disabled_until: "memberUpdateTimeout",
   // TODO flags?
+  // TODO check other fields
 } satisfies ChangeMap;
 
 const memberUpdateChangesTransformers = {

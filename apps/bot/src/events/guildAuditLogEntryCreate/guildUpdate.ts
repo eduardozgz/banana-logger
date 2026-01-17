@@ -32,8 +32,7 @@ const guildUpdateChangesMap = {
   afk_timeout: "guildUpdateAfkTimeout",
   rules_channel_id: "guildUpdateRulesChannel",
   public_updates_channel_id: "guildUpdatePublicUpdatesChannel",
-  // TODO
-  // safety_alerts_channel_id: "guildUpdateSafetyAlertsChannel",
+  safety_alerts_channel_id: "guildUpdateSafetyAlertsChannel",
   mfa_level: "guildUpdateMfaLevel",
   verification_level: "guildUpdateVerificationLevel",
   explicit_content_filter: "guildUpdateExplicitContentFilter",
@@ -44,6 +43,7 @@ const guildUpdateChangesMap = {
   widget_channel_id: "guildUpdateWidgetChannel",
   system_channel_flags: "guildUpdateSystemChannelFlags",
   system_channel_id: "guildUpdateSystemChannel",
+  // TODO check other fields
 } satisfies ChangeMap;
 
 const guildUpdateChangesTransformers = {
