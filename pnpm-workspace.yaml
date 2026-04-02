@@ -2,43 +2,46 @@ packages:
   - apps/*
   - packages/*
   - tooling/*
+
 catalog:
-  typescript: ^5.9.3
-  zod: ^4.3.5
-  "@types/node": ^24.1.0
-  dotenv-cli: ^11.0.0
-  "@t3-oss/env-core": ^0.13.10
-  "@total-typescript/ts-reset": ^0.6.1
-  "utf-8-validate": ^6.0.6
+  '@t3-oss/env-core': ^0.13.11
+  '@total-typescript/ts-reset': ^0.6.1
+  '@types/node': ^25.5.0
   bufferutil: ^4.1.0
+  dotenv-cli: ^11.0.0
+  typescript: ^6.0.2
+  utf-8-validate: ^6.0.6
+  zod: ^4.3.6
+
 catalogs:
-  react19:
-    react: 19.2.3
-    react-dom: 19.2.3
-    "@types/react": ^19.2.8
-    "@types/react-dom": ^19.2.3
-    eslint-plugin-react: ^7.37.5
-    eslint-plugin-react-hooks: ^7.0.1
-    eslint-plugin-react-refresh: ^0.4.26
-  tailwindcss4:
-    "@tailwindcss/vite": ^4.1.18
-    tailwindcss: ^4.1.18
-    prettier-plugin-tailwindcss: ^0.7.2
+  discord:
+    '@discordjs/builders': ^1.14.1
+    discord-api-types: ^0.38.44
+    discord.js: ^14.26.0
   eslint:
-    eslint: ^9.39.2
-    "@eslint/compat": ^2.0.1
-    typescript-eslint: ^8.53.0
+    '@eslint/compat': ^2.0.3
+    eslint: ^9.28.0
     eslint-plugin-import: ^2.32.0
     eslint-plugin-jsx-a11y: ^6.10.2
-    eslint-plugin-turbo: ^2.7.5
+    eslint-plugin-turbo: ^2.9.3
+    typescript-eslint: ^8.58.0
   prettier:
-    prettier: ^3.8.0
-    "@ianvs/prettier-plugin-sort-imports": ^4.7.0
+    '@ianvs/prettier-plugin-sort-imports': ^4.7.1
+    prettier: ^3.8.1
+  react19:
+    '@types/react': ^19.2.8
+    '@types/react-dom': ^19.2.3
+    eslint-plugin-react: ^7.37.5
+    eslint-plugin-react-hooks: ^7.0.1
+    eslint-plugin-react-refresh: ^0.5.2
+    react: 19.2.3
+    react-dom: 19.2.3
+  tailwindcss4:
+    '@tailwindcss/vite': ^4.1.18
+    prettier-plugin-tailwindcss: ^0.7.2
+    tailwindcss: ^4.1.18
   trpc:
-    "@trpc/client": "^11.8.1"
-    "@trpc/server": "^11.8.1"
-  discord:
-    discord-api-types: ^0.38.37
-    discord.js: ^14.25.1
-    "@discordjs/builders": ^1.13.1
-onlyBuiltDependencies:
+    '@trpc/client': ^11.8.1
+    '@trpc/server': ^11.8.1
+
+onlyBuiltDependencies: null

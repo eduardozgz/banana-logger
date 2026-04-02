@@ -27,7 +27,7 @@
   "devDependencies": {
     "@/prettier-config": "workspace:*",
     "prettier": "catalog:prettier",
-    "turbo": "^2.7.5",
+    "turbo": "^2.9.3",
     "typescript": "catalog:"
   },
   "prettier": "@/prettier-config",

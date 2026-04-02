@@ -27,8 +27,8 @@
   "prettier": "@/prettier-config",
   "dependencies": {
     "@t3-oss/env-core": "catalog:",
-    "discord.js": "^14.21.0",
-    "i18next": "^23.11.5",
-    "i18next-resources-for-ts": "^1.5.0"
+    "discord.js": "^14.26.0",
+    "i18next": "^26.0.3",
+    "i18next-resources-for-ts": "^2.0.2"
   }
 }

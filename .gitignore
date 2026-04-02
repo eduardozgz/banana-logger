@@ -138,3 +138,5 @@ docker-compose.override.yml
 build/
 
 target/
+
+plans/

@@ -28,13 +28,13 @@
     "eslint": "catalog:eslint",
     "mongo-migrate-ts": "^2.0.0",
     "prettier": "catalog:prettier",
-    "prisma": "^6.19.0",
+    "prisma": "~6.19.0",
     "tsx": "^4.21.0",
     "typescript": "catalog:"
   },
   "prettier": "@/prettier-config",
   "dependencies": {
-    "@prisma/client": "^6.19.0",
+    "@prisma/client": "~6.19.0",
     "@t3-oss/env-core": "catalog:",
     "zod": "catalog:"
   }

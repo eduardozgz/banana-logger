@@ -1,6 +1,6 @@
 import { DurationFormat } from "@formatjs/intl-durationformat";
 
-import type { DurationInput } from "@formatjs/intl-durationformat/src/types";
+type DurationInput = Parameters<DurationFormat["format"]>[0];
 
 function decomposeDuration(totalSeconds: number): DurationInput {
   const days = Math.floor(totalSeconds / 86400);
