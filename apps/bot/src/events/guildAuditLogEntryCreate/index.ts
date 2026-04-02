@@ -12,6 +12,7 @@ import { initI18n } from "@/i18n";
 
 import { LogService } from "~/services/LogService";
 import { EventHandler } from "~/structures";
+import { applicationCommandPermissionUpdateHandler } from "./applicationCommandPermissionUpdate";
 import {
   autoModBlockMessageHandler,
   autoModFlagToChannelHandler,
@@ -172,6 +173,8 @@ const handlers = {
   [AuditLogEvent.AutoModerationFlagToChannel]: autoModFlagToChannelHandler,
   [AuditLogEvent.AutoModerationUserCommunicationDisabled]:
     autoModTimeoutHandler,
+  [AuditLogEvent.ApplicationCommandPermissionUpdate]:
+    applicationCommandPermissionUpdateHandler,
   [AuditLogEvent.AutoModerationQuarantineUser]: autoModQuarantineHandler,
   [AuditLogEvent.SoundboardSoundCreate]: soundboardSoundCreateHandler,
   [AuditLogEvent.SoundboardSoundUpdate]: createGenericAuditLogHandler(

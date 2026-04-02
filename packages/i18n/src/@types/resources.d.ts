@@ -1,5 +1,29 @@
 interface Resources {
   baseTemplates: {
+    applicationCommandPermissionUpdate: [
+      {
+        author: {
+          icon_url: "{EXECUTOR_AVATAR}";
+          name: "{EXECUTOR_NAME}";
+        };
+        description: "{EXECUTOR_MENTION} updated command permissions";
+        fields: [
+          {
+            name: "__Application ID__";
+            value: "`{APPLICATION_ID}`";
+          },
+          {
+            name: "__Command ID__";
+            value: "`{COMMAND_ID}`";
+          },
+          {
+            name: "__Changes__";
+            value: "{PERMISSIONS_CHANGED}";
+          },
+        ];
+        title: "Command Permission Updated";
+      },
+    ];
     autoModBlockMessage: [
       {
         description: "A message was blocked by auto-moderation rule **{AUTO_MOD_RULE_NAME}** in {CHANNEL_MENTION}";
@@ -3024,6 +3048,11 @@ interface Resources {
   };
   main: {
     eventDataTransformers: {
+      applicationCommandPermissionType: {
+        "1": "Role";
+        "2": "User";
+        "3": "Channel";
+      };
       autoModRuleEventType: {
         "1": "Message Send";
         "2": "Member Update";
@@ -3188,6 +3217,7 @@ interface Resources {
       };
     };
     eventNames: {
+      applicationCommandPermissionUpdate: "application command permission update";
       autoModBlockMessage: "auto-moderation message blocked";
       autoModFlagToChannel: "auto-moderation flag to channel";
       autoModQuarantine: "auto-moderation quarantine applied";

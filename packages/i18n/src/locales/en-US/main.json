@@ -149,6 +149,7 @@
     "channelUpdateAvailableTags": "channel available tags change",
     "channelUpdateDefaultReactionEmoji": "channel default reaction emoji change",
     "scheduledEventUpdateRecurrenceRule": "scheduled event recurrence rule change",
+    "applicationCommandPermissionUpdate": "application command permission update",
     "onboardingPromptCreate": "onboarding prompt create",
     "onboardingPromptUpdate": "onboarding prompt update",
     "onboardingPromptDelete": "onboarding prompt delete",
@@ -323,6 +324,11 @@
     "voiceMuteStatus": {
       "true": "Muted",
       "false": "Unmuted"
+    },
+    "applicationCommandPermissionType": {
+      "1": "Role",
+      "2": "User",
+      "3": "Channel"
     },
     "voiceDeafStatus": {
       "true": "Deafened",

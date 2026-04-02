@@ -2017,6 +2017,21 @@
       ]
     }
   ],
+  "applicationCommandPermissionUpdate": [
+    {
+      "title": "Command Permission Updated",
+      "description": "{EXECUTOR_MENTION} updated command permissions",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "fields": [
+        { "name": "__Application ID__", "value": "`{APPLICATION_ID}`" },
+        { "name": "__Command ID__", "value": "`{COMMAND_ID}`" },
+        { "name": "__Changes__", "value": "{PERMISSIONS_CHANGED}" }
+      ]
+    }
+  ],
   "onboardingPromptCreate": [
     {
       "title": "Onboarding Prompt Created",

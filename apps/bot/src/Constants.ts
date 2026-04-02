@@ -921,6 +921,14 @@ export const EmbedTemplatePlaceholders = {
     ...AuditLogChangePlaceholders,
     ...AuditLogTargetPlaceholders,
   ],
+  // Application Command Permissions
+  applicationCommandPermissionUpdate: [
+    ...BasePlaceholders,
+    ...AuditLogBasePlaceholders,
+    "APPLICATION_ID",
+    "COMMAND_ID",
+    "PERMISSIONS_CHANGED",
+  ],
   // Onboarding Events
   onboardingPromptCreate: [
     ...BasePlaceholders,
