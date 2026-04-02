@@ -2902,6 +2902,23 @@ interface Resources {
                     event: {
                       choices: {
                         all: "All";
+                        presets: {
+                          "apps-and-bots": "Apps & Bots";
+                          channels: "Channels";
+                          events: "Events";
+                          expressions: "Emojis & Stickers";
+                          invites: "Invites";
+                          members: "Members";
+                          messages: "Messages";
+                          moderation: "Moderation";
+                          monetization: "Monetization";
+                          onboarding: "Onboarding";
+                          permissions: "Permissions";
+                          roles: "Roles";
+                          server: "Server";
+                          voice: "Voice";
+                          webhooks: "Webhooks";
+                        };
                       };
                       description: "A specific event or all";
                       name: "event";
@@ -2962,6 +2979,8 @@ interface Resources {
               "is-not-being-logged-anymore": "{{EVENT_NAME}} is not being logged anymore";
               "is-now-being-logged": "{{EVENT_NAME}} is now being logged";
               "nothing-is-being-logged": "Nothing is being logged anymore";
+              "preset-is-not-being-logged-anymore": "All **{{PRESET_NAME}}** events are not being logged anymore ({{COUNT}} events)";
+              "preset-is-now-being-logged": "All **{{PRESET_NAME}}** events are now being logged ({{COUNT}} events)";
             };
             "toggle-watch-channel": {
               done: "Done!";

@@ -3,7 +3,8 @@ import type { ApplicationCommandOptionChoiceData } from "discord.js";
 import { EventType } from "@/db/client";
 import { i18nDefault } from "@/i18n";
 
-import { ALL_EVENTS_CHOICE } from "~/Constants";
+import type { PresetName } from "~/Constants";
+import { ALL_EVENTS_CHOICE, EVENT_PRESETS, PRESET_PREFIX } from "~/Constants";
 import { Autocomplete } from "~/structures/Autocomplete";
 import searchInTexts from "~/utils/search";
 
@@ -12,27 +13,42 @@ export const eventTypes = new Autocomplete({
     "bot:interaction.commands.config.definition.slash.sub-commands.toggle-log.options.event.name",
   ),
   handle: (autocomplete, i18n) => {
-    const events: ApplicationCommandOptionChoiceData[] = Object.entries(
-      EventType,
-    ).map(([_key, value]) => ({
-      name: i18n.t(`main:eventNames.${value}`),
-      value: value,
-    }));
+    const choices: ApplicationCommandOptionChoiceData[] = [];
 
-    events.push({
+    choices.push({
       name: i18n.t(
         "bot:interaction.commands.config.definition.slash.sub-commands.toggle-log.options.event.choices.all",
       ),
       value: ALL_EVENTS_CHOICE,
     });
 
+    for (const [key, events] of Object.entries(EVENT_PRESETS) as [
+      PresetName,
+      EventType[],
+    ][]) {
+      const presetName = i18n.t(
+        `bot:interaction.commands.config.definition.slash.sub-commands.toggle-log.options.event.choices.presets.${key}`,
+      );
+      choices.push({
+        name: `📦 ${presetName} (${events.length})`,
+        value: `${PRESET_PREFIX}${key}`,
+      });
+    }
+
+    for (const [_key, value] of Object.entries(EventType)) {
+      choices.push({
+        name: i18n.t(`main:eventNames.${value}`),
+        value: value,
+      });
+    }
+
     const bestResults = searchInTexts(
-      events.map((e) => e.name.split(" ")),
+      choices.map((e) => e.name.split(" ")),
       autocomplete.options.getFocused(false),
     );
 
     const results = bestResults
-      .map((i) => events[i])
+      .map((i) => choices[i])
       .filter((e) => e !== undefined)
       .slice(0, 25);
 

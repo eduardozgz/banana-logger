@@ -155,6 +155,31 @@ export class SettingsService {
     return [...this.settings.watchingEvents];
   }
 
+  async toggleEvents(events: EventType[]): Promise<boolean> {
+    const allPresent = events.every((e) =>
+      this.settings.watchingEvents.includes(e),
+    );
+
+    let updated: EventType[];
+
+    if (allPresent) {
+      updated = this.settings.watchingEvents.filter((e) => !events.includes(e));
+    } else {
+      const toAdd = events.filter(
+        (e) => !this.settings.watchingEvents.includes(e),
+      );
+      updated = [...this.settings.watchingEvents, ...toAdd];
+    }
+
+    await db.settings.update({
+      where: { id: this.settings.id },
+      data: { watchingEvents: updated },
+    });
+
+    this.settings.watchingEvents = updated;
+    return !allPresent;
+  }
+
   async toggleEvent(
     event: typeof ALL_EVENTS_CHOICE | EventType,
   ): Promise<boolean> {
