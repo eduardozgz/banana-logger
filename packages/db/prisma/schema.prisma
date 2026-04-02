@@ -141,4 +141,53 @@ enum EventType {
   scheduledEventUpdatePrivacyLevel
   scheduledEventUpdateImageHash
   scheduledEventDelete
+  // Auto-Moderation Rules
+  autoModRuleCreate
+  autoModRuleUpdateName
+  autoModRuleUpdateEventType
+  autoModRuleUpdateTriggerType
+  autoModRuleUpdateTriggerMetadata
+  autoModRuleUpdateActions
+  autoModRuleUpdateEnabled
+  autoModRuleUpdateExemptRoles
+  autoModRuleUpdateExemptChannels
+  autoModRuleDelete
+  // Auto-Moderation Actions
+  autoModBlockMessage
+  autoModFlagToChannel
+  autoModTimeout
+  autoModQuarantine
+  // Threads
+  threadCreate
+  threadUpdateName
+  threadUpdateArchived
+  threadUpdateLocked
+  threadUpdateAutoArchiveDuration
+  threadUpdateRateLimitPerUser
+  threadUpdateFlags
+  threadDelete
+  // Voice Events
+  voiceJoin
+  voiceLeave
+  voiceMove
+  voiceServerMute
+  voiceServerDeaf
+  voiceSelfMute
+  voiceSelfDeaf
+  voiceStartStream
+  voiceStopStream
+  voiceStartVideo
+  voiceStopVideo
+  // Member
+  memberLeave
+  // Message Events
+  messageUpdate
+  messageReactionAdd
+  messageReactionRemove
+  // Missing Channel Update Fields
+  channelUpdateRtcRegion
+  channelUpdateFlags
+  channelUpdateDefaultThreadRateLimitPerUser
+  // Missing Role Update Fields
+  roleUpdateIcon
 }

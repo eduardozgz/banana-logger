@@ -1,29 +1,47 @@
-// import { channelMention, userMention } from "@discordjs/builders";
+import assert from "node:assert";
+import { channelMention, userMention } from "discord.js";
 
-// import { LogService } from "~/services/LogService";
-// import { EventHandler } from "~/structures";
+import { initI18n } from "@/i18n";
 
-// export const messageUpdateEvent = new EventHandler({
-//   name: "messageUpdate",
-//   handler: async (oldMessage, newMessage) => {
-//     if (!oldMessage.guild) return;
-//     if (oldMessage.partial) await oldMessage.fetch();
+import { LogService } from "~/services/LogService";
+import { EventHandler } from "~/structures";
 
-//     // TODO attachments
+export const messageUpdateEvent = new EventHandler({
+  name: "messageUpdate",
+  handler: async (_client, oldMessage, newMessage) => {
+    assert(newMessage.inGuild());
 
-//     await LogService.log({
-//       eventName: "messageUpdate",
-//       relatedUsers: [oldMessage.author?.id],
-//       relatedChannels: [],
-//       guild: oldMessage.guild,
-//       data: {
-//         OLD_CONTENT: oldMessage.content ?? "Unknown old content",
-//         NEW_CONTENT: newMessage.content,
-//         MESSAGE_URL: oldMessage.url,
-//         CHANNEL_MENTION: channelMention(oldMessage.channel.id),
-//         AUTHOR_MENTION: userMention(oldMessage.author.id),
-//         AUTHOR_AVATAR: oldMessage.author.displayAvatarURL(),
-//       },
-//     });
-//   },
-// });
+    if (newMessage.author.bot) return;
+    if (oldMessage.content === newMessage.content) return;
+
+    if (oldMessage.partial) {
+      try {
+        await oldMessage.fetch();
+      } catch {
+        return;
+      }
+    }
+
+    const i18n = await initI18n(newMessage.guild.preferredLocale);
+
+    void LogService.log({
+      eventName: "messageUpdate",
+      relatedUsers: [newMessage.author.id],
+      relatedChannels: [newMessage.channelId],
+      guild: newMessage.guild,
+      i18n,
+      data: {
+        AUTHOR_MENTION: userMention(newMessage.author.id),
+        AUTHOR_NAME: newMessage.author.username,
+        AUTHOR_ID: newMessage.author.id,
+        AUTHOR_AVATAR: newMessage.author.displayAvatarURL(),
+        OLD_CONTENT:
+          oldMessage.content ??
+          i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
+        NEW_CONTENT: newMessage.content,
+        MESSAGE_URL: newMessage.url,
+        CHANNEL_MENTION: channelMention(newMessage.channel.id),
+      },
+    });
+  },
+});

@@ -12,6 +12,15 @@ import { initI18n } from "@/i18n";
 
 import { LogService } from "~/services/LogService";
 import { EventHandler } from "~/structures";
+import {
+  autoModBlockMessageHandler,
+  autoModFlagToChannelHandler,
+  autoModQuarantineHandler,
+  autoModTimeoutHandler,
+} from "./autoModAction";
+import { autoModRuleCreateHandler } from "./autoModRuleCreate";
+import { autoModRuleDeleteHandler } from "./autoModRuleDelete";
+import { autoModRuleUpdate } from "./autoModRuleUpdate";
 import { botAddHandler } from "./botAdd";
 import { channelCreateHandler } from "./channelCreate";
 import { channelDeleteHandler } from "./channelDelete";
@@ -49,6 +58,9 @@ import { stageInstanceUpdate } from "./stageInstanceUpdate";
 import { stickerCreateHandler } from "./stickerCreate";
 import { stickerDeleteHandler } from "./stickerDelete";
 import { stickerUpdate } from "./stickerUpdate";
+import { threadCreateHandler } from "./threadCreate";
+import { threadDeleteHandler } from "./threadDelete";
+import { threadUpdate } from "./threadUpdate";
 import { webhookCreateHandler } from "./webhookCreate";
 import { webhookDeleteHandler } from "./webhookDelete";
 import { webhookUpdate } from "./webhookUpdate";
@@ -138,6 +150,18 @@ const handlers = {
   [AuditLogEvent.GuildScheduledEventUpdate]:
     createGenericAuditLogHandler(scheduledEventUpdate),
   [AuditLogEvent.GuildScheduledEventDelete]: scheduledEventDeleteHandler,
+  [AuditLogEvent.AutoModerationRuleCreate]: autoModRuleCreateHandler,
+  [AuditLogEvent.AutoModerationRuleUpdate]:
+    createGenericAuditLogHandler(autoModRuleUpdate),
+  [AuditLogEvent.AutoModerationRuleDelete]: autoModRuleDeleteHandler,
+  [AuditLogEvent.AutoModerationBlockMessage]: autoModBlockMessageHandler,
+  [AuditLogEvent.AutoModerationFlagToChannel]: autoModFlagToChannelHandler,
+  [AuditLogEvent.AutoModerationUserCommunicationDisabled]:
+    autoModTimeoutHandler,
+  [AuditLogEvent.AutoModerationQuarantineUser]: autoModQuarantineHandler,
+  [AuditLogEvent.ThreadCreate]: threadCreateHandler,
+  [AuditLogEvent.ThreadUpdate]: createGenericAuditLogHandler(threadUpdate),
+  [AuditLogEvent.ThreadDelete]: threadDeleteHandler,
 } as const;
 
 export const guildAuditLogEntryCreateEvent = new EventHandler({

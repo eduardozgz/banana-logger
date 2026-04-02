@@ -1,4 +1,6 @@
+import assert from "node:assert";
 import type { AuditLogEvent } from "discord.js";
+import { CDNRoutes, ImageFormat, RouteBases } from "discord.js";
 
 import type {
   AuditLogChangeTransformers,
@@ -8,15 +10,11 @@ import type {
 
 const roleUpdateChangesMap = {
   name: "roleUpdateName",
-  // TODO preview color change
   color: "roleUpdateColor",
   hoist: "roleUpdateHoist",
   mentionable: "roleUpdateMentionable",
-  // TODO preview permissions change
   permissions: "roleUpdatePermissions",
-  // TODO log and preview style
-  // TODO log icon change
-  // TODO check other fields
+  icon_hash: "roleUpdateIcon",
 } satisfies ChangeMap;
 
 const roleUpdateChangesTransformers = {
@@ -46,6 +44,17 @@ const roleUpdateChangesTransformers = {
       new: i18n.t(
         `main:eventDataTransformers.roleUpdateMentionable.${!!change.new}`,
       ),
+    };
+  },
+  icon_hash: (i18n, change, _guild, target) => {
+    assert(target && "id" in target && typeof target.id === "string");
+    return {
+      old: change.old
+        ? `${RouteBases.cdn}${CDNRoutes.roleIcon(target.id, change.old, ImageFormat.PNG)}?size=128`
+        : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
+      new: change.new
+        ? `${RouteBases.cdn}${CDNRoutes.roleIcon(target.id, change.new, ImageFormat.PNG)}?size=128`
+        : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
     };
   },
 } satisfies AuditLogChangeTransformers<keyof typeof roleUpdateChangesMap>;

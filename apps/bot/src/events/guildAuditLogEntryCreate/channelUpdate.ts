@@ -20,6 +20,10 @@ const channelUpdateChangesMap = {
   permission_overwrites: "channelUpdatePermissionOverwrites",
   default_auto_archive_duration: "channelUpdateDefaultAutoArchiveDurations",
   video_quality_mode: "channelUpdateVideoQualityMode",
+  rtc_region: "channelUpdateRtcRegion",
+  flags: "channelUpdateFlags",
+  default_thread_rate_limit_per_user:
+    "channelUpdateDefaultThreadRateLimitPerUser",
 } satisfies ChangeMap;
 
 const channelUpdateChangesTransformers = {
@@ -93,6 +97,26 @@ const channelUpdateChangesTransformers = {
       new:
         modes[change.new as number] ??
         i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
+    };
+  },
+  rtc_region: (i18n, change) => {
+    return {
+      old:
+        (change.old as string | null) ??
+        i18n.t("main:eventDataTransformers.common.none"),
+      new:
+        (change.new as string | null) ??
+        i18n.t("main:eventDataTransformers.common.none"),
+    };
+  },
+  default_thread_rate_limit_per_user: (i18n, change) => {
+    return {
+      old: change.old
+        ? formatTimeDuration(i18n.language, change.old)
+        : i18n.t("main:eventDataTransformers.common.none"),
+      new: change.new
+        ? formatTimeDuration(i18n.language, change.new)
+        : i18n.t("main:eventDataTransformers.common.none"),
     };
   },
 } satisfies AuditLogChangeTransformers<keyof typeof channelUpdateChangesMap>;

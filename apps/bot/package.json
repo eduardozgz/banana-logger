@@ -9,6 +9,7 @@
     "format": "prettier --check . --ignore-path ../../.gitignore",
     "lint": "eslint",
     "start": "pnpm with-env node ./dist/index.js",
+    "test": "vitest run",
     "typecheck": "tsc --noEmit",
     "with-env": "dotenv -e ../../.env --"
   },
@@ -23,7 +24,8 @@
     "eslint": "catalog:eslint",
     "prettier": "catalog:prettier",
     "tsup": "^8.5.1",
-    "typescript": "catalog:"
+    "typescript": "catalog:",
+    "vitest": "^4.1.2"
   },
   "prettier": "@/prettier-config",
   "dependencies": {

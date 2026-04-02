@@ -92,7 +92,7 @@ export class LogService {
       ...(target &&
         "id" in target &&
         target.id &&
-        eventName.startsWith("channel") && {
+        (eventName.startsWith("channel") || eventName.startsWith("thread")) && {
           TARGET_MENTION: channelMention(target.id),
         }),
       ...(target &&

@@ -1483,5 +1483,496 @@
         "icon_url": "{EXECUTOR_AVATAR}"
       }
     }
+  ],
+  "autoModRuleCreate": [
+    {
+      "title": "Auto-Moderation Rule Created",
+      "description": "{EXECUTOR_MENTION} created an auto-moderation rule: **{TARGET_NAME}**",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      }
+    }
+  ],
+  "autoModRuleUpdateName": [
+    {
+      "title": "Auto-Moderation Rule Name Change",
+      "description": "{EXECUTOR_MENTION} changed the name of an auto-moderation rule",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "fields": [
+        { "name": "__Old Name__", "value": "{OLD_VALUE}" },
+        { "name": "__New Name__", "value": "{NEW_VALUE}" }
+      ]
+    }
+  ],
+  "autoModRuleUpdateEventType": [
+    {
+      "title": "Auto-Moderation Rule Event Type Change",
+      "description": "{EXECUTOR_MENTION} changed the event type of auto-moderation rule **{TARGET_NAME}**",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "fields": [
+        { "name": "__Old Event Type__", "value": "{OLD_VALUE}" },
+        { "name": "__New Event Type__", "value": "{NEW_VALUE}" }
+      ]
+    }
+  ],
+  "autoModRuleUpdateTriggerType": [
+    {
+      "title": "Auto-Moderation Rule Trigger Type Change",
+      "description": "{EXECUTOR_MENTION} changed the trigger type of auto-moderation rule **{TARGET_NAME}**",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "fields": [
+        { "name": "__Old Trigger Type__", "value": "{OLD_VALUE}" },
+        { "name": "__New Trigger Type__", "value": "{NEW_VALUE}" }
+      ]
+    }
+  ],
+  "autoModRuleUpdateTriggerMetadata": [
+    {
+      "title": "Auto-Moderation Rule Trigger Metadata Change",
+      "description": "{EXECUTOR_MENTION} changed the trigger metadata of auto-moderation rule **{TARGET_NAME}**",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "fields": [
+        { "name": "__Old Value__", "value": "`{OLD_VALUE_RAW}`" },
+        { "name": "__New Value__", "value": "`{NEW_VALUE_RAW}`" }
+      ]
+    }
+  ],
+  "autoModRuleUpdateActions": [
+    {
+      "title": "Auto-Moderation Rule Actions Change",
+      "description": "{EXECUTOR_MENTION} changed the actions of auto-moderation rule **{TARGET_NAME}**",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "fields": [
+        { "name": "__Old Actions__", "value": "`{OLD_VALUE_RAW}`" },
+        { "name": "__New Actions__", "value": "`{NEW_VALUE_RAW}`" }
+      ]
+    }
+  ],
+  "autoModRuleUpdateEnabled": [
+    {
+      "title": "Auto-Moderation Rule Enabled Status Change",
+      "description": "{EXECUTOR_MENTION} changed the enabled status of auto-moderation rule **{TARGET_NAME}**",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "fields": [
+        { "name": "__Old Status__", "value": "{OLD_VALUE}" },
+        { "name": "__New Status__", "value": "{NEW_VALUE}" }
+      ]
+    }
+  ],
+  "autoModRuleUpdateExemptRoles": [
+    {
+      "title": "Auto-Moderation Rule Exempt Roles Change",
+      "description": "{EXECUTOR_MENTION} changed the exempt roles of auto-moderation rule **{TARGET_NAME}**",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "fields": [
+        { "name": "__Old Value__", "value": "`{OLD_VALUE_RAW}`" },
+        { "name": "__New Value__", "value": "`{NEW_VALUE_RAW}`" }
+      ]
+    }
+  ],
+  "autoModRuleUpdateExemptChannels": [
+    {
+      "title": "Auto-Moderation Rule Exempt Channels Change",
+      "description": "{EXECUTOR_MENTION} changed the exempt channels of auto-moderation rule **{TARGET_NAME}**",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "fields": [
+        { "name": "__Old Value__", "value": "`{OLD_VALUE_RAW}`" },
+        { "name": "__New Value__", "value": "`{NEW_VALUE_RAW}`" }
+      ]
+    }
+  ],
+  "autoModRuleDelete": [
+    {
+      "title": "Auto-Moderation Rule Deleted",
+      "description": "{EXECUTOR_MENTION} deleted an auto-moderation rule: **{TARGET_NAME}**",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      }
+    }
+  ],
+  "autoModBlockMessage": [
+    {
+      "title": "Auto-Moderation: Message Blocked",
+      "description": "A message was blocked by auto-moderation rule **{AUTO_MOD_RULE_NAME}** in {CHANNEL_MENTION}",
+      "fields": [
+        { "name": "__Rule Type__", "value": "{AUTO_MOD_RULE_TRIGGER_TYPE}" }
+      ]
+    }
+  ],
+  "autoModFlagToChannel": [
+    {
+      "title": "Auto-Moderation: Flagged to Channel",
+      "description": "A message was flagged by auto-moderation rule **{AUTO_MOD_RULE_NAME}** in {CHANNEL_MENTION}",
+      "fields": [
+        { "name": "__Rule Type__", "value": "{AUTO_MOD_RULE_TRIGGER_TYPE}" }
+      ]
+    }
+  ],
+  "autoModTimeout": [
+    {
+      "title": "Auto-Moderation: Timeout Applied",
+      "description": "{TARGET_MENTION} was timed out by auto-moderation rule **{AUTO_MOD_RULE_NAME}** in {CHANNEL_MENTION}",
+      "fields": [
+        { "name": "__Rule Type__", "value": "{AUTO_MOD_RULE_TRIGGER_TYPE}" }
+      ]
+    }
+  ],
+  "autoModQuarantine": [
+    {
+      "title": "Auto-Moderation: Quarantine Applied",
+      "description": "{TARGET_MENTION} was quarantined by auto-moderation rule **{AUTO_MOD_RULE_NAME}**",
+      "fields": [
+        { "name": "__Rule Type__", "value": "{AUTO_MOD_RULE_TRIGGER_TYPE}" }
+      ]
+    }
+  ],
+  "threadCreate": [
+    {
+      "title": "Thread Created",
+      "description": "{EXECUTOR_MENTION} created thread {TARGET_MENTION}",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      }
+    }
+  ],
+  "threadUpdateName": [
+    {
+      "title": "Thread Name Change",
+      "description": "{EXECUTOR_MENTION} changed the name of {TARGET_MENTION}",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "fields": [
+        { "name": "__Old Name__", "value": "{OLD_VALUE}" },
+        { "name": "__New Name__", "value": "{NEW_VALUE}" }
+      ]
+    }
+  ],
+  "threadUpdateArchived": [
+    {
+      "title": "Thread Archived Status Change",
+      "description": "{EXECUTOR_MENTION} changed the archived status of {TARGET_MENTION}",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "fields": [
+        { "name": "__Old Status__", "value": "{OLD_VALUE}" },
+        { "name": "__New Status__", "value": "{NEW_VALUE}" }
+      ]
+    }
+  ],
+  "threadUpdateLocked": [
+    {
+      "title": "Thread Locked Status Change",
+      "description": "{EXECUTOR_MENTION} changed the locked status of {TARGET_MENTION}",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "fields": [
+        { "name": "__Old Status__", "value": "{OLD_VALUE}" },
+        { "name": "__New Status__", "value": "{NEW_VALUE}" }
+      ]
+    }
+  ],
+  "threadUpdateAutoArchiveDuration": [
+    {
+      "title": "Thread Auto Archive Duration Change",
+      "description": "{EXECUTOR_MENTION} changed the auto archive duration of {TARGET_MENTION}",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "fields": [
+        { "name": "__Old Duration__", "value": "{OLD_VALUE}" },
+        { "name": "__New Duration__", "value": "{NEW_VALUE}" }
+      ]
+    }
+  ],
+  "threadUpdateRateLimitPerUser": [
+    {
+      "title": "Thread Rate Limit Per User Change",
+      "description": "{EXECUTOR_MENTION} changed the slowmode of {TARGET_MENTION}",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "fields": [
+        { "name": "__Old Rate Limit__", "value": "{OLD_VALUE}" },
+        { "name": "__New Rate Limit__", "value": "{NEW_VALUE}" }
+      ]
+    }
+  ],
+  "threadUpdateFlags": [
+    {
+      "title": "Thread Flags Change",
+      "description": "{EXECUTOR_MENTION} changed the flags of {TARGET_MENTION}",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "fields": [
+        { "name": "__Old Flags__", "value": "`{OLD_VALUE_RAW}`" },
+        { "name": "__New Flags__", "value": "`{NEW_VALUE_RAW}`" }
+      ]
+    }
+  ],
+  "threadDelete": [
+    {
+      "title": "Thread Deleted",
+      "description": "{EXECUTOR_MENTION} deleted thread **{TARGET_NAME}**",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      }
+    }
+  ],
+  "voiceJoin": [
+    {
+      "title": "Voice Channel Join",
+      "description": "{USER_MENTION} joined {CHANNEL_MENTION}",
+      "thumbnail": {
+        "url": "{USER_AVATAR}"
+      }
+    }
+  ],
+  "voiceLeave": [
+    {
+      "title": "Voice Channel Leave",
+      "description": "{USER_MENTION} left {CHANNEL_MENTION}",
+      "thumbnail": {
+        "url": "{USER_AVATAR}"
+      }
+    }
+  ],
+  "voiceMove": [
+    {
+      "title": "Voice Channel Move",
+      "description": "{USER_MENTION} moved from {OLD_CHANNEL_MENTION} to {NEW_CHANNEL_MENTION}",
+      "thumbnail": {
+        "url": "{USER_AVATAR}"
+      }
+    }
+  ],
+  "voiceServerMute": [
+    {
+      "title": "Voice Server Mute Change",
+      "description": "{USER_MENTION} was server {MUTE_STATUS} in {CHANNEL_MENTION}",
+      "thumbnail": {
+        "url": "{USER_AVATAR}"
+      }
+    }
+  ],
+  "voiceServerDeaf": [
+    {
+      "title": "Voice Server Deafen Change",
+      "description": "{USER_MENTION} was server {DEAF_STATUS} in {CHANNEL_MENTION}",
+      "thumbnail": {
+        "url": "{USER_AVATAR}"
+      }
+    }
+  ],
+  "voiceSelfMute": [
+    {
+      "title": "Voice Self Mute Change",
+      "description": "{USER_MENTION} {MUTE_STATUS} themselves in {CHANNEL_MENTION}",
+      "thumbnail": {
+        "url": "{USER_AVATAR}"
+      }
+    }
+  ],
+  "voiceSelfDeaf": [
+    {
+      "title": "Voice Self Deafen Change",
+      "description": "{USER_MENTION} {DEAF_STATUS} themselves in {CHANNEL_MENTION}",
+      "thumbnail": {
+        "url": "{USER_AVATAR}"
+      }
+    }
+  ],
+  "voiceStartStream": [
+    {
+      "title": "Voice Stream Start",
+      "description": "{USER_MENTION} started streaming in {CHANNEL_MENTION}",
+      "thumbnail": {
+        "url": "{USER_AVATAR}"
+      }
+    }
+  ],
+  "voiceStopStream": [
+    {
+      "title": "Voice Stream Stop",
+      "description": "{USER_MENTION} stopped streaming in {CHANNEL_MENTION}",
+      "thumbnail": {
+        "url": "{USER_AVATAR}"
+      }
+    }
+  ],
+  "voiceStartVideo": [
+    {
+      "title": "Voice Video Start",
+      "description": "{USER_MENTION} turned on video in {CHANNEL_MENTION}",
+      "thumbnail": {
+        "url": "{USER_AVATAR}"
+      }
+    }
+  ],
+  "voiceStopVideo": [
+    {
+      "title": "Voice Video Stop",
+      "description": "{USER_MENTION} turned off video in {CHANNEL_MENTION}",
+      "thumbnail": {
+        "url": "{USER_AVATAR}"
+      }
+    }
+  ],
+  "memberLeave": [
+    {
+      "title": "Member Left",
+      "description": "{USER_MENTION} (**{USER_NAME}**) left the server",
+      "thumbnail": {
+        "url": "{USER_AVATAR}"
+      }
+    }
+  ],
+  "messageUpdate": [
+    {
+      "title": "Message Updated",
+      "description": "A message by {AUTHOR_MENTION} was edited in {CHANNEL_MENTION}",
+      "thumbnail": {
+        "url": "{AUTHOR_AVATAR}"
+      },
+      "fields": [
+        { "name": "__Old Content__", "value": "{OLD_CONTENT}" },
+        { "name": "__New Content__", "value": "{NEW_CONTENT}" },
+        {
+          "name": "__Message Link__",
+          "value": "[Jump to Message]({MESSAGE_URL})"
+        }
+      ]
+    }
+  ],
+  "messageReactionAdd": [
+    {
+      "title": "Reaction Added",
+      "description": "{REACTOR_MENTION} reacted with {REACTION_EMOJI} to a message by {AUTHOR_MENTION} in {CHANNEL_MENTION}",
+      "thumbnail": {
+        "url": "{REACTION_IMAGE_URL}"
+      },
+      "fields": [
+        {
+          "name": "__Message Link__",
+          "value": "[Jump to Message]({MESSAGE_URL})"
+        }
+      ]
+    }
+  ],
+  "messageReactionRemove": [
+    {
+      "title": "Reaction Removed",
+      "description": "{REACTOR_MENTION} removed their {REACTION_EMOJI} reaction from a message by {AUTHOR_MENTION} in {CHANNEL_MENTION}",
+      "thumbnail": {
+        "url": "{REACTION_IMAGE_URL}"
+      },
+      "fields": [
+        {
+          "name": "__Message Link__",
+          "value": "[Jump to Message]({MESSAGE_URL})"
+        }
+      ]
+    }
+  ],
+  "channelUpdateRtcRegion": [
+    {
+      "title": "Channel Voice Region Change",
+      "description": "{EXECUTOR_MENTION} changed the voice region of {TARGET_MENTION}",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "fields": [
+        { "name": "__Old Region__", "value": "{OLD_VALUE}" },
+        { "name": "__New Region__", "value": "{NEW_VALUE}" }
+      ]
+    }
+  ],
+  "channelUpdateFlags": [
+    {
+      "title": "Channel Flags Change",
+      "description": "{EXECUTOR_MENTION} changed the flags of {TARGET_MENTION}",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "fields": [
+        { "name": "__Old Flags__", "value": "`{OLD_VALUE_RAW}`" },
+        { "name": "__New Flags__", "value": "`{NEW_VALUE_RAW}`" }
+      ]
+    }
+  ],
+  "channelUpdateDefaultThreadRateLimitPerUser": [
+    {
+      "title": "Channel Default Thread Rate Limit Change",
+      "description": "{EXECUTOR_MENTION} changed the default thread slowmode of {TARGET_MENTION}",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "fields": [
+        { "name": "__Old Rate Limit__", "value": "{OLD_VALUE}" },
+        { "name": "__New Rate Limit__", "value": "{NEW_VALUE}" }
+      ]
+    }
+  ],
+  "roleUpdateIcon": [
+    {
+      "title": "Role Icon Change",
+      "description": "{EXECUTOR_MENTION} changed the icon of {TARGET_MENTION}",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "image": {
+        "url": "{OLD_VALUE}"
+      },
+      "fields": [
+        { "name": "__Old Icon Hash__", "value": "`{OLD_VALUE_RAW}`" },
+        { "name": "__New Icon Hash__", "value": "`{NEW_VALUE_RAW}`" }
+      ]
+    },
+    {
+      "image": {
+        "url": "{NEW_VALUE}"
+      }
+    }
   ]
 }

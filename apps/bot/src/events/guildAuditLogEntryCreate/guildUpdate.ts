@@ -112,17 +112,16 @@ const guildUpdateChangesTransformers = {
         : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
     };
   },
-  // TODO
-  // safety_alerts_channel_id: (i18n, change) => {
-  //   return {
-  //     old: change.old
-  //       ? channelMention(change.old)
-  //       : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
-  //     new: change.new
-  //       ? channelMention(change.new)
-  //       : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
-  //   };
-  // },
+  safety_alerts_channel_id: (i18n, change) => {
+    return {
+      old: change.old
+        ? channelMention(change.old)
+        : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
+      new: change.new
+        ? channelMention(change.new)
+        : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
+    };
+  },
   mfa_level: (i18n, change) => {
     return {
       old:

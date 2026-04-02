@@ -104,7 +104,48 @@
     "scheduledEventUpdateEntityType": "scheduled event entity type change",
     "scheduledEventUpdatePrivacyLevel": "scheduled event privacy level change",
     "scheduledEventUpdateImageHash": "scheduled event image change",
-    "scheduledEventDelete": "scheduled event delete"
+    "scheduledEventDelete": "scheduled event delete",
+    "autoModRuleCreate": "auto-moderation rule create",
+    "autoModRuleUpdateName": "auto-moderation rule name change",
+    "autoModRuleUpdateEventType": "auto-moderation rule event type change",
+    "autoModRuleUpdateTriggerType": "auto-moderation rule trigger type change",
+    "autoModRuleUpdateTriggerMetadata": "auto-moderation rule trigger metadata change",
+    "autoModRuleUpdateActions": "auto-moderation rule actions change",
+    "autoModRuleUpdateEnabled": "auto-moderation rule enabled status change",
+    "autoModRuleUpdateExemptRoles": "auto-moderation rule exempt roles change",
+    "autoModRuleUpdateExemptChannels": "auto-moderation rule exempt channels change",
+    "autoModRuleDelete": "auto-moderation rule delete",
+    "autoModBlockMessage": "auto-moderation message blocked",
+    "autoModFlagToChannel": "auto-moderation flag to channel",
+    "autoModTimeout": "auto-moderation timeout applied",
+    "autoModQuarantine": "auto-moderation quarantine applied",
+    "threadCreate": "thread create",
+    "threadUpdateName": "thread name change",
+    "threadUpdateArchived": "thread archived status change",
+    "threadUpdateLocked": "thread locked status change",
+    "threadUpdateAutoArchiveDuration": "thread auto archive duration change",
+    "threadUpdateRateLimitPerUser": "thread rate limit per user change",
+    "threadUpdateFlags": "thread flags change",
+    "threadDelete": "thread delete",
+    "voiceJoin": "voice channel join",
+    "voiceLeave": "voice channel leave",
+    "voiceMove": "voice channel move",
+    "voiceServerMute": "voice server mute change",
+    "voiceServerDeaf": "voice server deafen change",
+    "voiceSelfMute": "voice self mute change",
+    "voiceSelfDeaf": "voice self deafen change",
+    "voiceStartStream": "voice stream start",
+    "voiceStopStream": "voice stream stop",
+    "voiceStartVideo": "voice video start",
+    "voiceStopVideo": "voice video stop",
+    "memberLeave": "member leave",
+    "messageUpdate": "message update",
+    "messageReactionAdd": "message reaction add",
+    "messageReactionRemove": "message reaction remove",
+    "channelUpdateRtcRegion": "channel voice region change",
+    "channelUpdateFlags": "channel flags change",
+    "channelUpdateDefaultThreadRateLimitPerUser": "channel default thread rate limit change",
+    "roleUpdateIcon": "role icon change"
   },
   "eventDataTransformers": {
     "common": {
@@ -241,6 +282,33 @@
     "channelOverwriteType": {
       "0": "Role",
       "1": "Member"
+    },
+    "autoModRuleEventType": {
+      "1": "Message Send",
+      "2": "Member Update"
+    },
+    "autoModRuleTriggerType": {
+      "1": "Keyword",
+      "3": "Spam",
+      "4": "Keyword Preset",
+      "5": "Mention Spam",
+      "6": "Member Profile"
+    },
+    "threadUpdateArchived": {
+      "true": "Archived",
+      "false": "Unarchived"
+    },
+    "threadUpdateLocked": {
+      "true": "Locked",
+      "false": "Unlocked"
+    },
+    "voiceMuteStatus": {
+      "true": "Muted",
+      "false": "Unmuted"
+    },
+    "voiceDeafStatus": {
+      "true": "Deafened",
+      "false": "Undeafened"
     }
   }
 }

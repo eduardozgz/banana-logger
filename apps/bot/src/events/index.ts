@@ -2,14 +2,24 @@ import type { Client } from "discord.js";
 
 import { clientReadyEvent } from "./clientReady";
 import { guildAuditLogEntryCreateEvent } from "./guildAuditLogEntryCreate";
+import { guildMemberRemoveEvent } from "./guildMemberRemove";
 import { interactionCreateEvent } from "./interactionCreate";
 import { messageDeleteEvent } from "./messageDelete";
+import { messageReactionAddEvent } from "./messageReactionAdd";
+import { messageReactionRemoveEvent } from "./messageReactionRemove";
+import { messageUpdateEvent } from "./messageUpdate";
+import { voiceStateUpdateEvent } from "./voiceStateUpdate";
 
 const allEvents = [
   clientReadyEvent,
   interactionCreateEvent,
   guildAuditLogEntryCreateEvent,
   messageDeleteEvent,
+  messageUpdateEvent,
+  messageReactionAddEvent,
+  messageReactionRemoveEvent,
+  voiceStateUpdateEvent,
+  guildMemberRemoveEvent,
 ] as const;
 
 export function setupEvents(client: Client) {
