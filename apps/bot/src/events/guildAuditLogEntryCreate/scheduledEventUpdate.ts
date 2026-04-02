@@ -17,6 +17,7 @@ const scheduledEventUpdateChangesMap = {
   entity_type: "scheduledEventUpdateEntityType",
   privacy_level: "scheduledEventUpdatePrivacyLevel",
   image_hash: "scheduledEventUpdateImageHash",
+  recurrence_rule: "scheduledEventUpdateRecurrenceRule",
 } satisfies ChangeMap;
 
 const scheduledEventUpdateChangesTransformers = {

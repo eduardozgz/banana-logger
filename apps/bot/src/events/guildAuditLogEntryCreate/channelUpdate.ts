@@ -24,6 +24,8 @@ const channelUpdateChangesMap = {
   flags: "channelUpdateFlags",
   default_thread_rate_limit_per_user:
     "channelUpdateDefaultThreadRateLimitPerUser",
+  available_tags: "channelUpdateAvailableTags",
+  default_reaction_emoji: "channelUpdateDefaultReactionEmoji",
 } satisfies ChangeMap;
 
 const channelUpdateChangesTransformers = {

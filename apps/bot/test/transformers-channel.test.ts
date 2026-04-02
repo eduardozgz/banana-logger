@@ -199,6 +199,8 @@ describe("channelUpdate transformers", () => {
           "rtc_region",
           "flags",
           "default_thread_rate_limit_per_user",
+          "available_tags",
+          "default_reaction_emoji",
         ]),
       );
     });

@@ -1974,5 +1974,123 @@
         "url": "{NEW_VALUE}"
       }
     }
+  ],
+  "channelUpdateAvailableTags": [
+    {
+      "title": "Channel Available Tags Change",
+      "description": "{EXECUTOR_MENTION} changed the available tags of {TARGET_MENTION}",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "fields": [
+        { "name": "__Old Tags__", "value": "`{OLD_VALUE_RAW}`" },
+        { "name": "__New Tags__", "value": "`{NEW_VALUE_RAW}`" }
+      ]
+    }
+  ],
+  "channelUpdateDefaultReactionEmoji": [
+    {
+      "title": "Channel Default Reaction Emoji Change",
+      "description": "{EXECUTOR_MENTION} changed the default reaction emoji of {TARGET_MENTION}",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "fields": [
+        { "name": "__Old Emoji__", "value": "{OLD_VALUE}" },
+        { "name": "__New Emoji__", "value": "{NEW_VALUE}" }
+      ]
+    }
+  ],
+  "scheduledEventUpdateRecurrenceRule": [
+    {
+      "title": "Scheduled Event Recurrence Rule Change",
+      "description": "{EXECUTOR_MENTION} changed the recurrence rule of **{TARGET_NAME}**",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "fields": [
+        { "name": "__Old Rule__", "value": "`{OLD_VALUE_RAW}`" },
+        { "name": "__New Rule__", "value": "`{NEW_VALUE_RAW}`" }
+      ]
+    }
+  ],
+  "soundboardSoundCreate": [
+    {
+      "title": "Soundboard Sound Created",
+      "description": "{EXECUTOR_MENTION} created a soundboard sound: **{TARGET_NAME}**",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      }
+    }
+  ],
+  "soundboardSoundUpdateName": [
+    {
+      "title": "Soundboard Sound Name Change",
+      "description": "{EXECUTOR_MENTION} changed the name of a soundboard sound",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "fields": [
+        { "name": "__Old Name__", "value": "{OLD_VALUE}" },
+        { "name": "__New Name__", "value": "{NEW_VALUE}" }
+      ]
+    }
+  ],
+  "soundboardSoundUpdateVolume": [
+    {
+      "title": "Soundboard Sound Volume Change",
+      "description": "{EXECUTOR_MENTION} changed the volume of soundboard sound **{TARGET_NAME}**",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "fields": [
+        { "name": "__Old Volume__", "value": "{OLD_VALUE}" },
+        { "name": "__New Volume__", "value": "{NEW_VALUE}" }
+      ]
+    }
+  ],
+  "soundboardSoundUpdateEmojiId": [
+    {
+      "title": "Soundboard Sound Emoji Change",
+      "description": "{EXECUTOR_MENTION} changed the emoji of soundboard sound **{TARGET_NAME}**",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "fields": [
+        { "name": "__Old Emoji ID__", "value": "`{OLD_VALUE_RAW}`" },
+        { "name": "__New Emoji ID__", "value": "`{NEW_VALUE_RAW}`" }
+      ]
+    }
+  ],
+  "soundboardSoundUpdateEmojiName": [
+    {
+      "title": "Soundboard Sound Emoji Name Change",
+      "description": "{EXECUTOR_MENTION} changed the emoji name of soundboard sound **{TARGET_NAME}**",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "fields": [
+        { "name": "__Old Emoji__", "value": "{OLD_VALUE}" },
+        { "name": "__New Emoji__", "value": "{NEW_VALUE}" }
+      ]
+    }
+  ],
+  "soundboardSoundDelete": [
+    {
+      "title": "Soundboard Sound Deleted",
+      "description": "{EXECUTOR_MENTION} deleted a soundboard sound: **{TARGET_NAME}**",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      }
+    }
   ]
 }

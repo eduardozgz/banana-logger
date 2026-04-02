@@ -921,6 +921,61 @@ export const EmbedTemplatePlaceholders = {
     ...AuditLogChangePlaceholders,
     ...AuditLogTargetPlaceholders,
   ],
+  // Missing Channel Update Fields (Forum)
+  channelUpdateAvailableTags: [
+    ...BasePlaceholders,
+    ...AuditLogBasePlaceholders,
+    ...AuditLogChangePlaceholders,
+    ...AuditLogTargetPlaceholders,
+  ],
+  channelUpdateDefaultReactionEmoji: [
+    ...BasePlaceholders,
+    ...AuditLogBasePlaceholders,
+    ...AuditLogChangePlaceholders,
+    ...AuditLogTargetPlaceholders,
+  ],
+  // Missing Scheduled Event Update Fields
+  scheduledEventUpdateRecurrenceRule: [
+    ...BasePlaceholders,
+    ...AuditLogBasePlaceholders,
+    ...AuditLogChangePlaceholders,
+    ...AuditLogTargetPlaceholders,
+  ],
+  // Soundboard Events
+  soundboardSoundCreate: [
+    ...BasePlaceholders,
+    ...AuditLogBasePlaceholders,
+    ...AuditLogTargetPlaceholders,
+  ],
+  soundboardSoundUpdateName: [
+    ...BasePlaceholders,
+    ...AuditLogBasePlaceholders,
+    ...AuditLogChangePlaceholders,
+    ...AuditLogTargetPlaceholders,
+  ],
+  soundboardSoundUpdateVolume: [
+    ...BasePlaceholders,
+    ...AuditLogBasePlaceholders,
+    ...AuditLogChangePlaceholders,
+    ...AuditLogTargetPlaceholders,
+  ],
+  soundboardSoundUpdateEmojiId: [
+    ...BasePlaceholders,
+    ...AuditLogBasePlaceholders,
+    ...AuditLogChangePlaceholders,
+    ...AuditLogTargetPlaceholders,
+  ],
+  soundboardSoundUpdateEmojiName: [
+    ...BasePlaceholders,
+    ...AuditLogBasePlaceholders,
+    ...AuditLogChangePlaceholders,
+    ...AuditLogTargetPlaceholders,
+  ],
+  soundboardSoundDelete: [
+    ...BasePlaceholders,
+    ...AuditLogBasePlaceholders,
+    ...AuditLogTargetPlaceholders,
+  ],
 } as const satisfies Record<EventType, string[]>;
 
 export const ALL_EVENTS_CHOICE = "all";

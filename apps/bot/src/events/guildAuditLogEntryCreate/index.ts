@@ -52,6 +52,9 @@ import { roleUpdate } from "./roleUpdate";
 import { scheduledEventCreateHandler } from "./scheduledEventCreate";
 import { scheduledEventDeleteHandler } from "./scheduledEventDelete";
 import { scheduledEventUpdate } from "./scheduledEventUpdate";
+import { soundboardSoundCreateHandler } from "./soundboardSoundCreate";
+import { soundboardSoundDeleteHandler } from "./soundboardSoundDelete";
+import { soundboardSoundUpdate } from "./soundboardSoundUpdate";
 import { stageInstanceCreateHandler } from "./stageInstanceCreate";
 import { stageInstanceDeleteHandler } from "./stageInstanceDelete";
 import { stageInstanceUpdate } from "./stageInstanceUpdate";
@@ -159,6 +162,11 @@ const handlers = {
   [AuditLogEvent.AutoModerationUserCommunicationDisabled]:
     autoModTimeoutHandler,
   [AuditLogEvent.AutoModerationQuarantineUser]: autoModQuarantineHandler,
+  [AuditLogEvent.SoundboardSoundCreate]: soundboardSoundCreateHandler,
+  [AuditLogEvent.SoundboardSoundUpdate]: createGenericAuditLogHandler(
+    soundboardSoundUpdate,
+  ),
+  [AuditLogEvent.SoundboardSoundDelete]: soundboardSoundDeleteHandler,
   [AuditLogEvent.ThreadCreate]: threadCreateHandler,
   [AuditLogEvent.ThreadUpdate]: createGenericAuditLogHandler(threadUpdate),
   [AuditLogEvent.ThreadDelete]: threadDeleteHandler,

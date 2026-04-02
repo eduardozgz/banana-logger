@@ -7,6 +7,7 @@ import type { AuditLogChangeTransformer } from "~/events/guildAuditLogEntryCreat
 import { memberUpdate } from "~/events/guildAuditLogEntryCreate/memberUpdate";
 import { roleUpdate } from "~/events/guildAuditLogEntryCreate/roleUpdate";
 import { scheduledEventUpdate } from "~/events/guildAuditLogEntryCreate/scheduledEventUpdate";
+import { soundboardSoundUpdate } from "~/events/guildAuditLogEntryCreate/soundboardSoundUpdate";
 import { stageInstanceUpdate } from "~/events/guildAuditLogEntryCreate/stageInstanceUpdate";
 
 const mockI18n = {
@@ -327,7 +328,7 @@ describe("scheduledEventUpdate transformers", () => {
   });
 
   describe("changes map", () => {
-    it("covers all expected keys", () => {
+    it("covers all expected keys including recurrence_rule", () => {
       const keys = Object.keys(scheduledEventUpdate.changesMap);
       expect(keys).toEqual(
         expect.arrayContaining([
@@ -339,6 +340,7 @@ describe("scheduledEventUpdate transformers", () => {
           "entity_type",
           "privacy_level",
           "image_hash",
+          "recurrence_rule",
         ]),
       );
     });
@@ -381,6 +383,55 @@ describe("stageInstanceUpdate transformers", () => {
     it("covers all expected keys", () => {
       const keys = Object.keys(stageInstanceUpdate.changesMap);
       expect(keys).toEqual(expect.arrayContaining(["topic", "privacy_level"]));
+    });
+  });
+});
+
+// ── soundboardSoundUpdate ───────────────────────────────────
+
+describe("soundboardSoundUpdate transformers", () => {
+  const get = (key: string) => getFrom(soundboardSoundUpdate, key);
+
+  describe("volume", () => {
+    it("formats as percentage", () => {
+      const result = get("volume")(
+        mockI18n,
+        { key: "volume", old: 0.5, new: 1.0 } as never,
+        mockGuild,
+        mockTarget,
+      );
+      expect(result.old).toBe("50%");
+      expect(result.new).toBe("100%");
+    });
+
+    it("rounds fractional percentages", () => {
+      const result = get("volume")(
+        mockI18n,
+        { key: "volume", old: 0.333, new: 0.667 } as never,
+        mockGuild,
+        mockTarget,
+      );
+      expect(result.old).toBe("33%");
+      expect(result.new).toBe("67%");
+    });
+
+    it("returns Unknown for undefined", () => {
+      const result = get("volume")(
+        mockI18n,
+        { key: "volume", old: undefined, new: 1.0 } as never,
+        mockGuild,
+        mockTarget,
+      );
+      expect(result.old).toBe("Unknown");
+    });
+  });
+
+  describe("changes map", () => {
+    it("covers all expected keys", () => {
+      const keys = Object.keys(soundboardSoundUpdate.changesMap);
+      expect(keys).toEqual(
+        expect.arrayContaining(["name", "volume", "emoji_id", "emoji_name"]),
+      );
     });
   });
 });

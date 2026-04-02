@@ -145,7 +145,16 @@
     "channelUpdateRtcRegion": "channel voice region change",
     "channelUpdateFlags": "channel flags change",
     "channelUpdateDefaultThreadRateLimitPerUser": "channel default thread rate limit change",
-    "roleUpdateIcon": "role icon change"
+    "roleUpdateIcon": "role icon change",
+    "channelUpdateAvailableTags": "channel available tags change",
+    "channelUpdateDefaultReactionEmoji": "channel default reaction emoji change",
+    "scheduledEventUpdateRecurrenceRule": "scheduled event recurrence rule change",
+    "soundboardSoundCreate": "soundboard sound create",
+    "soundboardSoundUpdateName": "soundboard sound name change",
+    "soundboardSoundUpdateVolume": "soundboard sound volume change",
+    "soundboardSoundUpdateEmojiId": "soundboard sound emoji change",
+    "soundboardSoundUpdateEmojiName": "soundboard sound emoji name change",
+    "soundboardSoundDelete": "soundboard sound delete"
   },
   "eventDataTransformers": {
     "common": {

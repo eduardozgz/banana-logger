@@ -337,6 +337,26 @@ interface Resources {
         title: "Channel Overwrite Updated";
       },
     ];
+    channelUpdateAvailableTags: [
+      {
+        author: {
+          icon_url: "{EXECUTOR_AVATAR}";
+          name: "{EXECUTOR_NAME}";
+        };
+        description: "{EXECUTOR_MENTION} changed the available tags of {TARGET_MENTION}";
+        fields: [
+          {
+            name: "__Old Tags__";
+            value: "`{OLD_VALUE_RAW}`";
+          },
+          {
+            name: "__New Tags__";
+            value: "`{NEW_VALUE_RAW}`";
+          },
+        ];
+        title: "Channel Available Tags Change";
+      },
+    ];
     channelUpdateBitrate: [
       {
         author: {
@@ -375,6 +395,26 @@ interface Resources {
           },
         ];
         title: "Channel Default Auto Archive Durations Change";
+      },
+    ];
+    channelUpdateDefaultReactionEmoji: [
+      {
+        author: {
+          icon_url: "{EXECUTOR_AVATAR}";
+          name: "{EXECUTOR_NAME}";
+        };
+        description: "{EXECUTOR_MENTION} changed the default reaction emoji of {TARGET_MENTION}";
+        fields: [
+          {
+            name: "__Old Emoji__";
+            value: "{OLD_VALUE}";
+          },
+          {
+            name: "__New Emoji__";
+            value: "{NEW_VALUE}";
+          },
+        ];
+        title: "Channel Default Reaction Emoji Change";
       },
     ];
     channelUpdateDefaultThreadRateLimitPerUser: [
@@ -2020,6 +2060,26 @@ interface Resources {
         title: "Scheduled Event Privacy Level Change";
       },
     ];
+    scheduledEventUpdateRecurrenceRule: [
+      {
+        author: {
+          icon_url: "{EXECUTOR_AVATAR}";
+          name: "{EXECUTOR_NAME}";
+        };
+        description: "{EXECUTOR_MENTION} changed the recurrence rule of **{TARGET_NAME}**";
+        fields: [
+          {
+            name: "__Old Rule__";
+            value: "`{OLD_VALUE_RAW}`";
+          },
+          {
+            name: "__New Rule__";
+            value: "`{NEW_VALUE_RAW}`";
+          },
+        ];
+        title: "Scheduled Event Recurrence Rule Change";
+      },
+    ];
     scheduledEventUpdateStatus: [
       {
         author: {
@@ -2038,6 +2098,106 @@ interface Resources {
           },
         ];
         title: "Scheduled Event Status Change";
+      },
+    ];
+    soundboardSoundCreate: [
+      {
+        author: {
+          icon_url: "{EXECUTOR_AVATAR}";
+          name: "{EXECUTOR_NAME}";
+        };
+        description: "{EXECUTOR_MENTION} created a soundboard sound: **{TARGET_NAME}**";
+        title: "Soundboard Sound Created";
+      },
+    ];
+    soundboardSoundDelete: [
+      {
+        author: {
+          icon_url: "{EXECUTOR_AVATAR}";
+          name: "{EXECUTOR_NAME}";
+        };
+        description: "{EXECUTOR_MENTION} deleted a soundboard sound: **{TARGET_NAME}**";
+        title: "Soundboard Sound Deleted";
+      },
+    ];
+    soundboardSoundUpdateEmojiId: [
+      {
+        author: {
+          icon_url: "{EXECUTOR_AVATAR}";
+          name: "{EXECUTOR_NAME}";
+        };
+        description: "{EXECUTOR_MENTION} changed the emoji of soundboard sound **{TARGET_NAME}**";
+        fields: [
+          {
+            name: "__Old Emoji ID__";
+            value: "`{OLD_VALUE_RAW}`";
+          },
+          {
+            name: "__New Emoji ID__";
+            value: "`{NEW_VALUE_RAW}`";
+          },
+        ];
+        title: "Soundboard Sound Emoji Change";
+      },
+    ];
+    soundboardSoundUpdateEmojiName: [
+      {
+        author: {
+          icon_url: "{EXECUTOR_AVATAR}";
+          name: "{EXECUTOR_NAME}";
+        };
+        description: "{EXECUTOR_MENTION} changed the emoji name of soundboard sound **{TARGET_NAME}**";
+        fields: [
+          {
+            name: "__Old Emoji__";
+            value: "{OLD_VALUE}";
+          },
+          {
+            name: "__New Emoji__";
+            value: "{NEW_VALUE}";
+          },
+        ];
+        title: "Soundboard Sound Emoji Name Change";
+      },
+    ];
+    soundboardSoundUpdateName: [
+      {
+        author: {
+          icon_url: "{EXECUTOR_AVATAR}";
+          name: "{EXECUTOR_NAME}";
+        };
+        description: "{EXECUTOR_MENTION} changed the name of a soundboard sound";
+        fields: [
+          {
+            name: "__Old Name__";
+            value: "{OLD_VALUE}";
+          },
+          {
+            name: "__New Name__";
+            value: "{NEW_VALUE}";
+          },
+        ];
+        title: "Soundboard Sound Name Change";
+      },
+    ];
+    soundboardSoundUpdateVolume: [
+      {
+        author: {
+          icon_url: "{EXECUTOR_AVATAR}";
+          name: "{EXECUTOR_NAME}";
+        };
+        description: "{EXECUTOR_MENTION} changed the volume of soundboard sound **{TARGET_NAME}**";
+        fields: [
+          {
+            name: "__Old Volume__";
+            value: "{OLD_VALUE}";
+          },
+          {
+            name: "__New Volume__";
+            value: "{NEW_VALUE}";
+          },
+        ];
+        title: "Soundboard Sound Volume Change";
       },
     ];
     stageInstanceCreate: [
@@ -2928,8 +3088,10 @@ interface Resources {
       channelOverwriteCreate: "channel overwrite create";
       channelOverwriteDelete: "channel overwrite delete";
       channelOverwriteUpdate: "channel overwrite update";
+      channelUpdateAvailableTags: "channel available tags change";
       channelUpdateBitrate: "channel bitrate change";
       channelUpdateDefaultAutoArchiveDurations: "channel default auto archive durations change";
+      channelUpdateDefaultReactionEmoji: "channel default reaction emoji change";
       channelUpdateDefaultThreadRateLimitPerUser: "channel default thread rate limit change";
       channelUpdateFlags: "channel flags change";
       channelUpdateName: "channel name change";
@@ -3015,7 +3177,14 @@ interface Resources {
       scheduledEventUpdateLocation: "scheduled event location change";
       scheduledEventUpdateName: "scheduled event name change";
       scheduledEventUpdatePrivacyLevel: "scheduled event privacy level change";
+      scheduledEventUpdateRecurrenceRule: "scheduled event recurrence rule change";
       scheduledEventUpdateStatus: "scheduled event status change";
+      soundboardSoundCreate: "soundboard sound create";
+      soundboardSoundDelete: "soundboard sound delete";
+      soundboardSoundUpdateEmojiId: "soundboard sound emoji change";
+      soundboardSoundUpdateEmojiName: "soundboard sound emoji name change";
+      soundboardSoundUpdateName: "soundboard sound name change";
+      soundboardSoundUpdateVolume: "soundboard sound volume change";
       stageInstanceCreate: "stage instance create";
       stageInstanceDelete: "stage instance delete";
       stageInstanceUpdatePrivacyLevel: "stage instance privacy level change";

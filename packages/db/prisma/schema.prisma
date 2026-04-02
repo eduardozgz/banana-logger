@@ -190,4 +190,16 @@ enum EventType {
   channelUpdateDefaultThreadRateLimitPerUser
   // Missing Role Update Fields
   roleUpdateIcon
+  // Missing Channel Update Fields (Forum)
+  channelUpdateAvailableTags
+  channelUpdateDefaultReactionEmoji
+  // Missing Scheduled Event Update Fields
+  scheduledEventUpdateRecurrenceRule
+  // Soundboard Events
+  soundboardSoundCreate
+  soundboardSoundUpdateName
+  soundboardSoundUpdateVolume
+  soundboardSoundUpdateEmojiId
+  soundboardSoundUpdateEmojiName
+  soundboardSoundDelete
 }
