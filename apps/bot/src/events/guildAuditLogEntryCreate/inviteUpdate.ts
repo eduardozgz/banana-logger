@@ -16,7 +16,6 @@ const inviteUpdateChangesMap = {
   max_age: "inviteUpdateMaxAge",
   temporary: "inviteUpdateTemporary",
   uses: "inviteUpdateUses",
-  // TODO check other fields
 } satisfies ChangeMap;
 
 const inviteUpdateChangesTransformers = {

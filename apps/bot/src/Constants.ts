@@ -921,6 +921,45 @@ export const EmbedTemplatePlaceholders = {
     ...AuditLogChangePlaceholders,
     ...AuditLogTargetPlaceholders,
   ],
+  // Onboarding Events
+  onboardingPromptCreate: [
+    ...BasePlaceholders,
+    ...AuditLogBasePlaceholders,
+    ...AuditLogTargetPlaceholders,
+  ],
+  onboardingPromptUpdate: [
+    ...BasePlaceholders,
+    ...AuditLogBasePlaceholders,
+    ...AuditLogChangePlaceholders,
+    ...AuditLogTargetPlaceholders,
+  ],
+  onboardingPromptDelete: [
+    ...BasePlaceholders,
+    ...AuditLogBasePlaceholders,
+    ...AuditLogTargetPlaceholders,
+  ],
+  onboardingCreate: [...BasePlaceholders, ...AuditLogBasePlaceholders],
+  onboardingUpdate: [
+    ...BasePlaceholders,
+    ...AuditLogBasePlaceholders,
+    ...AuditLogChangePlaceholders,
+  ],
+  // Home Settings
+  homeSettingsCreate: [...BasePlaceholders, ...AuditLogBasePlaceholders],
+  homeSettingsUpdate: [
+    ...BasePlaceholders,
+    ...AuditLogBasePlaceholders,
+    ...AuditLogChangePlaceholders,
+  ],
+  // Creator Monetization
+  creatorMonetizationRequestCreated: [
+    ...BasePlaceholders,
+    ...AuditLogBasePlaceholders,
+  ],
+  creatorMonetizationTermsAccepted: [
+    ...BasePlaceholders,
+    ...AuditLogBasePlaceholders,
+  ],
   // Missing Channel Update Fields (Forum)
   channelUpdateAvailableTags: [
     ...BasePlaceholders,

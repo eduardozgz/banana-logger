@@ -647,6 +647,26 @@ interface Resources {
         title: "Channel Video Quality Mode Change";
       },
     ];
+    creatorMonetizationRequestCreated: [
+      {
+        author: {
+          icon_url: "{EXECUTOR_AVATAR}";
+          name: "{EXECUTOR_NAME}";
+        };
+        description: "{EXECUTOR_MENTION} created a creator monetization request";
+        title: "Creator Monetization Request Created";
+      },
+    ];
+    creatorMonetizationTermsAccepted: [
+      {
+        author: {
+          icon_url: "{EXECUTOR_AVATAR}";
+          name: "{EXECUTOR_NAME}";
+        };
+        description: "{EXECUTOR_MENTION} accepted creator monetization terms";
+        title: "Creator Monetization Terms Accepted";
+      },
+    ];
     emojiCreate: [
       {
         author: {
@@ -1207,6 +1227,36 @@ interface Resources {
         title: "Server Widget Enabled State Change";
       },
     ];
+    homeSettingsCreate: [
+      {
+        author: {
+          icon_url: "{EXECUTOR_AVATAR}";
+          name: "{EXECUTOR_NAME}";
+        };
+        description: "{EXECUTOR_MENTION} set up the server guide";
+        title: "Server Guide Created";
+      },
+    ];
+    homeSettingsUpdate: [
+      {
+        author: {
+          icon_url: "{EXECUTOR_AVATAR}";
+          name: "{EXECUTOR_NAME}";
+        };
+        description: "{EXECUTOR_MENTION} updated the server guide";
+        fields: [
+          {
+            name: "__Old Value__";
+            value: "`{OLD_VALUE_RAW}`";
+          },
+          {
+            name: "__New Value__";
+            value: "`{NEW_VALUE_RAW}`";
+          },
+        ];
+        title: "Server Guide Updated";
+      },
+    ];
     inviteCreate: [
       {
         author: {
@@ -1712,6 +1762,76 @@ interface Resources {
           url: "{AUTHOR_AVATAR}";
         };
         title: "Message Updated";
+      },
+    ];
+    onboardingCreate: [
+      {
+        author: {
+          icon_url: "{EXECUTOR_AVATAR}";
+          name: "{EXECUTOR_NAME}";
+        };
+        description: "{EXECUTOR_MENTION} set up server onboarding";
+        title: "Onboarding Created";
+      },
+    ];
+    onboardingPromptCreate: [
+      {
+        author: {
+          icon_url: "{EXECUTOR_AVATAR}";
+          name: "{EXECUTOR_NAME}";
+        };
+        description: "{EXECUTOR_MENTION} created an onboarding prompt: **{TARGET_NAME}**";
+        title: "Onboarding Prompt Created";
+      },
+    ];
+    onboardingPromptDelete: [
+      {
+        author: {
+          icon_url: "{EXECUTOR_AVATAR}";
+          name: "{EXECUTOR_NAME}";
+        };
+        description: "{EXECUTOR_MENTION} deleted an onboarding prompt: **{TARGET_NAME}**";
+        title: "Onboarding Prompt Deleted";
+      },
+    ];
+    onboardingPromptUpdate: [
+      {
+        author: {
+          icon_url: "{EXECUTOR_AVATAR}";
+          name: "{EXECUTOR_NAME}";
+        };
+        description: "{EXECUTOR_MENTION} updated an onboarding prompt: **{TARGET_NAME}**";
+        fields: [
+          {
+            name: "__Old Value__";
+            value: "`{OLD_VALUE_RAW}`";
+          },
+          {
+            name: "__New Value__";
+            value: "`{NEW_VALUE_RAW}`";
+          },
+        ];
+        title: "Onboarding Prompt Updated";
+      },
+    ];
+    onboardingUpdate: [
+      {
+        author: {
+          icon_url: "{EXECUTOR_AVATAR}";
+          name: "{EXECUTOR_NAME}";
+        };
+        description: "{EXECUTOR_MENTION} updated server onboarding";
+        fields: [
+          {
+            name: "__Old Value__";
+            value: "`{OLD_VALUE_RAW}`";
+          },
+          {
+            name: "__New Value__";
+            value: "`{NEW_VALUE_RAW}`";
+          },
+        ];
+        title: "Onboarding Updated";
       },
     ];
     roleCreate: [
@@ -3104,6 +3224,8 @@ interface Resources {
       channelUpdateType: "channel type change";
       channelUpdateUserLimit: "channel user limit change";
       channelUpdateVideoQualityMode: "channel video quality mode change";
+      creatorMonetizationRequestCreated: "creator monetization request created";
+      creatorMonetizationTermsAccepted: "creator monetization terms accepted";
       emojiCreate: "emoji create";
       emojiDelete: "emoji delete";
       emojiUpdateName: "emoji name change";
@@ -3131,6 +3253,8 @@ interface Resources {
       guildUpdateVerificationLevel: "server verification level change";
       guildUpdateWidgetChannel: "server widget channel change";
       guildUpdateWidgetEnabled: "server widget enabled change";
+      homeSettingsCreate: "server guide create";
+      homeSettingsUpdate: "server guide update";
       inviteCreate: "invite create";
       inviteDelete: "invite delete";
       inviteUpdateChannel: "invite channel change";
@@ -3160,6 +3284,11 @@ interface Resources {
       messageReactionRemove: "message reaction remove";
       messageUnpin: "message unpin";
       messageUpdate: "message update";
+      onboardingCreate: "onboarding create";
+      onboardingPromptCreate: "onboarding prompt create";
+      onboardingPromptDelete: "onboarding prompt delete";
+      onboardingPromptUpdate: "onboarding prompt update";
+      onboardingUpdate: "onboarding update";
       roleCreate: "role create";
       roleDelete: "role delete";
       roleUpdateColor: "role color change";

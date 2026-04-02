@@ -18,7 +18,6 @@ import type {
 import { formatTimeDuration } from "~/formatters/formatTimeDuration";
 
 const guildUpdateChangesMap = {
-  // TODO banner color
   name: "guildUpdateName",
   description: "guildUpdateDescription",
   icon_hash: "guildUpdateIcon",
@@ -43,7 +42,6 @@ const guildUpdateChangesMap = {
   widget_channel_id: "guildUpdateWidgetChannel",
   system_channel_flags: "guildUpdateSystemChannelFlags",
   system_channel_id: "guildUpdateSystemChannel",
-  // TODO check other fields
 } satisfies ChangeMap;
 
 const guildUpdateChangesTransformers = {

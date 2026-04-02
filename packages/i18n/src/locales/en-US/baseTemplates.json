@@ -2017,6 +2017,108 @@
       ]
     }
   ],
+  "onboardingPromptCreate": [
+    {
+      "title": "Onboarding Prompt Created",
+      "description": "{EXECUTOR_MENTION} created an onboarding prompt: **{TARGET_NAME}**",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      }
+    }
+  ],
+  "onboardingPromptUpdate": [
+    {
+      "title": "Onboarding Prompt Updated",
+      "description": "{EXECUTOR_MENTION} updated an onboarding prompt: **{TARGET_NAME}**",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "fields": [
+        { "name": "__Old Value__", "value": "`{OLD_VALUE_RAW}`" },
+        { "name": "__New Value__", "value": "`{NEW_VALUE_RAW}`" }
+      ]
+    }
+  ],
+  "onboardingPromptDelete": [
+    {
+      "title": "Onboarding Prompt Deleted",
+      "description": "{EXECUTOR_MENTION} deleted an onboarding prompt: **{TARGET_NAME}**",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      }
+    }
+  ],
+  "onboardingCreate": [
+    {
+      "title": "Onboarding Created",
+      "description": "{EXECUTOR_MENTION} set up server onboarding",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      }
+    }
+  ],
+  "onboardingUpdate": [
+    {
+      "title": "Onboarding Updated",
+      "description": "{EXECUTOR_MENTION} updated server onboarding",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "fields": [
+        { "name": "__Old Value__", "value": "`{OLD_VALUE_RAW}`" },
+        { "name": "__New Value__", "value": "`{NEW_VALUE_RAW}`" }
+      ]
+    }
+  ],
+  "homeSettingsCreate": [
+    {
+      "title": "Server Guide Created",
+      "description": "{EXECUTOR_MENTION} set up the server guide",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      }
+    }
+  ],
+  "homeSettingsUpdate": [
+    {
+      "title": "Server Guide Updated",
+      "description": "{EXECUTOR_MENTION} updated the server guide",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      },
+      "fields": [
+        { "name": "__Old Value__", "value": "`{OLD_VALUE_RAW}`" },
+        { "name": "__New Value__", "value": "`{NEW_VALUE_RAW}`" }
+      ]
+    }
+  ],
+  "creatorMonetizationRequestCreated": [
+    {
+      "title": "Creator Monetization Request Created",
+      "description": "{EXECUTOR_MENTION} created a creator monetization request",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      }
+    }
+  ],
+  "creatorMonetizationTermsAccepted": [
+    {
+      "title": "Creator Monetization Terms Accepted",
+      "description": "{EXECUTOR_MENTION} accepted creator monetization terms",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      }
+    }
+  ],
   "soundboardSoundCreate": [
     {
       "title": "Soundboard Sound Created",

@@ -46,12 +46,23 @@ import { memberUpdate } from "./memberUpdate";
 import { messageBulkDeleteHandler } from "./messageBulkDelete";
 import { messagePinHandler } from "./messagePin";
 import { messageUnpinHandler } from "./messageUnpin";
+import { onboardingPromptCreateHandler } from "./onboardingPromptCreate";
+import { onboardingPromptDeleteHandler } from "./onboardingPromptDelete";
+import { onboardingPromptUpdateHandler } from "./onboardingPromptUpdate";
+import { onboardingUpdateHandler } from "./onboardingUpdate";
 import { roleCreateHandler } from "./roleCreate";
 import { roleDeleteHandler } from "./roleDelete";
 import { roleUpdate } from "./roleUpdate";
 import { scheduledEventCreateHandler } from "./scheduledEventCreate";
 import { scheduledEventDeleteHandler } from "./scheduledEventDelete";
 import { scheduledEventUpdate } from "./scheduledEventUpdate";
+import {
+  creatorMonetizationRequestCreatedHandler,
+  creatorMonetizationTermsAcceptedHandler,
+  homeSettingsCreateHandler,
+  homeSettingsUpdateHandler,
+  onboardingCreateHandler,
+} from "./simpleAuditLogHandlers";
 import { soundboardSoundCreateHandler } from "./soundboardSoundCreate";
 import { soundboardSoundDeleteHandler } from "./soundboardSoundDelete";
 import { soundboardSoundUpdate } from "./soundboardSoundUpdate";
@@ -167,6 +178,17 @@ const handlers = {
     soundboardSoundUpdate,
   ),
   [AuditLogEvent.SoundboardSoundDelete]: soundboardSoundDeleteHandler,
+  [AuditLogEvent.OnboardingPromptCreate]: onboardingPromptCreateHandler,
+  [AuditLogEvent.OnboardingPromptUpdate]: onboardingPromptUpdateHandler,
+  [AuditLogEvent.OnboardingPromptDelete]: onboardingPromptDeleteHandler,
+  [AuditLogEvent.OnboardingCreate]: onboardingCreateHandler,
+  [AuditLogEvent.OnboardingUpdate]: onboardingUpdateHandler,
+  [AuditLogEvent.HomeSettingsCreate]: homeSettingsCreateHandler,
+  [AuditLogEvent.HomeSettingsUpdate]: homeSettingsUpdateHandler,
+  [AuditLogEvent.CreatorMonetizationRequestCreated]:
+    creatorMonetizationRequestCreatedHandler,
+  [AuditLogEvent.CreatorMonetizationTermsAccepted]:
+    creatorMonetizationTermsAcceptedHandler,
   [AuditLogEvent.ThreadCreate]: threadCreateHandler,
   [AuditLogEvent.ThreadUpdate]: createGenericAuditLogHandler(threadUpdate),
   [AuditLogEvent.ThreadDelete]: threadDeleteHandler,

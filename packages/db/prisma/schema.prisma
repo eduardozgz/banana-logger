@@ -195,6 +195,18 @@ enum EventType {
   channelUpdateDefaultReactionEmoji
   // Missing Scheduled Event Update Fields
   scheduledEventUpdateRecurrenceRule
+  // Onboarding Events
+  onboardingPromptCreate
+  onboardingPromptUpdate
+  onboardingPromptDelete
+  onboardingCreate
+  onboardingUpdate
+  // Home Settings
+  homeSettingsCreate
+  homeSettingsUpdate
+  // Creator Monetization
+  creatorMonetizationRequestCreated
+  creatorMonetizationTermsAccepted
   // Soundboard Events
   soundboardSoundCreate
   soundboardSoundUpdateName
