@@ -1,9 +1,9 @@
 import type { Client } from "discord.js";
 
+import { clientReadyEvent } from "./clientReady";
 import { guildAuditLogEntryCreateEvent } from "./guildAuditLogEntryCreate";
 import { interactionCreateEvent } from "./interactionCreate";
 import { messageDeleteEvent } from "./messageDelete";
-import { clientReadyEvent } from "./clientReady";
 
 const allEvents = [
   clientReadyEvent,

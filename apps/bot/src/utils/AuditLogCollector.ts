@@ -105,7 +105,6 @@ export class AuditLogCollector {
     auditLogEntry: GuildAuditLogsEntry<AuditLogEvent>,
     guild: Guild,
   ) {
-    // TODO: message delete entry doesnt get here sometimes
     const newEntry: Resolvable = {
       entry: auditLogEntry,
       remainingResolves:
@@ -236,7 +235,7 @@ export class AuditLogCollector {
       return;
     }
     const index = entries.findIndex(
-      (resolvable) => resolvable.entry.id === resolvable.entry.id,
+      (entry) => entry.entry.id === resolvable.entry.id,
     );
 
     resolvable.remainingResolves--;

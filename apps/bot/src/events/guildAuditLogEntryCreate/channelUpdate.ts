@@ -19,7 +19,7 @@ const channelUpdateChangesMap = {
   position: "channelUpdatePosition",
   permission_overwrites: "channelUpdatePermissionOverwrites",
   default_auto_archive_duration: "channelUpdateDefaultAutoArchiveDurations",
-  // TODO check other fields
+  video_quality_mode: "channelUpdateVideoQualityMode",
 } satisfies ChangeMap;
 
 const channelUpdateChangesTransformers = {
@@ -79,6 +79,20 @@ const channelUpdateChangesTransformers = {
       new: change.new
         ? formatTimeDuration(i18n.language, change.new * 60)
         : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
+    };
+  },
+  video_quality_mode: (i18n, change) => {
+    const modes: Record<number, string> = {
+      1: i18n.t("main:eventDataTransformers.channelUpdateVideoQualityMode.1"),
+      2: i18n.t("main:eventDataTransformers.channelUpdateVideoQualityMode.2"),
+    };
+    return {
+      old:
+        modes[change.old as number] ??
+        i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
+      new:
+        modes[change.new as number] ??
+        i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
     };
   },
 } satisfies AuditLogChangeTransformers<keyof typeof channelUpdateChangesMap>;

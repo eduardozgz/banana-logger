@@ -712,6 +712,26 @@ interface Resources {
         ];
       },
     ];
+    channelUpdateVideoQualityMode: [
+      {
+        title: "Channel Video Quality Mode Change";
+        description: "{EXECUTOR_MENTION} changed the video quality mode of {TARGET_MENTION}";
+        author: {
+          name: "{EXECUTOR_NAME}";
+          icon_url: "{EXECUTOR_AVATAR}";
+        };
+        fields: [
+          {
+            name: "__Old Video Quality Mode__";
+            value: "{OLD_VALUE}";
+          },
+          {
+            name: "__New Video Quality Mode__";
+            value: "{NEW_VALUE}";
+          },
+        ];
+      },
+    ];
     channelDelete: [
       {
         title: "Channel Deleted";
@@ -1464,6 +1484,456 @@ interface Resources {
         };
       },
     ];
+    channelOverwriteCreate: [
+      {
+        title: "Channel Overwrite Created";
+        description: "{EXECUTOR_MENTION} created a permission overwrite in {TARGET_MENTION}";
+        author: {
+          name: "{EXECUTOR_NAME}";
+          icon_url: "{EXECUTOR_AVATAR}";
+        };
+        fields: [
+          {
+            name: "__Type__";
+            value: "{OVERWRITE_TYPE}";
+          },
+          {
+            name: "__Name__";
+            value: "{OVERWRITE_NAME}";
+          },
+          {
+            name: "__ID__";
+            value: "`{OVERWRITE_ID}`";
+          },
+        ];
+      },
+    ];
+    channelOverwriteUpdate: [
+      {
+        title: "Channel Overwrite Updated";
+        description: "{EXECUTOR_MENTION} updated a permission overwrite in {TARGET_MENTION}";
+        author: {
+          name: "{EXECUTOR_NAME}";
+          icon_url: "{EXECUTOR_AVATAR}";
+        };
+        fields: [
+          {
+            name: "__Type__";
+            value: "{OVERWRITE_TYPE}";
+          },
+          {
+            name: "__Name__";
+            value: "{OVERWRITE_NAME}";
+          },
+          {
+            name: "__ID__";
+            value: "`{OVERWRITE_ID}`";
+          },
+          {
+            name: "__Changes__";
+            value: "{PERMISSIONS_CHANGED}";
+          },
+        ];
+      },
+    ];
+    channelOverwriteDelete: [
+      {
+        title: "Channel Overwrite Deleted";
+        description: "{EXECUTOR_MENTION} deleted a permission overwrite in {TARGET_MENTION}";
+        author: {
+          name: "{EXECUTOR_NAME}";
+          icon_url: "{EXECUTOR_AVATAR}";
+        };
+        fields: [
+          {
+            name: "__Type__";
+            value: "{OVERWRITE_TYPE}";
+          },
+          {
+            name: "__Name__";
+            value: "{OVERWRITE_NAME}";
+          },
+          {
+            name: "__ID__";
+            value: "`{OVERWRITE_ID}`";
+          },
+        ];
+      },
+    ];
+    stageInstanceCreate: [
+      {
+        title: "Stage Instance Created";
+        description: "{EXECUTOR_MENTION} created a stage instance in {TARGET_MENTION}";
+        author: {
+          name: "{EXECUTOR_NAME}";
+          icon_url: "{EXECUTOR_AVATAR}";
+        };
+        fields: [
+          {
+            name: "__Topic__";
+            value: "{TOPIC}";
+          },
+        ];
+      },
+    ];
+    stageInstanceUpdateTopic: [
+      {
+        title: "Stage Instance Topic Change";
+        description: "{EXECUTOR_MENTION} changed the topic of a stage instance in {TARGET_MENTION}";
+        author: {
+          name: "{EXECUTOR_NAME}";
+          icon_url: "{EXECUTOR_AVATAR}";
+        };
+        fields: [
+          {
+            name: "__Old Topic__";
+            value: "{OLD_VALUE}";
+          },
+          {
+            name: "__New Topic__";
+            value: "{NEW_VALUE}";
+          },
+        ];
+      },
+    ];
+    stageInstanceUpdatePrivacyLevel: [
+      {
+        title: "Stage Instance Privacy Level Change";
+        description: "{EXECUTOR_MENTION} changed the privacy level of a stage instance in {TARGET_MENTION}";
+        author: {
+          name: "{EXECUTOR_NAME}";
+          icon_url: "{EXECUTOR_AVATAR}";
+        };
+        fields: [
+          {
+            name: "__Old Privacy Level__";
+            value: "{OLD_VALUE}";
+          },
+          {
+            name: "__New Privacy Level__";
+            value: "{NEW_VALUE}";
+          },
+        ];
+      },
+    ];
+    stageInstanceDelete: [
+      {
+        title: "Stage Instance Deleted";
+        description: "{EXECUTOR_MENTION} deleted a stage instance in {TARGET_MENTION}";
+        author: {
+          name: "{EXECUTOR_NAME}";
+          icon_url: "{EXECUTOR_AVATAR}";
+        };
+      },
+    ];
+    stickerCreate: [
+      {
+        title: "Sticker Created";
+        description: "{EXECUTOR_MENTION} created a sticker: `{TARGET_NAME}`";
+        thumbnail: {
+          url: "{TARGET_IMAGE_URL}";
+        };
+        author: {
+          name: "{EXECUTOR_NAME}";
+          icon_url: "{EXECUTOR_AVATAR}";
+        };
+        fields: [
+          {
+            name: "__Description__";
+            value: "{DESCRIPTION}";
+          },
+          {
+            name: "__Tags__";
+            value: "{TAGS}";
+          },
+        ];
+      },
+    ];
+    stickerUpdateName: [
+      {
+        title: "Sticker Name Change";
+        description: "{EXECUTOR_MENTION} changed the name of a sticker";
+        thumbnail: {
+          url: "{TARGET_IMAGE_URL}";
+        };
+        author: {
+          name: "{EXECUTOR_NAME}";
+          icon_url: "{EXECUTOR_AVATAR}";
+        };
+        fields: [
+          {
+            name: "__Old Name__";
+            value: "`{OLD_VALUE}`";
+          },
+          {
+            name: "__New Name__";
+            value: "`{NEW_VALUE}`";
+          },
+        ];
+      },
+    ];
+    stickerUpdateDescription: [
+      {
+        title: "Sticker Description Change";
+        description: "{EXECUTOR_MENTION} changed the description of a sticker: `{TARGET_NAME}`";
+        thumbnail: {
+          url: "{TARGET_IMAGE_URL}";
+        };
+        author: {
+          name: "{EXECUTOR_NAME}";
+          icon_url: "{EXECUTOR_AVATAR}";
+        };
+        fields: [
+          {
+            name: "__Old Description__";
+            value: "{OLD_VALUE}";
+          },
+          {
+            name: "__New Description__";
+            value: "{NEW_VALUE}";
+          },
+        ];
+      },
+    ];
+    stickerUpdateTags: [
+      {
+        title: "Sticker Tags Change";
+        description: "{EXECUTOR_MENTION} changed the tags of a sticker: `{TARGET_NAME}`";
+        thumbnail: {
+          url: "{TARGET_IMAGE_URL}";
+        };
+        author: {
+          name: "{EXECUTOR_NAME}";
+          icon_url: "{EXECUTOR_AVATAR}";
+        };
+        fields: [
+          {
+            name: "__Old Tags__";
+            value: "{OLD_VALUE}";
+          },
+          {
+            name: "__New Tags__";
+            value: "{NEW_VALUE}";
+          },
+        ];
+      },
+    ];
+    stickerDelete: [
+      {
+        title: "Sticker Deleted";
+        description: "{EXECUTOR_MENTION} deleted a sticker: `{TARGET_NAME}`";
+        author: {
+          name: "{EXECUTOR_NAME}";
+          icon_url: "{EXECUTOR_AVATAR}";
+        };
+      },
+    ];
+    scheduledEventCreate: [
+      {
+        title: "Scheduled Event Created";
+        description: "{EXECUTOR_MENTION} created a scheduled event: **{TARGET_NAME}**";
+        author: {
+          name: "{EXECUTOR_NAME}";
+          icon_url: "{EXECUTOR_AVATAR}";
+        };
+        fields: [
+          {
+            name: "__Description__";
+            value: "{DESCRIPTION}";
+          },
+          {
+            name: "__Location__";
+            value: "{LOCATION}";
+          },
+          {
+            name: "__Start Time__";
+            value: "{START_TIME}";
+          },
+          {
+            name: "__End Time__";
+            value: "{END_TIME}";
+          },
+        ];
+      },
+    ];
+    scheduledEventUpdateName: [
+      {
+        title: "Scheduled Event Name Change";
+        description: "{EXECUTOR_MENTION} changed the name of a scheduled event";
+        author: {
+          name: "{EXECUTOR_NAME}";
+          icon_url: "{EXECUTOR_AVATAR}";
+        };
+        fields: [
+          {
+            name: "__Old Name__";
+            value: "{OLD_VALUE}";
+          },
+          {
+            name: "__New Name__";
+            value: "{NEW_VALUE}";
+          },
+        ];
+      },
+    ];
+    scheduledEventUpdateDescription: [
+      {
+        title: "Scheduled Event Description Change";
+        description: "{EXECUTOR_MENTION} changed the description of **{TARGET_NAME}**";
+        author: {
+          name: "{EXECUTOR_NAME}";
+          icon_url: "{EXECUTOR_AVATAR}";
+        };
+        fields: [
+          {
+            name: "__Old Description__";
+            value: "{OLD_VALUE}";
+          },
+          {
+            name: "__New Description__";
+            value: "{NEW_VALUE}";
+          },
+        ];
+      },
+    ];
+    scheduledEventUpdateChannelId: [
+      {
+        title: "Scheduled Event Channel Change";
+        description: "{EXECUTOR_MENTION} changed the channel of **{TARGET_NAME}**";
+        author: {
+          name: "{EXECUTOR_NAME}";
+          icon_url: "{EXECUTOR_AVATAR}";
+        };
+        fields: [
+          {
+            name: "__Old Channel__";
+            value: "{OLD_VALUE}";
+          },
+          {
+            name: "__New Channel__";
+            value: "{NEW_VALUE}";
+          },
+        ];
+      },
+    ];
+    scheduledEventUpdateLocation: [
+      {
+        title: "Scheduled Event Location Change";
+        description: "{EXECUTOR_MENTION} changed the location of **{TARGET_NAME}**";
+        author: {
+          name: "{EXECUTOR_NAME}";
+          icon_url: "{EXECUTOR_AVATAR}";
+        };
+        fields: [
+          {
+            name: "__Old Location__";
+            value: "{OLD_VALUE}";
+          },
+          {
+            name: "__New Location__";
+            value: "{NEW_VALUE}";
+          },
+        ];
+      },
+    ];
+    scheduledEventUpdateStatus: [
+      {
+        title: "Scheduled Event Status Change";
+        description: "{EXECUTOR_MENTION} changed the status of **{TARGET_NAME}**";
+        author: {
+          name: "{EXECUTOR_NAME}";
+          icon_url: "{EXECUTOR_AVATAR}";
+        };
+        fields: [
+          {
+            name: "__Old Status__";
+            value: "{OLD_VALUE}";
+          },
+          {
+            name: "__New Status__";
+            value: "{NEW_VALUE}";
+          },
+        ];
+      },
+    ];
+    scheduledEventUpdateEntityType: [
+      {
+        title: "Scheduled Event Entity Type Change";
+        description: "{EXECUTOR_MENTION} changed the entity type of **{TARGET_NAME}**";
+        author: {
+          name: "{EXECUTOR_NAME}";
+          icon_url: "{EXECUTOR_AVATAR}";
+        };
+        fields: [
+          {
+            name: "__Old Type__";
+            value: "{OLD_VALUE}";
+          },
+          {
+            name: "__New Type__";
+            value: "{NEW_VALUE}";
+          },
+        ];
+      },
+    ];
+    scheduledEventUpdatePrivacyLevel: [
+      {
+        title: "Scheduled Event Privacy Level Change";
+        description: "{EXECUTOR_MENTION} changed the privacy level of **{TARGET_NAME}**";
+        author: {
+          name: "{EXECUTOR_NAME}";
+          icon_url: "{EXECUTOR_AVATAR}";
+        };
+        fields: [
+          {
+            name: "__Old Privacy Level__";
+            value: "{OLD_VALUE}";
+          },
+          {
+            name: "__New Privacy Level__";
+            value: "{NEW_VALUE}";
+          },
+        ];
+      },
+    ];
+    scheduledEventUpdateImageHash: [
+      {
+        title: "Scheduled Event Image Change";
+        description: "{EXECUTOR_MENTION} changed the image of **{TARGET_NAME}**";
+        author: {
+          name: "{EXECUTOR_NAME}";
+          icon_url: "{EXECUTOR_AVATAR}";
+        };
+        image: {
+          url: "{OLD_VALUE}";
+        };
+        fields: [
+          {
+            name: "__Old Image Hash__";
+            value: "`{OLD_VALUE_RAW}`";
+          },
+          {
+            name: "__New Image Hash__";
+            value: "`{NEW_VALUE_RAW}`";
+          },
+        ];
+      },
+      {
+        image: {
+          url: "{NEW_VALUE}";
+        };
+      },
+    ];
+    scheduledEventDelete: [
+      {
+        title: "Scheduled Event Deleted";
+        description: "{EXECUTOR_MENTION} deleted a scheduled event: **{TARGET_NAME}**";
+        author: {
+          name: "{EXECUTOR_NAME}";
+          icon_url: "{EXECUTOR_AVATAR}";
+        };
+      },
+    ];
   };
   bot: {
     interaction: {
@@ -1696,6 +2166,7 @@ interface Resources {
       channelUpdatePosition: "channel position change";
       channelUpdatePermissionOverwrites: "channel permission overwrites change";
       channelUpdateDefaultAutoArchiveDurations: "channel default auto archive durations change";
+      channelUpdateVideoQualityMode: "channel video quality mode change";
       channelDelete: "channel delete";
       memberKick: "member kick";
       memberPrune: "member prune";
@@ -1739,6 +2210,28 @@ interface Resources {
       messageBulkDelete: "message bulk delete";
       messagePin: "message pin";
       messageUnpin: "message unpin";
+      channelOverwriteCreate: "channel overwrite create";
+      channelOverwriteUpdate: "channel overwrite update";
+      channelOverwriteDelete: "channel overwrite delete";
+      stageInstanceCreate: "stage instance create";
+      stageInstanceUpdateTopic: "stage instance topic change";
+      stageInstanceUpdatePrivacyLevel: "stage instance privacy level change";
+      stageInstanceDelete: "stage instance delete";
+      stickerCreate: "sticker create";
+      stickerUpdateName: "sticker name change";
+      stickerUpdateDescription: "sticker description change";
+      stickerUpdateTags: "sticker tags change";
+      stickerDelete: "sticker delete";
+      scheduledEventCreate: "scheduled event create";
+      scheduledEventUpdateName: "scheduled event name change";
+      scheduledEventUpdateDescription: "scheduled event description change";
+      scheduledEventUpdateChannelId: "scheduled event channel change";
+      scheduledEventUpdateLocation: "scheduled event location change";
+      scheduledEventUpdateStatus: "scheduled event status change";
+      scheduledEventUpdateEntityType: "scheduled event entity type change";
+      scheduledEventUpdatePrivacyLevel: "scheduled event privacy level change";
+      scheduledEventUpdateImageHash: "scheduled event image change";
+      scheduledEventDelete: "scheduled event delete";
     };
     eventDataTransformers: {
       common: {
@@ -1789,7 +2282,7 @@ interface Resources {
         "1": "Low: must have verified email on account";
         "2": "Medium: must be registered on Discord for longer than 5 minutes";
         "3": "High: must be a member of the server for longer than 10 minutes";
-        "4": "Very High: must have a verified phone number";
+        "4": "Highest: must have a verified phone number";
       };
       guildUpdateExplicitContentFilter: {
         "0": "Default";
@@ -1834,6 +2327,10 @@ interface Resources {
         "15": "Forum";
         "16": "Media";
       };
+      channelUpdateVideoQualityMode: {
+        "1": "Auto";
+        "2": "720p";
+      };
       memberUpdateDeaf: {
         true: "Deafened";
         false: "Undeafened";
@@ -1849,6 +2346,28 @@ interface Resources {
       roleUpdateMentionable: {
         true: "Mentionable";
         false: "Not mentionable";
+      };
+      stageInstanceUpdatePrivacyLevel: {
+        "1": "Public";
+        "2": "Guild Only";
+      };
+      scheduledEventUpdateStatus: {
+        "1": "Scheduled";
+        "2": "Active";
+        "3": "Completed";
+        "4": "Canceled";
+      };
+      scheduledEventUpdateEntityType: {
+        "1": "Stage Instance";
+        "2": "Voice";
+        "3": "External";
+      };
+      scheduledEventUpdatePrivacyLevel: {
+        "2": "Guild Only";
+      };
+      channelOverwriteType: {
+        "0": "Role";
+        "1": "Member";
       };
     };
   };

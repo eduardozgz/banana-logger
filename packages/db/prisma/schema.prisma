@@ -75,6 +75,7 @@ enum EventType {
   channelUpdatePosition
   channelUpdatePermissionOverwrites
   channelUpdateDefaultAutoArchiveDurations
+  channelUpdateVideoQualityMode
   channelDelete
   memberKick
   memberBanAdd
@@ -118,4 +119,26 @@ enum EventType {
   messageBulkDelete
   messagePin
   messageUnpin
+  channelOverwriteCreate
+  channelOverwriteUpdate
+  channelOverwriteDelete
+  stageInstanceCreate
+  stageInstanceUpdateTopic
+  stageInstanceUpdatePrivacyLevel
+  stageInstanceDelete
+  stickerCreate
+  stickerUpdateName
+  stickerUpdateDescription
+  stickerUpdateTags
+  stickerDelete
+  scheduledEventCreate
+  scheduledEventUpdateName
+  scheduledEventUpdateDescription
+  scheduledEventUpdateChannelId
+  scheduledEventUpdateLocation
+  scheduledEventUpdateStatus
+  scheduledEventUpdateEntityType
+  scheduledEventUpdatePrivacyLevel
+  scheduledEventUpdateImageHash
+  scheduledEventDelete
 }

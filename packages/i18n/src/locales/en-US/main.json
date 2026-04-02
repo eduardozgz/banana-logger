@@ -39,6 +39,7 @@
     "channelUpdatePosition": "channel position change",
     "channelUpdatePermissionOverwrites": "channel permission overwrites change",
     "channelUpdateDefaultAutoArchiveDurations": "channel default auto archive durations change",
+    "channelUpdateVideoQualityMode": "channel video quality mode change",
     "channelDelete": "channel delete",
     "memberKick": "member kick",
     "memberPrune": "member prune",
@@ -81,7 +82,29 @@
     "messageDelete": "message delete",
     "messageBulkDelete": "message bulk delete",
     "messagePin": "message pin",
-    "messageUnpin": "message unpin"
+    "messageUnpin": "message unpin",
+    "channelOverwriteCreate": "channel overwrite create",
+    "channelOverwriteUpdate": "channel overwrite update",
+    "channelOverwriteDelete": "channel overwrite delete",
+    "stageInstanceCreate": "stage instance create",
+    "stageInstanceUpdateTopic": "stage instance topic change",
+    "stageInstanceUpdatePrivacyLevel": "stage instance privacy level change",
+    "stageInstanceDelete": "stage instance delete",
+    "stickerCreate": "sticker create",
+    "stickerUpdateName": "sticker name change",
+    "stickerUpdateDescription": "sticker description change",
+    "stickerUpdateTags": "sticker tags change",
+    "stickerDelete": "sticker delete",
+    "scheduledEventCreate": "scheduled event create",
+    "scheduledEventUpdateName": "scheduled event name change",
+    "scheduledEventUpdateDescription": "scheduled event description change",
+    "scheduledEventUpdateChannelId": "scheduled event channel change",
+    "scheduledEventUpdateLocation": "scheduled event location change",
+    "scheduledEventUpdateStatus": "scheduled event status change",
+    "scheduledEventUpdateEntityType": "scheduled event entity type change",
+    "scheduledEventUpdatePrivacyLevel": "scheduled event privacy level change",
+    "scheduledEventUpdateImageHash": "scheduled event image change",
+    "scheduledEventDelete": "scheduled event delete"
   },
   "eventDataTransformers": {
     "common": {
@@ -177,6 +200,10 @@
       "15": "Forum",
       "16": "Media"
     },
+    "channelUpdateVideoQualityMode": {
+      "1": "Auto",
+      "2": "720p"
+    },
     "memberUpdateDeaf": {
       "true": "Deafened",
       "false": "Undeafened"
@@ -192,6 +219,28 @@
     "roleUpdateMentionable": {
       "true": "Mentionable",
       "false": "Not mentionable"
+    },
+    "stageInstanceUpdatePrivacyLevel": {
+      "1": "Public",
+      "2": "Guild Only"
+    },
+    "scheduledEventUpdateStatus": {
+      "1": "Scheduled",
+      "2": "Active",
+      "3": "Completed",
+      "4": "Canceled"
+    },
+    "scheduledEventUpdateEntityType": {
+      "1": "Stage Instance",
+      "2": "Voice",
+      "3": "External"
+    },
+    "scheduledEventUpdatePrivacyLevel": {
+      "2": "Guild Only"
+    },
+    "channelOverwriteType": {
+      "0": "Role",
+      "1": "Member"
     }
   }
 }

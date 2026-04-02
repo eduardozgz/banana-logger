@@ -15,6 +15,9 @@ import { EventHandler } from "~/structures";
 import { botAddHandler } from "./botAdd";
 import { channelCreateHandler } from "./channelCreate";
 import { channelDeleteHandler } from "./channelDelete";
+import { channelOverwriteCreateHandler } from "./channelOverwriteCreate";
+import { channelOverwriteDeleteHandler } from "./channelOverwriteDelete";
+import { channelOverwriteUpdateHandler } from "./channelOverwriteUpdate";
 import { channelUpdate } from "./channelUpdate";
 import { emojiCreateHandler } from "./emojiCreate";
 import { emojiDeleteHandler } from "./emojiDelete";
@@ -37,6 +40,15 @@ import { messageUnpinHandler } from "./messageUnpin";
 import { roleCreateHandler } from "./roleCreate";
 import { roleDeleteHandler } from "./roleDelete";
 import { roleUpdate } from "./roleUpdate";
+import { scheduledEventCreateHandler } from "./scheduledEventCreate";
+import { scheduledEventDeleteHandler } from "./scheduledEventDelete";
+import { scheduledEventUpdate } from "./scheduledEventUpdate";
+import { stageInstanceCreateHandler } from "./stageInstanceCreate";
+import { stageInstanceDeleteHandler } from "./stageInstanceDelete";
+import { stageInstanceUpdate } from "./stageInstanceUpdate";
+import { stickerCreateHandler } from "./stickerCreate";
+import { stickerDeleteHandler } from "./stickerDelete";
+import { stickerUpdate } from "./stickerUpdate";
 import { webhookCreateHandler } from "./webhookCreate";
 import { webhookDeleteHandler } from "./webhookDelete";
 import { webhookUpdate } from "./webhookUpdate";
@@ -88,6 +100,9 @@ const handlers = {
   [AuditLogEvent.ChannelCreate]: channelCreateHandler,
   [AuditLogEvent.ChannelUpdate]: createGenericAuditLogHandler(channelUpdate),
   [AuditLogEvent.ChannelDelete]: channelDeleteHandler,
+  [AuditLogEvent.ChannelOverwriteCreate]: channelOverwriteCreateHandler,
+  [AuditLogEvent.ChannelOverwriteUpdate]: channelOverwriteUpdateHandler,
+  [AuditLogEvent.ChannelOverwriteDelete]: channelOverwriteDeleteHandler,
   [AuditLogEvent.MemberKick]: memberKickHandler,
   [AuditLogEvent.MemberPrune]: memberPruneHandler,
   [AuditLogEvent.MemberBanAdd]: memberBanAddHandler,
@@ -112,6 +127,17 @@ const handlers = {
   [AuditLogEvent.MessageBulkDelete]: messageBulkDeleteHandler,
   [AuditLogEvent.MessagePin]: messagePinHandler,
   [AuditLogEvent.MessageUnpin]: messageUnpinHandler,
+  [AuditLogEvent.StageInstanceCreate]: stageInstanceCreateHandler,
+  [AuditLogEvent.StageInstanceUpdate]:
+    createGenericAuditLogHandler(stageInstanceUpdate),
+  [AuditLogEvent.StageInstanceDelete]: stageInstanceDeleteHandler,
+  [AuditLogEvent.StickerCreate]: stickerCreateHandler,
+  [AuditLogEvent.StickerUpdate]: createGenericAuditLogHandler(stickerUpdate),
+  [AuditLogEvent.StickerDelete]: stickerDeleteHandler,
+  [AuditLogEvent.GuildScheduledEventCreate]: scheduledEventCreateHandler,
+  [AuditLogEvent.GuildScheduledEventUpdate]:
+    createGenericAuditLogHandler(scheduledEventUpdate),
+  [AuditLogEvent.GuildScheduledEventDelete]: scheduledEventDeleteHandler,
 } as const;
 
 export const guildAuditLogEntryCreateEvent = new EventHandler({
@@ -176,7 +202,7 @@ function createGenericAuditLogHandler<
         eventName,
         guild,
         i18n,
-        relatedChannels: options.detectRelatedUsers(auditLogEntry),
+        relatedChannels: options.detectRelatedChannels(auditLogEntry),
         relatedUsers: options.detectRelatedUsers(auditLogEntry),
         executor: auditLogEntry.executor,
         target: auditLogEntry.target,

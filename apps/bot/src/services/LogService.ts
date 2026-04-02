@@ -7,7 +7,13 @@ import type {
   PartialUser,
 } from "discord.js";
 import { CDNRoutes, RouteBases } from "discord-api-types/v10";
-import { channelMention, GuildEmoji, roleMention, User } from "discord.js";
+import {
+  channelMention,
+  GuildEmoji,
+  roleMention,
+  Sticker,
+  User,
+} from "discord.js";
 import _ from "lodash";
 
 import type { EventType } from "@/db/client";
@@ -90,9 +96,15 @@ export class LogService {
           TARGET_MENTION: channelMention(target.id),
         }),
       ...(target &&
-        target instanceof GuildEmoji && {
-          TARGET_IMAGE_URL: target.imageURL(),
-        }),
+      "channelId" in target &&
+      typeof target.channelId === "string" &&
+      eventName.startsWith("stageInstance")
+        ? { TARGET_MENTION: channelMention(target.channelId) }
+        : {}),
+      ...(target instanceof GuildEmoji
+        ? { TARGET_IMAGE_URL: target.imageURL() }
+        : {}),
+      ...(target instanceof Sticker ? { TARGET_IMAGE_URL: target.url } : {}),
       ...data,
     };
 
@@ -145,7 +157,7 @@ export class LogService {
           embed.setURL(galleryEmbedUrl);
         });
 
-        await LogService.sendLog(channel, embeds);
+        LogService.sendLog(channel, embeds);
       }
     } catch (e) {
       guild.client.botInstanceOptions.logger
@@ -157,14 +169,58 @@ export class LogService {
     }
   }
 
-  // TODO: Implement logging queue for batching/rate limiting
-  private static logQueue: unknown[] = [];
-  private static async sendLog(
+  private static logQueue = new Map<
+    string,
+    { channel: GuildTextBasedChannel; embeds: EmbedBuilder[] }[]
+  >();
+  private static queueProcessors = new Map<string, NodeJS.Timeout>();
+  private static readonly BATCH_DELAY_MS = 1000; // Wait 1 second before sending batched logs
+
+  private static sendLog(
     channel: GuildTextBasedChannel,
     embeds: EmbedBuilder[],
   ) {
-    await channel.send({
-      embeds,
-    });
+    const channelId = channel.id;
+
+    // Add to queue
+    const queue = this.logQueue.get(channelId) ?? [];
+    queue.push({ channel, embeds });
+    this.logQueue.set(channelId, queue);
+
+    // Schedule batch processing only if not already scheduled
+    if (!this.queueProcessors.has(channelId)) {
+      const processor = setTimeout(() => {
+        void this.processQueue(channelId);
+      }, this.BATCH_DELAY_MS);
+
+      this.queueProcessors.set(channelId, processor);
+    }
+  }
+
+  private static async processQueue(channelId: string) {
+    const queue = this.logQueue.get(channelId);
+    if (!queue || queue.length === 0) {
+      return;
+    }
+
+    // Clear the queue
+    this.logQueue.delete(channelId);
+    this.queueProcessors.delete(channelId);
+
+    // Process items in queue
+    for (const { channel, embeds } of queue) {
+      try {
+        await channel.send({ embeds });
+        // Small delay between messages to respect rate limits
+        await new Promise((resolve) => setTimeout(resolve, 100));
+      } catch (error) {
+        channel.client.botInstanceOptions.logger
+          .child({
+            component: "LogService",
+            method: "processQueue",
+          })
+          .error(error);
+      }
+    }
   }
 }
