@@ -1,4 +1,4 @@
-import type logger from "@/logger";
+import type logger from "@bl/logger";
 
 export interface BotInstanceOptions {
   token: string;

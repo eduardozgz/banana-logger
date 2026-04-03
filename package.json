@@ -25,11 +25,11 @@
     "codegen": "turbo codegen"
   },
   "devDependencies": {
-    "@/prettier-config": "workspace:*",
+    "@bl/prettier-config": "workspace:*",
     "prettier": "catalog:prettier",
     "turbo": "^2.9.3",
     "typescript": "catalog:"
   },
-  "prettier": "@/prettier-config",
+  "prettier": "@bl/prettier-config",
   "packageManager": "pnpm@10.28.0"
 }

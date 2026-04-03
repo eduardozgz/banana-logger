@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { InteractionContextType } from "discord.js";
 
-import { i18nDefault } from "@/i18n";
+import { i18nDefault } from "@bl/i18n";
 
 import { Command } from "~/structures";
 import { handleSubcommand } from "~/utils/handleSubcommand";

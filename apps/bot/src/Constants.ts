@@ -1,6 +1,6 @@
 import { randomUUID } from "node:crypto";
 
-import { EventType } from "@/db/client";
+import { EventType } from "@bl/db/client";
 
 import { env } from "./env";
 
@@ -1061,8 +1061,8 @@ export const EmbedTemplatePlaceholders = {
   ],
 } as const satisfies Record<EventType, string[]>;
 
-export { EVENT_PRESETS, PRESET_NAMES } from "@/common/eventPresets";
-export type { PresetName } from "@/common/eventPresets";
+export { EVENT_PRESETS, PRESET_NAMES } from "@bl/common/eventPresets";
+export type { PresetName } from "@bl/common/eventPresets";
 
 export const ALL_EVENTS_CHOICE = "all";
 

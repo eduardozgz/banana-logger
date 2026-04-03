@@ -1,5 +1,5 @@
 {
-  "name": "@/db",
+  "name": "@bl/db",
   "private": true,
   "version": "0.1.0",
   "type": "module",
@@ -20,9 +20,9 @@
     "with-env": "dotenv -e ../../.env --"
   },
   "devDependencies": {
-    "@/eslint-config": "workspace:*",
-    "@/prettier-config": "workspace:*",
-    "@/tsconfig": "workspace:*",
+    "@bl/eslint-config": "workspace:*",
+    "@bl/prettier-config": "workspace:*",
+    "@bl/tsconfig": "workspace:*",
     "@types/node": "catalog:",
     "dotenv-cli": "catalog:",
     "eslint": "catalog:eslint",
@@ -32,7 +32,7 @@
     "tsx": "^4.21.0",
     "typescript": "catalog:"
   },
-  "prettier": "@/prettier-config",
+  "prettier": "@bl/prettier-config",
   "dependencies": {
     "@prisma/client": "~6.19.0",
     "@t3-oss/env-core": "catalog:",

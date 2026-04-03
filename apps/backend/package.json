@@ -1,0 +1,52 @@
+{
+  "name": "@bl/backend",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsup-node",
+    "dev": "pnpm with-env pnpm build --watch . --watch ../../packages --onSuccess \"node dist/index.js\"",
+    "start": "node dist/index.js",
+    "clean": "rm -rf .turbo node_modules dist",
+    "format": "prettier --check . --ignore-path ../../.gitignore",
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "with-env": "dotenv -e ../../.env --"
+  },
+  "dependencies": {
+    "@bl/common": "workspace:*",
+    "@bl/db": "workspace:*",
+    "@bl/logger": "workspace:*",
+    "@bl/redis": "workspace:*",
+    "@bl/trpc-api": "workspace:*",
+    "@bl/validators": "workspace:*",
+    "@t3-oss/env-core": "^0.13.10",
+    "@trpc/server": "^11.8.1",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "discord-api-types": "catalog:discord",
+    "express": "^5.2.1",
+    "helmet": "^8.1.0",
+    "iron-session": "^8.0.4",
+    "morgan": "^1.10.1",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@bl/eslint-config": "workspace:*",
+    "@bl/prettier-config": "workspace:*",
+    "@bl/tsconfig": "workspace:*",
+    "@types/cookie-parser": "^1.4.7",
+    "@types/cors": "^2.8.18",
+    "@types/express": "^5.0.0",
+    "@types/morgan": "^1.9.10",
+    "@types/node": "catalog:",
+    "dotenv-cli": "catalog:",
+    "eslint": "catalog:eslint",
+    "prettier": "catalog:prettier",
+    "tsup": "^8.5.1",
+    "tsx": "^4.21.0",
+    "typescript": "catalog:"
+  },
+  "prettier": "@bl/prettier-config"
+}

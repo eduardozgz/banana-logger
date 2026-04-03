@@ -1,0 +1,29 @@
+{
+  "name": "@bl/validators",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "exports": {
+    "./*": "./src/*.ts"
+  },
+  "license": "MIT",
+  "scripts": {
+    "clean": "rm -rf .turbo node_modules",
+    "format": "prettier --check . --ignore-path ../../.gitignore",
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit --emitDeclarationOnly false"
+  },
+  "dependencies": {
+    "discord-api-types": "catalog:discord",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@bl/eslint-config": "workspace:*",
+    "@bl/prettier-config": "workspace:*",
+    "@bl/tsconfig": "workspace:*",
+    "eslint": "catalog:eslint",
+    "prettier": "catalog:prettier",
+    "typescript": "catalog:"
+  },
+  "prettier": "@bl/prettier-config"
+}

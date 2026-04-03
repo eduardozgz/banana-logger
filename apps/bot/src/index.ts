@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-import { db } from "@/db";
-import baseLogger from "@/logger";
+import { db } from "@bl/db";
+import baseLogger from "@bl/logger";
 
 import type { BotInstanceOptions } from "~/@types/BotInstanceOptions";
 import { startBot } from "./bot";

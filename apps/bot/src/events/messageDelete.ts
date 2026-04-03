@@ -3,7 +3,7 @@ import type { PartialUser, User } from "discord.js";
 import { channelMention, userMention } from "@discordjs/builders";
 import { AuditLogEvent } from "discord.js";
 
-import { initI18n } from "@/i18n";
+import { initI18n } from "@bl/i18n";
 
 import { LogService } from "~/services/LogService";
 import { EventHandler } from "~/structures";

@@ -1,7 +1,10 @@
 {
-  "name": "@/bot",
+  "name": "@bl/bot",
   "private": true,
   "type": "module",
+  "exports": {
+    "./botAPI": "./src/botAPI/index.ts"
+  },
   "scripts": {
     "clean": "git clean -xdf .turbo node_modules",
     "build": "tsup-node",
@@ -14,9 +17,9 @@
     "with-env": "dotenv -e ../../.env --"
   },
   "devDependencies": {
-    "@/eslint-config": "workspace:*",
-    "@/prettier-config": "workspace:*",
-    "@/tsconfig": "workspace:*",
+    "@bl/eslint-config": "workspace:*",
+    "@bl/prettier-config": "workspace:*",
+    "@bl/tsconfig": "workspace:*",
     "@total-typescript/ts-reset": "catalog:",
     "@types/lodash": "^4.17.24",
     "@types/node": "catalog:",
@@ -27,21 +30,25 @@
     "typescript": "catalog:",
     "vitest": "^4.1.2"
   },
-  "prettier": "@/prettier-config",
+  "prettier": "@bl/prettier-config",
   "dependencies": {
-    "@/common": "workspace:*",
-    "@/db": "workspace:*",
-    "@/i18n": "workspace:*",
-    "@/logger": "workspace:*",
-    "@/redis": "workspace:*",
+    "@bl/common": "workspace:*",
+    "@bl/db": "workspace:*",
+    "@bl/i18n": "workspace:*",
+    "@bl/logger": "workspace:*",
+    "@bl/redis": "workspace:*",
+    "@bl/trpc-redis": "workspace:*",
     "@discordjs/builders": "catalog:discord",
     "@formatjs/intl-durationformat": "^0.10.3",
     "@t3-oss/env-core": "catalog:",
+    "@trpc/server": "^11.8.1",
     "@twemoji/api": "^17.0.2",
     "bufferutil": "catalog:",
     "discord-api-types": "catalog:discord",
     "discord.js": "catalog:discord",
+    "ioredis": "^5.10.1",
     "lodash": "^4.18.1",
+    "superjson": "^2.2.6",
     "utf-8-validate": "catalog:",
     "zod": "catalog:"
   }

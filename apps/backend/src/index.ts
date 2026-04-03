@@ -1,0 +1,101 @@
+import * as trpcExpress from "@trpc/server/adapters/express";
+import cookieParser from "cookie-parser";
+import cors from "cors";
+import express from "express";
+import helmet from "helmet";
+import morgan from "morgan";
+
+import logger from "@bl/logger";
+import { redis } from "@bl/redis";
+import { appRouter, createTRPCContext } from "@bl/trpc-api";
+import { initBotAPIConsumer } from "@bl/trpc-api/botAPI";
+
+import { refreshTokenIfNeeded } from "~/auth/oauth";
+import { env } from "~/env";
+import authRouter from "~/routes/auth";
+import { getSession, setSession } from "~/session";
+import { errorHandler } from "./middlewares/errorHandler";
+import { errorHandlerPrisma } from "./middlewares/errorHandlerPrisma";
+import { errorHandlerZod } from "./middlewares/errorHandlerZod";
+
+process.on("unhandledRejection", (reason, promise) => {
+  logger.error("Unhandled Rejection at:", { promise, reason });
+});
+
+process.on("uncaughtException", (error) => {
+  logger.error("Uncaught Exception:", { error });
+});
+
+const app = express();
+
+app.set("trust proxy", env.BACKEND_MAX_TRUSTED_PROXIES);
+app.use(helmet());
+app.use(
+  cors({
+    origin: env.WEBSITE_URL,
+    credentials: true,
+  }),
+);
+app.use(morgan("short"));
+app.use(cookieParser());
+
+// tRPC endpoint
+app.use(
+  "/trpc",
+  (req, _res, next) => {
+    if (req.headers["x-trpc-source"] !== "vite-react") {
+      throw new Error("Invalid tRPC source");
+    }
+    next();
+  },
+  trpcExpress.createExpressMiddleware({
+    router: appRouter,
+    createContext: async ({ req, res }) => {
+      // Get and refresh session
+      let session = await getSession(req);
+      const refreshedSession = await refreshTokenIfNeeded(session);
+
+      // If session was refreshed, update the cookie
+      if (refreshedSession && refreshedSession !== session) {
+        session = refreshedSession;
+        await setSession(res, session);
+      }
+
+      // Create tRPC context
+      return createTRPCContext({ session });
+    },
+    onError: ({ path, error }) => {
+      logger.error(`❌ tRPC failed on ${path ?? "<no-path>"}:`);
+      logger.error(error);
+    },
+  }),
+);
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Auth routes
+app.use("/auth", authRouter);
+
+// Health check
+app.get("/health", (_req, res) => {
+  res.json({ status: "ok" });
+});
+
+app.use(errorHandlerPrisma);
+app.use(errorHandlerZod);
+app.use(errorHandler);
+
+// Initialize bot API consumer and start server
+const redisPubClient = redis.duplicate();
+const redisSubClient = redis.duplicate();
+initBotAPIConsumer({ redisPubClient, redisSubClient })
+  .then(() => {
+    app.listen(env.BACKEND_PORT, () => {
+      logger.info(`Server listening on port ${env.BACKEND_PORT}`);
+    });
+  })
+  .catch((err) => {
+    logger.error("Failed to initialize bot API consumer", err);
+    process.exit(1);
+  });

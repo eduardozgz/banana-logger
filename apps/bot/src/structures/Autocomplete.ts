@@ -1,6 +1,6 @@
 import type { AutocompleteInteraction } from "discord.js";
 
-import type { i18n } from "@/i18n";
+import type { i18n } from "@bl/i18n";
 
 export type AutocompleteHandle = (
   autocomplete: AutocompleteInteraction,

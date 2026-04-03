@@ -1,7 +1,7 @@
 import type { Guild, GuildAuditLogsEntry } from "discord.js";
 import { describe, expect, it } from "vitest";
 
-import type { i18n } from "@/i18n";
+import type { i18n } from "@bl/i18n";
 
 import type { AuditLogChangeTransformer } from "~/events/guildAuditLogEntryCreate";
 import { guildUpdate } from "~/events/guildAuditLogEntryCreate/guildUpdate";

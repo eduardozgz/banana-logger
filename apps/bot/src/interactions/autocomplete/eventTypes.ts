@@ -1,7 +1,7 @@
 import type { ApplicationCommandOptionChoiceData } from "discord.js";
 
-import { EventType } from "@/db/client";
-import { i18nDefault } from "@/i18n";
+import { EventType } from "@bl/db/client";
+import { i18nDefault } from "@bl/i18n";
 
 import type { PresetName } from "~/Constants";
 import { ALL_EVENTS_CHOICE, EVENT_PRESETS, PRESET_PREFIX } from "~/Constants";

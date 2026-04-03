@@ -1,4 +1,4 @@
-import { EventType } from "@/db/client";
+import { EventType } from "@bl/db/client";
 
 export const EVENT_PRESETS = {
   server: [

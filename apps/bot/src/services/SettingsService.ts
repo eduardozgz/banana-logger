@@ -1,8 +1,8 @@
 import type { Guild, GuildTextBasedChannel } from "discord.js";
 
-import type { Settings } from "@/db/client";
-import { db } from "@/db";
-import { EventType } from "@/db/client";
+import type { Settings } from "@bl/db/client";
+import { db } from "@bl/db";
+import { EventType } from "@bl/db/client";
 
 import { ALL_EVENTS_CHOICE } from "~/Constants";
 import { toggleArrayItem } from "~/utils/toggleArrayItem";

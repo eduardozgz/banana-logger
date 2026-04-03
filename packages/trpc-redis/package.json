@@ -1,5 +1,5 @@
 {
-  "name": "@/trpc-redis",
+  "name": "@bl/trpc-redis",
   "private": true,
   "version": "0.1.0",
   "type": "module",
@@ -15,15 +15,15 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "@/eslint-config": "workspace:*",
-    "@/prettier-config": "workspace:*",
-    "@/tsconfig": "workspace:*",
+    "@bl/eslint-config": "workspace:*",
+    "@bl/prettier-config": "workspace:*",
+    "@bl/tsconfig": "workspace:*",
     "@total-typescript/ts-reset": "catalog:",
     "eslint": "catalog:eslint",
     "prettier": "catalog:prettier",
     "typescript": "catalog:"
   },
-  "prettier": "@/prettier-config",
+  "prettier": "@bl/prettier-config",
   "dependencies": {
     "@sesamecare-oss/redlock": "^1.4.0",
     "zod": "catalog:"

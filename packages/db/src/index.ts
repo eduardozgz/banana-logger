@@ -1,4 +1,5 @@
 import { Prisma, PrismaClient } from "../prisma/generated/client";
+export { Prisma };
 import { env } from "./env";
 
 const createPrismaClient = () =>

@@ -14,8 +14,8 @@ import {
 } from "discord.js";
 import _ from "lodash";
 
-import type { i18n } from "@/i18n";
-import type { Logger } from "@/logger";
+import type { i18n } from "@bl/i18n";
+import type { Logger } from "@bl/logger";
 
 class Paginator {
   private currentPage: number;

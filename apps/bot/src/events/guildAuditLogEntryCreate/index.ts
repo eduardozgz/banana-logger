@@ -6,9 +6,9 @@ import type {
 } from "discord.js";
 import { AuditLogEvent } from "discord.js";
 
-import type { EventType } from "@/db/client";
-import type { i18n } from "@/i18n";
-import { initI18n } from "@/i18n";
+import type { EventType } from "@bl/db/client";
+import type { i18n } from "@bl/i18n";
+import { initI18n } from "@bl/i18n";
 
 import { LogService } from "~/services/LogService";
 import { EventHandler } from "~/structures";

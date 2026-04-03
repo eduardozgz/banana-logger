@@ -1,7 +1,7 @@
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 import { userMention } from "discord.js";
 
-import { i18nDefault } from "@/i18n";
+import { i18nDefault } from "@bl/i18n";
 
 import type { CommandHandle } from "~/structures";
 import GlobalSettingsService from "~/services/GlobalSettingsService";

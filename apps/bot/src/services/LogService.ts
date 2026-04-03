@@ -17,8 +17,8 @@ import {
 } from "discord.js";
 import _ from "lodash";
 
-import type { EventType } from "@/db/client";
-import type { i18n } from "@/i18n";
+import type { EventType } from "@bl/db/client";
+import type { i18n } from "@bl/i18n";
 
 import type { EmbedTemplatePlaceholders } from "~/Constants";
 import { baseGalleryEmbedUrl } from "~/Constants";

@@ -1,4 +1,4 @@
-import { getBotInviteLink } from "@/common/getBotInviteLink";
+import { getBotInviteLink } from "@bl/common/getBotInviteLink";
 
 import { EventHandler } from "../structures";
 

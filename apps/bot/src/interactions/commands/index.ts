@@ -5,7 +5,7 @@ import type {
 } from "discord.js";
 import { MessageFlags } from "discord.js";
 
-import { i18nDefault } from "@/i18n";
+import { i18nDefault } from "@bl/i18n";
 
 import type { Command } from "~/structures/Command";
 import { initI18nFromInteraction } from "~/utils/initI18nFromInteraction";

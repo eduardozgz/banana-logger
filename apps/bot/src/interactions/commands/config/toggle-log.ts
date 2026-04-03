@@ -2,8 +2,8 @@ import assert from "node:assert";
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 import { z } from "zod/v4";
 
-import { EventType } from "@/db/client";
-import { i18nDefault } from "@/i18n";
+import { EventType } from "@bl/db/client";
+import { i18nDefault } from "@bl/i18n";
 
 import type { PresetName } from "~/Constants";
 import type { CommandHandle } from "~/structures";

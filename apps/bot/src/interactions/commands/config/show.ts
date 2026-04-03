@@ -3,7 +3,7 @@ import type { EmbedBuilder } from "discord.js";
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 import { bold, channelMention, underline, userMention } from "discord.js";
 
-import { EventType } from "@/db/client";
+import { EventType } from "@bl/db/client";
 
 import type { CommandHandle } from "~/structures";
 import SettingsService from "~/services/SettingsService";

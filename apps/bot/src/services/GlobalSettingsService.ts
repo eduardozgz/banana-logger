@@ -1,8 +1,8 @@
 import type { Guild } from "discord.js";
 import _ from "lodash";
 
-import type { GlobalSettings } from "@/db/client";
-import { db } from "@/db";
+import type { GlobalSettings } from "@bl/db/client";
+import { db } from "@bl/db";
 
 import { toggleArrayItem } from "~/utils/toggleArrayItem";
 
