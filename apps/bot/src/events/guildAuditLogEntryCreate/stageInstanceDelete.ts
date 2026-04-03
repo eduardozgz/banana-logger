@@ -6,7 +6,7 @@ import { LogService } from "~/services/LogService";
 export const stageInstanceDeleteHandler: Handler<
   AuditLogEvent.StageInstanceDelete
 > = (auditLogEntry, guild, i18n) => {
-  void LogService.log({
+  LogService.log({
     eventName: "stageInstanceDelete",
     guild,
     i18n,

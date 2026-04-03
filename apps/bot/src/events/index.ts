@@ -2,10 +2,13 @@ import type { Client } from "discord.js";
 
 import { clientReadyEvent } from "./clientReady";
 import { guildAuditLogEntryCreateEvent } from "./guildAuditLogEntryCreate";
+import { guildMemberAddEvent } from "./guildMemberAdd";
 import { guildMemberRemoveEvent } from "./guildMemberRemove";
 import { interactionCreateEvent } from "./interactionCreate";
 import { messageDeleteEvent } from "./messageDelete";
 import { messageReactionAddEvent } from "./messageReactionAdd";
+import { messageReactionRemoveAllEvent } from "./messageReactionRemoveAll";
+import { messageReactionRemoveEmojiEvent } from "./messageReactionRemoveEmoji";
 import { messageReactionRemoveEvent } from "./messageReactionRemove";
 import { messageUpdateEvent } from "./messageUpdate";
 import { voiceStateUpdateEvent } from "./voiceStateUpdate";
@@ -18,7 +21,10 @@ const allEvents = [
   messageUpdateEvent,
   messageReactionAddEvent,
   messageReactionRemoveEvent,
+  messageReactionRemoveAllEvent,
+  messageReactionRemoveEmojiEvent,
   voiceStateUpdateEvent,
+  guildMemberAddEvent,
   guildMemberRemoveEvent,
 ] as const;
 

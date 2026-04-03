@@ -36,7 +36,7 @@ export const scheduledEventCreateHandler: Handler<
       ? time(auditLogEntry.target.scheduledEndAt, "F")
       : "None";
 
-  void LogService.log({
+  LogService.log({
     eventName: "scheduledEventCreate",
     guild,
     i18n,

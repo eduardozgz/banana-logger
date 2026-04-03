@@ -22,7 +22,7 @@ export const voiceStateUpdateEvent = new EventHandler({
 
     // Join
     if (!oldState.channelId && newState.channelId) {
-      void LogService.log({
+      LogService.log({
         eventName: "voiceJoin",
         guild: newState.guild,
         i18n,
@@ -39,7 +39,7 @@ export const voiceStateUpdateEvent = new EventHandler({
 
     // Leave
     if (oldState.channelId && !newState.channelId) {
-      void LogService.log({
+      LogService.log({
         eventName: "voiceLeave",
         guild: newState.guild,
         i18n,
@@ -60,7 +60,7 @@ export const voiceStateUpdateEvent = new EventHandler({
       newState.channelId &&
       oldState.channelId !== newState.channelId
     ) {
-      void LogService.log({
+      LogService.log({
         eventName: "voiceMove",
         guild: newState.guild,
         i18n,
@@ -81,7 +81,7 @@ export const voiceStateUpdateEvent = new EventHandler({
       oldState.serverMute !== newState.serverMute &&
       newState.serverMute !== null
     ) {
-      void LogService.log({
+      LogService.log({
         eventName: "voiceServerMute",
         guild: newState.guild,
         i18n,
@@ -102,7 +102,7 @@ export const voiceStateUpdateEvent = new EventHandler({
       oldState.serverDeaf !== newState.serverDeaf &&
       newState.serverDeaf !== null
     ) {
-      void LogService.log({
+      LogService.log({
         eventName: "voiceServerDeaf",
         guild: newState.guild,
         i18n,
@@ -120,7 +120,7 @@ export const voiceStateUpdateEvent = new EventHandler({
 
     // Self Mute
     if (oldState.selfMute !== newState.selfMute && newState.selfMute !== null) {
-      void LogService.log({
+      LogService.log({
         eventName: "voiceSelfMute",
         guild: newState.guild,
         i18n,
@@ -138,7 +138,7 @@ export const voiceStateUpdateEvent = new EventHandler({
 
     // Self Deaf
     if (oldState.selfDeaf !== newState.selfDeaf && newState.selfDeaf !== null) {
-      void LogService.log({
+      LogService.log({
         eventName: "voiceSelfDeaf",
         guild: newState.guild,
         i18n,
@@ -156,7 +156,7 @@ export const voiceStateUpdateEvent = new EventHandler({
 
     // Streaming
     if (oldState.streaming !== newState.streaming) {
-      void LogService.log({
+      LogService.log({
         eventName: newState.streaming ? "voiceStartStream" : "voiceStopStream",
         guild: newState.guild,
         i18n,
@@ -171,7 +171,7 @@ export const voiceStateUpdateEvent = new EventHandler({
 
     // Video
     if (oldState.selfVideo !== newState.selfVideo) {
-      void LogService.log({
+      LogService.log({
         eventName: newState.selfVideo ? "voiceStartVideo" : "voiceStopVideo",
         guild: newState.guild,
         i18n,

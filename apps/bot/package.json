@@ -39,7 +39,6 @@
     "@t3-oss/env-core": "catalog:",
     "@twemoji/api": "^17.0.2",
     "bufferutil": "catalog:",
-    "cron": "^4.4.0",
     "discord-api-types": "catalog:discord",
     "discord.js": "catalog:discord",
     "lodash": "^4.18.1",

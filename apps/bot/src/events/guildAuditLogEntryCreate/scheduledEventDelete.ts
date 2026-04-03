@@ -6,7 +6,7 @@ import { LogService } from "~/services/LogService";
 export const scheduledEventDeleteHandler: Handler<
   AuditLogEvent.GuildScheduledEventDelete
 > = (auditLogEntry, guild, i18n) => {
-  void LogService.log({
+  LogService.log({
     eventName: "scheduledEventDelete",
     guild,
     i18n,

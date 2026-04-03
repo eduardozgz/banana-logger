@@ -17,7 +17,7 @@ export const autoModBlockMessageHandler: Handler<
   const { autoModerationRuleName, autoModerationRuleTriggerType, channel } =
     auditLogEntry.extra;
 
-  void LogService.log({
+  LogService.log({
     eventName: "autoModBlockMessage",
     guild,
     i18n,
@@ -44,7 +44,7 @@ export const autoModFlagToChannelHandler: Handler<
   const { autoModerationRuleName, autoModerationRuleTriggerType, channel } =
     auditLogEntry.extra;
 
-  void LogService.log({
+  LogService.log({
     eventName: "autoModFlagToChannel",
     guild,
     i18n,
@@ -71,7 +71,7 @@ export const autoModTimeoutHandler: Handler<
   const { autoModerationRuleName, autoModerationRuleTriggerType, channel } =
     auditLogEntry.extra;
 
-  void LogService.log({
+  LogService.log({
     eventName: "autoModTimeout",
     guild,
     i18n,
@@ -106,7 +106,7 @@ export const autoModQuarantineHandler: Handler<
         error: parsed.error.message,
       });
 
-    void LogService.log({
+    LogService.log({
       eventName: "autoModQuarantine",
       guild,
       i18n,
@@ -132,7 +132,7 @@ export const autoModQuarantineHandler: Handler<
   const { autoModerationRuleName, autoModerationRuleTriggerType, channel } =
     parsed.data;
 
-  void LogService.log({
+  LogService.log({
     eventName: "autoModQuarantine",
     guild,
     i18n,

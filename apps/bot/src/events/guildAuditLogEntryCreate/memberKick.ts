@@ -11,7 +11,7 @@ export const memberKickHandler: Handler<AuditLogEvent.MemberKick> = (
 ) => {
   assert(auditLogEntry.targetId);
 
-  void LogService.log({
+  LogService.log({
     eventName: "memberKick",
     guild,
     i18n,

@@ -32,7 +32,7 @@ export const messageReactionRemoveEvent = new EventHandler({
     const { message, emoji } = reaction;
     const i18n = await initI18n(message.guild.preferredLocale);
 
-    void LogService.log({
+    LogService.log({
       eventName: "messageReactionRemove",
       relatedUsers: [user.id, message.author.id],
       relatedChannels: [message.channelId],

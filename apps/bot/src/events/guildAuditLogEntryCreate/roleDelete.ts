@@ -11,7 +11,7 @@ export const roleDeleteHandler: Handler<AuditLogEvent.RoleDelete> = (
 ) => {
   assert(auditLogEntry.targetId);
 
-  void LogService.log({
+  LogService.log({
     eventName: "roleDelete",
     guild,
     i18n,

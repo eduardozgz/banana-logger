@@ -6,7 +6,7 @@ import { LogService } from "~/services/LogService";
 export const autoModRuleCreateHandler: Handler<
   AuditLogEvent.AutoModerationRuleCreate
 > = (auditLogEntry, guild, i18n) => {
-  void LogService.log({
+  LogService.log({
     eventName: "autoModRuleCreate",
     guild,
     i18n,

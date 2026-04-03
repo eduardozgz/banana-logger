@@ -11,7 +11,7 @@ export const channelCreateHandler: Handler<AuditLogEvent.ChannelCreate> = (
 ) => {
   assert(auditLogEntry.targetId);
 
-  void LogService.log({
+  LogService.log({
     eventName: "channelCreate",
     guild,
     i18n,

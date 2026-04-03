@@ -39,7 +39,7 @@ export const channelOverwriteUpdateHandler: Handler<
     }
   }
 
-  void LogService.log({
+  LogService.log({
     eventName: "channelOverwriteUpdate",
     guild,
     i18n,

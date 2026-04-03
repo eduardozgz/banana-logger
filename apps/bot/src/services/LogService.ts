@@ -1,5 +1,6 @@
 import type {
   APIEmbed,
+  APIEmbedField,
   EmbedBuilder,
   Guild,
   GuildAuditLogsEntry,
@@ -41,8 +42,78 @@ interface SetupOptions<E extends EventType> {
   target?: GuildAuditLogsEntry["target"];
 }
 
+const EMBED_DESC_LIMIT = 4096;
+const EMBED_FIELD_LIMIT = 1024;
+
+function splitText(text: string, limit: number): string[] {
+  if (text.length <= limit) return [text];
+  const chunks: string[] = [];
+  let remaining = text;
+  while (remaining.length > 0) {
+    if (remaining.length <= limit) {
+      chunks.push(remaining);
+      break;
+    }
+    let splitAt = remaining.lastIndexOf("\n", limit);
+    if (splitAt <= 0) splitAt = remaining.lastIndexOf(", ", limit);
+    if (splitAt <= 0) splitAt = limit;
+    chunks.push(remaining.slice(0, splitAt));
+    remaining = remaining.slice(splitAt).replace(/^[\n, ]+/, "");
+  }
+  return chunks;
+}
+
+function enforceEmbedLimits(templates: APIEmbed[]): APIEmbed[] {
+  const result: APIEmbed[] = [];
+
+  for (const embed of templates) {
+    if (embed.fields) {
+      for (const field of embed.fields) {
+        if (field.value.length > EMBED_FIELD_LIMIT) {
+          field.value =
+            field.value.slice(0, EMBED_FIELD_LIMIT - 3) + "...";
+        }
+      }
+    }
+
+    const desc = embed.description;
+    if (!desc || desc.length <= EMBED_DESC_LIMIT) {
+      result.push(embed);
+      continue;
+    }
+
+    const chunks = splitText(desc, EMBED_DESC_LIMIT);
+    for (let i = 0; i < chunks.length; i++) {
+      const isFirst = i === 0;
+      const isLast = i === chunks.length - 1;
+      const part: APIEmbed = {
+        ...(isFirst
+          ? { ...embed, description: chunks[i] }
+          : { description: chunks[i], color: embed.color }),
+        ...(!isFirst ? { title: undefined, author: undefined, thumbnail: undefined } : {}),
+        ...(isLast ? {} : { fields: undefined, footer: undefined, image: undefined }),
+      };
+
+      if (!isFirst) {
+        delete part.title;
+        delete part.author;
+        delete part.thumbnail;
+      }
+      if (!isLast) {
+        delete part.fields;
+        delete part.footer;
+        delete part.image;
+      }
+
+      result.push(part);
+    }
+  }
+
+  return result;
+}
+
 export class LogService {
-  static async log<E extends EventType>({
+  static log<E extends EventType>({
     eventName,
     guild,
     relatedChannels = [],
@@ -108,65 +179,75 @@ export class LogService {
       ...data,
     };
 
-    try {
-      for (const serviceSettings of await SettingsService.getByEventName(
-        eventName,
-        guild,
-      )) {
-        const ignoredChannels = serviceSettings.ignoredChannels;
-        _.pull(ignoredChannels, ...serviceSettings.watchChannels);
-        const ignoredUsers = serviceSettings.ignoredUsers;
-        _.pull(ignoredUsers, ...serviceSettings.watchUsers);
+    void (async () => {
+      try {
+        for (const serviceSettings of await SettingsService.getByEventName(
+          eventName,
+          guild,
+        )) {
+          const ignoredChannels = serviceSettings.ignoredChannels;
+          _.pull(ignoredChannels, ...serviceSettings.watchChannels);
+          const ignoredUsers = serviceSettings.ignoredUsers;
+          _.pull(ignoredUsers, ...serviceSettings.watchUsers);
 
-        ignoredUsers.push(guild.client.user.id);
-        ignoredChannels.push(serviceSettings.channelId);
+          ignoredUsers.push(guild.client.user.id);
+          ignoredChannels.push(serviceSettings.channelId);
 
-        if (
-          ignoredChannels.some((ignoredChannel) =>
-            relatedChannels.includes(ignoredChannel),
-          ) ||
-          ignoredUsers.some((ignoredUser) => relatedUsers.includes(ignoredUser))
-        ) {
-          continue;
+          if (
+            ignoredChannels.some((ignoredChannel) =>
+              relatedChannels.includes(ignoredChannel),
+            ) ||
+            ignoredUsers.some((ignoredUser) =>
+              relatedUsers.includes(ignoredUser),
+            )
+          ) {
+            continue;
+          }
+
+          // Typescript will fail to typecheck this when eventName is "E extend EventType" instead of "EventType"
+          const castedEventName: EventType = eventName;
+          let templates: APIEmbed[] = i18n.t(
+            `baseTemplates:${castedEventName}`,
+            {
+              returnObjects: true,
+            },
+          );
+
+          // Process template variables
+          for (const [key, value] of Object.entries(data)) {
+            templates = deepReplaceAll(templates, `{${key}}`, value as string);
+          }
+
+          const channel = await guild.channels.fetch(
+            serviceSettings.channelId,
+          );
+
+          if (!channel?.isTextBased()) {
+            continue;
+          }
+
+          const safeTemplates = enforceEmbedLimits(templates);
+          const embeds = safeTemplates.map(
+            (template) => new BananaLoggerEmbed(template),
+          );
+
+          const galleryEmbedUrl = baseGalleryEmbedUrl();
+
+          embeds.forEach((embed) => {
+            embed.setURL(galleryEmbedUrl);
+          });
+
+          LogService.sendLog(channel, embeds);
         }
-
-        // Typescript will fail to typecheck this when eventName is "E extend EventType" instead of "EventType"
-        const castedEventName: EventType = eventName;
-        let templates: APIEmbed[] = i18n.t(`baseTemplates:${castedEventName}`, {
-          returnObjects: true,
-        });
-
-        // Process template variables
-        for (const [key, value] of Object.entries(data)) {
-          templates = deepReplaceAll(templates, `{${key}}`, value as string);
-        }
-
-        const channel = await guild.channels.fetch(serviceSettings.channelId);
-
-        if (!channel?.isTextBased()) {
-          continue;
-        }
-
-        const embeds = templates.map(
-          (template) => new BananaLoggerEmbed(template),
-        );
-
-        const galleryEmbedUrl = baseGalleryEmbedUrl();
-
-        embeds.forEach((embed) => {
-          embed.setURL(galleryEmbedUrl);
-        });
-
-        LogService.sendLog(channel, embeds);
+      } catch (e) {
+        guild.client.botInstanceOptions.logger
+          .child({
+            component: "LogService",
+            method: "log",
+          })
+          .error(e);
       }
-    } catch (e) {
-      guild.client.botInstanceOptions.logger
-        .child({
-          component: "LogService",
-          method: "log",
-        })
-        .error(e);
-    }
+    })();
   }
 
   private static logQueue = new Map<

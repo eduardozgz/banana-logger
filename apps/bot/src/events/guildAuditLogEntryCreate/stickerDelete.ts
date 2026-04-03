@@ -8,7 +8,7 @@ export const stickerDeleteHandler: Handler<AuditLogEvent.StickerDelete> = (
   guild,
   i18n,
 ) => {
-  void LogService.log({
+  LogService.log({
     eventName: "stickerDelete",
     guild,
     i18n,

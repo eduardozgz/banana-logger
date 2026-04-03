@@ -16,7 +16,7 @@ export const stageInstanceCreateHandler: Handler<
       ? auditLogEntry.target.topic
       : "Unknown";
 
-  void LogService.log({
+  LogService.log({
     eventName: "stageInstanceCreate",
     guild,
     i18n,

@@ -11,7 +11,7 @@ export const roleCreateHandler: Handler<AuditLogEvent.RoleCreate> = (
 ) => {
   assert(auditLogEntry.targetId);
 
-  void LogService.log({
+  LogService.log({
     eventName: "roleCreate",
     guild,
     i18n,

@@ -8,7 +8,7 @@ export const threadCreateHandler: Handler<AuditLogEvent.ThreadCreate> = (
   guild,
   i18n,
 ) => {
-  void LogService.log({
+  LogService.log({
     eventName: "threadCreate",
     guild,
     i18n,

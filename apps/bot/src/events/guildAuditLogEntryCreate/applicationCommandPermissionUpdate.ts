@@ -60,7 +60,7 @@ export const applicationCommandPermissionUpdateHandler: Handler<
     ),
   );
 
-  void LogService.log({
+  LogService.log({
     eventName: "applicationCommandPermissionUpdate",
     guild,
     i18n,

@@ -9,7 +9,7 @@ export const inviteCreateHandler: Handler<AuditLogEvent.InviteCreate> = (
   guild,
   i18n,
 ) => {
-  void LogService.log({
+  LogService.log({
     eventName: "inviteCreate",
     guild,
     i18n,

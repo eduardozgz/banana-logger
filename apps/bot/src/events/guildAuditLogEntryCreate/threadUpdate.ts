@@ -1,4 +1,5 @@
 import type { AuditLogEvent } from "discord.js";
+import { ChannelFlagsBitField } from "discord.js";
 
 import type {
   AuditLogChangeTransformers,
@@ -15,6 +16,13 @@ const threadUpdateChangesMap = {
   rate_limit_per_user: "threadUpdateRateLimitPerUser",
   flags: "threadUpdateFlags",
 } satisfies ChangeMap;
+
+function formatChannelFlags(flags: unknown, fallback: string): string {
+  if (flags === undefined || flags === null) return fallback;
+  const bits = new ChannelFlagsBitField(Number(flags));
+  const names = bits.toArray();
+  return names.length > 0 ? names.join(", ") : "None";
+}
 
 const threadUpdateChangesTransformers = {
   archived: (i18n, change) => {
@@ -55,6 +63,15 @@ const threadUpdateChangesTransformers = {
       new: change.new
         ? formatTimeDuration(i18n.language, change.new)
         : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
+    };
+  },
+  flags: (i18n, change) => {
+    const fallback = i18n.t(
+      "main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE",
+    );
+    return {
+      old: formatChannelFlags(change.old, fallback),
+      new: formatChannelFlags(change.new, fallback),
     };
   },
 } satisfies AuditLogChangeTransformers<keyof typeof threadUpdateChangesMap>;

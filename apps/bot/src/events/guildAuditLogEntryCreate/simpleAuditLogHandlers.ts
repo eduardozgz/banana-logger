@@ -9,7 +9,7 @@ import { LogService } from "~/services/LogService";
 export const onboardingCreateHandler: Handler<
   AuditLogEvent.OnboardingCreate
 > = (auditLogEntry, guild, i18n) => {
-  void LogService.log({
+  LogService.log({
     eventName: "onboardingCreate",
     guild,
     i18n,
@@ -27,7 +27,7 @@ export const onboardingCreateHandler: Handler<
 export const homeSettingsCreateHandler: Handler<
   AuditLogEvent.HomeSettingsCreate
 > = (auditLogEntry, guild, i18n) => {
-  void LogService.log({
+  LogService.log({
     eventName: "homeSettingsCreate",
     guild,
     i18n,
@@ -45,7 +45,7 @@ export const homeSettingsCreateHandler: Handler<
 export const homeSettingsUpdateHandler: Handler<
   AuditLogEvent.HomeSettingsUpdate
 > = (auditLogEntry, guild, i18n) => {
-  void LogService.log({
+  LogService.log({
     eventName: "homeSettingsUpdate",
     guild,
     i18n,
@@ -69,7 +69,7 @@ export const homeSettingsUpdateHandler: Handler<
 export const creatorMonetizationRequestCreatedHandler: Handler<
   AuditLogEvent.CreatorMonetizationRequestCreated
 > = (auditLogEntry, guild, i18n) => {
-  void LogService.log({
+  LogService.log({
     eventName: "creatorMonetizationRequestCreated",
     guild,
     i18n,
@@ -87,7 +87,7 @@ export const creatorMonetizationRequestCreatedHandler: Handler<
 export const creatorMonetizationTermsAcceptedHandler: Handler<
   AuditLogEvent.CreatorMonetizationTermsAccepted
 > = (auditLogEntry, guild, i18n) => {
-  void LogService.log({
+  LogService.log({
     eventName: "creatorMonetizationTermsAccepted",
     guild,
     i18n,

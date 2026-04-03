@@ -24,7 +24,7 @@ export const messageUpdateEvent = new EventHandler({
 
     const i18n = await initI18n(newMessage.guild.preferredLocale);
 
-    void LogService.log({
+    LogService.log({
       eventName: "messageUpdate",
       relatedUsers: [newMessage.author.id],
       relatedChannels: [newMessage.channelId],

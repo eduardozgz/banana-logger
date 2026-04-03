@@ -6,7 +6,7 @@ import { LogService } from "~/services/LogService";
 export const messageBulkDeleteHandler: Handler<
   AuditLogEvent.MessageBulkDelete
 > = (auditLogEntry, guild, i18n) => {
-  void LogService.log({
+  LogService.log({
     eventName: "messageBulkDelete",
     guild,
     i18n,

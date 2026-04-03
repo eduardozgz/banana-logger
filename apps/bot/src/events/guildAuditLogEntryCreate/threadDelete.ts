@@ -8,7 +8,7 @@ export const threadDeleteHandler: Handler<AuditLogEvent.ThreadDelete> = (
   guild,
   i18n,
 ) => {
-  void LogService.log({
+  LogService.log({
     eventName: "threadDelete",
     guild,
     i18n,

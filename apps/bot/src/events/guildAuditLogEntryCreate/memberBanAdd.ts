@@ -13,7 +13,7 @@ export const memberBanAddHandler: Handler<AuditLogEvent.MemberBanAdd> = (
 
   console.log(auditLogEntry);
 
-  void LogService.log({
+  LogService.log({
     eventName: "memberBanAdd",
     guild,
     i18n,

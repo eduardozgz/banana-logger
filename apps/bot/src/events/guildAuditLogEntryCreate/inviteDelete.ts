@@ -8,7 +8,7 @@ export const inviteDeleteHandler: Handler<AuditLogEvent.InviteDelete> = (
   guild,
   i18n,
 ) => {
-  void LogService.log({
+  LogService.log({
     eventName: "inviteDelete",
     guild,
     i18n,

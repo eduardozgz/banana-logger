@@ -10,7 +10,7 @@ export const messagePinHandler: Handler<AuditLogEvent.MessagePin> = (
 ) => {
   const messageLink = `https://discord.com/channels/${guild.id}/${auditLogEntry.extra.channel.id}/${auditLogEntry.extra.messageId}`;
   console.log(messageLink);
-  void LogService.log({
+  LogService.log({
     eventName: "messagePin",
     guild,
     i18n,

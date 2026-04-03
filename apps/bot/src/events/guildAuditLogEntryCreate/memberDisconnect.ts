@@ -9,7 +9,7 @@ export const memberDisconnectHandler: Handler<
 > = (auditLogEntry, guild, i18n) => {
   assert(auditLogEntry.executorId);
 
-  void LogService.log({
+  LogService.log({
     eventName: "memberDisconnect",
     guild,
     i18n,

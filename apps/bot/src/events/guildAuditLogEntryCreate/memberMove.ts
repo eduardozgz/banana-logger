@@ -12,7 +12,7 @@ export const memberMoveHandler: Handler<AuditLogEvent.MemberMove> = (
 ) => {
   assert(auditLogEntry.executorId);
 
-  void LogService.log({
+  LogService.log({
     eventName: "memberMove",
     guild,
     i18n,

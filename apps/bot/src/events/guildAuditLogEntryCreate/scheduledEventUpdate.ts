@@ -20,7 +20,79 @@ const scheduledEventUpdateChangesMap = {
   recurrence_rule: "scheduledEventUpdateRecurrenceRule",
 } satisfies ChangeMap;
 
+interface RecurrenceRule {
+  start: string;
+  end?: string | null;
+  frequency: number;
+  interval: number;
+  by_weekday?: number[] | null;
+  by_n_weekday?: { n: number; day: number }[] | null;
+  by_month?: number[] | null;
+  by_month_day?: number[] | null;
+  by_year_day?: number[] | null;
+  count?: number | null;
+}
+
+const WEEKDAY_NAMES = [
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+  "Sunday",
+];
+const MONTH_NAMES = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+const FREQUENCY_NAMES: Record<number, string> = {
+  0: "Yearly",
+  1: "Monthly",
+  2: "Weekly",
+  3: "Daily",
+};
+
+function formatRecurrenceRule(rule: unknown, fallback: string): string {
+  if (!rule || typeof rule !== "object") return fallback;
+  const r = rule as RecurrenceRule;
+  const parts: string[] = [];
+  const freq = FREQUENCY_NAMES[r.frequency] ?? `Frequency ${r.frequency}`;
+  parts.push(r.interval > 1 ? `Every ${r.interval} ${freq.toLowerCase()}s` : freq);
+  if (r.by_weekday?.length) {
+    parts.push(
+      `on ${r.by_weekday.map((d) => WEEKDAY_NAMES[d] ?? String(d)).join(", ")}`,
+    );
+  }
+  if (r.by_month?.length) {
+    parts.push(
+      `in ${r.by_month.map((m) => MONTH_NAMES[m - 1] ?? String(m)).join(", ")}`,
+    );
+  }
+  if (r.by_month_day?.length) {
+    parts.push(`on day ${r.by_month_day.join(", ")}`);
+  }
+  return parts.join(" ");
+}
+
 const scheduledEventUpdateChangesTransformers = {
+  recurrence_rule: (i18n, change) => {
+    const fallback = i18n.t("main:eventDataTransformers.common.none");
+    return {
+      old: formatRecurrenceRule(change.old, fallback),
+      new: formatRecurrenceRule(change.new, fallback),
+    };
+  },
   status: (i18n, change) => {
     const statuses: Record<number, string> = {
       1: i18n.t("main:eventDataTransformers.scheduledEventUpdateStatus.1"),

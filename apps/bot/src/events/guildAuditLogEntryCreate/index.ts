@@ -33,6 +33,8 @@ import { emojiCreateHandler } from "./emojiCreate";
 import { emojiDeleteHandler } from "./emojiDelete";
 import { emojiUpdate } from "./emojiUpdate";
 import { guildUpdate } from "./guildUpdate";
+import { integrationCreateHandler } from "./integrationCreate";
+import { integrationDeleteHandler } from "./integrationDelete";
 import { inviteCreateHandler } from "./inviteCreate";
 import { inviteDeleteHandler } from "./inviteDelete";
 import { inviteUpdate } from "./inviteUpdate";
@@ -195,6 +197,8 @@ const handlers = {
   [AuditLogEvent.ThreadCreate]: threadCreateHandler,
   [AuditLogEvent.ThreadUpdate]: createGenericAuditLogHandler(threadUpdate),
   [AuditLogEvent.ThreadDelete]: threadDeleteHandler,
+  [AuditLogEvent.IntegrationCreate]: integrationCreateHandler,
+  [AuditLogEvent.IntegrationDelete]: integrationDeleteHandler,
 } as const;
 
 export const guildAuditLogEntryCreateEvent = new EventHandler({
@@ -255,7 +259,7 @@ function createGenericAuditLogHandler<
         auditLogEntry.target,
       );
 
-      void LogService.log({
+      LogService.log({
         eventName,
         guild,
         i18n,

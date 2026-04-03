@@ -16,7 +16,7 @@ export const emojiDeleteHandler: Handler<AuditLogEvent.EmojiDelete> = (
   assert(name);
   assert(auditLogEntry.target.id);
 
-  void LogService.log({
+  LogService.log({
     eventName: "emojiDelete",
     guild,
     i18n,

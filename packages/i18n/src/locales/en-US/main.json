@@ -138,10 +138,13 @@
     "voiceStopStream": "voice stream stop",
     "voiceStartVideo": "voice video start",
     "voiceStopVideo": "voice video stop",
+    "memberJoin": "member join",
     "memberLeave": "member leave",
     "messageUpdate": "message update",
     "messageReactionAdd": "message reaction add",
     "messageReactionRemove": "message reaction remove",
+    "messageReactionRemoveAll": "all reactions removed",
+    "messageReactionRemoveEmoji": "emoji reactions removed",
     "channelUpdateRtcRegion": "channel voice region change",
     "channelUpdateFlags": "channel flags change",
     "channelUpdateDefaultThreadRateLimitPerUser": "channel default thread rate limit change",
@@ -164,7 +167,9 @@
     "soundboardSoundUpdateVolume": "soundboard sound volume change",
     "soundboardSoundUpdateEmojiId": "soundboard sound emoji change",
     "soundboardSoundUpdateEmojiName": "soundboard sound emoji name change",
-    "soundboardSoundDelete": "soundboard sound delete"
+    "soundboardSoundDelete": "soundboard sound delete",
+    "integrationCreate": "integration added",
+    "integrationDelete": "integration removed"
   },
   "eventDataTransformers": {
     "common": {

@@ -11,7 +11,7 @@ export const botAddHandler: Handler<AuditLogEvent.BotAdd> = (
 ) => {
   assert(auditLogEntry.targetId);
 
-  void LogService.log({
+  LogService.log({
     eventName: "botAdd",
     guild,
     i18n,

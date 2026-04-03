@@ -498,7 +498,7 @@
   "channelUpdatePermissionOverwrites": [
     {
       "title": "Channel Permission Overwrites Change",
-      "description": "{EXECUTOR_MENTION} changed the permission overwrites of {TARGET_MENTION}",
+      "description": "{EXECUTOR_MENTION} changed the permission overwrites of {TARGET_MENTION}\n\n{OLD_VALUE}",
       "author": {
         "name": "{EXECUTOR_NAME}",
         "icon_url": "{EXECUTOR_AVATAR}"
@@ -823,23 +823,11 @@
   "roleUpdatePermissions": [
     {
       "title": "Role Permissions Change",
-      "description": "{EXECUTOR_MENTION} changed the permissions of {TARGET_MENTION}",
+      "description": "{EXECUTOR_MENTION} changed the permissions of {TARGET_MENTION}\n\n{OLD_VALUE}",
       "author": {
         "name": "{EXECUTOR_NAME}",
         "icon_url": "{EXECUTOR_AVATAR}"
-      },
-      "fields": [
-        {
-          "name": "__Old Permissions__",
-          "value": "`{OLD_VALUE_RAW}`",
-          "inline": true
-        },
-        {
-          "name": "__New Permissions__",
-          "value": "`{NEW_VALUE_RAW}`",
-          "inline": true
-        }
-      ]
+      }
     }
   ],
   "roleDelete": [
@@ -2207,6 +2195,50 @@
       "author": {
         "name": "{EXECUTOR_NAME}",
         "icon_url": "{EXECUTOR_AVATAR}"
+      }
+    }
+  ],
+  "memberJoin": [
+    {
+      "title": "Member Joined",
+      "description": "{USER_MENTION} (**{USER_NAME}**) joined the server",
+      "thumbnail": {
+        "url": "{USER_AVATAR}"
+      }
+    }
+  ],
+  "integrationCreate": [
+    {
+      "title": "Integration Added",
+      "description": "{EXECUTOR_MENTION} added an integration: **{INTEGRATION_NAME}** ({INTEGRATION_TYPE})",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      }
+    }
+  ],
+  "integrationDelete": [
+    {
+      "title": "Integration Removed",
+      "description": "{EXECUTOR_MENTION} removed an integration: **{INTEGRATION_NAME}** ({INTEGRATION_TYPE})",
+      "author": {
+        "name": "{EXECUTOR_NAME}",
+        "icon_url": "{EXECUTOR_AVATAR}"
+      }
+    }
+  ],
+  "messageReactionRemoveAll": [
+    {
+      "title": "All Reactions Removed",
+      "description": "All reactions were removed from a [message]({MESSAGE_URL}) by {AUTHOR_MENTION} in {CHANNEL_MENTION}"
+    }
+  ],
+  "messageReactionRemoveEmoji": [
+    {
+      "title": "Emoji Reactions Removed",
+      "description": "All {REACTION_EMOJI} reactions were removed from a [message]({MESSAGE_URL}) by {AUTHOR_MENTION} in {CHANNEL_MENTION}",
+      "thumbnail": {
+        "url": "{REACTION_IMAGE_URL}"
       }
     }
   ]

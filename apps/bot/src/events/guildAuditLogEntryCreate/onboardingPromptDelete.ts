@@ -6,7 +6,7 @@ import { LogService } from "~/services/LogService";
 export const onboardingPromptDeleteHandler: Handler<
   AuditLogEvent.OnboardingPromptDelete
 > = (auditLogEntry, guild, i18n) => {
-  void LogService.log({
+  LogService.log({
     eventName: "onboardingPromptDelete",
     guild,
     i18n,

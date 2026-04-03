@@ -10,7 +10,7 @@ export const messageUnpinHandler: Handler<AuditLogEvent.MessageUnpin> = (
 ) => {
   const messageLink = `https://discord.com/channels/${guild.id}/${auditLogEntry.extra.channel.id}/${auditLogEntry.extra.messageId}`;
 
-  void LogService.log({
+  LogService.log({
     eventName: "messageUnpin",
     guild,
     i18n,

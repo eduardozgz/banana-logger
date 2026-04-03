@@ -1281,6 +1281,26 @@ interface Resources {
         title: "Server Guide Updated";
       },
     ];
+    integrationCreate: [
+      {
+        author: {
+          icon_url: "{EXECUTOR_AVATAR}";
+          name: "{EXECUTOR_NAME}";
+        };
+        description: "{EXECUTOR_MENTION} added an integration: **{INTEGRATION_NAME}** ({INTEGRATION_TYPE})";
+        title: "Integration Added";
+      },
+    ];
+    integrationDelete: [
+      {
+        author: {
+          icon_url: "{EXECUTOR_AVATAR}";
+          name: "{EXECUTOR_NAME}";
+        };
+        description: "{EXECUTOR_MENTION} removed an integration: **{INTEGRATION_NAME}** ({INTEGRATION_TYPE})";
+        title: "Integration Removed";
+      },
+    ];
     inviteCreate: [
       {
         author: {
@@ -1494,6 +1514,15 @@ interface Resources {
         };
         description: "{EXECUTOR_MENTION} disconnected someone from a voice channel";
         title: "Member Disconnected";
+      },
+    ];
+    memberJoin: [
+      {
+        description: "{USER_MENTION} (**{USER_NAME}**) joined the server";
+        thumbnail: {
+          url: "{USER_AVATAR}";
+        };
+        title: "Member Joined";
       },
     ];
     memberKick: [
@@ -1753,6 +1782,21 @@ interface Resources {
           url: "{REACTION_IMAGE_URL}";
         };
         title: "Reaction Removed";
+      },
+    ];
+    messageReactionRemoveAll: [
+      {
+        description: "All reactions were removed from a [message]({MESSAGE_URL}) by {AUTHOR_MENTION} in {CHANNEL_MENTION}";
+        title: "All Reactions Removed";
+      },
+    ];
+    messageReactionRemoveEmoji: [
+      {
+        description: "All {REACTION_EMOJI} reactions were removed from a [message]({MESSAGE_URL}) by {AUTHOR_MENTION} in {CHANNEL_MENTION}";
+        thumbnail: {
+          url: "{REACTION_IMAGE_URL}";
+        };
+        title: "Emoji Reactions Removed";
       },
     ];
     messageUnpin: [
@@ -3304,6 +3348,8 @@ interface Resources {
       guildUpdateWidgetEnabled: "server widget enabled change";
       homeSettingsCreate: "server guide create";
       homeSettingsUpdate: "server guide update";
+      integrationCreate: "integration added";
+      integrationDelete: "integration removed";
       inviteCreate: "invite create";
       inviteDelete: "invite delete";
       inviteUpdateChannel: "invite channel change";
@@ -3316,6 +3362,7 @@ interface Resources {
       memberBanAdd: "member ban";
       memberBanRemove: "member unban";
       memberDisconnect: "member disconnect";
+      memberJoin: "member join";
       memberKick: "member kick";
       memberLeave: "member leave";
       memberMove: "member voice channel move";
@@ -3331,6 +3378,8 @@ interface Resources {
       messagePin: "message pin";
       messageReactionAdd: "message reaction add";
       messageReactionRemove: "message reaction remove";
+      messageReactionRemoveAll: "all reactions removed";
+      messageReactionRemoveEmoji: "emoji reactions removed";
       messageUnpin: "message unpin";
       messageUpdate: "message update";
       onboardingCreate: "onboarding create";

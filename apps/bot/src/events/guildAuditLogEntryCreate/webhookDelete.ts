@@ -8,7 +8,7 @@ export const webhookDeleteHandler: Handler<AuditLogEvent.WebhookDelete> = (
   guild,
   i18n,
 ) => {
-  void LogService.log({
+  LogService.log({
     eventName: auditLogEntry.executor ? "webhookDelete" : "webhookSelfDelete",
     guild,
     i18n,

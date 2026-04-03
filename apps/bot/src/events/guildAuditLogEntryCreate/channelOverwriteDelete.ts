@@ -18,7 +18,7 @@ export const channelOverwriteDeleteHandler: Handler<
     "1": i18n.t("main:eventDataTransformers.channelOverwriteType.1"),
   };
 
-  void LogService.log({
+  LogService.log({
     eventName: "channelOverwriteDelete",
     guild,
     i18n,

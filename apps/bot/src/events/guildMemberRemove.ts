@@ -10,7 +10,7 @@ export const guildMemberRemoveEvent = new EventHandler({
   handler: async (_client, member) => {
     const i18n = await initI18n(member.guild.preferredLocale);
 
-    void LogService.log({
+    LogService.log({
       eventName: "memberLeave",
       guild: member.guild,
       i18n,

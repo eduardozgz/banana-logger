@@ -30,7 +30,7 @@ export const messageDeleteEvent = new EventHandler({
 
     const i18n = await initI18n(message.guild.preferredLocale);
 
-    await LogService.log({
+    LogService.log({
       eventName: "messageDelete",
       guild: message.guild,
       executor,

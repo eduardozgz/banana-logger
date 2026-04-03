@@ -8,7 +8,7 @@ export const emojiCreateHandler: Handler<AuditLogEvent.EmojiCreate> = (
   guild,
   i18n,
 ) => {
-  void LogService.log({
+  LogService.log({
     eventName: "emojiCreate",
     guild,
     i18n,

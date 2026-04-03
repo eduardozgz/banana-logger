@@ -8,7 +8,7 @@ export const memberPruneHandler: Handler<AuditLogEvent.MemberPrune> = (
   guild,
   i18n,
 ) => {
-  void LogService.log({
+  LogService.log({
     eventName: "memberPrune",
     guild,
     i18n,

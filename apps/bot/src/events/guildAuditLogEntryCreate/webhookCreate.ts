@@ -8,7 +8,7 @@ export const webhookCreateHandler: Handler<AuditLogEvent.WebhookCreate> = (
   guild,
   i18n,
 ) => {
-  void LogService.log({
+  LogService.log({
     eventName: "webhookCreate",
     guild,
     i18n,

@@ -1,21 +1,27 @@
-// import { userMention } from "@discordjs/builders";
+import { userMention } from "discord.js";
 
-// import { LogService } from "~/services/LogService";
-// import { EventHandler } from "~/structures";
+import { initI18n } from "@/i18n";
 
-// export const guildMemberAddEvent = new EventHandler({
-//   name: "guildMemberAdd",
-//   handler: async (member) => {
-//     // TODO get what invite was used
-//     await LogService.log({
-//       eventName: "guildMemberAdd",
-//       relatedUsers: [member.id],
-//       relatedChannels: [],
-//       guild: member.guild,
-//       data: {
-//         MEMBER_MENTION: userMention(member.id),
-//         MEMBER_AVATAR: member.displayAvatarURL(),
-//       },
-//     });
-//   },
-// });
+import { LogService } from "~/services/LogService";
+import { EventHandler } from "~/structures";
+
+export const guildMemberAddEvent = new EventHandler({
+  name: "guildMemberAdd",
+  handler: async (_client, member) => {
+    const i18n = await initI18n(member.guild.preferredLocale);
+
+    LogService.log({
+      eventName: "memberJoin",
+      guild: member.guild,
+      i18n,
+      relatedChannels: [],
+      relatedUsers: [member.id],
+      data: {
+        USER_MENTION: userMention(member.id),
+        USER_NAME: member.user.username,
+        USER_ID: member.id,
+        USER_AVATAR: member.displayAvatarURL(),
+      },
+    });
+  },
+});

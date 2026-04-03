@@ -25,7 +25,7 @@ export const stickerCreateHandler: Handler<AuditLogEvent.StickerCreate> = (
       ? auditLogEntry.target.tags
       : "None";
 
-  void LogService.log({
+  LogService.log({
     eventName: "stickerCreate",
     guild,
     i18n,

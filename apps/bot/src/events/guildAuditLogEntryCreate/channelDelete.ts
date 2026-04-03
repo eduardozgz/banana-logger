@@ -11,7 +11,7 @@ export const channelDeleteHandler: Handler<AuditLogEvent.ChannelDelete> = (
 ) => {
   assert(auditLogEntry.targetId);
 
-  void LogService.log({
+  LogService.log({
     eventName: "channelDelete",
     guild,
     i18n,

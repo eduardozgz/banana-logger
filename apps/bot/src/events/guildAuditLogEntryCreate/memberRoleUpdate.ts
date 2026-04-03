@@ -28,7 +28,7 @@ export const memberRoleUpdateHandler: Handler<
     ? listFormat(removeRoles, i18n.language)
     : i18n.t("main:eventDataTransformers.memberRoleUpdate.nothingRemoved");
 
-  void LogService.log({
+  LogService.log({
     eventName: "memberRoleUpdate",
     guild,
     i18n,

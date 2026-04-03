@@ -209,6 +209,14 @@ enum EventType {
   // Creator Monetization
   creatorMonetizationRequestCreated
   creatorMonetizationTermsAccepted
+  // Member Join
+  memberJoin
+  // Integrations
+  integrationCreate
+  integrationDelete
+  // Reaction Bulk Removal
+  messageReactionRemoveAll
+  messageReactionRemoveEmoji
   // Soundboard Events
   soundboardSoundCreate
   soundboardSoundUpdateName

@@ -6,7 +6,7 @@ import { LogService } from "~/services/LogService";
 export const soundboardSoundCreateHandler: Handler<
   AuditLogEvent.SoundboardSoundCreate
 > = (auditLogEntry, guild, i18n) => {
-  void LogService.log({
+  LogService.log({
     eventName: "soundboardSoundCreate",
     guild,
     i18n,

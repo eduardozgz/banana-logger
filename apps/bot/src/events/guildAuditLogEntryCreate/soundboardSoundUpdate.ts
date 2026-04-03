@@ -1,4 +1,5 @@
 import type { AuditLogEvent } from "discord.js";
+import { formatEmoji } from "discord.js";
 
 import type {
   AuditLogChangeTransformers,
@@ -24,6 +25,13 @@ const soundboardSoundUpdateChangesTransformers = {
         change.new !== undefined
           ? `${Math.round(change.new * 100)}%`
           : "Unknown",
+    };
+  },
+  emoji_id: (i18n, change) => {
+    const fallback = i18n.t("main:eventDataTransformers.common.none");
+    return {
+      old: change.old ? formatEmoji(String(change.old)) : fallback,
+      new: change.new ? formatEmoji(String(change.new)) : fallback,
     };
   },
 } satisfies AuditLogChangeTransformers<
