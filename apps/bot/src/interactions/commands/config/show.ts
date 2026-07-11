@@ -39,7 +39,7 @@ export const showHandle: CommandHandle = async (command, i18n) => {
 
   const channel = extractSupportedChannel(command.channel);
 
-  const settingsService = await SettingsService.init(channel, command.guild);
+  const settingsService = await SettingsService.get(channel, command.guild);
 
   let settingsContent = "";
 

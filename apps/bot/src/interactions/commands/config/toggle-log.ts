@@ -56,7 +56,7 @@ export const toggleLogHandle: CommandHandle = async (command, i18n) => {
 
   const channel = extractSupportedChannel(command.channel);
 
-  const settingsService = await SettingsService.init(channel, command.guild);
+  const settingsService = await SettingsService.get(channel, command.guild);
 
   const eventToToggle = command.options.getString(
     i18nDefault.t(

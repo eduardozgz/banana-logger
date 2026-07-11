@@ -7,9 +7,21 @@ import {
 import { z } from "zod";
 
 import { createTRPCRouter, protectedProcedure } from "../trpc";
+import { assertManageGuild } from "../utils/checkUserPermissions";
 
-const guildInput = z.object({ guildId: z.string() });
-const channelInput = z.object({ guildId: z.string(), channelId: z.string() });
+const channelInput = z.object({ channelId: z.string() });
+
+/**
+ * A procedure scoped to a single guild. It requires a `guildId` in the input and
+ * asserts the caller may manage that guild before the resolver runs, so no guild
+ * procedure can be invoked for a guild the user has no authority over.
+ */
+const guildProcedure = protectedProcedure
+  .input(z.object({ guildId: z.string() }))
+  .use(async ({ ctx, input, next }) => {
+    await assertManageGuild(ctx.session, input.guildId);
+    return next();
+  });
 
 function toggleArrayItem<T>(array: T[], item: T): T[] {
   const result = [...array];
@@ -23,24 +35,20 @@ function toggleArrayItem<T>(array: T[], item: T): T[] {
 }
 
 export const guildRouter = createTRPCRouter({
-  has: protectedProcedure
-    .input(guildInput)
-    .query(async ({ ctx, input }) => {
-      const count = await ctx.db.settings.count({
-        where: { guildId: input.guildId },
-      });
-      return count > 0;
-    }),
+  has: guildProcedure.query(async ({ ctx, input }) => {
+    const count = await ctx.db.settings.count({
+      where: { guildId: input.guildId },
+    });
+    return count > 0;
+  }),
 
-  getLogChannels: protectedProcedure
-    .input(guildInput)
-    .query(async ({ ctx, input }) => {
-      return ctx.db.settings.findMany({
-        where: { guildId: input.guildId },
-      });
-    }),
+  getLogChannels: guildProcedure.query(async ({ ctx, input }) => {
+    return ctx.db.settings.findMany({
+      where: { guildId: input.guildId },
+    });
+  }),
 
-  getLogChannel: protectedProcedure
+  getLogChannel: guildProcedure
     .input(channelInput)
     .query(async ({ ctx, input }) => {
       return ctx.db.settings.findUnique({
@@ -53,7 +61,7 @@ export const guildRouter = createTRPCRouter({
       });
     }),
 
-  createLogChannel: protectedProcedure
+  createLogChannel: guildProcedure
     .input(channelInput)
     .mutation(async ({ ctx, input }) => {
       return ctx.db.settings.upsert({
@@ -71,7 +79,7 @@ export const guildRouter = createTRPCRouter({
       });
     }),
 
-  deleteLogChannel: protectedProcedure
+  deleteLogChannel: guildProcedure
     .input(channelInput)
     .mutation(async ({ ctx, input }) => {
       return ctx.db.settings.delete({
@@ -84,7 +92,7 @@ export const guildRouter = createTRPCRouter({
       });
     }),
 
-  toggleEvent: protectedProcedure
+  toggleEvent: guildProcedure
     .input(
       channelInput.extend({
         event: z.nativeEnum(EventType),
@@ -108,7 +116,7 @@ export const guildRouter = createTRPCRouter({
       });
     }),
 
-  togglePreset: protectedProcedure
+  togglePreset: guildProcedure
     .input(
       channelInput.extend({
         preset: z.enum(PRESET_NAMES as [PresetName, ...PresetName[]]),
@@ -147,7 +155,7 @@ export const guildRouter = createTRPCRouter({
       });
     }),
 
-  toggleAllEvents: protectedProcedure
+  toggleAllEvents: guildProcedure
     .input(channelInput)
     .mutation(async ({ ctx, input }) => {
       const settings = await ctx.db.settings.findUniqueOrThrow({
@@ -169,7 +177,7 @@ export const guildRouter = createTRPCRouter({
       });
     }),
 
-  toggleIgnoreChannel: protectedProcedure
+  toggleIgnoreChannel: guildProcedure
     .input(channelInput.extend({ targetChannelId: z.string() }))
     .mutation(async ({ ctx, input }) => {
       const settings = await ctx.db.settings.findUniqueOrThrow({
@@ -192,7 +200,7 @@ export const guildRouter = createTRPCRouter({
       });
     }),
 
-  toggleWatchChannel: protectedProcedure
+  toggleWatchChannel: guildProcedure
     .input(channelInput.extend({ targetChannelId: z.string() }))
     .mutation(async ({ ctx, input }) => {
       const settings = await ctx.db.settings.findUniqueOrThrow({
@@ -215,7 +223,7 @@ export const guildRouter = createTRPCRouter({
       });
     }),
 
-  toggleIgnoreUser: protectedProcedure
+  toggleIgnoreUser: guildProcedure
     .input(channelInput.extend({ userId: z.string() }))
     .mutation(async ({ ctx, input }) => {
       const settings = await ctx.db.settings.findUniqueOrThrow({
@@ -235,7 +243,7 @@ export const guildRouter = createTRPCRouter({
       });
     }),
 
-  toggleWatchUser: protectedProcedure
+  toggleWatchUser: guildProcedure
     .input(channelInput.extend({ userId: z.string() }))
     .mutation(async ({ ctx, input }) => {
       const settings = await ctx.db.settings.findUniqueOrThrow({

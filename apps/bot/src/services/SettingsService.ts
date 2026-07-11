@@ -14,29 +14,38 @@ export class SettingsService {
     private globalSettingsService: GlobalSettingsService,
   ) {}
 
-  public static async init(
+  /**
+   * Read-only accessor: fetches the channel's settings, falling back to an
+   * in-memory default WITHOUT writing. The backing row is created lazily on the
+   * first actual save (see {@link persist}), so reads never issue a write.
+   */
+  public static async get(
     channel: GuildTextBasedChannel,
     globalSettingsService?: GlobalSettingsService | Guild,
   ): Promise<SettingsService> {
-    const settings = await db.settings.upsert({
+    const settings = await db.settings.findUnique({
       where: {
         guildId_channelId: {
           guildId: channel.guild.id,
           channelId: channel.id,
         },
       },
-      update: {},
-      create: {
-        guildId: channel.guild.id,
-        channelId: channel.id,
-      },
     });
 
     return new SettingsService(
-      settings,
+      settings ?? {
+        id: "",
+        guildId: channel.guild.id,
+        channelId: channel.id,
+        ignoredChannels: [],
+        ignoredUsers: [],
+        watchingEvents: [],
+        watchChannels: [],
+        watchUsers: [],
+      },
       globalSettingsService instanceof GlobalSettingsService
         ? globalSettingsService
-        : await GlobalSettingsService.init(
+        : await GlobalSettingsService.get(
             globalSettingsService ?? channel.guild,
           ),
     );
@@ -46,7 +55,6 @@ export class SettingsService {
     eventType: EventType,
     guild: Guild,
   ): Promise<SettingsService[]> {
-    const globalSettings = await GlobalSettingsService.init(guild);
     const settings = await db.settings.findMany({
       where: {
         guildId: guild.id,
@@ -56,9 +64,43 @@ export class SettingsService {
       },
     });
 
+    // Fast path on the hot logging path: a guild with no channel watching this
+    // event does zero further work — crucially, no globalSettings read/write.
+    if (settings.length === 0) return [];
+
+    const globalSettings = await GlobalSettingsService.get(guild);
+
     return settings.map(
       (setting) => new SettingsService(setting, globalSettings),
     );
+  }
+
+  private async persist(
+    data: Partial<
+      Pick<
+        Settings,
+        | "ignoredChannels"
+        | "ignoredUsers"
+        | "watchingEvents"
+        | "watchChannels"
+        | "watchUsers"
+      >
+    >,
+  ): Promise<void> {
+    await db.settings.upsert({
+      where: {
+        guildId_channelId: {
+          guildId: this.settings.guildId,
+          channelId: this.settings.channelId,
+        },
+      },
+      update: data,
+      create: {
+        guildId: this.settings.guildId,
+        channelId: this.settings.channelId,
+        ...data,
+      },
+    });
   }
 
   get id() {
@@ -82,10 +124,7 @@ export class SettingsService {
       channelId,
     );
 
-    await db.settings.update({
-      where: { id: this.settings.id },
-      data: { ignoredChannels: result },
-    });
+    await this.persist({ ignoredChannels: result });
 
     this.settings.ignoredChannels = result;
     return wasAdded;
@@ -101,10 +140,7 @@ export class SettingsService {
       channelId,
     );
 
-    await db.settings.update({
-      where: { id: this.settings.id },
-      data: { watchChannels: result },
-    });
+    await this.persist({ watchChannels: result });
 
     this.settings.watchChannels = result;
     return wasAdded;
@@ -123,10 +159,7 @@ export class SettingsService {
       userId,
     );
 
-    await db.settings.update({
-      where: { id: this.settings.id },
-      data: { ignoredUsers: result },
-    });
+    await this.persist({ ignoredUsers: result });
 
     this.settings.ignoredUsers = result;
     return wasAdded;
@@ -142,10 +175,7 @@ export class SettingsService {
       userId,
     );
 
-    await db.settings.update({
-      where: { id: this.settings.id },
-      data: { watchUsers: result },
-    });
+    await this.persist({ watchUsers: result });
 
     this.settings.watchUsers = result;
     return wasAdded;
@@ -171,10 +201,7 @@ export class SettingsService {
       updated = [...this.settings.watchingEvents, ...toAdd];
     }
 
-    await db.settings.update({
-      where: { id: this.settings.id },
-      data: { watchingEvents: updated },
-    });
+    await this.persist({ watchingEvents: updated });
 
     this.settings.watchingEvents = updated;
     return !allPresent;
@@ -184,28 +211,17 @@ export class SettingsService {
     event: typeof ALL_EVENTS_CHOICE | EventType,
   ): Promise<boolean> {
     let wasAdded: boolean;
+    let updated: EventType[];
 
     if (event === ALL_EVENTS_CHOICE) {
       const allEvents = Object.values(EventType);
 
       if (this.events.length === allEvents.length) {
         wasAdded = false;
-
-        await db.settings.update({
-          where: { id: this.settings.id },
-          data: { watchingEvents: [] },
-        });
-
-        this.settings.watchingEvents = [];
+        updated = [];
       } else {
         wasAdded = true;
-
-        await db.settings.update({
-          where: { id: this.settings.id },
-          data: { watchingEvents: allEvents },
-        });
-
-        this.settings.watchingEvents = allEvents;
+        updated = allEvents;
       }
     } else {
       const [result, found] = toggleArrayItem(
@@ -213,15 +229,13 @@ export class SettingsService {
         event,
       );
 
-      await db.settings.update({
-        where: { id: this.settings.id },
-        data: { watchingEvents: result },
-      });
-
-      this.settings.watchingEvents = result;
+      updated = result;
       wasAdded = found;
     }
 
+    await this.persist({ watchingEvents: updated });
+
+    this.settings.watchingEvents = updated;
     return wasAdded;
   }
 }

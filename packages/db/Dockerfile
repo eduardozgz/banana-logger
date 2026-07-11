@@ -9,7 +9,7 @@ FROM base AS repo
 WORKDIR /app
 RUN pnpm add -g turbo@2
 COPY . .
-RUN turbo prune @/db --docker
+RUN turbo prune @bl/db --docker
 
 FROM base AS deps
 COPY --from=ghcr.io/eduardozgz/banana-logger-ci:latest $PNPM_HOME/store $PNPM_HOME/store

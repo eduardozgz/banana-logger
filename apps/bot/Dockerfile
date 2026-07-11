@@ -10,7 +10,7 @@ FROM base AS repo
 WORKDIR /app
 RUN pnpm add -g turbo@2
 COPY . .
-RUN turbo prune @/bot --docker
+RUN turbo prune @bl/bot --docker
 
 FROM base AS build_deps
 RUN apk update && apk add --no-cache make gcc g++ python3 git curl
@@ -34,7 +34,7 @@ RUN  pnpm install --prod --prefer-offline
 FROM build_deps AS builder
 WORKDIR /app
 COPY --from=repo /app/out/full/ .
-RUN pnpm turbo run build --filter=@/bot
+RUN pnpm turbo run build --filter=@bl/bot
 
 FROM base AS runner
 WORKDIR /app

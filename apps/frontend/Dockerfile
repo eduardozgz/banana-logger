@@ -13,7 +13,7 @@ FROM base AS repo
 WORKDIR /app
 RUN pnpm add -g turbo@2
 COPY . .
-RUN turbo prune @/website --docker
+RUN turbo prune @bl/frontend --docker
 
 FROM base AS build_deps
 # COPY --from=ghcr.io/banana-logger/pnpm-store-cache:latest $PNPM_HOME/store $PNPM_HOME/store
@@ -32,7 +32,7 @@ ARG VITE_SUPPORT_URL
 ENV VITE_SUPPORT_URL=${VITE_SUPPORT_URL}
 ARG VITE_BOT_REPO_URL
 ENV VITE_BOT_REPO_URL=${VITE_BOT_REPO_URL}
-RUN pnpm turbo run build --filter=@/website
+RUN pnpm turbo run build --filter=@bl/frontend
 
 FROM --platform=linux/amd64 ${JS_SOURCE_IMAGE} AS js-source
 

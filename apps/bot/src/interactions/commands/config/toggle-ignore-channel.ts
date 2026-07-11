@@ -53,7 +53,7 @@ export const toggleIgnoreChannelHandle: CommandHandle = async (
 
   const channel = extractSupportedChannel(command.channel);
 
-  const settingsService = await SettingsService.init(channel, command.guild);
+  const settingsService = await SettingsService.get(channel, command.guild);
 
   const channelToToggle = command.options.getChannel(
     i18nDefault.t(

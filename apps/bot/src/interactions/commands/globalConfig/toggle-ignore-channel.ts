@@ -48,7 +48,7 @@ export const toggleIgnoreChannelHandle: CommandHandle = async (
   assertCachedGuild(command);
   assertChatInputCommand(command);
 
-  const globalSettingsService = await GlobalSettingsService.init(command.guild);
+  const globalSettingsService = await GlobalSettingsService.get(command.guild);
   const channelToToggle = command.options.getChannel(
     i18nDefault.t(
       "bot:interaction.commands.globalConfig.definition.slash.sub-commands.toggle-ignore-channel.options.channel.name",

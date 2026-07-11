@@ -52,7 +52,7 @@ export const toggleIgnoreUserHandle: CommandHandle = async (command, i18n) => {
     true,
   );
 
-  const globalSettingsService = await GlobalSettingsService.init(command.guild);
+  const globalSettingsService = await GlobalSettingsService.get(command.guild);
 
   const wasIgnored = await globalSettingsService.toggleIgnoreUser(
     userToToggle.id,

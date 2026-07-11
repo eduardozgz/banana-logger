@@ -50,7 +50,7 @@ export const toggleIgnoreUserHandle: CommandHandle = async (command, i18n) => {
 
   const channel = extractSupportedChannel(command.channel);
 
-  const settingsService = await SettingsService.init(channel, command.guild);
+  const settingsService = await SettingsService.get(channel, command.guild);
 
   const userToToggle = command.options.getUser(
     i18nDefault.t(

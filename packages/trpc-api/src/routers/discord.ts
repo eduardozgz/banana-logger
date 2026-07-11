@@ -37,7 +37,7 @@ export const discordRouter = createTRPCRouter({
   userGuilds: protectedProcedure.query(async ({ ctx }) => {
     const rest = makeRest(ctx.session.accessToken);
     const guilds = (await rest
-      .get(Routes.userGuilds(), { query: new URLSearchParams({ limit: "200" }) })
+      .get(Routes.userGuilds())
       .catch(handleUnauthorizedDiscordError)) as RESTGetAPICurrentUserGuildsResult;
 
     const userGuilds = new Map<

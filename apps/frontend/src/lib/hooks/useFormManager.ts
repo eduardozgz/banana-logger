@@ -67,7 +67,12 @@ export function useFormManager<OT, IT>(
       .mutateAsync({
         ...(mutableData as unknown as IT),
       })
-      .then(() => setIsDirty(false))
+      .then(async () => {
+        setIsDirty(false);
+        // Refetch so a subsequent nav-away/back can't resurrect pre-save
+        // values from the query cache before the mutation's data lands.
+        await query.refetch();
+      })
       .catch((error) => {
         showError(error);
         throw error;

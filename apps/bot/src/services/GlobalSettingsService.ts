@@ -1,5 +1,4 @@
 import type { Guild } from "discord.js";
-import _ from "lodash";
 
 import type { GlobalSettings } from "@bl/db/client";
 import { db } from "@bl/db";
@@ -9,14 +8,34 @@ import { toggleArrayItem } from "~/utils/toggleArrayItem";
 export class GlobalSettingsService {
   private constructor(private settings: GlobalSettings) {}
 
-  public static async init(guild: Guild): Promise<GlobalSettingsService> {
-    const settings = await db.globalSettings.upsert({
+  /**
+   * Read-only accessor: fetches the guild's global settings, falling back to an
+   * in-memory default WITHOUT writing. The backing row is created lazily on the
+   * first actual save (see {@link persist}), so reads never issue a write.
+   */
+  public static async get(guild: Guild): Promise<GlobalSettingsService> {
+    const settings = await db.globalSettings.findUnique({
       where: { guildId: guild.id },
-      update: {},
-      create: { guildId: guild.id },
     });
 
-    return new GlobalSettingsService(settings);
+    return new GlobalSettingsService(
+      settings ?? {
+        id: "",
+        guildId: guild.id,
+        ignoredChannels: [],
+        ignoredUsers: [],
+      },
+    );
+  }
+
+  private async persist(
+    data: Partial<Pick<GlobalSettings, "ignoredChannels" | "ignoredUsers">>,
+  ): Promise<void> {
+    await db.globalSettings.upsert({
+      where: { guildId: this.settings.guildId },
+      update: data,
+      create: { guildId: this.settings.guildId, ...data },
+    });
   }
 
   get id() {
@@ -33,10 +52,7 @@ export class GlobalSettingsService {
       channelId,
     );
 
-    await db.globalSettings.update({
-      where: { id: this.settings.id },
-      data: { ignoredChannels: result },
-    });
+    await this.persist({ ignoredChannels: result });
 
     this.settings.ignoredChannels = result;
     return wasAdded;
@@ -52,10 +68,7 @@ export class GlobalSettingsService {
       userId,
     );
 
-    await db.globalSettings.update({
-      where: { id: this.settings.id },
-      data: { ignoredUsers: result },
-    });
+    await this.persist({ ignoredUsers: result });
 
     this.settings.ignoredUsers = result;
     return wasAdded;

@@ -32,7 +32,7 @@ export const showHandle: CommandHandle = async (command, i18n) => {
     throw new Error("This command can only be used in a cachedguild");
   }
 
-  const globalSettingsService = await GlobalSettingsService.init(command.guild);
+  const globalSettingsService = await GlobalSettingsService.get(command.guild);
 
   let settingsContent = "";
 
