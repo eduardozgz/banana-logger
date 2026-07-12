@@ -236,53 +236,62 @@ function createGenericAuditLogHandler<
 >(options: CreateGenericAuditLogHandlerOptions<CM, T>): Handler<T> {
   return (auditLogEntry, guild, i18n) => {
     for (const change of auditLogEntry.changes) {
-      const eventName =
-        change.key in options.changesMap
-          ? (options.changesMap[
-              change.key as keyof typeof options.changesMap
-            ] as EventType)
-          : undefined;
+      try {
+        const eventName =
+          change.key in options.changesMap
+            ? (options.changesMap[
+                change.key as keyof typeof options.changesMap
+              ] as EventType)
+            : undefined;
 
-      if (!eventName) {
-        continue;
+        if (!eventName) {
+          continue;
+        }
+
+        const transformer: AuditLogChangeTransformer =
+          change.key in options.changesTransformers
+            ? options.changesTransformers[change.key as never]
+            : defaultTransformer;
+
+        const transforedValues = transformer(
+          i18n,
+          change,
+          guild,
+          auditLogEntry.target,
+        );
+
+        LogService.log({
+          eventName,
+          guild,
+          i18n,
+          relatedChannels: options.detectRelatedChannels(auditLogEntry),
+          relatedUsers: options.detectRelatedUsers(auditLogEntry),
+          executor: auditLogEntry.executor,
+          target: auditLogEntry.target,
+          data: {
+            REASON:
+              auditLogEntry.reason ??
+              i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
+            OLD_VALUE_RAW:
+              typeof change.old === "string"
+                ? change.old
+                : JSON.stringify(change.old),
+            NEW_VALUE_RAW:
+              typeof change.new === "string"
+                ? change.new
+                : JSON.stringify(change.new),
+            OLD_VALUE: transforedValues.old,
+            NEW_VALUE: transforedValues.new,
+          },
+        });
+      } catch (error) {
+        // A single change's transformer throwing (e.g. an assert on an
+        // unexpected target shape) must not drop the log for the entry's
+        // other changes — log it and move on to the next change.
+        guild.client.botInstanceOptions.logger
+          .child({ component: "guildAuditLogEntryCreate" })
+          .error(error);
       }
-
-      const transformer: AuditLogChangeTransformer =
-        change.key in options.changesTransformers
-          ? options.changesTransformers[change.key as never]
-          : defaultTransformer;
-
-      const transforedValues = transformer(
-        i18n,
-        change,
-        guild,
-        auditLogEntry.target,
-      );
-
-      LogService.log({
-        eventName,
-        guild,
-        i18n,
-        relatedChannels: options.detectRelatedChannels(auditLogEntry),
-        relatedUsers: options.detectRelatedUsers(auditLogEntry),
-        executor: auditLogEntry.executor,
-        target: auditLogEntry.target,
-        data: {
-          REASON:
-            auditLogEntry.reason ??
-            i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
-          OLD_VALUE_RAW:
-            typeof change.old === "string"
-              ? change.old
-              : JSON.stringify(change.old),
-          NEW_VALUE_RAW:
-            typeof change.new === "string"
-              ? change.new
-              : JSON.stringify(change.new),
-          OLD_VALUE: transforedValues.old,
-          NEW_VALUE: transforedValues.new,
-        },
-      });
     }
   };
 }

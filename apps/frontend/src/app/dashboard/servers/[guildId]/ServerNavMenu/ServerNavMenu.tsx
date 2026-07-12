@@ -1,18 +1,16 @@
 import { memo, useContext } from "react";
+import { routes } from "@bl/common/Routes";
+import { Button } from "@bl/ui/components/button";
+import { Separator } from "@bl/ui/components/separator";
+import { cn } from "@bl/ui/lib/utils";
 import { IconSettings, IconX } from "@tabler/icons-react";
+import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { useMatch } from "react-router";
 import { useTypedParams } from "react-router-typesafe-routes";
 
-import { routes } from "@bl/common/Routes";
-import { Button } from "@bl/ui/components/button";
-import { Separator } from "@bl/ui/components/separator";
-
-import { cn } from "@bl/ui/lib/utils";
-
 import { MenuContext } from "~/app/dashboard/Menu";
 import { Link } from "~/lib/navigation";
-import { useQuery } from "@tanstack/react-query";
 import { useTRPC } from "~/lib/trpc";
 
 export const ServerNavMenu = memo(function ServerNavMenu({
@@ -26,20 +24,24 @@ export const ServerNavMenu = memo(function ServerNavMenu({
   const trpc = useTRPC();
   const userGuilds = useQuery(trpc.discord.userGuilds.queryOptions());
 
+  // Called unconditionally (before any early return) to satisfy the rules of
+  // hooks; falls back to a pattern that can't match when guildId is absent.
+  const isInSettings = !!useMatch(
+    guildId
+      ? routes.dashboard.servers.server.settings.$buildPath({
+          params: { guildId },
+        })
+      : "__no_match__",
+  );
+
   if (!guildId || !menuContext) return null;
 
   const guild = userGuilds.data?.userGuilds.get(guildId);
 
-  const isInSettings = !!useMatch(
-    routes.dashboard.servers.server.settings.$buildPath({
-      params: { guildId },
-    }),
-  );
-
   return (
     <nav
       className={cn(
-        "flex max-h-full flex-col overflow-hidden bg-card",
+        "bg-card flex max-h-full flex-col overflow-hidden",
         className,
       )}
     >
@@ -52,7 +54,7 @@ export const ServerNavMenu = memo(function ServerNavMenu({
               className="size-8 rounded-full"
             />
           ) : (
-            <div className="flex size-8 items-center justify-center rounded-full bg-muted text-xs font-medium">
+            <div className="bg-muted flex size-8 items-center justify-center rounded-full text-xs font-medium">
               {(guild?.name ?? "S").slice(0, 2)}
             </div>
           )}
@@ -83,7 +85,10 @@ export const ServerNavMenu = memo(function ServerNavMenu({
             className="w-full justify-start"
           >
             <IconSettings className="size-4" />
-            {t("pages.dashboard.servers.ServerNavMenu.serverSettings", "Settings")}
+            {t(
+              "pages.dashboard.servers.ServerNavMenu.serverSettings",
+              "Settings",
+            )}
           </Button>
         </Link>
       </div>

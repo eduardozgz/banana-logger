@@ -24,12 +24,14 @@ const roleUpdateChangesMap = {
 
 const roleUpdateChangesTransformers = {
   color: (i18n, change) => {
-    const oldColor = change.old
-      ? `#${change.old.toString(16).padStart(6, "0")}`
-      : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE");
-    const newColor = change.new
-      ? `#${change.new.toString(16).padStart(6, "0")}`
-      : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE");
+    const oldColor =
+      change.old !== undefined
+        ? `#${change.old.toString(16).padStart(6, "0")}`
+        : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE");
+    const newColor =
+      change.new !== undefined
+        ? `#${change.new.toString(16).padStart(6, "0")}`
+        : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE");
     return {
       old: oldColor,
       new: newColor,
@@ -57,8 +59,12 @@ const roleUpdateChangesTransformers = {
     );
     if (change.old === undefined || change.new === undefined)
       return { old: fallback, new: fallback };
-    const oldPerms = new PermissionsBitField(BigInt(String(change.old))).toArray();
-    const newPerms = new PermissionsBitField(BigInt(String(change.new))).toArray();
+    const oldPerms = new PermissionsBitField(
+      BigInt(String(change.old)),
+    ).toArray();
+    const newPerms = new PermissionsBitField(
+      BigInt(String(change.new)),
+    ).toArray();
     const added = newPerms.filter((p) => !oldPerms.includes(p));
     const removed = oldPerms.filter((p) => !newPerms.includes(p));
     const parts: string[] = [];
@@ -70,12 +76,14 @@ const roleUpdateChangesTransformers = {
   icon_hash: (i18n, change, _guild, target) => {
     assert(target && "id" in target && typeof target.id === "string");
     return {
-      old: change.old
-        ? `${RouteBases.cdn}${CDNRoutes.roleIcon(target.id, change.old, ImageFormat.PNG)}?size=128`
-        : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
-      new: change.new
-        ? `${RouteBases.cdn}${CDNRoutes.roleIcon(target.id, change.new, ImageFormat.PNG)}?size=128`
-        : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
+      old:
+        change.old !== undefined
+          ? `${RouteBases.cdn}${CDNRoutes.roleIcon(target.id, change.old, ImageFormat.PNG)}?size=128`
+          : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
+      new:
+        change.new !== undefined
+          ? `${RouteBases.cdn}${CDNRoutes.roleIcon(target.id, change.new, ImageFormat.PNG)}?size=128`
+          : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
     };
   },
 } satisfies AuditLogChangeTransformers<keyof typeof roleUpdateChangesMap>;

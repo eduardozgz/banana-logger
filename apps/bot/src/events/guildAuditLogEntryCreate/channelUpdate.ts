@@ -118,10 +118,7 @@ interface DefaultReactionEmoji {
   emoji_name?: string | null;
 }
 
-function formatDefaultReactionEmoji(
-  emoji: unknown,
-  fallback: string,
-): string {
+function formatDefaultReactionEmoji(emoji: unknown, fallback: string): string {
   if (!emoji || typeof emoji !== "object") return fallback;
   const e = emoji as DefaultReactionEmoji;
   if (e.emoji_id) return formatEmoji(e.emoji_id);
@@ -160,22 +157,26 @@ const channelUpdateChangesTransformers = {
   },
   bitrate: (i18n, change) => {
     return {
-      old: change.old
-        ? formatBandwidth(i18n.language, change.old)
-        : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
-      new: change.new
-        ? formatBandwidth(i18n.language, change.new)
-        : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
+      old:
+        change.old !== undefined
+          ? formatBandwidth(i18n.language, change.old)
+          : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
+      new:
+        change.new !== undefined
+          ? formatBandwidth(i18n.language, change.new)
+          : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
     };
   },
   rate_limit_per_user: (i18n, change) => {
     return {
-      old: change.old
-        ? formatTimeDuration(i18n.language, change.old)
-        : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
-      new: change.new
-        ? formatTimeDuration(i18n.language, change.new)
-        : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
+      old:
+        change.old !== undefined
+          ? formatTimeDuration(i18n.language, change.old)
+          : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
+      new:
+        change.new !== undefined
+          ? formatTimeDuration(i18n.language, change.new)
+          : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
     };
   },
   permission_overwrites: (i18n, change) => {
@@ -185,12 +186,14 @@ const channelUpdateChangesTransformers = {
   },
   default_auto_archive_duration: (i18n, change) => {
     return {
-      old: change.old
-        ? formatTimeDuration(i18n.language, change.old * 60)
-        : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
-      new: change.new
-        ? formatTimeDuration(i18n.language, change.new * 60)
-        : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
+      old:
+        change.old !== undefined
+          ? formatTimeDuration(i18n.language, change.old * 60)
+          : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
+      new:
+        change.new !== undefined
+          ? formatTimeDuration(i18n.language, change.new * 60)
+          : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
     };
   },
   video_quality_mode: (i18n, change) => {
@@ -230,12 +233,14 @@ const channelUpdateChangesTransformers = {
   },
   default_thread_rate_limit_per_user: (i18n, change) => {
     return {
-      old: change.old
-        ? formatTimeDuration(i18n.language, change.old)
-        : i18n.t("main:eventDataTransformers.common.none"),
-      new: change.new
-        ? formatTimeDuration(i18n.language, change.new)
-        : i18n.t("main:eventDataTransformers.common.none"),
+      old:
+        change.old !== undefined
+          ? formatTimeDuration(i18n.language, change.old)
+          : i18n.t("main:eventDataTransformers.common.none"),
+      new:
+        change.new !== undefined
+          ? formatTimeDuration(i18n.language, change.new)
+          : i18n.t("main:eventDataTransformers.common.none"),
     };
   },
   available_tags: (i18n, change) => {

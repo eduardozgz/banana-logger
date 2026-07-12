@@ -62,62 +62,74 @@ const guildUpdateChangesTransformers = {
   },
   owner_id: (i18n, change) => {
     return {
-      old: change.old
-        ? userMention(change.old)
-        : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
-      new: change.new
-        ? userMention(change.new)
-        : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
+      old:
+        change.old !== undefined
+          ? userMention(change.old)
+          : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
+      new:
+        change.new !== undefined
+          ? userMention(change.new)
+          : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
     };
   },
   afk_channel_id: (i18n, change) => {
     return {
-      old: change.old
-        ? channelMention(change.old)
-        : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
-      new: change.new
-        ? channelMention(change.new)
-        : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
+      old:
+        change.old !== undefined
+          ? channelMention(change.old)
+          : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
+      new:
+        change.new !== undefined
+          ? channelMention(change.new)
+          : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
     };
   },
   afk_timeout: (i18n, change) => {
     return {
-      old: change.old
-        ? formatTimeDuration(i18n.language, change.old)
-        : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
-      new: change.new
-        ? formatTimeDuration(i18n.language, change.new)
-        : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
+      old:
+        change.old !== undefined
+          ? formatTimeDuration(i18n.language, change.old)
+          : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
+      new:
+        change.new !== undefined
+          ? formatTimeDuration(i18n.language, change.new)
+          : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
     };
   },
   rules_channel_id: (i18n, change) => {
     return {
-      old: change.old
-        ? channelMention(change.old)
-        : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
-      new: change.new
-        ? channelMention(change.new)
-        : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
+      old:
+        change.old !== undefined
+          ? channelMention(change.old)
+          : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
+      new:
+        change.new !== undefined
+          ? channelMention(change.new)
+          : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
     };
   },
   public_updates_channel_id: (i18n, change) => {
     return {
-      old: change.old
-        ? channelMention(change.old)
-        : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
-      new: change.new
-        ? channelMention(change.new)
-        : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
+      old:
+        change.old !== undefined
+          ? channelMention(change.old)
+          : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
+      new:
+        change.new !== undefined
+          ? channelMention(change.new)
+          : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
     };
   },
   safety_alerts_channel_id: (i18n, change) => {
     return {
-      old: change.old
-        ? channelMention(change.old)
-        : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
-      new: change.new
-        ? channelMention(change.new)
-        : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
+      old:
+        change.old !== undefined
+          ? channelMention(change.old)
+          : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
+      new:
+        change.new !== undefined
+          ? channelMention(change.new)
+          : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
     };
   },
   mfa_level: (i18n, change) => {
@@ -274,42 +286,50 @@ const guildUpdateChangesTransformers = {
   },
   icon_hash: (i18n, change, guild) => {
     return {
-      old: change.old
-        ? `${RouteBases.cdn}${CDNRoutes.guildIcon(guild.id, change.old, ImageFormat.PNG)}?size=1024`
-        : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
-      new: change.new
-        ? `${RouteBases.cdn}${CDNRoutes.guildIcon(guild.id, change.new, ImageFormat.PNG)}?size=1024`
-        : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
+      old:
+        change.old !== undefined
+          ? `${RouteBases.cdn}${CDNRoutes.guildIcon(guild.id, change.old, ImageFormat.PNG)}?size=1024`
+          : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
+      new:
+        change.new !== undefined
+          ? `${RouteBases.cdn}${CDNRoutes.guildIcon(guild.id, change.new, ImageFormat.PNG)}?size=1024`
+          : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
     };
   },
   splash_hash: (i18n, change, guild) => {
     return {
-      old: change.old
-        ? `${RouteBases.cdn}${CDNRoutes.guildSplash(guild.id, change.old, ImageFormat.PNG)}?size=1024`
-        : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
-      new: change.new
-        ? `${RouteBases.cdn}${CDNRoutes.guildSplash(guild.id, change.new, ImageFormat.PNG)}?size=1024`
-        : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
+      old:
+        change.old !== undefined
+          ? `${RouteBases.cdn}${CDNRoutes.guildSplash(guild.id, change.old, ImageFormat.PNG)}?size=1024`
+          : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
+      new:
+        change.new !== undefined
+          ? `${RouteBases.cdn}${CDNRoutes.guildSplash(guild.id, change.new, ImageFormat.PNG)}?size=1024`
+          : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
     };
   },
   discovery_splash_hash: (i18n, change, guild) => {
     return {
-      old: change.old
-        ? `${RouteBases.cdn}${CDNRoutes.guildDiscoverySplash(guild.id, change.old, ImageFormat.PNG)}?size=1024`
-        : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
-      new: change.new
-        ? `${RouteBases.cdn}${CDNRoutes.guildDiscoverySplash(guild.id, change.new, ImageFormat.PNG)}?size=1024`
-        : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
+      old:
+        change.old !== undefined
+          ? `${RouteBases.cdn}${CDNRoutes.guildDiscoverySplash(guild.id, change.old, ImageFormat.PNG)}?size=1024`
+          : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
+      new:
+        change.new !== undefined
+          ? `${RouteBases.cdn}${CDNRoutes.guildDiscoverySplash(guild.id, change.new, ImageFormat.PNG)}?size=1024`
+          : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
     };
   },
   banner_hash: (i18n, change, guild) => {
     return {
-      old: change.old
-        ? `${RouteBases.cdn}${CDNRoutes.guildBanner(guild.id, change.old, ImageFormat.PNG)}?size=1024`
-        : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
-      new: change.new
-        ? `${RouteBases.cdn}${CDNRoutes.guildBanner(guild.id, change.new, ImageFormat.PNG)}?size=1024`
-        : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
+      old:
+        change.old !== undefined
+          ? `${RouteBases.cdn}${CDNRoutes.guildBanner(guild.id, change.old, ImageFormat.PNG)}?size=1024`
+          : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
+      new:
+        change.new !== undefined
+          ? `${RouteBases.cdn}${CDNRoutes.guildBanner(guild.id, change.new, ImageFormat.PNG)}?size=1024`
+          : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
     };
   },
 } satisfies AuditLogChangeTransformers<keyof typeof guildUpdateChangesMap>;

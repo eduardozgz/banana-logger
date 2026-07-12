@@ -47,22 +47,26 @@ const threadUpdateChangesTransformers = {
   },
   auto_archive_duration: (i18n, change) => {
     return {
-      old: change.old
-        ? formatTimeDuration(i18n.language, change.old * 60)
-        : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
-      new: change.new
-        ? formatTimeDuration(i18n.language, change.new * 60)
-        : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
+      old:
+        change.old !== undefined
+          ? formatTimeDuration(i18n.language, change.old * 60)
+          : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
+      new:
+        change.new !== undefined
+          ? formatTimeDuration(i18n.language, change.new * 60)
+          : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
     };
   },
   rate_limit_per_user: (i18n, change) => {
     return {
-      old: change.old
-        ? formatTimeDuration(i18n.language, change.old)
-        : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
-      new: change.new
-        ? formatTimeDuration(i18n.language, change.new)
-        : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
+      old:
+        change.old !== undefined
+          ? formatTimeDuration(i18n.language, change.old)
+          : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
+      new:
+        change.new !== undefined
+          ? formatTimeDuration(i18n.language, change.new)
+          : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
     };
   },
   flags: (i18n, change) => {
