@@ -12,7 +12,6 @@
     "knownError": "Error",
     "knownErrors": {
       "BOT_HAS_NO_ENOUGH_PRIVILEGED_INTENTS": "El bot no tiene suficientes intents privilegiados para usar este contador.",
-      "BOT_IS_NOT_PREMIUM": "El bot no es una versión premium y carece de ciertas características necesarias para este contador.",
       "DELIMITED_DATA_SOURCE_IS_ILLEGAL_JSON": "El contador está en un formato no reconocido.",
       "DELIMITED_DATA_SOURCE_IS_INVALID": "El contador no es válido.",
       "EVALUATION_RESULT_FOR_CHANNEL_NAME_IS_LESS_THAN_2_CHARACTERS": "El resultado para el nombre del canal tiene menos de 2 caracteres.",
@@ -99,13 +98,10 @@
       "cookiePolicy": "Política de cookies",
       "copyright": "© {{year}} Member Counter. Todos los derechos reservados. Creado por <eduardozgzLink />.",
       "documentation": "Documentación",
-      "donate": "Donar",
       "improveMemberCounter": "Mejorar Member Counter",
       "legal": "Legal",
       "loginWithDiscord": "Iniciar sesión con Discord",
       "logout": "Cerrar sesión",
-      "madePossibleThanksTo": "Hecho posible gracias a Alex, <vampireChickenLink />, <livingfloreLink />, Frosty y <donorsLink>muchos más</donorsLink>.",
-      "manageDonations": "Gestionar donaciones",
       "manageHomePage": "Gestionar página de inicio",
       "manageServers": "Gestionar servidores",
       "manageUsers": "Gestionar usuarios",
@@ -325,40 +321,12 @@
         "bigBrain": "Sugeriste una idea que fue implementada.",
         "bugCatcher": "Encontraste y reportaste un error.",
         "contributor": "Implementaste una característica o corregiste un error.",
-        "donor": "Donaste para apoyar el desarrollo y mantenimiento de Member Counter.",
         "foldingAtHome": "Contribuiste con una WU en folding@home.",
         "patPat": "Pat Pat",
-        "premium": "Eres un usuario premium.",
         "translator": "Ayudaste a traducir el bot."
       }
     },
     "admin": {
-      "donations": {
-        "delete": {
-          "button": "Eliminar donación",
-          "closeButton": "Cerrar",
-          "dialogDescription": "Esta acción no se puede deshacer.",
-          "dialogTitle": "¿Estás completamente seguro?"
-        },
-        "edit": {
-          "title": "Editar donación"
-        },
-        "form": {
-          "amount": "Cantidad",
-          "anonymous": "Anónimo",
-          "currency": "Moneda",
-          "currencyDecimals": "Decimales de la moneda",
-          "date": "Fecha",
-          "note": "Nota",
-          "saveBtn": "Guardar",
-          "userId": "ID de usuario de Discord"
-        },
-        "new": {
-          "title": "Nueva donación"
-        },
-        "registerDonation": "Registrar donación",
-        "totalDonations": "Donaciones totales: {{total}} ({{totalValue}})"
-      },
       "guilds": {
         "loadGuildInput": {
           "loadButton": "Cargar servidor",

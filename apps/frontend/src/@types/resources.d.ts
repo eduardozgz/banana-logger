@@ -14,7 +14,6 @@ interface Resources {
       knownErrors: {
         BAD_REQUEST: "The request was invalid.";
         BOT_HAS_NO_ENOUGH_PRIVILEGED_INTENTS: "The bot does not have enough privileged intents to use this counter.";
-        BOT_IS_NOT_PREMIUM: "The bot is not a premium version and lacks certain features needed for this counter.";
         DELIMITED_DATA_SOURCE_IS_ILLEGAL_JSON: "The counter is in a unrecognized format.";
         DELIMITED_DATA_SOURCE_IS_INVALID: "The counter is invalid.";
         EVALUATION_RESULT_FOR_CHANNEL_NAME_IS_LESS_THAN_2_CHARACTERS: "The result for the channel name is less than 2 characters long.";
@@ -105,13 +104,10 @@ interface Resources {
         cookiePolicy: "Cookie Policy";
         copyright: "© {{year}} Member Counter. All rights reserved. Created by <eduardozgzLink />.";
         documentation: "Documentation";
-        donate: "Donate";
         improveMemberCounter: "Improve Member Counter";
         legal: "Legal";
         loginWithDiscord: "Login with Discord";
         logout: "Logout";
-        madePossibleThanksTo: "Made possible thanks to Alex, <vampireChickenLink />, <livingfloreLink />, Frosty, and <donorsLink>many more</donorsLink>.";
-        manageDonations: "Manage donations";
         manageHomePage: "Manage homepage";
         manageServers: "Manage servers";
         manageUsers: "Manage users";
@@ -341,40 +337,12 @@ interface Resources {
           bigBrain: "You suggested an idea that was implemented.";
           bugCatcher: "You found and reported a bug.";
           contributor: "You implemented a feature or fixed a bug.";
-          donor: "You donated to support the development and maintenance of Member Counter.";
           foldingAtHome: "You contributed a WU in folding@home.";
           patPat: "You found a secret.";
-          premium: "You are a premium user.";
           translator: "You helped translate the bot.";
         };
       };
       admin: {
-        donations: {
-          delete: {
-            button: "Delete donation";
-            closeButton: "Close";
-            dialogDescription: "This action cannot be undone.";
-            dialogTitle: "Are you absolutely sure?";
-          };
-          edit: {
-            title: "Edit donation";
-          };
-          form: {
-            amount: "Amount";
-            anonymous: "Anonymous";
-            currency: "Currency";
-            currencyDecimals: "Currency decimals";
-            date: "Date";
-            note: "Note";
-            saveBtn: "Save";
-            userId: "Discord user ID";
-          };
-          new: {
-            title: "New donation";
-          };
-          registerDonation: "Register donation";
-          totalDonations: "Total donations: {{total}} ({{totalValue}})";
-        };
         guilds: {
           loadGuildInput: {
             loadButton: "Load server";

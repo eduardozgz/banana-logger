@@ -12,7 +12,6 @@
     "knownError": "Ошибка",
     "knownErrors": {
       "BOT_HAS_NO_ENOUGH_PRIVILEGED_INTENTS": "У бота недостаточно прав (intents) чтобы использовать этот счетчик.",
-      "BOT_IS_NOT_PREMIUM": "Бот не является премиум версией и не имеет некоторого функционала, необходимого для этого счетчика.",
       "DELIMITED_DATA_SOURCE_IS_ILLEGAL_JSON": "Формат счетчика не может быть распознан.",
       "DELIMITED_DATA_SOURCE_IS_INVALID": "Неверный счетчик.",
       "EVALUATION_RESULT_FOR_CHANNEL_NAME_IS_LESS_THAN_2_CHARACTERS": "Результат вывода для имени канала имеет длину менее двух символов.",

@@ -12,7 +12,6 @@
     "knownError": "Chyba",
     "knownErrors": {
       "BOT_HAS_NO_ENOUGH_PRIVILEGED_INTENTS": "Bot nemá dostatek privilegovaných intencí, aby mohl toto počítadlo použít.",
-      "BOT_IS_NOT_PREMIUM": "Bot není prémiová verze a postrádá některé funkce potřebné pro toto počítadlo.",
       "DELIMITED_DATA_SOURCE_IS_ILLEGAL_JSON": "Čítač je v nerozpoznaném formátu.",
       "DELIMITED_DATA_SOURCE_IS_INVALID": "Počítadlo je neplatné.",
       "EVALUATION_RESULT_FOR_CHANNEL_NAME_IS_LESS_THAN_2_CHARACTERS": "Výsledek pro název kanálu je kratší než 2 znaky.",
@@ -99,13 +98,10 @@
       "cookiePolicy": "Zásady pro soubory cookie",
       "copyright": "© {{year}} Member Counter. Všechna práva vyhrazena. Vytvořil <eduardozgzLink />.",
       "documentation": "Dokumentace",
-      "donate": "Daruj",
       "improveMemberCounter": "Zlepšení Member Counter",
       "legal": "Právní",
       "loginWithDiscord": "Přihlášení přes Discord",
       "logout": "Odhlášení",
-      "madePossibleThanksTo": "Díky Alex, <vampireChickenLink />, <livingfloreLink />, Frosty a <donorsLink>mnoha dalším</donorsLink>.",
-      "manageDonations": "Správa darů",
       "manageHomePage": "Správa domovské stránky",
       "manageServers": "Správa serverů",
       "manageUsers": "Správa uživatelů",
@@ -334,40 +330,12 @@
         "bigBrain": "Navrhl jste nápad, který byl realizován.",
         "bugCatcher": "Našli jste a nahlásili chybu.",
         "contributor": "Implementovali jste funkci nebo opravili chybu.",
-        "donor": "Přispěli jste na podporu vývoje a údržby služby Member Counter.",
         "foldingAtHome": "V programu folding@home jste přispěli WU.",
         "patPat": "Našel jsi tajemství.",
-        "premium": "Jste prémiový uživatel.",
         "translator": "Pomohli jste přeložit bota."
       }
     },
     "admin": {
-      "donations": {
-        "delete": {
-          "button": "Smazat dar",
-          "closeButton": "Zavřít",
-          "dialogDescription": "Tuto akci nelze vzít zpět.",
-          "dialogTitle": "Jste si naprosto jisti?"
-        },
-        "edit": {
-          "title": "Úprava daru"
-        },
-        "form": {
-          "amount": "Množství",
-          "anonymous": "Anonym",
-          "currency": "Měna",
-          "currencyDecimals": "Měnové desetiny",
-          "date": "Datum",
-          "note": "Poznámka",
-          "saveBtn": "Uložit",
-          "userId": "Discord uživatelské ID"
-        },
-        "new": {
-          "title": "Nový dar"
-        },
-        "registerDonation": "Registrace daru",
-        "totalDonations": "Všechny dary: {{total}} ({{totalValue}})"
-      },
       "guilds": {
         "loadGuildInput": {
           "loadButton": "Nahrát server",
