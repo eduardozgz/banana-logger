@@ -332,6 +332,13 @@ interface Resources {
           avatarAlt: "{{username}}'s avatar";
           logoutButton: "Logout";
         };
+        settings: {
+          autosave: {
+            description: "Automatically save dashboard forms a few seconds after you stop editing.";
+            label: "Autosave";
+          };
+          title: "Settings";
+        };
         userBadges: {
           betaTester: "You participated in a beta program.";
           bigBrain: "You suggested an idea that was implemented.";

@@ -1,6 +1,3 @@
-import { IconTrash } from "@tabler/icons-react";
-import { Trans } from "react-i18next";
-
 import { routes } from "@bl/common/Routes";
 import { Button } from "@bl/ui/components/button";
 import {
@@ -13,15 +10,18 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@bl/ui/components/dialog";
+import { IconTrash } from "@tabler/icons-react";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { Trans } from "react-i18next";
 
 import useShowError from "~/lib/hooks/useShowError";
 import { useNavigate } from "~/lib/navigation";
-import { useQuery } from "@tanstack/react-query";
 import { useTRPC } from "~/lib/trpc";
 
 export function DeleteButton() {
   const trpc = useTRPC();
   const user = useQuery(trpc.session.user.queryOptions());
+  const deleteAccountMutation = useMutation(trpc.user.delete.mutationOptions());
   const navigate = useNavigate();
   const showError = useShowError();
 
@@ -29,7 +29,9 @@ export function DeleteButton() {
     if (!user.data) return;
 
     try {
-      // TODO: implement account deletion endpoint
+      // Removes the user's stored account data (e.g. autosave preference), then
+      // logs out to clear the session cookie.
+      await deleteAccountMutation.mutateAsync();
       void navigate(routes.logout.$buildPath({}));
     } catch (error) {
       showError(error);
@@ -39,13 +41,7 @@ export function DeleteButton() {
   return (
     <Dialog>
       <DialogTrigger
-        render={
-          <Button
-            className="grow"
-            size={"sm"}
-            variant={"destructive"}
-          />
-        }
+        render={<Button className="grow" size={"sm"} variant={"destructive"} />}
       >
         <IconTrash />
         <Trans i18nKey="pages.account.deleteButton.deleteAccountBtn" />
@@ -60,18 +56,11 @@ export function DeleteButton() {
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
-          <Button
-            variant="destructive"
-            onClick={deleteAccount}
-          >
+          <Button variant="destructive" onClick={deleteAccount}>
             <IconTrash />
             <Trans i18nKey="pages.account.deleteButton.deleteAccountBtn" />
           </Button>
-          <DialogClose
-            render={
-              <Button variant="secondary" />
-            }
-          >
+          <DialogClose render={<Button variant="secondary" />}>
             <Trans i18nKey="pages.account.deleteButton.closeBtn" />
           </DialogClose>
         </DialogFooter>

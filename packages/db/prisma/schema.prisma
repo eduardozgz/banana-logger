@@ -33,10 +33,10 @@ model Settings {
   @@unique([guildId, channelId])
 }
 
-model Session {
-  id           String @id @default(auto()) @map("_id") @db.ObjectId
-  sessionToken String @unique
-  userId       String
+model User {
+  id              String  @id @default(auto()) @map("_id") @db.ObjectId
+  discordUserId   String  @unique
+  prefersAutosave Boolean @default(false)
 }
 
 enum EventType {
