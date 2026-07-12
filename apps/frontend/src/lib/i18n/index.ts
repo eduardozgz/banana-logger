@@ -9,9 +9,9 @@ export const fallbackLng = "en-US";
 export const languages = [fallbackLng, "es-ES", "ru", "cs", "de"] as const;
 export const languageEntries: Record<(typeof languages)[number], string> = {
   "en-US": "English (US)",
-  "es-ES": "Espanol",
-  ru: "Russkiy",
-  cs: "Cestina",
+  "es-ES": "Español",
+  ru: "Русский",
+  cs: "Čeština",
   de: "Deutsch",
 };
 export const defaultNS: keyof Resources = "main";
@@ -35,7 +35,9 @@ void i18next
     ns: namespaces,
     lng: undefined,
     detection: {
-      order: ["cookie", "navigator"],
+      // querystring first so a ?lang=de link overrides the stored preference
+      order: ["querystring", "cookie", "navigator"],
+      lookupQuerystring: "lang",
       lookupCookie: cookieName,
     },
   });
