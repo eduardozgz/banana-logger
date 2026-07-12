@@ -56,7 +56,7 @@ export async function exchangeTokens(
     };
   }
 
-  const tokenExchangeResponse = await fetch(OAuth2Routes.tokenURL, {
+  const res = await fetch(OAuth2Routes.tokenURL, {
     method: "post",
     headers: {
       Authorization: basicAuth(
@@ -66,9 +66,19 @@ export async function exchangeTokens(
       "Content-Type": "application/x-www-form-urlencoded",
     },
     body: new URLSearchParams(body),
-  })
-    .then((res) => res.json())
-    .then((res) => DiscordOAuth2TokenExchangeResponseSchema.parse(res));
+  });
+
+  if (!res.ok) {
+    const errorBody = await res.text();
+    logger.error(
+      `Discord token exchange failed (status ${res.status}): ${errorBody}`,
+    );
+    throw new Error(`Discord token exchange failed with status ${res.status}`);
+  }
+
+  const tokenExchangeResponse = DiscordOAuth2TokenExchangeResponseSchema.parse(
+    await res.json(),
+  );
 
   if ("error" in tokenExchangeResponse) {
     throw new Error(tokenExchangeResponse.error);

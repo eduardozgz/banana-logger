@@ -11,7 +11,7 @@
     "dev": "pnpm with-env pnpm build --watch . --watch ../../packages --onSuccess \"node dist/index.js\"",
     "format": "prettier --check . --ignore-path ../../.gitignore",
     "lint": "eslint",
-    "start": "pnpm with-env node ./dist/index.js",
+    "start": "pnpm with-env node --enable-source-maps ./dist/index.js",
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
     "with-env": "dotenv -e ../../.env --"

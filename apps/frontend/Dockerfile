@@ -1,11 +1,8 @@
-ARG JS_SOURCE_IMAGE=scratch
-
 FROM node:22-alpine3.20 AS base
 ENV DO_NOT_TRACK=1
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
-RUN corepack enable \
-    && corepack prepare pnpm@9.15.5+sha1.cb1f6372ef64e2ba352f2f46325adead1c99ff8f --activate
+RUN corepack enable
 RUN apk update
 RUN apk add --no-cache libc6-compat
 
@@ -34,10 +31,8 @@ ARG VITE_BOT_REPO_URL
 ENV VITE_BOT_REPO_URL=${VITE_BOT_REPO_URL}
 RUN pnpm turbo run build --filter=@bl/frontend
 
-FROM --platform=linux/amd64 ${JS_SOURCE_IMAGE} AS js-source
-
 FROM nginx:alpine AS runner
-COPY --from=js-source /app/apps/frontend/nginx.conf /etc/nginx/conf.d/default.conf
-COPY --from=js-source /app/apps/frontend/dist /usr/share/nginx/html
+COPY --from=builder /app/apps/frontend/nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=builder /app/apps/frontend/dist /usr/share/nginx/html
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]

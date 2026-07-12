@@ -1,0 +1,39 @@
+# Dependencies
+node_modules
+**/node_modules
+
+# Turbo
+.turbo
+**/.turbo
+
+# Build output
+dist
+**/dist
+.next
+**/.next
+build
+**/build
+
+# Rust build output
+target
+
+# Version control
+.git
+
+# Environment files (keep the example)
+.env
+.env.*
+!.env.example
+
+# Persisted data
+storage
+
+# TypeScript incremental build info
+**/*.tsbuildinfo
+
+# Caches
+coverage
+**/.cache
+
+# macOS
+.DS_Store

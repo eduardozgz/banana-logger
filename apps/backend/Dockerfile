@@ -1,11 +1,8 @@
-ARG JS_SOURCE_IMAGE=scratch
-
 FROM node:22-alpine3.20 AS base
 ENV DO_NOT_TRACK=1
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
-RUN corepack enable \
-    && corepack prepare pnpm@9.15.5+sha1.cb1f6372ef64e2ba352f2f46325adead1c99ff8f --activate
+RUN corepack enable
 RUN apk update
 RUN apk add --no-cache libc6-compat
 
@@ -33,8 +30,6 @@ WORKDIR /app
 COPY --from=repo /app/out/full/ .
 RUN pnpm turbo run build --filter=@bl/backend
 
-FROM --platform=linux/amd64 ${JS_SOURCE_IMAGE} AS js-source
-
 FROM base AS runner
 RUN apk update
 RUN apk add --no-cache jq
@@ -44,5 +39,5 @@ RUN adduser --system --uid 1001 nodejs
 USER nodejs
 COPY --from=prod_deps /app/node_modules ./node_modules
 COPY --from=repo /app/apps/backend/package.json .
-COPY --from=js-source --chown=nodejs:nodejs /app/apps/backend/dist ./
+COPY --from=builder --chown=nodejs:nodejs /app/apps/backend/dist ./
 CMD node /app/index.js
