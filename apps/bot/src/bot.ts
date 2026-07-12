@@ -29,6 +29,17 @@ export async function startBot(options: BotInstanceOptions) {
     ],
     makeCache: makeCache(),
     sweepers,
+    // When a shared REST proxy is configured it owns the token's whole rate
+    // limit, so disable the local limiter (Infinity) to avoid throttling twice;
+    // requests queue at the proxy instead.
+    ...(options.restProxyURL
+      ? {
+          rest: {
+            api: options.restProxyURL,
+            globalRequestsPerSecond: Infinity,
+          },
+        }
+      : {}),
   });
 
   botClient.botInstanceOptions = options;

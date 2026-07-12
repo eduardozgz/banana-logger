@@ -24,6 +24,7 @@ async function main() {
     token: env.DISCORD_BOT_INSTANCE_TOKEN,
     deployCommands: env.DISCORD_BOT_INSTANCE_DEPLOY_COMMANDS,
     logger,
+    restProxyURL: env.DISCORD_BOT_INSTANCE_REST_PROXY_URL,
   };
 
   const { botClient } = await startBot(botOptions).catch((err) => {

@@ -8,6 +8,10 @@ export const env = createEnv({
     IMG_PUBLIC_URL: z.string(),
     DISCORD_BOT_INSTANCE_TOKEN: z.string(),
     DISCORD_CLIENT_ID: z.string(),
+    // Optional: base URL of the shared Discord REST proxy (@bl/rest-proxy).
+    // When set, the bot routes all REST through it so a single rate limiter
+    // owns the token's global budget. e.g. http://rest-proxy:8765/api
+    DISCORD_BOT_INSTANCE_REST_PROXY_URL: z.string().optional(),
     DISCORD_BOT_INSTANCE_DEPLOY_COMMANDS: z
       .string()
       .toLowerCase()

@@ -426,6 +426,52 @@ importers:
         specifier: ^3.1.14
         version: 3.1.14
 
+  apps/rest-proxy:
+    dependencies:
+      '@bl/logger':
+        specifier: workspace:*
+        version: link:../../packages/logger
+      '@discordjs/proxy':
+        specifier: ^2.1.1
+        version: 2.1.1
+      '@discordjs/rest':
+        specifier: ^2.6.0
+        version: 2.6.1
+      '@t3-oss/env-core':
+        specifier: 'catalog:'
+        version: 0.13.11(typescript@6.0.2)(valibot@1.2.0(typescript@6.0.2))(zod@4.3.6)
+      zod:
+        specifier: 'catalog:'
+        version: 4.3.6
+    devDependencies:
+      '@bl/eslint-config':
+        specifier: workspace:*
+        version: link:../../tooling/eslint
+      '@bl/prettier-config':
+        specifier: workspace:*
+        version: link:../../tooling/prettier
+      '@bl/tsconfig':
+        specifier: workspace:*
+        version: link:../../tooling/typescript
+      '@types/node':
+        specifier: 'catalog:'
+        version: 25.5.0
+      dotenv-cli:
+        specifier: 'catalog:'
+        version: 11.0.0
+      eslint:
+        specifier: catalog:eslint
+        version: 9.39.4(jiti@2.6.1)
+      prettier:
+        specifier: catalog:prettier
+        version: 3.8.1
+      tsup:
+        specifier: ^8.5.1
+        version: 8.5.1(@swc/core@1.15.21)(jiti@2.6.1)(postcss@8.5.8)(tsx@4.21.0)(typescript@6.0.2)(yaml@2.8.3)
+      typescript:
+        specifier: 'catalog:'
+        version: 6.0.2
+
   packages/common:
     dependencies:
       '@bl/db':
@@ -1200,6 +1246,10 @@ packages:
   '@discordjs/formatters@0.6.2':
     resolution: {integrity: sha512-y4UPwWhH6vChKRkGdMB4odasUbHOUwy7KL+OVwF86PvT6QVOwElx+TiI1/6kcmcEe+g5YRXJFiXSXUdabqZOvQ==}
     engines: {node: '>=16.11.0'}
+
+  '@discordjs/proxy@2.1.1':
+    resolution: {integrity: sha512-lnEBl1utCEWJ/jn9kdRDBS8hgCvIqT8jTpuv12naSZFx820AxjMJ7Rz0yK4zwCew8g4Lh1M2AZ2HGvo1Yk6QkQ==}
+    engines: {node: '>=18'}
 
   '@discordjs/rest@2.6.1':
     resolution: {integrity: sha512-wwQdgjeaoYFiaG+atbqx6aJDpqW7JHAo0HrQkBTbYzM3/PJ3GweQIpgElNcGZ26DCUOXMyawYd0YF7vtr+fZXg==}
@@ -5516,6 +5566,10 @@ packages:
   undici-types@7.18.2:
     resolution: {integrity: sha512-AsuCzffGHJybSaRrmr5eHr81mwJU3kjw6M+uprWvCXiNeN9SOGwQ3Jn8jb8m3Z6izVgknn1R0FTCEAP2QrLY/w==}
 
+  undici@6.19.8:
+    resolution: {integrity: sha512-U8uCCl2x9TK3WANvmBavymRzxbfFYG+tAu+fgx3zxQy3qdagQqBLwJVrdyO1TBfUXvfKveMKJZhpvUYoOjM+4g==}
+    engines: {node: '>=18.17'}
+
   undici@6.24.1:
     resolution: {integrity: sha512-sC+b0tB1whOCzbtlx20fx3WgCXwkW627p4EA9uM+/tNNPkSS+eSEld6pAs9nDv7WbY1UUljBMYPtu9BCOrCWKA==}
     engines: {node: '>=18.17'}
@@ -6505,6 +6559,13 @@ snapshots:
   '@discordjs/formatters@0.6.2':
     dependencies:
       discord-api-types: 0.38.44
+
+  '@discordjs/proxy@2.1.1':
+    dependencies:
+      '@discordjs/rest': 2.6.1
+      '@discordjs/util': 1.2.0
+      tslib: 2.8.1
+      undici: 6.19.8
 
   '@discordjs/rest@2.6.1':
     dependencies:
@@ -11042,6 +11103,8 @@ snapshots:
   undici-types@7.16.0: {}
 
   undici-types@7.18.2: {}
+
+  undici@6.19.8: {}
 
   undici@6.24.1: {}
 

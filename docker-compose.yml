@@ -4,6 +4,16 @@ services:
     container_name: banana-logger-bot
     image: ghcr.io/eduardozgz/banana-logger-bot:latest
     restart: always
+    depends_on:
+      - rest-proxy
+    networks:
+      - banana-logger
+
+  rest-proxy:
+    env_file: .env
+    container_name: banana-logger-rest-proxy
+    image: ghcr.io/eduardozgz/banana-logger-rest-proxy:latest
+    restart: always
     networks:
       - banana-logger
 
