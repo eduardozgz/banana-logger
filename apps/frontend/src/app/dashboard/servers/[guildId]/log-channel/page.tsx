@@ -7,6 +7,7 @@ import { Skeleton } from "@bl/ui/components/skeleton";
 import { Switch } from "@bl/ui/components/switch";
 import {
   IconChevronLeft,
+  IconDeviceFloppy,
   IconToggleLeft,
   IconToggleRight,
 } from "@tabler/icons-react";
@@ -14,10 +15,16 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { useTypedParams } from "react-router-typesafe-routes";
 
-import type { PresetName } from "@bl/common/eventPresets";
-
+import type { RouterOutputs } from "~/lib/trpc";
+import { FormManagerState, useFormManager } from "~/lib/hooks/useFormManager";
+import { usePrefersAutosave } from "~/lib/hooks/usePrefersAutosave";
 import { Link } from "~/lib/navigation";
 import { useTRPC } from "~/lib/trpc";
+
+// Derived from the router types (the frontend can't import the db package).
+type EventType = NonNullable<
+  RouterOutputs["guild"]["getLogChannel"]
+>["watchingEvents"][number];
 
 function formatEventName(event: string): string {
   return event
@@ -50,51 +57,50 @@ export default function Page() {
     ),
   );
 
+  const presets = useQuery(trpc.guild.presets.queryOptions());
+
+  const setLogChannelEvents = useMutation(
+    trpc.guild.setLogChannelEvents.mutationOptions(),
+  );
+  const prefersAutosave = usePrefersAutosave();
+
+  // The event configuration is edited as a draft; toggles mutate the working
+  // copy and the whole set is persisted at once via setLogChannelEvents. With
+  // autosave enabled the save fires automatically a few seconds after the last
+  // edit; otherwise the user saves explicitly.
+  const form = useFormManager(
+    logChannel,
+    setLogChannelEvents,
+    `${guildId ?? ""}:${channelId ?? ""}`,
+    prefersAutosave,
+  );
+
   const channelDisplayName =
     (channelId ? guild.data?.channels.get(channelId)?.name : undefined) ??
     channelId;
 
-  const presets = useQuery(trpc.guild.presets.queryOptions());
-
-  const toggleEvent = useMutation(
-    trpc.guild.toggleEvent.mutationOptions({
-      onSuccess: () => logChannel.refetch(),
-    }),
+  const draft = form.value;
+  const watchingEvents = useMemo(
+    () => draft?.watchingEvents ?? [],
+    [draft?.watchingEvents],
   );
+  const watchingSet = useMemo(() => new Set(watchingEvents), [watchingEvents]);
 
-  const togglePreset = useMutation(
-    trpc.guild.togglePreset.mutationOptions({
-      onSuccess: () => logChannel.refetch(),
-    }),
-  );
-
-  const toggleAll = useMutation(
-    trpc.guild.toggleAllEvents.mutationOptions({
-      onSuccess: () => logChannel.refetch(),
-    }),
-  );
-
-  const watchingSet = useMemo(
-    () => new Set(logChannel.data?.watchingEvents),
-    [logChannel.data?.watchingEvents],
-  );
-
-  const totalEvents = useMemo(() => {
-    if (!presets.data) return 0;
-    const all = new Set<string>();
-    for (const events of Object.values(presets.data)) {
+  const allEvents = useMemo(() => {
+    const all = new Set<EventType>();
+    for (const events of Object.values(presets.data ?? {})) {
       for (const e of events) all.add(e);
     }
-    return all.size;
+    return all;
   }, [presets.data]);
 
   const enabledCount = watchingSet.size;
+  const totalEvents = allEvents.size;
 
   if (!guildId || !channelId) return null;
 
   const isLoading = logChannel.isLoading || presets.isLoading;
-  const isMutating =
-    toggleEvent.isPending || togglePreset.isPending || toggleAll.isPending;
+  const isSaving = form.state === FormManagerState.SAVING;
 
   if (!isLoading && !logChannel.data) {
     return (
@@ -116,6 +122,41 @@ export default function Page() {
     );
   }
 
+  const setWatchingEvents = (events: EventType[]) => {
+    if (!draft) return;
+    form.setValue({ ...draft, watchingEvents: events });
+  };
+
+  const toggleEvent = (event: EventType) => {
+    setWatchingEvents(
+      watchingSet.has(event)
+        ? watchingEvents.filter((e) => e !== event)
+        : [...watchingEvents, event],
+    );
+  };
+
+  const togglePreset = (events: EventType[]) => {
+    const allEnabled = events.every((e) => watchingSet.has(e));
+    setWatchingEvents(
+      allEnabled
+        ? watchingEvents.filter((e) => !events.includes(e))
+        : [...watchingEvents, ...events.filter((e) => !watchingSet.has(e))],
+    );
+  };
+
+  const toggleAll = () => {
+    setWatchingEvents(enabledCount === totalEvents ? [] : [...allEvents]);
+  };
+
+  const saveStatus =
+    form.state === FormManagerState.SAVING
+      ? t("pages.dashboard.logChannel.saving", "Saving…")
+      : form.state === FormManagerState.UNSAVED
+        ? form.autosave.pending
+          ? t("pages.dashboard.logChannel.autosaving", "Autosaving…")
+          : t("pages.dashboard.logChannel.unsaved", "Unsaved changes")
+        : t("pages.dashboard.logChannel.saved", "All changes saved");
+
   return (
     <div className="m-auto flex min-h-full flex-col gap-5 p-3 sm:max-w-[700px]">
       <div className="flex items-center gap-3">
@@ -128,11 +169,24 @@ export default function Page() {
             <IconChevronLeft />
           </Button>
         </Link>
-        <div>
+        <div className="min-w-0 flex-1">
           <h2 className="text-2xl font-semibold">
             {t("pages.dashboard.logChannel.heading", "Log Channel")}
           </h2>
-          <p className="text-muted-foreground text-sm">#{channelDisplayName}</p>
+          <p className="text-muted-foreground truncate text-sm">
+            #{channelDisplayName}
+          </p>
+        </div>
+        <div className="flex flex-shrink-0 items-center gap-3">
+          <span className="text-muted-foreground text-sm">{saveStatus}</span>
+          <Button
+            size="sm"
+            disabled={form.state !== FormManagerState.UNSAVED}
+            onClick={() => void form.save()}
+          >
+            <IconDeviceFloppy className="size-4" />
+            {t("pages.dashboard.logChannel.save", "Save")}
+          </Button>
         </div>
       </div>
 
@@ -158,8 +212,8 @@ export default function Page() {
             <Button
               variant="outline"
               size="sm"
-              disabled={isMutating}
-              onClick={() => toggleAll.mutate({ guildId, channelId })}
+              disabled={isSaving}
+              onClick={toggleAll}
             >
               {enabledCount === totalEvents ? (
                 <IconToggleRight className="size-4" />
@@ -183,15 +237,9 @@ export default function Page() {
                 return (
                   <button
                     key={preset}
-                    disabled={isMutating}
+                    disabled={isSaving}
                     className="text-left"
-                    onClick={() =>
-                      togglePreset.mutate({
-                        guildId,
-                        channelId,
-                        preset: preset as PresetName,
-                      })
-                    }
+                    onClick={() => togglePreset(events)}
                   >
                     <Card
                       size="sm"
@@ -235,15 +283,9 @@ export default function Page() {
                             </span>
                             <Switch
                               size="sm"
-                              disabled={isMutating}
+                              disabled={isSaving}
                               checked={watchingSet.has(event)}
-                              onCheckedChange={() =>
-                                toggleEvent.mutate({
-                                  guildId,
-                                  channelId,
-                                  event,
-                                })
-                              }
+                              onCheckedChange={() => toggleEvent(event)}
                             />
                           </label>
                         </div>

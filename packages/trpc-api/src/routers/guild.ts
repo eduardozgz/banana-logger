@@ -1,9 +1,6 @@
 import { EventType } from "@bl/db/client";
-import {
-  EVENT_PRESETS,
-  PRESET_NAMES,
-  type PresetName,
-} from "@bl/common/eventPresets";
+import { EVENT_PRESETS, PRESET_NAMES } from "@bl/common/eventPresets";
+import type { PresetName } from "@bl/common/eventPresets";
 import { z } from "zod/v4";
 
 import { createTRPCRouter, protectedProcedure } from "../trpc";
@@ -92,88 +89,21 @@ export const guildRouter = createTRPCRouter({
       });
     }),
 
-  toggleEvent: guildProcedure
-    .input(
-      channelInput.extend({
-        event: z.enum(EventType),
-      }),
-    )
+  // Atomically replace the whole set of watched events. The dashboard edits a
+  // draft client-side (toggling events/presets/all) and saves the resulting
+  // array here in one shot, which is what makes autosave possible.
+  setLogChannelEvents: guildProcedure
+    .input(channelInput.extend({ watchingEvents: z.array(z.enum(EventType)) }))
     .mutation(async ({ ctx, input }) => {
-      const settings = await ctx.db.settings.findUniqueOrThrow({
+      return ctx.db.settings.update({
         where: {
           guildId_channelId: {
             guildId: input.guildId,
             channelId: input.channelId,
           },
         },
-      });
-
-      const updated = toggleArrayItem(settings.watchingEvents, input.event);
-
-      return ctx.db.settings.update({
-        where: { id: settings.id },
-        data: { watchingEvents: updated },
-      });
-    }),
-
-  togglePreset: guildProcedure
-    .input(
-      channelInput.extend({
-        preset: z.enum(PRESET_NAMES as [PresetName, ...PresetName[]]),
-      }),
-    )
-    .mutation(async ({ ctx, input }) => {
-      const settings = await ctx.db.settings.findUniqueOrThrow({
-        where: {
-          guildId_channelId: {
-            guildId: input.guildId,
-            channelId: input.channelId,
-          },
-        },
-      });
-
-      const presetEvents = [...EVENT_PRESETS[input.preset]];
-      const allPresent = presetEvents.every((e) =>
-        settings.watchingEvents.includes(e),
-      );
-
-      let updated: EventType[];
-      if (allPresent) {
-        updated = settings.watchingEvents.filter(
-          (e) => !presetEvents.includes(e),
-        );
-      } else {
-        const toAdd = presetEvents.filter(
-          (e) => !settings.watchingEvents.includes(e),
-        );
-        updated = [...settings.watchingEvents, ...toAdd];
-      }
-
-      return ctx.db.settings.update({
-        where: { id: settings.id },
-        data: { watchingEvents: updated },
-      });
-    }),
-
-  toggleAllEvents: guildProcedure
-    .input(channelInput)
-    .mutation(async ({ ctx, input }) => {
-      const settings = await ctx.db.settings.findUniqueOrThrow({
-        where: {
-          guildId_channelId: {
-            guildId: input.guildId,
-            channelId: input.channelId,
-          },
-        },
-      });
-
-      const allEvents = Object.values(EventType);
-      const updated =
-        settings.watchingEvents.length === allEvents.length ? [] : allEvents;
-
-      return ctx.db.settings.update({
-        where: { id: settings.id },
-        data: { watchingEvents: updated },
+        // Dedupe defensively — the array is supplied by the client.
+        data: { watchingEvents: [...new Set(input.watchingEvents)] },
       });
     }),
 

@@ -43,7 +43,14 @@ const AUTOSAVE_DEBOUNCE_MS = 10_000;
 
 export function useFormManager<OT, IT>(
   query: UseQueryResult<OT, unknown>,
-  mutation: UseMutationResult<unknown, Error, IT, unknown>,
+  // Only mutateAsync is used, so require just that. Narrowing here avoids the
+  // variance mismatch of the full UseMutationResult (whose mutate/onSuccess
+  // callbacks make a concrete tRPC mutation unassignable to a `TData: unknown`
+  // parameter).
+  mutation: Pick<
+    UseMutationResult<unknown, unknown, IT, unknown>,
+    "mutateAsync"
+  >,
   key: string,
   autosave = false,
 ): FormManager<OT> {
@@ -106,8 +113,11 @@ export function useFormManager<OT, IT>(
         await query.refetch();
       })
       .catch((error) => {
+        // Toast the error but don't rethrow: callers `void` this (the autosave
+        // timer and the manual Save button), so a rejection would surface as an
+        // unhandled rejection. isDirty stays true, so the form remains UNSAVED
+        // and can be retried.
         showError(error);
-        throw error;
       })
       .finally(() => setIsSaving(false));
   };
@@ -132,7 +142,10 @@ export function useFormManager<OT, IT>(
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [autosave, autosaveDeadline, isSaving]);
 
-  const pending = autosave && isDirty && !isSaving;
+  // Requires a scheduled deadline too: after a failed save the deadline is
+  // cleared but isDirty stays true, so without this check the status would
+  // stick on "Autosaving…" forever while nothing is actually scheduled.
+  const pending = autosave && isDirty && !isSaving && autosaveDeadline !== null;
 
   return {
     data: query.data as OT,
