@@ -201,13 +201,13 @@ export class SettingsService {
         updated = allEvents;
       }
     } else {
-      const [result, found] = toggleArrayItem(
+      const [result, itemWasAdded] = toggleArrayItem(
         this.settings.watchingEvents,
         event,
       );
 
       updated = result;
-      wasAdded = found;
+      wasAdded = itemWasAdded;
     }
 
     await this.persist({ watchingEvents: updated });
