@@ -17,7 +17,6 @@ FROM base AS build_deps
 WORKDIR /app
 COPY .gitignore .gitignore
 COPY --from=repo /app/out/json/ .
-COPY --from=repo /app/packages/db/prisma ./packages/db/prisma
 RUN pnpm install --prefer-offline
 
 FROM build_deps AS builder

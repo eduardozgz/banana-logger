@@ -33,7 +33,7 @@ async function main() {
   });
 
   process.on("SIGTERM", () => {
-    Promise.all([botClient.destroy(), db.$disconnect()])
+    Promise.all([botClient.destroy(), Promise.resolve(db.close())])
       .catch((error: unknown) => {
         logger.error("Error while trying to gracefully shutdown:", { error });
       })

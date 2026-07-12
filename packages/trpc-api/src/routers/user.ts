@@ -11,22 +11,16 @@ export const userRouter = createTRPCRouter({
   setPrefersAutosave: protectedProcedure
     .input(z.object({ prefersAutosave: z.boolean() }))
     .mutation(async ({ ctx, input }) => {
-      const discordUserId = ctx.session.userId;
-
-      await ctx.db.user.upsert({
-        where: { discordUserId },
-        create: { discordUserId, prefersAutosave: input.prefersAutosave },
-        update: { prefersAutosave: input.prefersAutosave },
+      await ctx.db.user.patch(ctx.session.userId, {
+        prefersAutosave: input.prefersAutosave,
       });
 
       return { prefersAutosave: input.prefersAutosave };
     }),
 
   delete: protectedProcedure.mutation(async ({ ctx }) => {
-    // deleteMany so it's a no-op (rather than an error) when the user never
-    // saved a preference and therefore has no row.
-    await ctx.db.user.deleteMany({
-      where: { discordUserId: ctx.session.userId },
-    });
+    // delete() is a no-op (rather than an error) when the user never saved a
+    // preference and therefore has no row.
+    await ctx.db.user.delete(ctx.session.userId);
   }),
 });

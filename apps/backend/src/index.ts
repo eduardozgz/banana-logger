@@ -15,7 +15,6 @@ import { env } from "~/env";
 import authRouter from "~/routes/auth";
 import { getSession, setSession } from "~/session";
 import { errorHandler } from "./middlewares/errorHandler";
-import { errorHandlerPrisma } from "./middlewares/errorHandlerPrisma";
 import { errorHandlerZod } from "./middlewares/errorHandlerZod";
 
 process.on("unhandledRejection", (reason, promise) => {
@@ -82,7 +81,6 @@ app.get("/health", (_req, res) => {
   res.json({ status: "ok" });
 });
 
-app.use(errorHandlerPrisma);
 app.use(errorHandlerZod);
 app.use(errorHandler);
 

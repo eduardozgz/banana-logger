@@ -16,7 +16,6 @@ COPY --from=ghcr.io/eduardozgz/banana-logger-ci:latest $PNPM_HOME/store $PNPM_HO
 WORKDIR /app
 COPY .gitignore .gitignore
 COPY --from=repo /app/out/json/ .
-COPY --from=repo /app/out/full/packages/db/prisma ./packages/db/prisma
 RUN pnpm install --prefer-offline
 
 FROM base AS runner

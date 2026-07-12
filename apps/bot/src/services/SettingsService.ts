@@ -23,14 +23,7 @@ export class SettingsService {
     channel: GuildTextBasedChannel,
     globalSettingsService?: GlobalSettingsService | Guild,
   ): Promise<SettingsService> {
-    const settings = await db.settings.findUnique({
-      where: {
-        guildId_channelId: {
-          guildId: channel.guild.id,
-          channelId: channel.id,
-        },
-      },
-    });
+    const settings = await db.settings.get(channel.guild.id, channel.id);
 
     return new SettingsService(
       settings ?? {
@@ -55,14 +48,7 @@ export class SettingsService {
     eventType: EventType,
     guild: Guild,
   ): Promise<SettingsService[]> {
-    const settings = await db.settings.findMany({
-      where: {
-        guildId: guild.id,
-        watchingEvents: {
-          has: eventType,
-        },
-      },
-    });
+    const settings = await db.settings.getByEvent(guild.id, eventType);
 
     // Fast path on the hot logging path: a guild with no channel watching this
     // event does zero further work — crucially, no globalSettings read/write.
@@ -87,20 +73,11 @@ export class SettingsService {
       >
     >,
   ): Promise<void> {
-    await db.settings.upsert({
-      where: {
-        guildId_channelId: {
-          guildId: this.settings.guildId,
-          channelId: this.settings.channelId,
-        },
-      },
-      update: data,
-      create: {
-        guildId: this.settings.guildId,
-        channelId: this.settings.channelId,
-        ...data,
-      },
-    });
+    await db.settings.patch(
+      this.settings.guildId,
+      this.settings.channelId,
+      data,
+    );
   }
 
   get id() {

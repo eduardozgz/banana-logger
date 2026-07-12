@@ -1,10 +1,15 @@
-import { join } from "path";
-import { mongoMigrateCli } from "mongo-migrate-ts";
+import { migrate } from "drizzle-orm/libsql/migrator";
 
-import { env } from "./env";
+import { db } from "./index";
 
-mongoMigrateCli({
-  uri: env.DATABASE_URL,
-  migrationsDir: join(process.cwd(), "src", "migrations"),
-  migrationsCollection: "migrations_changelog",
-});
+// Applies the generated SQL migrations against the configured database. Run via
+// `pnpm -F @bl/db migrate` (locally and in the db-utils container on deploy).
+async function main() {
+  await migrate(db.$client, {
+    migrationsFolder: new URL("../drizzle/sqlite", import.meta.url).pathname,
+  });
+  console.info("Migrations applied.");
+  db.close();
+}
+
+void main();

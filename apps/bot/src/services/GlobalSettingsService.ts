@@ -14,9 +14,7 @@ export class GlobalSettingsService {
    * first actual save (see {@link persist}), so reads never issue a write.
    */
   public static async get(guild: Guild): Promise<GlobalSettingsService> {
-    const settings = await db.globalSettings.findUnique({
-      where: { guildId: guild.id },
-    });
+    const settings = await db.globalSettings.get(guild.id);
 
     return new GlobalSettingsService(
       settings ?? {
@@ -31,11 +29,7 @@ export class GlobalSettingsService {
   private async persist(
     data: Partial<Pick<GlobalSettings, "ignoredChannels" | "ignoredUsers">>,
   ): Promise<void> {
-    await db.globalSettings.upsert({
-      where: { guildId: this.settings.guildId },
-      update: data,
-      create: { guildId: this.settings.guildId, ...data },
-    });
+    await db.globalSettings.patch(this.settings.guildId, data);
   }
 
   get id() {
