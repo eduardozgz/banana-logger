@@ -1,6 +1,5 @@
-import type { AppRouter } from "@bl/trpc-api";
-import type { inferRouterInputs, inferRouterOutputs } from "@trpc/server";
 import { useState } from "react";
+import { Errors, REQUEST_TIMEOUT_MESSAGE } from "@bl/trpc-api/utils/errors";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   createTRPCClient,
@@ -12,7 +11,8 @@ import {
 import { createTRPCContext } from "@trpc/tanstack-react-query";
 import SuperJSON from "superjson";
 
-import { Errors, REQUEST_TIMEOUT_MESSAGE } from "@bl/trpc-api/utils/errors";
+import type { AppRouter } from "@bl/trpc-api";
+import type { inferRouterInputs, inferRouterOutputs } from "@trpc/server";
 
 // Errors describing a stable state (no session, no access, bot not in the
 // guild) or a bot-fleet timeout won't get better by asking again.
@@ -50,6 +50,9 @@ const getQueryClient = () => {
   return (clientQueryClientSingleton ??= createQueryClient());
 };
 
+// The tRPC context/hook are co-located with the provider component below;
+// splitting them into another file solely for Fast Refresh isn't worthwhile.
+// eslint-disable-next-line react-refresh/only-export-components
 export const { TRPCProvider, useTRPC } = createTRPCContext<AppRouter>();
 
 export type RouterInputs = inferRouterInputs<AppRouter>;

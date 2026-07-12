@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useBlockerId, useNavigationBlocker } from "~/lib/navigation";
 
 function useConfirmOnLeave(shouldConfirm: boolean, onBlocked?: () => void) {
-  if (import.meta.env.DEV) shouldConfirm = false;
+  const effectiveShouldConfirm = import.meta.env.DEV ? false : shouldConfirm;
   const [t] = useTranslation();
   const { register, unregister } = useNavigationBlocker();
   const id = useBlockerId();
@@ -12,7 +12,7 @@ function useConfirmOnLeave(shouldConfirm: boolean, onBlocked?: () => void) {
   const warningText = t("hooks.useConfirmOnLeave");
 
   useEffect(() => {
-    if (shouldConfirm) {
+    if (effectiveShouldConfirm) {
       register(id, warningText, onBlocked);
     } else {
       unregister(id);
@@ -20,7 +20,14 @@ function useConfirmOnLeave(shouldConfirm: boolean, onBlocked?: () => void) {
     return () => {
       unregister(id);
     };
-  }, [shouldConfirm, warningText, onBlocked, register, unregister, id]);
+  }, [
+    effectiveShouldConfirm,
+    warningText,
+    onBlocked,
+    register,
+    unregister,
+    id,
+  ]);
 }
 
 export default useConfirmOnLeave;

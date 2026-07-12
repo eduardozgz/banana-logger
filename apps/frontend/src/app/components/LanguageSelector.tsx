@@ -26,7 +26,7 @@ export function LanguageSelector() {
       <DropdownMenuContent align="end">
         <DropdownMenuRadioGroup
           value={i18n.resolvedLanguage}
-          onValueChange={(value) => void i18n.changeLanguage(value)}
+          onValueChange={(value: string) => void i18n.changeLanguage(value)}
         >
           {Object.entries(languageEntries).map(([lng, label]) => (
             <DropdownMenuRadioItem key={lng} value={lng}>

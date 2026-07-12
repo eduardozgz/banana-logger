@@ -23,6 +23,8 @@ const NavigationBlockerContext =
 
 let nextId = 0;
 
+// Hook is co-located with the provider it pairs with; not a component export.
+// eslint-disable-next-line react-refresh/only-export-components
 export function useBlockerId() {
   const idRef = useRef<string>(undefined);
   idRef.current ??= `blocker-${String(nextId++)}`;
@@ -78,6 +80,8 @@ export function NavigationBlockerProvider({
   );
 }
 
+// Hook is co-located with the provider it pairs with; not a component export.
+// eslint-disable-next-line react-refresh/only-export-components
 export function useNavigationBlocker() {
   const context = useContext(NavigationBlockerContext);
   if (!context) {

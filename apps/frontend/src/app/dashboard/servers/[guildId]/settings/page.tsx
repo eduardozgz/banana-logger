@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { IconHash, IconPlus, IconTrash } from "@tabler/icons-react";
-import { useTranslation } from "react-i18next";
-import { useTypedParams } from "react-router-typesafe-routes";
-
 import { routes } from "@bl/common/Routes";
 import { Button } from "@bl/ui/components/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@bl/ui/components/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@bl/ui/components/card";
 import {
   Dialog,
   DialogClose,
@@ -18,9 +19,12 @@ import {
 } from "@bl/ui/components/dialog";
 import { Input } from "@bl/ui/components/input";
 import { Skeleton } from "@bl/ui/components/skeleton";
+import { IconHash, IconPlus, IconTrash } from "@tabler/icons-react";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
+import { useTypedParams } from "react-router-typesafe-routes";
 
 import { Link } from "~/lib/navigation";
-import { useQuery, useMutation } from "@tanstack/react-query";
 import { useTRPC } from "~/lib/trpc";
 
 export default function Page() {
@@ -29,31 +33,38 @@ export default function Page() {
   const [newChannelId, setNewChannelId] = useState("");
 
   const trpc = useTRPC();
-  const logChannels = useQuery(trpc.guild.getLogChannels.queryOptions(
-    { guildId: guildId! },
-    { enabled: !!guildId },
-  ));
+  const logChannels = useQuery(
+    trpc.guild.getLogChannels.queryOptions(
+      { guildId: guildId ?? "" },
+      { enabled: !!guildId },
+    ),
+  );
 
-  const guild = useQuery(trpc.discord.getGuild.queryOptions(
-    { id: guildId! },
-    { enabled: !!guildId },
-  ));
+  const guild = useQuery(
+    trpc.discord.getGuild.queryOptions(
+      { id: guildId ?? "" },
+      { enabled: !!guildId },
+    ),
+  );
 
-  const channelName = (id: string) =>
-    guild.data?.channels.get(id)?.name ?? id;
+  const channelName = (id: string) => guild.data?.channels.get(id)?.name ?? id;
 
-  const createLogChannel = useMutation(trpc.guild.createLogChannel.mutationOptions({
-    onSuccess: () => {
-      setNewChannelId("");
-      logChannels.refetch();
-    },
-  }));
+  const createLogChannel = useMutation(
+    trpc.guild.createLogChannel.mutationOptions({
+      onSuccess: () => {
+        setNewChannelId("");
+        void logChannels.refetch();
+      },
+    }),
+  );
 
-  const deleteLogChannel = useMutation(trpc.guild.deleteLogChannel.mutationOptions({
-    onSuccess: () => {
-      logChannels.refetch();
-    },
-  }));
+  const deleteLogChannel = useMutation(
+    trpc.guild.deleteLogChannel.mutationOptions({
+      onSuccess: () => {
+        void logChannels.refetch();
+      },
+    }),
+  );
 
   if (!guildId) return null;
 
@@ -69,7 +80,7 @@ export default function Page() {
         <h2 className="text-2xl font-semibold">
           {t("pages.dashboard.settings.heading", "Server Settings")}
         </h2>
-        <p className="mt-1 text-muted-foreground">
+        <p className="text-muted-foreground mt-1">
           {t(
             "pages.dashboard.settings.description",
             "Configure logging settings for this server.",
@@ -105,7 +116,7 @@ export default function Page() {
         </div>
       ) : !logChannels.data?.length ? (
         <Card>
-          <CardContent className="py-8 text-center text-muted-foreground">
+          <CardContent className="text-muted-foreground py-8 text-center">
             {t(
               "pages.dashboard.settings.noLogChannels",
               "No log channels configured",
@@ -124,11 +135,11 @@ export default function Page() {
                     })}
                     className="flex min-w-0 flex-1 items-center gap-2 hover:underline"
                   >
-                    <IconHash className="size-4 shrink-0 text-muted-foreground" />
+                    <IconHash className="text-muted-foreground size-4 shrink-0" />
                     <CardTitle className="truncate">
                       {channelName(channel.channelId)}
                     </CardTitle>
-                    <span className="shrink-0 text-xs text-muted-foreground">
+                    <span className="text-muted-foreground shrink-0 text-xs">
                       {t(
                         "pages.dashboard.settings.eventsCount",
                         "{{count}} events",
@@ -176,7 +187,10 @@ export default function Page() {
                           }
                         >
                           <IconTrash />
-                          {t("pages.dashboard.settings.deleteConfirm", "Delete")}
+                          {t(
+                            "pages.dashboard.settings.deleteConfirm",
+                            "Delete",
+                          )}
                         </Button>
                         <DialogClose render={<Button variant="outline" />}>
                           {t("pages.dashboard.settings.cancel", "Cancel")}

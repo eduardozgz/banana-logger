@@ -18,7 +18,8 @@ export default [
     files: ["**/*.ts", "**/*.tsx"],
     languageOptions: {
       parserOptions: {
-        project: ["./tsconfig.app.json", "./tsconfig.node.json"],
+        // projectService (enabled in the base config) auto-discovers the right
+        // tsconfig per file; a `project` list here is redundant and errors.
         tsconfigRootDir: import.meta.dirname,
       },
     },

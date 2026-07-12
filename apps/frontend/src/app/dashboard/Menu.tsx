@@ -1,9 +1,11 @@
 import { createContext, useContext } from "react";
+import { Button } from "@bl/ui/components/button";
+import { cn } from "@bl/ui/lib/utils";
 import { IconMenu2 } from "@tabler/icons-react";
 
-import { cn } from "@bl/ui/lib/utils";
-import { Button } from "@bl/ui/components/button";
-
+// Context is co-located with the components that consume it; extracting it to a
+// separate file just to satisfy Fast Refresh isn't worth the indirection.
+// eslint-disable-next-line react-refresh/only-export-components
 export const MenuContext = createContext<{
   isOpen: boolean;
   setIsOpen: (value: boolean) => void;

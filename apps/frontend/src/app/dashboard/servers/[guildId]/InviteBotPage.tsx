@@ -1,12 +1,15 @@
 import { useState } from "react";
-import { IconClipboard, IconClipboardCheck, IconLink } from "@tabler/icons-react";
+import { routes } from "@bl/common/Routes";
+import { Button } from "@bl/ui/components/button";
+import {
+  IconClipboard,
+  IconClipboardCheck,
+  IconLink,
+} from "@tabler/icons-react";
+import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { useTypedParams } from "react-router-typesafe-routes";
 
-import { routes } from "@bl/common/Routes";
-import { Button } from "@bl/ui/components/button";
-
-import { useQuery } from "@tanstack/react-query";
 import { useTRPC } from "~/lib/trpc";
 
 export function InviteBotPage() {
@@ -16,7 +19,7 @@ export function InviteBotPage() {
 
   const trpc = useTRPC();
   const userGuilds = useQuery(trpc.discord.userGuilds.queryOptions());
-  const guild = userGuilds.data?.userGuilds.get(guildId!);
+  const guild = guildId ? userGuilds.data?.userGuilds.get(guildId) : undefined;
 
   const inviteUrl = `https://discord.com/oauth2/authorize?client_id=${encodeURIComponent(import.meta.env.VITE_DISCORD_CLIENT_ID ?? "")}&permissions=128&scope=bot&guild_id=${guildId}`;
 
@@ -61,7 +64,7 @@ export function InviteBotPage() {
         </a>
       ) : (
         <>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-muted-foreground text-sm">
             {t(
               "pages.dashboard.servers.inviteBotPage.noPermission",
               "You don't have permission to add bots. Share this link with a server admin:",

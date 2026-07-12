@@ -6,7 +6,10 @@ import "./lib/i18n";
 
 import App from "./App";
 
-createRoot(document.getElementById("root")!).render(
+const root = document.getElementById("root");
+if (!root) throw new Error("Root element #root not found");
+
+createRoot(root).render(
   <StrictMode>
     <App />
   </StrictMode>,

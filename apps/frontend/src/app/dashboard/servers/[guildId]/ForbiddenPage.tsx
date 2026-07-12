@@ -1,10 +1,9 @@
+import { routes } from "@bl/common/Routes";
 import { IconShieldOff } from "@tabler/icons-react";
+import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { useTypedParams } from "react-router-typesafe-routes";
 
-import { routes } from "@bl/common/Routes";
-
-import { useQuery } from "@tanstack/react-query";
 import { useTRPC } from "~/lib/trpc";
 
 export function ForbiddenPage() {
@@ -13,11 +12,11 @@ export function ForbiddenPage() {
 
   const trpc = useTRPC();
   const userGuilds = useQuery(trpc.discord.userGuilds.queryOptions());
-  const guild = userGuilds.data?.userGuilds.get(guildId!);
+  const guild = guildId ? userGuilds.data?.userGuilds.get(guildId) : undefined;
 
   return (
     <div className="m-auto flex min-h-full flex-col items-center justify-center gap-4 p-6 text-center">
-      <IconShieldOff className="size-16 text-muted-foreground" />
+      <IconShieldOff className="text-muted-foreground size-16" />
       <p className="text-muted-foreground">
         {t(
           "pages.dashboard.servers.forbiddenPage.message",

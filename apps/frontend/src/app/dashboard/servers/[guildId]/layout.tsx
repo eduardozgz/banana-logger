@@ -1,20 +1,18 @@
 import { useContext } from "react";
-import { Outlet } from "react-router";
-import { useTypedParams } from "react-router-typesafe-routes";
-
 import { routes } from "@bl/common/Routes";
 import { Separator } from "@bl/ui/components/separator";
 import { Skeleton } from "@bl/ui/components/skeleton";
-
 import { cn } from "@bl/ui/lib/utils";
+import { useQuery } from "@tanstack/react-query";
+import { Outlet } from "react-router";
+import { useTypedParams } from "react-router-typesafe-routes";
 
+import { useTRPC } from "~/lib/trpc";
 import { MenuContext } from "../../Menu";
 import { ForbiddenPage } from "./ForbiddenPage";
 import { InviteBotBanner } from "./InviteBotBanner";
 import { InviteBotPage } from "./InviteBotPage";
 import { ServerNavMenu } from "./ServerNavMenu/ServerNavMenu";
-import { useQuery } from "@tanstack/react-query";
-import { useTRPC } from "~/lib/trpc";
 
 export default function Layout() {
   const { guildId } = useTypedParams(routes.dashboard.servers.server);
@@ -22,15 +20,17 @@ export default function Layout() {
 
   const trpc = useTRPC();
   const userGuilds = useQuery(trpc.discord.userGuilds.queryOptions());
-  const has = useQuery(trpc.guild.has.queryOptions(
-    { guildId: guildId! },
-    { enabled: !!guildId },
-  ));
-
-  const guild = userGuilds.data?.userGuilds.get(guildId!);
-  const canManage = guild?.hasManageGuild ?? false;
+  const has = useQuery(
+    trpc.guild.has.queryOptions(
+      { guildId: guildId ?? "" },
+      { enabled: !!guildId },
+    ),
+  );
 
   if (!guildId) return null;
+
+  const guild = userGuilds.data?.userGuilds.get(guildId);
+  const canManage = guild?.hasManageGuild ?? false;
 
   const isLoading = !userGuilds.isSuccess || !has.isSuccess;
 

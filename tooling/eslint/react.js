@@ -5,7 +5,10 @@ import * as tseslint from "typescript-eslint";
 
 /** @type {Awaited<import('typescript-eslint').Config>} */
 export default tseslint.config([
-  reactHooks.configs.flat.recommended,
+  // recommended-latest bundles rules-of-hooks + exhaustive-deps and the React
+  // Compiler rules (the standalone "react-hooks/react-compiler" rule was removed
+  // in eslint-plugin-react-hooks v7 in favour of these granular rules).
+  reactHooks.configs.flat["recommended-latest"],
   {
     files: ["**/*.ts", "**/*.tsx"],
     plugins: {
@@ -13,7 +16,6 @@ export default tseslint.config([
     },
     rules: {
       ...reactPlugin.configs["jsx-runtime"].rules,
-      "react-hooks/react-compiler": "error",
     },
     extends: [reactRefresh.configs.vite],
     languageOptions: {

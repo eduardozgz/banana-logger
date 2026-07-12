@@ -1,22 +1,22 @@
 import { useMemo } from "react";
-import {
-  IconChevronLeft,
-  IconToggleLeft,
-  IconToggleRight,
-} from "@tabler/icons-react";
-import { useTranslation } from "react-i18next";
-import { useTypedParams } from "react-router-typesafe-routes";
-
 import { routes } from "@bl/common/Routes";
-import type { PresetName } from "@bl/common/eventPresets";
 import { Button } from "@bl/ui/components/button";
 import { Card, CardContent } from "@bl/ui/components/card";
 import { Separator } from "@bl/ui/components/separator";
 import { Skeleton } from "@bl/ui/components/skeleton";
 import { Switch } from "@bl/ui/components/switch";
+import {
+  IconChevronLeft,
+  IconToggleLeft,
+  IconToggleRight,
+} from "@tabler/icons-react";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
+import { useTypedParams } from "react-router-typesafe-routes";
+
+import type { PresetName } from "@bl/common/eventPresets";
 
 import { Link } from "~/lib/navigation";
-import { useQuery, useMutation } from "@tanstack/react-query";
 import { useTRPC } from "~/lib/trpc";
 
 function formatEventName(event: string): string {
@@ -26,9 +26,7 @@ function formatEventName(event: string): string {
 }
 
 function formatPresetName(preset: string): string {
-  return preset
-    .replace(/-/g, " ")
-    .replace(/\b\w/g, (c) => c.toUpperCase());
+  return preset.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
 }
 
 export default function Page() {
@@ -38,32 +36,43 @@ export default function Page() {
   );
 
   const trpc = useTRPC();
-  const logChannel = useQuery(trpc.guild.getLogChannel.queryOptions(
-    { guildId: guildId!, channelId: channelId! },
-    { enabled: !!guildId && !!channelId },
-  ));
+  const logChannel = useQuery(
+    trpc.guild.getLogChannel.queryOptions(
+      { guildId: guildId ?? "", channelId: channelId ?? "" },
+      { enabled: !!guildId && !!channelId },
+    ),
+  );
 
-  const guild = useQuery(trpc.discord.getGuild.queryOptions(
-    { id: guildId! },
-    { enabled: !!guildId },
-  ));
+  const guild = useQuery(
+    trpc.discord.getGuild.queryOptions(
+      { id: guildId ?? "" },
+      { enabled: !!guildId },
+    ),
+  );
 
   const channelDisplayName =
-    guild.data?.channels.get(channelId!)?.name ?? channelId;
+    (channelId ? guild.data?.channels.get(channelId)?.name : undefined) ??
+    channelId;
 
   const presets = useQuery(trpc.guild.presets.queryOptions());
 
-  const toggleEvent = useMutation(trpc.guild.toggleEvent.mutationOptions({
-    onSuccess: () => logChannel.refetch(),
-  }));
+  const toggleEvent = useMutation(
+    trpc.guild.toggleEvent.mutationOptions({
+      onSuccess: () => logChannel.refetch(),
+    }),
+  );
 
-  const togglePreset = useMutation(trpc.guild.togglePreset.mutationOptions({
-    onSuccess: () => logChannel.refetch(),
-  }));
+  const togglePreset = useMutation(
+    trpc.guild.togglePreset.mutationOptions({
+      onSuccess: () => logChannel.refetch(),
+    }),
+  );
 
-  const toggleAll = useMutation(trpc.guild.toggleAllEvents.mutationOptions({
-    onSuccess: () => logChannel.refetch(),
-  }));
+  const toggleAll = useMutation(
+    trpc.guild.toggleAllEvents.mutationOptions({
+      onSuccess: () => logChannel.refetch(),
+    }),
+  );
 
   const watchingSet = useMemo(
     () => new Set(logChannel.data?.watchingEvents),
@@ -91,10 +100,7 @@ export default function Page() {
     return (
       <div className="m-auto flex min-h-full flex-col items-center justify-center gap-4 p-3">
         <p className="text-muted-foreground">
-          {t(
-            "pages.dashboard.logChannel.notFound",
-            "Log channel not found.",
-          )}
+          {t("pages.dashboard.logChannel.notFound", "Log channel not found.")}
         </p>
         <Link
           to={routes.dashboard.servers.server.settings.$buildPath({
@@ -126,7 +132,7 @@ export default function Page() {
           <h2 className="text-2xl font-semibold">
             {t("pages.dashboard.logChannel.heading", "Log Channel")}
           </h2>
-          <p className="text-sm text-muted-foreground">#{channelDisplayName}</p>
+          <p className="text-muted-foreground text-sm">#{channelDisplayName}</p>
         </div>
       </div>
 
@@ -142,7 +148,7 @@ export default function Page() {
       ) : (
         <>
           <div className="flex items-center justify-between">
-            <p className="text-sm text-muted-foreground">
+            <p className="text-muted-foreground text-sm">
               {t(
                 "pages.dashboard.logChannel.enabledCount",
                 "{{enabled}} of {{total}} events enabled",
@@ -199,7 +205,7 @@ export default function Page() {
                         <p className="text-sm font-medium">
                           {formatPresetName(preset)}
                         </p>
-                        <p className="text-xs text-muted-foreground">
+                        <p className="text-muted-foreground text-xs">
                           {enabledInPreset} / {events.length}
                         </p>
                       </CardContent>
