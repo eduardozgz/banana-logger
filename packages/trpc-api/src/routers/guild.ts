@@ -4,7 +4,7 @@ import {
   PRESET_NAMES,
   type PresetName,
 } from "@bl/common/eventPresets";
-import { z } from "zod";
+import { z } from "zod/v4";
 
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 import { assertManageGuild } from "../utils/checkUserPermissions";
@@ -95,7 +95,7 @@ export const guildRouter = createTRPCRouter({
   toggleEvent: guildProcedure
     .input(
       channelInput.extend({
-        event: z.nativeEnum(EventType),
+        event: z.enum(EventType),
       }),
     )
     .mutation(async ({ ctx, input }) => {

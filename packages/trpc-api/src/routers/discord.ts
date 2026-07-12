@@ -2,7 +2,7 @@ import { REST } from "@discordjs/rest";
 import { TRPCError } from "@trpc/server";
 import { Routes } from "discord-api-types/v10";
 import SuperJSON from "superjson";
-import { z } from "zod";
+import { z } from "zod/v4";
 
 import type { APIUser } from "discord-api-types/v10";
 

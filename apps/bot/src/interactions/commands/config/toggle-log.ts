@@ -94,7 +94,7 @@ export const toggleLogHandle: CommandHandle = async (command, i18n) => {
           COUNT: String(presetEvents.length),
         });
   } else {
-    const event = z.nativeEnum(EventType).parse(eventToToggle);
+    const event = z.enum(EventType).parse(eventToToggle);
     const wasAdded = await settingsService.toggleEvent(event);
     description = wasAdded
       ? t("is-now-being-logged", {

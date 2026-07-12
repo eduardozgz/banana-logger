@@ -1,5 +1,5 @@
 import { CDNRoutes, ImageFormat, RouteBases } from "discord-api-types/v10";
-import { z } from "zod";
+import { z } from "zod/v4";
 
 export type DiscordUserGuild = z.infer<typeof DiscordUserGuildSchema>;
 export const DiscordUserGuildSchema = z

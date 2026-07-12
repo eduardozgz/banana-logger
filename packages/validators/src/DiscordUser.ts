@@ -1,6 +1,6 @@
 import type { DefaultUserAvatarAssets } from "discord-api-types/v10";
 import { CDNRoutes, ImageFormat, RouteBases } from "discord-api-types/v10";
-import { z } from "zod";
+import { z } from "zod/v4";
 
 export type DiscordUser = z.infer<typeof DiscordUserSchema>;
 export const DiscordUserSchema = z
