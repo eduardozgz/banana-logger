@@ -1,5 +1,3 @@
-import assert from "node:assert";
-import type { PartialUser, User } from "discord.js";
 import { channelMention, userMention } from "@discordjs/builders";
 import { AuditLogEvent } from "discord.js";
 
@@ -11,42 +9,53 @@ import { AuditLogCollector } from "~/utils/AuditLogCollector";
 
 export const messageDeleteEvent = new EventHandler({
   name: "messageDelete",
-  handler: async (client, message) => {
-    assert(message.inGuild());
+  handler: async (_client, message) => {
+    // `guild` is resolvable for partial messages too (the bot is in the guild),
+    // so use it directly rather than inGuild(), which would wrongly narrow away
+    // the partial case and hide the null author/content below.
+    const guild = message.guild;
+    if (!guild) return;
+
+    const channel = message.channel;
+
+    const i18n = await initI18n(guild.preferredLocale);
+    const unknownValue = i18n.t(
+      "main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE",
+    );
+
+    // With Partials.Message enabled, a deleted *uncached* message arrives
+    // partial: author and content are null, and it can't be fetched (it's
+    // already gone). Degrade those fields to the unknown-value placeholder.
+    const author = message.author;
 
     const auditLogEntry = await AuditLogCollector.tryToGet({
-      guild: message.guild,
+      guild,
       event: AuditLogEvent.MessageDelete,
       filter: (auditLogEntry) => {
         return (
           auditLogEntry.extra.count === 1 &&
-          auditLogEntry.extra.channel.id === message.channel.id
+          auditLogEntry.extra.channel.id === channel.id
         );
       },
     });
 
-    const executor: User | PartialUser =
-      auditLogEntry?.executor ?? message.author;
-
-    const i18n = await initI18n(message.guild.preferredLocale);
+    const executor = auditLogEntry?.executor ?? author ?? undefined;
 
     LogService.log({
       eventName: "messageDelete",
-      guild: message.guild,
+      guild,
       executor,
-      relatedChannels: [message.channel.id],
-      relatedUsers: [message.author.id],
-      target: message.author,
+      relatedChannels: [channel.id],
+      relatedUsers: author ? [author.id] : [],
+      target: author ?? undefined,
       data: {
-        AUTHOR_MENTION: userMention(message.author.id),
-        AUTHOR_NAME: message.author.username,
-        AUTHOR_ID: message.author.id,
-        AUTHOR_AVATAR: message.author.displayAvatarURL(),
-        OLD_CONTENT:
-          message.content ||
-          i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
+        AUTHOR_MENTION: author ? userMention(author.id) : unknownValue,
+        AUTHOR_NAME: author?.username ?? unknownValue,
+        AUTHOR_ID: author?.id ?? "",
+        AUTHOR_AVATAR: author?.displayAvatarURL(),
+        OLD_CONTENT: message.content ?? unknownValue,
         MESSAGE_URL: message.url,
-        CHANNEL_MENTION: channelMention(message.channel.id),
+        CHANNEL_MENTION: channelMention(channel.id),
       },
       i18n,
     });

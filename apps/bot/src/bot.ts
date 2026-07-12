@@ -1,4 +1,4 @@
-import { Client } from "discord.js";
+import { Client, Partials } from "discord.js";
 
 import { botIntents } from "@bl/common/botIntents";
 import { redis } from "@bl/redis";
@@ -8,6 +8,8 @@ import { setupBotAPIProvider } from "./botAPI/provider";
 import { setupEvents } from "./events";
 import { AuditLogCollector } from "./utils/AuditLogCollector";
 import { deployCommands } from "./utils/deployCommands";
+import { makeCache } from "./utils/makeCache";
+import { sweepers } from "./utils/sweepers";
 
 export async function startBot(options: BotInstanceOptions) {
   await deployCommands(options);
@@ -16,6 +18,17 @@ export async function startBot(options: BotInstanceOptions) {
 
   const botClient = new Client({
     intents: botIntents,
+    // Required so message/reaction events fire for uncached objects (anything
+    // sent before startup or evicted from cache) — otherwise the logger
+    // silently drops a large share of real events.
+    partials: [
+      Partials.Message,
+      Partials.Channel,
+      Partials.Reaction,
+      Partials.User,
+    ],
+    makeCache: makeCache(),
+    sweepers,
   });
 
   botClient.botInstanceOptions = options;

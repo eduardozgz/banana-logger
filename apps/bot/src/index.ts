@@ -11,6 +11,15 @@ async function main() {
     botId: env.DISCORD_CLIENT_ID,
   });
 
+  // A stray rejection or throw must not silently take down (or, worse, leave in
+  // a zombie state) a long-running daemon; log it so it's observable.
+  process.on("unhandledRejection", (reason) => {
+    logger.error("Unhandled promise rejection", { reason });
+  });
+  process.on("uncaughtException", (error) => {
+    logger.error("Uncaught exception", { error });
+  });
+
   const botOptions: BotInstanceOptions = {
     token: env.DISCORD_BOT_INSTANCE_TOKEN,
     deployCommands: env.DISCORD_BOT_INSTANCE_DEPLOY_COMMANDS,
