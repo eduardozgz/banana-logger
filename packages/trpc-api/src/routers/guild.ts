@@ -19,7 +19,7 @@ const channelInput = z.object({ channelId: z.string() });
 const guildProcedure = protectedProcedure
   .input(z.object({ guildId: z.string() }))
   .use(async ({ ctx, input, next }) => {
-    await assertManageGuild(ctx.session, input.guildId);
+    await assertManageGuild(ctx.redis, ctx.session, input.guildId);
     return next();
   });
 

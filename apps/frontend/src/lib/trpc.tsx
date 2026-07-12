@@ -7,14 +7,28 @@ import {
   httpBatchStreamLink,
   loggerLink,
   splitLink,
+  TRPCClientError,
 } from "@trpc/client";
 import { createTRPCContext } from "@trpc/tanstack-react-query";
 import SuperJSON from "superjson";
 
-import { Errors } from "@bl/trpc-api/utils/errors";
+import { Errors, REQUEST_TIMEOUT_MESSAGE } from "@bl/trpc-api/utils/errors";
+
+// Errors describing a stable state (no session, no access, bot not in the
+// guild) or a bot-fleet timeout won't get better by asking again.
+const NON_RETRYABLE_CODES = ["UNAUTHORIZED", "FORBIDDEN", "NOT_FOUND"];
 
 const retry = (failureCount: number, error: Error) => {
-  return failureCount < 3 && error.message !== Errors.NotAuthenticated;
+  if (error.message === Errors.NotAuthenticated) return false;
+  if (error.message === REQUEST_TIMEOUT_MESSAGE) return false;
+  if (
+    error instanceof TRPCClientError &&
+    NON_RETRYABLE_CODES.includes(
+      (error.data as { code?: string } | undefined)?.code ?? "",
+    )
+  )
+    return false;
+  return failureCount < 3;
 };
 
 const createQueryClient = () =>
