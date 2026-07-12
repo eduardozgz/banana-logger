@@ -2,15 +2,21 @@ import type { Client } from "discord.js";
 import type { Redis } from "ioredis";
 import { redisHandler } from "@bl/trpc-redis";
 
+import type baseLogger from "@bl/logger";
+
 import type { BotAPIContext } from "./trpc";
 import { botAPIRouter } from "./root";
 
 export async function setupBotAPIProvider(opts: {
   botClient: Client<true>;
+  // Passed explicitly rather than read from botClient.botInstanceOptions: this
+  // module is re-exported through @bl/bot/botAPI and type-checked by consumers
+  // (trpc-api/frontend) that don't load the bot's discord.js Client augmentation.
+  logger: typeof baseLogger;
   redisPubClient: Redis;
   redisSubClient: Redis;
 }) {
-  const logger = opts.botClient.botInstanceOptions.logger.child({
+  const logger = opts.logger.child({
     component: "botAPIProvider",
   });
 

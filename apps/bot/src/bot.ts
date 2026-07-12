@@ -54,6 +54,7 @@ export async function startBot(options: BotInstanceOptions) {
   const redisSubClient = redis.duplicate();
   await setupBotAPIProvider({
     botClient: botClient as Client<true>,
+    logger,
     redisPubClient,
     redisSubClient,
   });
