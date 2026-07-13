@@ -70,10 +70,10 @@ export const toggleWatchChannelHandle: CommandHandle = async (
 
   embed.setDescription(
     wasWatched
-      ? t("is-not-being-watched-anymore", {
+      ? t("is-now-being-watched", {
           CHANNEL_MENTION: channelMention(channelToToggle.id),
         })
-      : t("is-now-being-watched", {
+      : t("is-not-being-watched-anymore", {
           CHANNEL_MENTION: channelMention(channelToToggle.id),
         }),
   );

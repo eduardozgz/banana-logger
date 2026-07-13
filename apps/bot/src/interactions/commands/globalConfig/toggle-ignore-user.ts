@@ -63,10 +63,10 @@ export const toggleIgnoreUserHandle: CommandHandle = async (command, i18n) => {
 
   embed.setDescription(
     wasIgnored
-      ? t("is-not-being-ignored-anymore", {
+      ? t("is-now-being-ignored", {
           USER_MENTION: userMention(userToToggle.id),
         })
-      : t("is-now-being-ignored", {
+      : t("is-not-being-ignored-anymore", {
           USER_MENTION: userMention(userToToggle.id),
         }),
   );

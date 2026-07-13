@@ -65,10 +65,10 @@ export const toggleIgnoreChannelHandle: CommandHandle = async (
 
   embed.setDescription(
     wasIgnored
-      ? t("is-not-being-ignored-anymore", {
+      ? t("is-now-being-ignored", {
           CHANNEL_MENTION: channelMention(channelToToggle.id),
         })
-      : t("is-now-being-ignored", {
+      : t("is-not-being-ignored-anymore", {
           CHANNEL_MENTION: channelMention(channelToToggle.id),
         }),
   );

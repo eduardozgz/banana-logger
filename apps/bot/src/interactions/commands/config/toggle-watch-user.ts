@@ -66,10 +66,10 @@ export const toggleWatchUserHandle: CommandHandle = async (command, i18n) => {
 
   embed.setDescription(
     wasWatched
-      ? t("is-not-being-watched-anymore", {
+      ? t("is-now-being-watched", {
           USER_MENTION: userMention(userToToggle.id),
         })
-      : t("is-now-being-watched", {
+      : t("is-not-being-watched-anymore", {
           USER_MENTION: userMention(userToToggle.id),
         }),
   );
