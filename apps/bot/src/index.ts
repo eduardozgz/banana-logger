@@ -5,6 +5,10 @@ import baseLogger from "@bl/logger";
 import type { BotInstanceOptions } from "~/@types/BotInstanceOptions";
 import { startBot } from "./bot";
 import { env } from "./env";
+import {
+  startConfigCacheInvalidation,
+  stopConfigCacheInvalidation,
+} from "./services/configCache";
 
 async function main() {
   const logger = baseLogger.child({
@@ -32,8 +36,19 @@ async function main() {
     process.exit(1);
   });
 
+  // Drop cached guild config across pods when it changes (bot command or
+  // dashboard). Non-fatal if Redis is unreachable — the cache TTL still bounds
+  // staleness.
+  await startConfigCacheInvalidation().catch((error: unknown) => {
+    logger.error("Failed to start config-cache invalidation", { error });
+  });
+
   process.on("SIGTERM", () => {
-    Promise.all([botClient.destroy(), Promise.resolve(db.close())])
+    Promise.all([
+      botClient.destroy(),
+      stopConfigCacheInvalidation(),
+      Promise.resolve(db.close()),
+    ])
       .catch((error: unknown) => {
         logger.error("Error while trying to gracefully shutdown:", { error });
       })

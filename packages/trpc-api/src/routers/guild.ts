@@ -1,4 +1,5 @@
 import { EventType } from "@bl/db/client";
+import { publishConfigInvalidation } from "@bl/redis";
 import { EVENT_PRESETS, PRESET_NAMES } from "@bl/common/eventPresets";
 import type { PresetName } from "@bl/common/eventPresets";
 import { TRPCError } from "@trpc/server";
@@ -17,9 +18,15 @@ const channelInput = z.object({ channelId: z.string() });
  */
 const guildProcedure = protectedProcedure
   .input(z.object({ guildId: z.string() }))
-  .use(async ({ ctx, input, next }) => {
+  .use(async ({ ctx, input, next, type }) => {
     await assertManageGuild(ctx.redis, ctx.session, input.guildId);
-    return next();
+    const result = await next();
+    // Every guild mutation changes this guild's log-channel config; on success,
+    // tell the bot pods to drop their cached copy.
+    if (type === "mutation" && result.ok) {
+      await publishConfigInvalidation(input.guildId);
+    }
+    return result;
   });
 
 function toggleArrayItem<T>(array: T[], item: T): T[] {
