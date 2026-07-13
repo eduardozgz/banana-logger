@@ -1,0 +1,203 @@
+{
+  "id": "f714a533-a862-456b-b93f-65d1a4db7f93",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.GlobalSettings": {
+      "name": "GlobalSettings",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "guildId": {
+          "name": "guildId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ignoredChannels": {
+          "name": "ignoredChannels",
+          "type": "text[]",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ignoredUsers": {
+          "name": "ignoredUsers",
+          "type": "text[]",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "GlobalSettings_guildId_key": {
+          "name": "GlobalSettings_guildId_key",
+          "columns": [
+            {
+              "expression": "guildId",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.Settings": {
+      "name": "Settings",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "guildId": {
+          "name": "guildId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "channelId": {
+          "name": "channelId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ignoredChannels": {
+          "name": "ignoredChannels",
+          "type": "text[]",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ignoredUsers": {
+          "name": "ignoredUsers",
+          "type": "text[]",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "watchingEvents": {
+          "name": "watchingEvents",
+          "type": "text[]",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "watchChannels": {
+          "name": "watchChannels",
+          "type": "text[]",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "watchUsers": {
+          "name": "watchUsers",
+          "type": "text[]",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "Settings_guildId_channelId_key": {
+          "name": "Settings_guildId_channelId_key",
+          "columns": [
+            {
+              "expression": "guildId",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "channelId",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.User": {
+      "name": "User",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "discordUserId": {
+          "name": "discordUserId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "prefersAutosave": {
+          "name": "prefersAutosave",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        }
+      },
+      "indexes": {
+        "User_discordUserId_key": {
+          "name": "User_discordUserId_key",
+          "columns": [
+            {
+              "expression": "discordUserId",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

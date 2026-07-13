@@ -1,14 +1,11 @@
-import { migrate } from "drizzle-orm/libsql/migrator";
+import { db, dialect, runMigrations } from "./index";
 
-import { db } from "./index";
-
-// Applies the generated SQL migrations against the configured database. Run via
+// Applies the generated SQL migrations against the configured database, picking
+// the SQLite or Postgres migrator based on DATABASE_URL. Run via
 // `pnpm -F @bl/db migrate` (locally and in the db-utils container on deploy).
 async function main() {
-  await migrate(db.$client, {
-    migrationsFolder: new URL("../drizzle/sqlite", import.meta.url).pathname,
-  });
-  console.info("Migrations applied.");
+  await runMigrations();
+  console.info(`Migrations applied (${dialect}).`);
   db.close();
 }
 

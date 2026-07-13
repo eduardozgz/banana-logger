@@ -1,65 +1,36 @@
-import { createClient } from "@libsql/client";
 import { and, count, eq } from "drizzle-orm";
-import { drizzle } from "drizzle-orm/libsql";
-
-import baseLogger from "@bl/logger";
 
 import type { EventType } from "./schema/eventType";
 import type { GlobalSettings, Settings, User } from "./schema/types";
-import { env } from "./env";
-import * as schema from "./schema/sqlite";
+import { connection } from "./connection";
 
-const logger = baseLogger.child({ component: "db" });
-
-// ---------------------------------------------------------------------------
-// Connection (SQLite). Postgres is selected by a postgres:// DATABASE_URL and
-// wired in a sibling module; today the default self-host path is SQLite.
-// ---------------------------------------------------------------------------
-
-function createDb() {
-  if (!env.DATABASE_URL.startsWith("file:")) {
-    throw new Error(
-      `Unsupported DATABASE_URL "${env.DATABASE_URL}". Expected a file: (SQLite) URL.`,
-    );
-  }
-
-  // libsql accepts the file: URL directly and ships prebuilt binaries (no
-  // native compile step), keeping the self-host story friction-free.
-  const libsql = createClient({ url: env.DATABASE_URL });
-
-  return drizzle(libsql, {
-    schema,
-    logger:
-      env.LOG_LEVEL === "debug"
-        ? { logQuery: (query, params) => logger.debug(query, { params }) }
-        : false,
-  });
-}
-
-const globalForDb = globalThis as unknown as {
-  drizzle: ReturnType<typeof createDb> | undefined;
-};
-
-const client = globalForDb.drizzle ?? createDb();
-if (env.NODE_ENV !== "production") globalForDb.drizzle = client;
+export type { Dialect } from "./connection";
 
 // ---------------------------------------------------------------------------
-// Data-access layer. Dialect-agnostic: returns the shared row types, and the
-// array-contains "watching this event" filter is done in app code so it works
-// identically on SQLite and Postgres.
+// Data-access layer. Dialect-agnostic: the connection (./connection.ts) hands us
+// a dialect-matched (orm, tables) pair, this layer returns the shared row types,
+// and the array-contains "watching this event" filter is done in app code so it
+// works identically on SQLite and Postgres.
 // ---------------------------------------------------------------------------
 
-const { settings, globalSettings, user } = schema;
+const orm = connection.orm;
+const { settings, globalSettings, user } = connection.tables;
+
+/** The active dialect ("sqlite" | "pg"). */
+export const dialect = connection.dialect;
+
+/** Apply the generated migrations for the active dialect. */
+export const runMigrations = connection.runMigrations;
 
 async function settingsGetByGuild(guildId: string): Promise<Settings[]> {
-  return client.select().from(settings).where(eq(settings.guildId, guildId));
+  return orm.select().from(settings).where(eq(settings.guildId, guildId));
 }
 
 async function settingsGet(
   guildId: string,
   channelId: string,
 ): Promise<Settings | undefined> {
-  const [row] = await client
+  const [row] = await orm
     .select()
     .from(settings)
     .where(
@@ -77,7 +48,7 @@ async function settingsGetByEvent(
 }
 
 async function settingsCountByGuild(guildId: string): Promise<number> {
-  const [row] = await client
+  const [row] = await orm
     .select({ value: count() })
     .from(settings)
     .where(eq(settings.guildId, guildId));
@@ -91,7 +62,7 @@ async function settingsPatch(
   channelId: string,
   data: SettingsPatch,
 ): Promise<Settings> {
-  const [row] = await client
+  const [row] = await orm
     .insert(settings)
     .values({ guildId, channelId, ...data })
     .onConflictDoUpdate({
@@ -107,7 +78,7 @@ async function settingsEnsure(
   guildId: string,
   channelId: string,
 ): Promise<Settings> {
-  const [inserted] = await client
+  const [inserted] = await orm
     .insert(settings)
     .values({ guildId, channelId })
     .onConflictDoNothing()
@@ -122,7 +93,7 @@ async function settingsDelete(
   guildId: string,
   channelId: string,
 ): Promise<void> {
-  await client
+  await orm
     .delete(settings)
     .where(
       and(eq(settings.guildId, guildId), eq(settings.channelId, channelId)),
@@ -132,7 +103,7 @@ async function settingsDelete(
 async function globalSettingsGet(
   guildId: string,
 ): Promise<GlobalSettings | undefined> {
-  const [row] = await client
+  const [row] = await orm
     .select()
     .from(globalSettings)
     .where(eq(globalSettings.guildId, guildId));
@@ -145,7 +116,7 @@ async function globalSettingsPatch(
   guildId: string,
   data: GlobalSettingsPatch,
 ): Promise<GlobalSettings> {
-  const [row] = await client
+  const [row] = await orm
     .insert(globalSettings)
     .values({ guildId, ...data })
     .onConflictDoUpdate({ target: globalSettings.guildId, set: data })
@@ -155,7 +126,7 @@ async function globalSettingsPatch(
 }
 
 async function userGet(discordUserId: string): Promise<User | undefined> {
-  const [row] = await client
+  const [row] = await orm
     .select()
     .from(user)
     .where(eq(user.discordUserId, discordUserId));
@@ -166,7 +137,7 @@ async function userPatch(
   discordUserId: string,
   data: Partial<Omit<User, "id" | "discordUserId">>,
 ): Promise<User> {
-  const [row] = await client
+  const [row] = await orm
     .insert(user)
     .values({ discordUserId, ...data })
     .onConflictDoUpdate({ target: user.discordUserId, set: data })
@@ -176,7 +147,7 @@ async function userPatch(
 }
 
 async function userDelete(discordUserId: string): Promise<void> {
-  await client.delete(user).where(eq(user.discordUserId, discordUserId));
+  await orm.delete(user).where(eq(user.discordUserId, discordUserId));
 }
 
 export const db = {
@@ -198,12 +169,10 @@ export const db = {
     patch: userPatch,
     delete: userDelete,
   },
-  /** The raw Drizzle client, for migrations / advanced use. */
-  $client: client,
+  /** The raw Drizzle instance, for advanced use. */
+  $client: orm,
   /** Close the underlying connection (called on graceful shutdown). */
-  close: () => {
-    client.$client.close();
-  },
+  close: connection.close,
 };
 
 // ---------------------------------------------------------------------------
@@ -217,7 +186,7 @@ export class ConflictError extends Error {}
 export function isUniqueViolation(error: unknown): boolean {
   if (typeof error !== "object" || error === null) return false;
   const code = (error as { code?: unknown }).code;
-  // better-sqlite3: SQLITE_CONSTRAINT_UNIQUE / _PRIMARYKEY; Postgres: 23505.
+  // libsql/SQLite: SQLITE_CONSTRAINT_UNIQUE / _PRIMARYKEY; Postgres: 23505.
   return (
     code === "SQLITE_CONSTRAINT_UNIQUE" ||
     code === "SQLITE_CONSTRAINT_PRIMARYKEY" ||

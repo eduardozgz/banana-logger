@@ -13,9 +13,12 @@
     "format": "prettier --check . --ignore-path ../../.gitignore",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
-    "generate": "drizzle-kit generate --config=drizzle.sqlite.config.ts",
+    "generate": "pnpm generate:sqlite && pnpm generate:pg",
+    "generate:sqlite": "drizzle-kit generate --config=drizzle.sqlite.config.ts",
+    "generate:pg": "drizzle-kit generate --config=drizzle.pg.config.ts",
     "migrate": "pnpm with-env tsx src/migrate.ts",
     "studio": "pnpm with-env drizzle-kit studio --config=drizzle.sqlite.config.ts",
+    "studio:pg": "pnpm with-env drizzle-kit studio --config=drizzle.pg.config.ts",
     "with-env": "dotenv -e ../../.env --"
   },
   "devDependencies": {
@@ -36,6 +39,7 @@
     "@libsql/client": "^0.15.7",
     "@t3-oss/env-core": "catalog:",
     "drizzle-orm": "^0.44.2",
+    "postgres": "^3.4.5",
     "zod": "catalog:"
   }
 }

@@ -4,15 +4,16 @@
  * asserting the DAL behaves as the commands expect. Handy for verifying the
  * SQLite/Postgres backends without a running bot.
  *
- * Run: `pnpm -F @bl/bot smoke:db`
- * (or point DATABASE_URL at any db and `tsx scripts/dal-smoke.ts`).
+ * Run: `pnpm -F @bl/bot smoke:db`      (throwaway SQLite file, auto-cleaned)
+ *  or: `pnpm -F @bl/bot smoke:db:pg`   (an EMPTY Postgres DB via DATABASE_URL)
+ *
+ * It asserts against a fixed set of ids and has no teardown, so the Postgres
+ * variant expects a fresh/empty database (drop & recreate, or a throwaway
+ * container). The SQLite variant deletes its temp file for you.
  */
-import { createRequire } from "node:module";
-import { dirname, join } from "node:path";
-import { migrate } from "drizzle-orm/libsql/migrator";
 import type { Guild, GuildTextBasedChannel } from "discord.js";
 
-import { db } from "@bl/db";
+import { db, runMigrations } from "@bl/db";
 import { EventType } from "@bl/db/client";
 
 import { ALL_EVENTS_CHOICE } from "~/Constants";
@@ -36,14 +37,9 @@ const channelA = { id: "chan-A", guild } as unknown as GuildTextBasedChannel;
 const channelB = { id: "chan-B", guild } as unknown as GuildTextBasedChannel;
 
 async function main() {
-  // Apply migrations to whatever DATABASE_URL points at (drizzle folder lives in
-  // the @bl/db package).
-  const dbPkg = dirname(
-    createRequire(import.meta.url).resolve("@bl/db"),
-  );
-  await migrate(db.$client, {
-    migrationsFolder: join(dbPkg, "../drizzle/sqlite"),
-  });
+  // Apply migrations to whatever DATABASE_URL points at (dialect chosen by the
+  // connection layer).
+  await runMigrations();
 
   console.log("\n/config show on a fresh channel (no row yet)");
   let a = await SettingsService.get(channelA, guild);
@@ -114,6 +110,25 @@ async function main() {
   check(
     "channel settings inherit the global ignored user",
     (await SettingsService.get(channelB, guild)).ignoredUsers.includes("user-1"),
+  );
+
+  console.log("\nUser accounts — prefersAutosave boolean round-trip (user router)");
+  const created = await db.user.patch("discord-user-1", {
+    prefersAutosave: true,
+  });
+  check("user.patch returns prefersAutosave=true", created.prefersAutosave);
+  check(
+    "user.get reads the boolean back",
+    (await db.user.get("discord-user-1"))?.prefersAutosave === true,
+  );
+  const flipped = await db.user.patch("discord-user-1", {
+    prefersAutosave: false,
+  });
+  check("upsert-update flips the boolean to false", flipped.prefersAutosave === false);
+  await db.user.delete("discord-user-1");
+  check(
+    "user.delete removes the row",
+    (await db.user.get("discord-user-1")) === undefined,
   );
 
   console.log(
