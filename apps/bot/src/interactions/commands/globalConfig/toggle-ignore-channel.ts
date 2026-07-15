@@ -1,10 +1,9 @@
+import { i18nDefault } from "@bl/i18n";
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 import { channelMention } from "discord.js";
 
-import { i18nDefault } from "@bl/i18n";
-
 import type { CommandHandle } from "~/structures";
-import GlobalSettingsService from "~/services/GlobalSettingsService";
+import { GlobalSettingsService } from "~/services/settings";
 import BananaLoggerEmbed from "~/utils/BananaLoggerEmbed";
 import { prepareLocalization } from "~/utils/prepareLocalization";
 import { assertCachedGuild, assertChatInputCommand } from "..";

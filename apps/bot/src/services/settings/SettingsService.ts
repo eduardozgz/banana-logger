@@ -1,14 +1,14 @@
 import type { Guild, GuildTextBasedChannel } from "discord.js";
-
-import type { Settings } from "@bl/db/client";
 import { db } from "@bl/db";
 import { EventType } from "@bl/db/client";
 import { publishConfigInvalidation } from "@bl/redis";
 
+import type { Settings } from "@bl/db/client";
+
 import { ALL_EVENTS_CHOICE } from "~/Constants";
 import { toggleArrayItem } from "~/utils/toggleArrayItem";
 import { getGuildConfig, invalidateGuildConfig } from "./configCache";
-import GlobalSettingsService from "./GlobalSettingsService";
+import { GlobalSettingsService } from "./GlobalSettingsService";
 
 export class SettingsService {
   private constructor(
@@ -229,5 +229,3 @@ export class SettingsService {
     return wasAdded;
   }
 }
-
-export default SettingsService;

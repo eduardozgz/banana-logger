@@ -13,7 +13,7 @@ import {
   getGuildConfig,
   startConfigCacheInvalidation,
   stopConfigCacheInvalidation,
-} from "~/services/configCache";
+} from "~/services/settings";
 
 let failures = 0;
 function check(name: string, cond: boolean) {
@@ -46,9 +46,14 @@ async function main() {
   const guildId = "cache-guild-1";
 
   console.log("\nCold read populates the cache");
-  check("fresh guild has no settings", (await getGuildConfig(guildId)).settings.length === 0);
+  check(
+    "fresh guild has no settings",
+    (await getGuildConfig(guildId)).settings.length === 0,
+  );
 
-  console.log("\nDirect DB write is not seen while the entry is cached (serves stale)");
+  console.log(
+    "\nDirect DB write is not seen while the entry is cached (serves stale)",
+  );
   // db.settings.ensure is the raw DAL — it deliberately does NOT invalidate, so
   // the cache should keep serving the previous (empty) config.
   await db.settings.ensure(guildId, "chan-Z");
@@ -57,7 +62,9 @@ async function main() {
     (await getGuildConfig(guildId)).settings.length === 0,
   );
 
-  console.log("\nPublishing an invalidation drops the entry, next read reloads");
+  console.log(
+    "\nPublishing an invalidation drops the entry, next read reloads",
+  );
   await publishConfigInvalidation(guildId);
   check(
     "after invalidation the reload sees the new channel",

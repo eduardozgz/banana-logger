@@ -1,6 +1,5 @@
 import type {
   APIEmbed,
-  APIEmbedField,
   EmbedBuilder,
   Guild,
   GuildAuditLogsEntry,
@@ -25,7 +24,7 @@ import { baseGalleryEmbedUrl } from "~/Constants";
 import { env } from "~/env";
 import BananaLoggerEmbed from "~/utils/BananaLoggerEmbed";
 import { deepReplaceAll } from "~/utils/deepReplaceAll";
-import SettingsService from "./SettingsService";
+import { SettingsService } from "./settings";
 
 type LogData<E extends EventType> = Partial<
   Record<(typeof EmbedTemplatePlaceholders)[E][number], string>
@@ -70,8 +69,7 @@ function enforceEmbedLimits(templates: APIEmbed[]): APIEmbed[] {
     if (embed.fields) {
       for (const field of embed.fields) {
         if (field.value.length > EMBED_FIELD_LIMIT) {
-          field.value =
-            field.value.slice(0, EMBED_FIELD_LIMIT - 3) + "...";
+          field.value = field.value.slice(0, EMBED_FIELD_LIMIT - 3) + "...";
         }
       }
     }
@@ -90,8 +88,12 @@ function enforceEmbedLimits(templates: APIEmbed[]): APIEmbed[] {
         ...(isFirst
           ? { ...embed, description: chunks[i] }
           : { description: chunks[i], color: embed.color }),
-        ...(!isFirst ? { title: undefined, author: undefined, thumbnail: undefined } : {}),
-        ...(isLast ? {} : { fields: undefined, footer: undefined, image: undefined }),
+        ...(!isFirst
+          ? { title: undefined, author: undefined, thumbnail: undefined }
+          : {}),
+        ...(isLast
+          ? {}
+          : { fields: undefined, footer: undefined, image: undefined }),
       };
 
       if (!isFirst) {
@@ -218,9 +220,7 @@ export class LogService {
             templates = deepReplaceAll(templates, `{${key}}`, value as string);
           }
 
-          const channel = await guild.channels.fetch(
-            serviceSettings.channelId,
-          );
+          const channel = await guild.channels.fetch(serviceSettings.channelId);
 
           if (!channel?.isTextBased()) {
             continue;

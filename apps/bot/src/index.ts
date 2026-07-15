@@ -8,7 +8,7 @@ import { env } from "./env";
 import {
   startConfigCacheInvalidation,
   stopConfigCacheInvalidation,
-} from "./services/configCache";
+} from "./services/settings";
 
 async function main() {
   const logger = baseLogger.child({

@@ -1,5 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
+import { getGuildConfig, invalidateGuildConfig } from "~/services/settings";
+
 const { getByGuild, globalGet } = vi.hoisted(() => ({
   getByGuild: vi.fn(),
   globalGet: vi.fn(),
@@ -18,11 +20,6 @@ vi.mock("@bl/redis", () => ({
   redis: { duplicate: vi.fn() },
   CONFIG_INVALIDATION_CHANNEL: "config:invalidate",
 }));
-
-import {
-  getGuildConfig,
-  invalidateGuildConfig,
-} from "~/services/configCache";
 
 beforeEach(() => {
   vi.resetAllMocks();

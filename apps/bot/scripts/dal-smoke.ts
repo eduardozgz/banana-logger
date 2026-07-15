@@ -12,13 +12,11 @@
  * container). The SQLite variant deletes its temp file for you.
  */
 import type { Guild, GuildTextBasedChannel } from "discord.js";
-
 import { db, runMigrations } from "@bl/db";
 import { EventType } from "@bl/db/client";
 
 import { ALL_EVENTS_CHOICE } from "~/Constants";
-import GlobalSettingsService from "~/services/GlobalSettingsService";
-import SettingsService from "~/services/SettingsService";
+import { GlobalSettingsService, SettingsService } from "~/services/settings";
 
 let failures = 0;
 function check(name: string, cond: boolean) {
@@ -52,7 +50,7 @@ async function main() {
 
   console.log("\n/config toggle-log guildUpdateName");
   a = await SettingsService.get(channelA, guild);
-  check("toggle reports added", (await a.toggleEvent(EventType.guildUpdateName)));
+  check("toggle reports added", await a.toggleEvent(EventType.guildUpdateName));
   a = await SettingsService.get(channelA, guild);
   check("event persisted", a.events.includes(EventType.guildUpdateName));
 
@@ -71,7 +69,10 @@ async function main() {
 
   console.log("\n/config toggle-log guildUpdateName again (off)");
   a = await SettingsService.get(channelA, guild);
-  check("toggle reports removed", !(await a.toggleEvent(EventType.guildUpdateName)));
+  check(
+    "toggle reports removed",
+    !(await a.toggleEvent(EventType.guildUpdateName)),
+  );
   check(
     "no channel watches it anymore",
     (await SettingsService.getByEventName(EventType.guildUpdateName, guild))
@@ -90,14 +91,18 @@ async function main() {
   console.log("\nGuild isolation");
   check(
     "channel B (guild-1) now watches guildUpdateName",
-    (await SettingsService.getByEventName(EventType.guildUpdateName, guild)).some(
-      (s) => s.channelId === "chan-B",
-    ),
+    (
+      await SettingsService.getByEventName(EventType.guildUpdateName, guild)
+    ).some((s) => s.channelId === "chan-B"),
   );
   check(
     "guild-2 sees nothing",
-    (await SettingsService.getByEventName(EventType.guildUpdateName, otherGuild))
-      .length === 0,
+    (
+      await SettingsService.getByEventName(
+        EventType.guildUpdateName,
+        otherGuild,
+      )
+    ).length === 0,
   );
 
   console.log("\n/globalconfig toggle-ignore-user + inheritance");
@@ -109,10 +114,14 @@ async function main() {
   );
   check(
     "channel settings inherit the global ignored user",
-    (await SettingsService.get(channelB, guild)).ignoredUsers.includes("user-1"),
+    (await SettingsService.get(channelB, guild)).ignoredUsers.includes(
+      "user-1",
+    ),
   );
 
-  console.log("\nUser accounts — prefersAutosave boolean round-trip (user router)");
+  console.log(
+    "\nUser accounts — prefersAutosave boolean round-trip (user router)",
+  );
   const created = await db.user.patch("discord-user-1", {
     prefersAutosave: true,
   });
@@ -124,7 +133,10 @@ async function main() {
   const flipped = await db.user.patch("discord-user-1", {
     prefersAutosave: false,
   });
-  check("upsert-update flips the boolean to false", flipped.prefersAutosave === false);
+  check(
+    "upsert-update flips the boolean to false",
+    flipped.prefersAutosave === false,
+  );
   await db.user.delete("discord-user-1");
   check(
     "user.delete removes the row",
@@ -132,9 +144,7 @@ async function main() {
   );
 
   console.log(
-    failures === 0
-      ? "\nALL PASSED ✓"
-      : `\n${failures} CHECK(S) FAILED ✗`,
+    failures === 0 ? "\nALL PASSED ✓" : `\n${failures} CHECK(S) FAILED ✗`,
   );
   await db.close();
   process.exit(failures === 0 ? 0 : 1);

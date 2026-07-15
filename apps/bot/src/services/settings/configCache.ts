@@ -1,7 +1,8 @@
-import type { GlobalSettings, Settings } from "@bl/db/client";
 import { db } from "@bl/db";
 import baseLogger from "@bl/logger";
 import { CONFIG_INVALIDATION_CHANNEL, redis } from "@bl/redis";
+
+import type { GlobalSettings, Settings } from "@bl/db/client";
 
 // ---------------------------------------------------------------------------
 // Per-guild config cache.

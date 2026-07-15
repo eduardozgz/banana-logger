@@ -1,8 +1,8 @@
 import type { Guild } from "discord.js";
-
-import type { GlobalSettings } from "@bl/db/client";
 import { db } from "@bl/db";
 import { publishConfigInvalidation } from "@bl/redis";
+
+import type { GlobalSettings } from "@bl/db/client";
 
 import { toggleArrayItem } from "~/utils/toggleArrayItem";
 import { getGuildConfig, invalidateGuildConfig } from "./configCache";
@@ -77,5 +77,3 @@ export class GlobalSettingsService {
     return wasAdded;
   }
 }
-
-export default GlobalSettingsService;

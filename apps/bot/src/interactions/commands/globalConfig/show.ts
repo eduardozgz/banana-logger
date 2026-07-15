@@ -2,7 +2,7 @@ import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 import { bold, channelMention, underline, userMention } from "discord.js";
 
 import type { CommandHandle } from "~/structures";
-import GlobalSettingsService from "~/services/GlobalSettingsService";
+import { GlobalSettingsService } from "~/services/settings";
 import BananaLoggerEmbed from "~/utils/BananaLoggerEmbed";
 import { listFormat } from "~/utils/listFormat";
 import Paginator from "~/utils/Paginator";
