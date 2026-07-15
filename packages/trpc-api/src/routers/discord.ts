@@ -1,17 +1,15 @@
-import { REST } from "@discordjs/rest";
-import { TRPCError } from "@trpc/server";
-import { Routes } from "discord-api-types/v10";
-import SuperJSON from "superjson";
-import { z } from "zod/v4";
-
 import type { APIUser } from "discord-api-types/v10";
-
 import { cachedFetch } from "@bl/common/redis/cachedFetch";
 import {
   discordGuildCacheKey,
   discordIdentityCacheKey,
 } from "@bl/common/redis/keys";
 import { REQUEST_TIMEOUT_MESSAGE } from "@bl/trpc-redis/Constants";
+import { REST } from "@discordjs/rest";
+import { TRPCError } from "@trpc/server";
+import { Routes } from "discord-api-types/v10";
+import SuperJSON from "superjson";
+import { z } from "zod/v4";
 
 import { botAPIConsumer } from "../botAPI";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
@@ -66,7 +64,7 @@ export const discordRouter = createTRPCRouter({
     return {
       id: user.id,
       username: user.username,
-      discriminator: user.discriminator ?? "0",
+      discriminator: user.discriminator,
       avatar: avatarUrl,
     };
   }),

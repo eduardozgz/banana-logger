@@ -28,6 +28,7 @@
     "zod": "catalog:"
   },
   "devDependencies": {
+    "@bl/eslint-config": "workspace:*",
     "@tailwindcss/vite": "catalog:tailwindcss4",
     "@types/react": "catalog:react19",
     "@types/react-dom": "catalog:react19",
