@@ -1,9 +1,4 @@
 import baseConfig from "@bl/eslint-config/base";
 
 /** @type {import('typescript-eslint').Config} */
-export default [
-  {
-    ignores: ["prisma/generated/**/*"],
-  },
-  ...baseConfig,
-];
+export default [...baseConfig];

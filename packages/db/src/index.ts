@@ -174,27 +174,3 @@ export const db = {
   /** Close the underlying connection (called on graceful shutdown). */
   close: connection.close,
 };
-
-// ---------------------------------------------------------------------------
-// Error mapping (kept from the Prisma version's public surface).
-// ---------------------------------------------------------------------------
-
-export class NotFoundError extends Error {}
-export class ConflictError extends Error {}
-
-/** True for a unique-constraint violation on SQLite or Postgres. */
-export function isUniqueViolation(error: unknown): boolean {
-  if (typeof error !== "object" || error === null) return false;
-  const code = (error as { code?: unknown }).code;
-  // libsql/SQLite: SQLITE_CONSTRAINT_UNIQUE / _PRIMARYKEY; Postgres: 23505.
-  return (
-    code === "SQLITE_CONSTRAINT_UNIQUE" ||
-    code === "SQLITE_CONSTRAINT_PRIMARYKEY" ||
-    code === "23505"
-  );
-}
-
-export const handleDBError = (error: unknown): never => {
-  if (isUniqueViolation(error)) throw new ConflictError();
-  throw error;
-};

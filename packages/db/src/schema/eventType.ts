@@ -1,6 +1,6 @@
-// Ported from the former Prisma `enum EventType`. Kept as a const object
-// (not a bare union) so it can be used as a value: Object.values(EventType),
-// z.enum(EventType), EventType.guildUpdateName, etc.
+// The loggable Discord event types, as a const object (not a bare union) so it
+// can be used as a value: Object.values(EventType), z.enum(EventType),
+// EventType.guildUpdateName, etc.
 export const EventType = {
   guildUpdateName: "guildUpdateName",
   guildUpdateDescription: "guildUpdateDescription",
