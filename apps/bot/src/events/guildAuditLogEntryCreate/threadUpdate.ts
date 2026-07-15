@@ -59,14 +59,12 @@ const threadUpdateChangesTransformers = {
   },
   rate_limit_per_user: (i18n, change) => {
     return {
-      old:
-        change.old !== undefined
-          ? formatTimeDuration(i18n.language, change.old)
-          : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
-      new:
-        change.new !== undefined
-          ? formatTimeDuration(i18n.language, change.new)
-          : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
+      old: change.old
+        ? formatTimeDuration(i18n.language, change.old)
+        : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
+      new: change.new
+        ? formatTimeDuration(i18n.language, change.new)
+        : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
     };
   },
   flags: (i18n, change) => {

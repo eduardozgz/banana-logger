@@ -14,6 +14,10 @@ function decomposeDuration(totalSeconds: number): DurationInput {
   if (minutes) result.minutes = minutes;
   if (seconds) result.seconds = seconds;
 
+  // DurationFormat.format({}) throws "Invalid duration format", so never return
+  // an empty record (e.g. a duration of 0).
+  if (Object.keys(result).length === 0) result.seconds = 0;
+
   return result;
 }
 

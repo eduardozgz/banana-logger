@@ -157,14 +157,12 @@ const channelUpdateChangesTransformers = {
   },
   bitrate: (i18n, change) => {
     return {
-      old:
-        change.old !== undefined
-          ? formatBandwidth(i18n.language, change.old)
-          : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
-      new:
-        change.new !== undefined
-          ? formatBandwidth(i18n.language, change.new)
-          : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
+      old: change.old
+        ? formatBandwidth(i18n.language, change.old)
+        : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
+      new: change.new
+        ? formatBandwidth(i18n.language, change.new)
+        : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
     };
   },
   rate_limit_per_user: (i18n, change) => {
@@ -233,14 +231,12 @@ const channelUpdateChangesTransformers = {
   },
   default_thread_rate_limit_per_user: (i18n, change) => {
     return {
-      old:
-        change.old !== undefined
-          ? formatTimeDuration(i18n.language, change.old)
-          : i18n.t("main:eventDataTransformers.common.none"),
-      new:
-        change.new !== undefined
-          ? formatTimeDuration(i18n.language, change.new)
-          : i18n.t("main:eventDataTransformers.common.none"),
+      old: change.old
+        ? formatTimeDuration(i18n.language, change.old)
+        : i18n.t("main:eventDataTransformers.common.none"),
+      new: change.new
+        ? formatTimeDuration(i18n.language, change.new)
+        : i18n.t("main:eventDataTransformers.common.none"),
     };
   },
   available_tags: (i18n, change) => {
