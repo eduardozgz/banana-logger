@@ -43,19 +43,25 @@ const AUTOSAVE_DEBOUNCE_MS = 10_000;
 
 export function useFormManager<OT, IT>(
   query: UseQueryResult<OT, unknown>,
-  // Only mutateAsync is used, so require just that. Narrowing here avoids the
-  // variance mismatch of the full UseMutationResult (whose mutate/onSuccess
-  // callbacks make a concrete tRPC mutation unassignable to a `TData: unknown`
-  // parameter).
+  // Only mutateAsync and isPending are used, so require just those. Narrowing
+  // here avoids the variance mismatch of the full UseMutationResult (whose
+  // mutate/onSuccess callbacks make a concrete tRPC mutation unassignable to a
+  // `TData: unknown` parameter).
   mutation: Pick<
     UseMutationResult<unknown, unknown, IT, unknown>,
-    "mutateAsync"
+    "mutateAsync" | "isPending"
   >,
   key: string,
   autosave = false,
 ): FormManager<OT> {
   const [isDirty, setIsDirty] = useState(false);
-  const [isSaving, setIsSaving] = useState(false);
+  // Drives the SAVING state. Sourced from react-query (a useSyncExternalStore
+  // store) rather than a local useState: manual saves run inside the
+  // `<form action={save}>` React transition, which defers/coalesces local
+  // setState updates — so an in-flight (or hanging) save would never commit a
+  // visible SAVING frame. isPending is an urgent external-store update, so it
+  // flips reliably even inside the transition.
+  const isSaving = mutation.isPending;
   const [mutableData, _setMutableData] = useState<OT | null>(
     query.data ? (structuredClone(query.data) as OT) : null,
   );
@@ -99,7 +105,6 @@ export function useFormManager<OT, IT>(
 
   const submitData = async () => {
     if (!mutableData) return;
-    setIsSaving(true);
     setAutosaveDeadline(null);
 
     await mutation
@@ -118,8 +123,7 @@ export function useFormManager<OT, IT>(
         // unhandled rejection. isDirty stays true, so the form remains UNSAVED
         // and can be retried.
         showError(error);
-      })
-      .finally(() => setIsSaving(false));
+      });
   };
 
   const state: FormManagerState = isSaving

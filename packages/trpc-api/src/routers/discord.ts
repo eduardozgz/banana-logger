@@ -13,6 +13,7 @@ import { z } from "zod/v4";
 
 import { botAPIConsumer } from "../botAPI";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
+import { assertManageGuild } from "../utils/checkUserPermissions";
 import { handleUnauthorizedDiscordError } from "../utils/discordErrors";
 import { Errors } from "../utils/errors";
 import {
@@ -99,6 +100,11 @@ export const discordRouter = createTRPCRouter({
   getGuild: protectedProcedure
     .input(z.object({ id: z.string() }))
     .query(async ({ ctx, input }) => {
+      // Authorization: only members who can manage this guild may read its
+      // snapshot (name, icon, member count, channel list). Without this, any
+      // authenticated user could read any guild the bot is in by id (IDOR).
+      await assertManageGuild(ctx.redis, ctx.session, input.id);
+
       return cachedFetch<GuildSnapshot>({
         redis: ctx.redis,
         key: discordGuildCacheKey(input.id),

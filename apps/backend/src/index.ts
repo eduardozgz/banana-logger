@@ -12,7 +12,7 @@ import morgan from "morgan";
 import { refreshTokenIfNeeded } from "~/auth/oauth";
 import { env } from "~/env";
 import authRouter from "~/routes/auth";
-import { getSession, setSession } from "~/session";
+import { destroySession, getSession, setSession } from "~/session";
 import { errorHandler } from "./middlewares/errorHandler";
 import { errorHandlerZod } from "./middlewares/errorHandlerZod";
 
@@ -53,10 +53,17 @@ app.use(
       let session = await getSession(req);
       const refreshedSession = await refreshTokenIfNeeded(session);
 
-      // If session was refreshed, update the cookie
-      if (refreshedSession && refreshedSession !== session) {
+      // A changed result means either a successful refresh (new session) or a
+      // failed one (null) for a session that was present but expired. On null,
+      // clear the cookie and drop the session — otherwise an expired/revoked
+      // session would keep being accepted until the cookie's maxAge.
+      if (refreshedSession !== session) {
         session = refreshedSession;
-        await setSession(res, session);
+        if (session) {
+          await setSession(res, session);
+        } else {
+          destroySession(res);
+        }
       }
 
       // Create tRPC context

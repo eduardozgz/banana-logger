@@ -32,23 +32,29 @@ export default function Layout() {
   const guild = userGuilds.data?.userGuilds.get(guildId);
   const canManage = guild?.hasManageGuild ?? false;
 
-  const isLoading = !userGuilds.isSuccess || !has.isSuccess;
+  const loadingSkeleton = (
+    <div className="m-auto flex min-h-full flex-col items-center justify-center gap-4 p-6">
+      <Skeleton className="h-8 w-48 rounded-xl" />
+      <Skeleton className="h-4 w-64 rounded-xl" />
+    </div>
+  );
 
-  if (isLoading) {
-    return (
-      <div className="m-auto flex min-h-full flex-col items-center justify-center gap-4 p-6">
-        <Skeleton className="h-8 w-48 rounded-xl" />
-        <Skeleton className="h-4 w-64 rounded-xl" />
-      </div>
-    );
+  // Wait for the guild list first — it decides manage permission and, unlike
+  // guild.has, does not error for non-managers.
+  if (userGuilds.isPending) return loadingSkeleton;
+
+  // Decide "forbidden" from the guild list, NOT from guild.has: that query throws
+  // FORBIDDEN for non-managers, so gating the exit-loading on its success left
+  // the page stuck on the skeleton forever.
+  if (!canManage) {
+    return <ForbiddenPage />;
   }
+
+  // Manager: now gate on the bot-presence check.
+  if (has.isPending) return loadingSkeleton;
 
   if (!has.data) {
     return <InviteBotPage />;
-  }
-
-  if (!canManage) {
-    return <ForbiddenPage />;
   }
 
   return (
