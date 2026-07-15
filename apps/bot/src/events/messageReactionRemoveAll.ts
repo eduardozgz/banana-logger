@@ -1,6 +1,5 @@
-import { channelMention } from "discord.js";
-
 import { initI18n } from "@bl/i18n";
+import { channelMention } from "discord.js";
 
 import { LogService } from "~/services/LogService";
 import { EventHandler } from "~/structures";
@@ -10,6 +9,7 @@ export const messageReactionRemoveAllEvent = new EventHandler({
   handler: async (_client, message, _reactions) => {
     if (!message.inGuild()) return;
 
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (message.partial) {
       try {
         await message.fetch();

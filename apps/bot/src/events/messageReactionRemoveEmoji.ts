@@ -1,6 +1,5 @@
-import { channelMention, formatEmoji } from "discord.js";
-
 import { initI18n } from "@bl/i18n";
+import { channelMention, formatEmoji } from "discord.js";
 
 import { LogService } from "~/services/LogService";
 import { EventHandler } from "~/structures";
@@ -11,6 +10,7 @@ export const messageReactionRemoveEmojiEvent = new EventHandler({
   handler: async (_client, reaction) => {
     if (!reaction.message.inGuild()) return;
 
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (reaction.message.partial) {
       try {
         await reaction.message.fetch();
