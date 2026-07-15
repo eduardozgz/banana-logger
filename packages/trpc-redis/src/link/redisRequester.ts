@@ -84,6 +84,9 @@ export const setupRedisRequester = async ({
     reject: (error: unknown) => void,
   ) =>
     setTimeout(() => {
+      // On a genuine timeout no response ever settles this request, so drop its
+      // map entry here — otherwise it leaks permanently.
+      pendingRequests.delete(requestMessage.id);
       reject(new Error(REQUEST_TIMEOUT_MESSAGE, { cause: requestMessage }));
     }, requestTimeout);
 
