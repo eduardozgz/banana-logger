@@ -6,7 +6,7 @@ import { db, dialect, runMigrations } from "./index";
 async function main() {
   await runMigrations();
   console.info(`Migrations applied (${dialect}).`);
-  db.close();
+  await db.close();
 }
 
 void main();

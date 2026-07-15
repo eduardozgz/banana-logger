@@ -70,7 +70,7 @@ async function main() {
     failures === 0 ? "\nALL PASSED ✓" : `\n${failures} CHECK(S) FAILED ✗`,
   );
   await stopConfigCacheInvalidation();
-  db.close();
+  await db.close();
   process.exit(failures === 0 ? 0 : 1);
 }
 

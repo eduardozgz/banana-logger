@@ -88,6 +88,10 @@ export const guildRouter = createTRPCRouter({
   setLogChannelEvents: guildProcedure
     .input(channelInput.extend({ watchingEvents: z.array(z.enum(EventType)) }))
     .mutation(async ({ ctx, input }) => {
+      // Guard first: patch() is an upsert, so without this a stale autosave to a
+      // channel that was just deleted would re-INSERT it and silently resume
+      // logging. Matches the sibling toggle mutations.
+      await requireLogChannel(ctx.db, input.guildId, input.channelId);
       // Dedupe defensively — the array is supplied by the client.
       return ctx.db.settings.patch(input.guildId, input.channelId, {
         watchingEvents: [...new Set(input.watchingEvents)],

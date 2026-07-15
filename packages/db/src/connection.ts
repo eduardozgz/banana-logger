@@ -37,8 +37,8 @@ export interface Connection {
   /** Active dialect's table objects, typed as the SQLite schema. */
   tables: SqliteTables;
   dialect: Dialect;
-  /** Close the underlying connection (called on graceful shutdown). */
-  close: () => void;
+  /** Close the underlying connection, draining in-flight work (graceful shutdown). */
+  close: () => Promise<void>;
   /** Apply the generated migrations for the active dialect. */
   runMigrations: () => Promise<void>;
 }
@@ -82,9 +82,7 @@ function createConnection(): Connection {
       orm: orm as unknown as SqliteOrm,
       tables: pgSchema.schema as unknown as SqliteTables,
       dialect: "pg",
-      close: () => {
-        void client.end();
-      },
+      close: () => client.end(),
       runMigrations: () =>
         migratePg(orm, { migrationsFolder: migrationsFolder("pg") }),
     };
@@ -98,6 +96,7 @@ function createConnection(): Connection {
       dialect: "sqlite",
       close: () => {
         client.close();
+        return Promise.resolve();
       },
       runMigrations: () =>
         migrateLibsql(orm, { migrationsFolder: migrationsFolder("sqlite") }),

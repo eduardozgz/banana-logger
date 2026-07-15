@@ -28,6 +28,11 @@ const cache = new Map<string, { value: GuildConfig; expiresAt: number }>();
 // Dedupes concurrent loads for the same guild — a burst of events on a cold
 // entry issues one query, not one per event.
 const inflight = new Map<string, Promise<GuildConfig>>();
+// Per-guild version, bumped on every invalidation. A load captures it before
+// querying and only caches its result if it hasn't changed since — otherwise a
+// write (and its invalidation) that lands mid-load would be clobbered by the
+// pre-write snapshot and served until the TTL.
+const generation = new Map<string, number>();
 
 async function load(guildId: string): Promise<GuildConfig> {
   const [settings, globalSettings] = await Promise.all([
@@ -49,9 +54,13 @@ export async function getGuildConfig(guildId: string): Promise<GuildConfig> {
   const existing = inflight.get(guildId);
   if (existing) return existing;
 
+  const loadedAt = generation.get(guildId) ?? 0;
   const pending = load(guildId)
     .then((value) => {
-      cache.set(guildId, { value, expiresAt: Date.now() + TTL_MS });
+      // Skip caching if an invalidation raced this load; the next read reloads.
+      if ((generation.get(guildId) ?? 0) === loadedAt) {
+        cache.set(guildId, { value, expiresAt: Date.now() + TTL_MS });
+      }
       return value;
     })
     .finally(() => {
@@ -64,6 +73,7 @@ export async function getGuildConfig(guildId: string): Promise<GuildConfig> {
 /** Drop a guild's cached config (call right after writing its config). */
 export function invalidateGuildConfig(guildId: string): void {
   cache.delete(guildId);
+  generation.set(guildId, (generation.get(guildId) ?? 0) + 1);
 }
 
 let subscriber: ReturnType<typeof redis.duplicate> | undefined;

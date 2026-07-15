@@ -136,7 +136,7 @@ async function main() {
       ? "\nALL PASSED ✓"
       : `\n${failures} CHECK(S) FAILED ✗`,
   );
-  db.close();
+  await db.close();
   process.exit(failures === 0 ? 0 : 1);
 }
 

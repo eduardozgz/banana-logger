@@ -47,7 +47,7 @@ async function main() {
     Promise.all([
       botClient.destroy(),
       stopConfigCacheInvalidation(),
-      Promise.resolve(db.close()),
+      db.close(),
     ])
       .catch((error: unknown) => {
         logger.error("Error while trying to gracefully shutdown:", { error });
