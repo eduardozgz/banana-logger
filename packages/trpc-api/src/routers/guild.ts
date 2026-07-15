@@ -29,6 +29,12 @@ const guildProcedure = protectedProcedure
     return result;
   });
 
+// NOTE: the toggle* mutations below read the row (requireLogChannel), mutate the
+// array here, then patch() the whole column — a non-atomic read-modify-write, so
+// two concurrent toggles on the same channel could lose one update. Safe today
+// because nothing calls these (the dashboard edits events via the atomic
+// setLogChannelEvents); if a concurrent caller is ever added, move the toggle
+// into a transaction or an atomic array update.
 function toggleArrayItem<T>(array: T[], item: T): T[] {
   const result = [...array];
   const index = result.indexOf(item);
