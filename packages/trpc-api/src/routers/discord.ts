@@ -15,6 +15,7 @@ import { REQUEST_TIMEOUT_MESSAGE } from "@bl/trpc-redis/Constants";
 
 import { botAPIConsumer } from "../botAPI";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
+import { assertManageGuild } from "../utils/checkUserPermissions";
 import { handleUnauthorizedDiscordError } from "../utils/discordErrors";
 import { Errors } from "../utils/errors";
 import {
@@ -66,7 +67,7 @@ export const discordRouter = createTRPCRouter({
     return {
       id: user.id,
       username: user.username,
-      discriminator: user.discriminator ?? "0",
+      discriminator: user.discriminator,
       avatar: avatarUrl,
     };
   }),
@@ -101,6 +102,11 @@ export const discordRouter = createTRPCRouter({
   getGuild: protectedProcedure
     .input(z.object({ id: z.string() }))
     .query(async ({ ctx, input }) => {
+      // Authorization: only members who can manage this guild may read its
+      // snapshot (name, icon, member count, channel list). Without this, any
+      // authenticated user could read any guild the bot is in by id (IDOR).
+      await assertManageGuild(ctx.redis, ctx.session, input.id);
+
       return cachedFetch<GuildSnapshot>({
         redis: ctx.redis,
         key: discordGuildCacheKey(input.id),
