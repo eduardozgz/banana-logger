@@ -1,11 +1,11 @@
 import { createHash } from "node:crypto";
+import { cachedFetch } from "@bl/common/redis/cachedFetch";
+import { discordUserGuildsCacheKey } from "@bl/common/redis/keys";
 import { REST } from "@discordjs/rest";
 import { PermissionFlagsBits, Routes } from "discord-api-types/v10";
 import { z } from "zod/v4";
 
 import type { RedisLike } from "@bl/common/redis/cachedFetch";
-import { cachedFetch } from "@bl/common/redis/cachedFetch";
-import { discordUserGuildsCacheKey } from "@bl/common/redis/keys";
 
 import { handleUnauthorizedDiscordError } from "./discordErrors";
 

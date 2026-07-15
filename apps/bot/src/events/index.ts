@@ -7,9 +7,9 @@ import { guildMemberRemoveEvent } from "./guildMemberRemove";
 import { interactionCreateEvent } from "./interactionCreate";
 import { messageDeleteEvent } from "./messageDelete";
 import { messageReactionAddEvent } from "./messageReactionAdd";
+import { messageReactionRemoveEvent } from "./messageReactionRemove";
 import { messageReactionRemoveAllEvent } from "./messageReactionRemoveAll";
 import { messageReactionRemoveEmojiEvent } from "./messageReactionRemoveEmoji";
-import { messageReactionRemoveEvent } from "./messageReactionRemove";
 import { messageUpdateEvent } from "./messageUpdate";
 import { voiceStateUpdateEvent } from "./voiceStateUpdate";
 

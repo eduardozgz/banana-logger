@@ -1,9 +1,8 @@
+import { KnownErrorsTypeNames } from "@bl/common/KnownError/index";
 import { TRPCClientError } from "@trpc/client";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { z } from "zod/v4";
-
-import { KnownErrorsTypeNames } from "@bl/common/KnownError/index";
 
 export default function useShowError() {
   const { t } = useTranslation();

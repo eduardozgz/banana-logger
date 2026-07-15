@@ -14,7 +14,13 @@ export const discordRouter = createBotAPIRouter({
       const channels = await guild.channels.fetch();
       const mappedChannels = new Map<
         string,
-        { id: string; name: string; type: ChannelType; parentId: string | null; position: number }
+        {
+          id: string;
+          name: string;
+          type: ChannelType;
+          parentId: string | null;
+          position: number;
+        }
       >();
 
       for (const [id, channel] of channels) {

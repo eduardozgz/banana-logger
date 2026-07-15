@@ -1,7 +1,6 @@
 import type { NextFunction, Request, Response } from "express";
-import { ZodError } from "zod/v4";
-
 import { KnownError } from "@bl/common/KnownError/index";
+import { ZodError } from "zod/v4";
 
 export const errorHandlerZod = (
   err: unknown,

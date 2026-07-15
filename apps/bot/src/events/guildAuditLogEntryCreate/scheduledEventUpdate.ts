@@ -68,7 +68,9 @@ function formatRecurrenceRule(rule: unknown, fallback: string): string {
   const r = rule as RecurrenceRule;
   const parts: string[] = [];
   const freq = FREQUENCY_NAMES[r.frequency] ?? `Frequency ${r.frequency}`;
-  parts.push(r.interval > 1 ? `Every ${r.interval} ${freq.toLowerCase()}s` : freq);
+  parts.push(
+    r.interval > 1 ? `Every ${r.interval} ${freq.toLowerCase()}s` : freq,
+  );
   if (r.by_weekday?.length) {
     parts.push(
       `on ${r.by_weekday.map((d) => WEEKDAY_NAMES[d] ?? String(d)).join(", ")}`,

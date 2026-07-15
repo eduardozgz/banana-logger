@@ -1,9 +1,10 @@
+import { EVENT_PRESETS, PRESET_NAMES } from "@bl/common/eventPresets";
 import { EventType } from "@bl/db/client";
 import { publishConfigInvalidation } from "@bl/redis";
-import { EVENT_PRESETS, PRESET_NAMES } from "@bl/common/eventPresets";
-import type { PresetName } from "@bl/common/eventPresets";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod/v4";
+
+import type { PresetName } from "@bl/common/eventPresets";
 
 import type { TRPCContext } from "../context";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
@@ -53,7 +54,10 @@ async function requireLogChannel(
 ) {
   const settings = await db.settings.get(guildId, channelId);
   if (!settings) {
-    throw new TRPCError({ code: "NOT_FOUND", message: "Log channel not found" });
+    throw new TRPCError({
+      code: "NOT_FOUND",
+      message: "Log channel not found",
+    });
   }
   return settings;
 }

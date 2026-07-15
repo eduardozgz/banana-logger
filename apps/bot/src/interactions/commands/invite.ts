@@ -1,11 +1,10 @@
+import { getBotInviteLink } from "@bl/common/getBotInviteLink";
 import {
   ActionRowBuilder,
   ButtonBuilder,
   SlashCommandBuilder,
 } from "@discordjs/builders";
 import { ButtonStyle, InteractionContextType } from "discord.js";
-
-import { getBotInviteLink } from "@bl/common/getBotInviteLink";
 
 import { Command } from "~/structures";
 import BananaLoggerEmbed from "~/utils/BananaLoggerEmbed";

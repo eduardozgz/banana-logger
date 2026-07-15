@@ -1,6 +1,5 @@
-import { CookiesProvider } from "react-cookie";
-
 import { Toaster } from "@bl/ui/components/sonner";
+import { CookiesProvider } from "react-cookie";
 
 import { I18nProvider } from "~/lib/i18n/provider";
 import { TRPCReactProvider } from "~/lib/trpc";

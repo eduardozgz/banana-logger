@@ -1,8 +1,7 @@
+import { Separator } from "@bl/ui/components/separator";
 import { IconSettings } from "@tabler/icons-react";
 import { useTranslation } from "react-i18next";
 import { Outlet } from "react-router";
-
-import { Separator } from "@bl/ui/components/separator";
 
 import { MenuButton } from "../../../Menu";
 
@@ -11,7 +10,7 @@ export default function Layout() {
 
   return (
     <div className="flex h-full flex-col">
-      <div className="flex h-[48px] w-full flex-shrink-0 flex-row items-center justify-center pl-3 pr-1 font-semibold">
+      <div className="flex h-[48px] w-full flex-shrink-0 flex-row items-center justify-center pr-1 pl-3 font-semibold">
         <IconSettings className="mr-3 h-5 w-5 sm:hidden" aria-hidden />
         <h1>{t("pages.dashboard.servers.settings.title")}</h1>
         <MenuButton />

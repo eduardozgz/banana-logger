@@ -1,6 +1,5 @@
-import { userMention } from "discord.js";
-
 import { initI18n } from "@bl/i18n";
+import { userMention } from "discord.js";
 
 import { LogService } from "~/services/LogService";
 import { EventHandler } from "~/structures";

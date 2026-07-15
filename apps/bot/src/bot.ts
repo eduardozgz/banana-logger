@@ -1,7 +1,6 @@
-import { Client, Partials } from "discord.js";
-
 import { botIntents } from "@bl/common/botIntents";
 import { redis } from "@bl/redis";
+import { Client, Partials } from "discord.js";
 
 import type { BotInstanceOptions } from "~/@types/BotInstanceOptions";
 import { setupBotAPIProvider } from "./botAPI/provider";

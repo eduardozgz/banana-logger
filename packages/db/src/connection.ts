@@ -1,11 +1,10 @@
+import baseLogger from "@bl/logger";
 import { createClient } from "@libsql/client";
 import { drizzle as drizzleLibsql } from "drizzle-orm/libsql";
 import { migrate as migrateLibsql } from "drizzle-orm/libsql/migrator";
 import { drizzle as drizzlePg } from "drizzle-orm/postgres-js";
 import { migrate as migratePg } from "drizzle-orm/postgres-js/migrator";
 import postgres from "postgres";
-
-import baseLogger from "@bl/logger";
 
 import { env } from "./env";
 import * as pgSchema from "./schema/pg";

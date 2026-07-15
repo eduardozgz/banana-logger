@@ -1,8 +1,7 @@
 import { createServer } from "node:http";
+import baseLogger from "@bl/logger";
 import { proxyRequests } from "@discordjs/proxy";
 import { REST, RESTEvents } from "@discordjs/rest";
-
-import baseLogger from "@bl/logger";
 
 import { env } from "./env";
 

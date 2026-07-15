@@ -39,9 +39,7 @@
       "indexes": {
         "GlobalSettings_guildId_key": {
           "name": "GlobalSettings_guildId_key",
-          "columns": [
-            "guildId"
-          ],
+          "columns": ["guildId"],
           "isUnique": true
         }
       },
@@ -113,10 +111,7 @@
       "indexes": {
         "Settings_guildId_channelId_key": {
           "name": "Settings_guildId_channelId_key",
-          "columns": [
-            "guildId",
-            "channelId"
-          ],
+          "columns": ["guildId", "channelId"],
           "isUnique": true
         }
       },
@@ -154,9 +149,7 @@
       "indexes": {
         "User_discordUserId_key": {
           "name": "User_discordUserId_key",
-          "columns": [
-            "discordUserId"
-          ],
+          "columns": ["discordUserId"],
           "isUnique": true
         }
       },

@@ -3,9 +3,8 @@ import type {
   ChatInputCommandInteraction,
   CommandInteraction,
 } from "discord.js";
-import { MessageFlags } from "discord.js";
-
 import { i18nDefault } from "@bl/i18n";
+import { MessageFlags } from "discord.js";
 
 import type { Command } from "~/structures/Command";
 import { initI18nFromInteraction } from "~/utils/initI18nFromInteraction";

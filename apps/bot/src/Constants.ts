@@ -1,5 +1,4 @@
 import { randomUUID } from "node:crypto";
-
 import { EventType } from "@bl/db/client";
 
 import { env } from "./env";
@@ -1067,4 +1066,3 @@ export type { PresetName } from "@bl/common/eventPresets";
 export const ALL_EVENTS_CHOICE = "all";
 
 export const PRESET_PREFIX = "preset:";
-

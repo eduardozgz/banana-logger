@@ -35,7 +35,9 @@ if (env.NODE_ENV !== "production") globalForRedis.redis = redis;
 export const CONFIG_INVALIDATION_CHANNEL = "config:invalidate";
 
 /** Notify all bot pods that a guild's config changed. Never throws. */
-export async function publishConfigInvalidation(guildId: string): Promise<void> {
+export async function publishConfigInvalidation(
+  guildId: string,
+): Promise<void> {
   try {
     await redis.publish(CONFIG_INVALIDATION_CHANNEL, guildId);
   } catch (error) {

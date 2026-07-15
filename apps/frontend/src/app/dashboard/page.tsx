@@ -1,11 +1,10 @@
 import { useEffect } from "react";
+import { routes } from "@bl/common/Routes";
+import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { useTypedParams } from "react-router-typesafe-routes";
 
-import { routes } from "@bl/common/Routes";
-
 import { useNavigate } from "~/lib/navigation";
-import { useQuery } from "@tanstack/react-query";
 import { useTRPC } from "~/lib/trpc";
 
 export default function Page() {

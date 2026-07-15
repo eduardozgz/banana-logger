@@ -28,8 +28,7 @@ function formatPromptChanges(
             optParts.push(
               `channels: ${o.channel_ids.map((id) => channelMention(id)).join(", ")}`,
             );
-          if (o.role_ids?.length)
-            optParts.push(`${o.role_ids.length} role(s)`);
+          if (o.role_ids?.length) optParts.push(`${o.role_ids.length} role(s)`);
           return optParts.join(" — ");
         })
         .join("\n");

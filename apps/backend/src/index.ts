@@ -1,14 +1,13 @@
+import logger from "@bl/logger";
+import { redis } from "@bl/redis";
+import { appRouter, createTRPCContext } from "@bl/trpc-api";
+import { initBotAPIConsumer } from "@bl/trpc-api/botAPI";
 import * as trpcExpress from "@trpc/server/adapters/express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import express from "express";
 import helmet from "helmet";
 import morgan from "morgan";
-
-import logger from "@bl/logger";
-import { redis } from "@bl/redis";
-import { appRouter, createTRPCContext } from "@bl/trpc-api";
-import { initBotAPIConsumer } from "@bl/trpc-api/botAPI";
 
 import { refreshTokenIfNeeded } from "~/auth/oauth";
 import { env } from "~/env";

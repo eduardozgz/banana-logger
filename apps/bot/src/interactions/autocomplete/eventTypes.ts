@@ -1,5 +1,4 @@
 import type { ApplicationCommandOptionChoiceData } from "discord.js";
-
 import { EventType } from "@bl/db/client";
 import { i18nDefault } from "@bl/i18n";
 

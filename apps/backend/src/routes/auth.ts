@@ -1,9 +1,8 @@
 import crypto from "node:crypto";
 import type { Request, Response } from "express";
+import logger from "@bl/logger";
 import { Router } from "express";
 import z from "zod/v4";
-
-import logger from "@bl/logger";
 
 import { exchangeTokens, getOAuth2Url } from "~/auth/oauth";
 import { env } from "~/env";

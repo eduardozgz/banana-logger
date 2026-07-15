@@ -1,10 +1,10 @@
-import type { Session } from "@bl/validators/Session";
 import type { APIUser } from "discord-api-types/v10";
-import { OAuth2Routes, Routes } from "discord-api-types/v10";
-import { REST } from "@discordjs/rest";
-
 import logger from "@bl/logger";
 import { DiscordOAuth2TokenExchangeResponseSchema } from "@bl/validators/DiscordOAuth2TokenExchangeResponse";
+import { REST } from "@discordjs/rest";
+import { OAuth2Routes, Routes } from "discord-api-types/v10";
+
+import type { Session } from "@bl/validators/Session";
 
 import { env } from "~/env";
 
