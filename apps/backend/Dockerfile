@@ -35,6 +35,8 @@ RUN apk add --no-cache jq
 WORKDIR /app
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nodejs
+# Seed the SQLite storage dir owned by the run user (see packages/db/Dockerfile).
+RUN mkdir -p /app/storage && chown nodejs:nodejs /app/storage
 USER nodejs
 COPY --from=prod_deps /app/node_modules ./node_modules
 COPY --from=repo /app/apps/backend/package.json .

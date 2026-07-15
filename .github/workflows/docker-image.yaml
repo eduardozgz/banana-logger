@@ -173,6 +173,13 @@ jobs:
           file: apps/frontend/Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
+          # VITE_* values are inlined into the static build. Configure these as
+          # repository variables (Settings → Secrets and variables → Actions →
+          # Variables); VITE_DISCORD_CLIENT_ID is required for the invite links.
+          build-args: |
+            VITE_DISCORD_CLIENT_ID=${{ vars.VITE_DISCORD_CLIENT_ID }}
+            VITE_SUPPORT_URL=${{ vars.VITE_SUPPORT_URL }}
+            VITE_BOT_REPO_URL=${{ vars.VITE_BOT_REPO_URL }}
           cache-from: type=registry,ref=ghcr.io/eduardozgz/banana-logger-frontend:build-cache
           cache-to: type=registry,ref=ghcr.io/eduardozgz/banana-logger-frontend:build-cache,mode=max
           tags: |

@@ -24,6 +24,9 @@ WORKDIR /app
 # Don't run production as root
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nodejs
+# Seed the SQLite storage dir owned by the run user so a fresh named volume
+# mounted here inherits uid-1001 ownership (avoids EACCES on first migrate).
+RUN mkdir -p /app/storage && chown nodejs:nodejs /app/storage
 USER nodejs
 
 COPY --from=deps /app/node_modules ./node_modules

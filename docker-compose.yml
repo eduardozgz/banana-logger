@@ -2,7 +2,7 @@ services:
   bot:
     env_file: .env
     environment:
-      DATABASE_URL: file:/app/storage/banana-logger.db
+      DATABASE_URL: ${DATABASE_URL:-file:/app/storage/banana-logger.db}
     container_name: banana-logger-bot
     image: ghcr.io/eduardozgz/banana-logger-bot:latest
     restart: always
@@ -12,7 +12,7 @@ services:
       db-migrate:
         condition: service_completed_successfully
     volumes:
-      - ./storage:/app/storage
+      - storage:/app/storage
     networks:
       - banana-logger
 
@@ -37,7 +37,10 @@ services:
   backend:
     env_file: .env
     environment:
-      DATABASE_URL: file:/app/storage/banana-logger.db
+      DATABASE_URL: ${DATABASE_URL:-file:/app/storage/banana-logger.db}
+      # The server binds BACKEND_PORT (defaults to 8080); pin it to the port the
+      # host mapping below forwards to.
+      BACKEND_PORT: 3000
     container_name: banana-logger-backend
     image: ghcr.io/eduardozgz/banana-logger-backend:latest
     ports:
@@ -47,7 +50,7 @@ services:
       db-migrate:
         condition: service_completed_successfully
     volumes:
-      - ./storage:/app/storage
+      - storage:/app/storage
     networks:
       - banana-logger
 
@@ -56,13 +59,15 @@ services:
   db-migrate:
     env_file: .env
     environment:
-      DATABASE_URL: file:/app/storage/banana-logger.db
+      DATABASE_URL: ${DATABASE_URL:-file:/app/storage/banana-logger.db}
     container_name: banana-logger-db-migrate
     image: ghcr.io/eduardozgz/banana-logger-db-utils:latest
-    command: ["pnpm", "-F", "@bl/db", "migrate"]
+    # Run the migrator directly: env is injected by compose, so skip the
+    # `with-env` wrapper (which expects a ../../.env file that isn't in the image).
+    command: ["pnpm", "-F", "@bl/db", "exec", "tsx", "src/migrate.ts"]
     restart: "no"
     volumes:
-      - ./storage:/app/storage
+      - storage:/app/storage
     networks:
       - banana-logger
 
@@ -75,6 +80,12 @@ services:
       - banana-logger
     ports:
       - "6379:6379"
+
+# Named volume for the SQLite database. A named volume (rather than a bind mount)
+# inherits the image's uid-1001 ownership on first use, so the non-root
+# containers can write it without a host-side chown.
+volumes:
+  storage:
 
 networks:
   banana-logger:
