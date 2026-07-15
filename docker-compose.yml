@@ -38,8 +38,6 @@ services:
     env_file: .env
     environment:
       DATABASE_URL: ${DATABASE_URL:-file:/app/storage/banana-logger.db}
-      # The server binds BACKEND_PORT (defaults to 8080); pin it to the port the
-      # host mapping below forwards to.
       BACKEND_PORT: 3000
     container_name: banana-logger-backend
     image: ghcr.io/eduardozgz/banana-logger-backend:latest
