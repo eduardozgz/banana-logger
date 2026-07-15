@@ -13,6 +13,7 @@
     "format": "prettier --check . --ignore-path ../../.gitignore",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
+    "test": "vitest run",
     "generate": "pnpm generate:sqlite && pnpm generate:pg",
     "generate:sqlite": "drizzle-kit generate --config=drizzle.sqlite.config.ts",
     "generate:pg": "drizzle-kit generate --config=drizzle.pg.config.ts",
@@ -31,7 +32,8 @@
     "eslint": "catalog:eslint",
     "prettier": "catalog:prettier",
     "tsx": "^4.21.0",
-    "typescript": "catalog:"
+    "typescript": "catalog:",
+    "vitest": "^4.1.2"
   },
   "prettier": "@bl/prettier-config",
   "dependencies": {

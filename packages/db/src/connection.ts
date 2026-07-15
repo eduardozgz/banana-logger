@@ -88,7 +88,7 @@ function createConnection(): Connection {
     };
   }
 
-  if (url.startsWith("file:")) {
+  if (url.startsWith("file:") || url === ":memory:") {
     const { client, orm } = createSqlite();
     return {
       orm,
