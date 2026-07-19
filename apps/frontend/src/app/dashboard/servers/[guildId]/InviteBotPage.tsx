@@ -59,7 +59,7 @@ export function InviteBotPage() {
             {t(
               "pages.dashboard.servers.inviteBotPage.addToServer",
               "Add to {{serverName}}",
-              { serverName: guild?.name ?? "Server" },
+              { serverName: guild.name },
             )}
           </Button>
         </a>

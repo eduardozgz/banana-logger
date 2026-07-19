@@ -4,10 +4,7 @@ import { db } from "@bl/db";
 import type { GlobalSettings } from "@bl/db/client";
 
 import { toggleArrayItem } from "~/utils/toggleArrayItem";
-import {
-  getGuildConfig,
-  invalidateAndPublishGuildConfig,
-} from "./configCache";
+import { getGuildConfig, invalidateAndPublishGuildConfig } from "./configCache";
 
 export class GlobalSettingsService {
   private constructor(private settings: GlobalSettings) {}

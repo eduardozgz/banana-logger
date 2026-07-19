@@ -6,10 +6,7 @@ import type { Settings } from "@bl/db/client";
 
 import { ALL_EVENTS_CHOICE } from "~/Constants";
 import { toggleArrayItem } from "~/utils/toggleArrayItem";
-import {
-  getGuildConfig,
-  invalidateAndPublishGuildConfig,
-} from "./configCache";
+import { getGuildConfig, invalidateAndPublishGuildConfig } from "./configCache";
 import { GlobalSettingsService } from "./GlobalSettingsService";
 
 export class SettingsService {
