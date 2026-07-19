@@ -23,7 +23,7 @@ import type { EmbedTemplatePlaceholders } from "~/Constants";
 import { baseGalleryEmbedUrl, defaultUserAvatarUrl } from "~/Constants";
 import { env } from "~/env";
 import BananaLoggerEmbed from "~/utils/BananaLoggerEmbed";
-import { deepReplaceAll } from "~/utils/deepReplaceAll";
+import { deepRenderPlaceholders } from "~/utils/renderPlaceholders";
 import { SettingsService } from "./settings";
 
 type LogData<E extends EventType> = Partial<
@@ -222,23 +222,19 @@ export class LogService {
           if (!safeTemplates) {
             // Typescript will fail to typecheck this when eventName is "E extend EventType" instead of "EventType"
             const castedEventName: EventType = eventName;
-            let templates: APIEmbed[] = i18n.t(
+            const templates: APIEmbed[] = i18n.t(
               `baseTemplates:${castedEventName}`,
               {
                 returnObjects: true,
               },
             );
 
-            // Process template variables
-            for (const [key, value] of Object.entries(data)) {
-              templates = deepReplaceAll(
+            safeTemplates = enforceEmbedLimits(
+              deepRenderPlaceholders(
                 templates,
-                `{${key}}`,
-                value as string,
-              );
-            }
-
-            safeTemplates = enforceEmbedLimits(templates);
+                data as Record<string, string | undefined>,
+              ),
+            );
           }
 
           const embeds = safeTemplates.map(
