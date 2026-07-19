@@ -29,8 +29,9 @@ export default function Layout() {
 
   if (!guildId) return null;
 
+  // userGuilds only contains manageable guilds, so presence = can manage.
   const guild = userGuilds.data?.userGuilds.get(guildId);
-  const canManage = guild?.hasManageGuild ?? false;
+  const canManage = guild != null;
 
   const loadingSkeleton = (
     <div className="m-auto flex min-h-full flex-col items-center justify-center gap-4 p-6">

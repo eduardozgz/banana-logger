@@ -73,13 +73,14 @@ export const discordRouter = createTRPCRouter({
   userGuilds: protectedProcedure.query(async ({ ctx }) => {
     const guilds = await fetchUserGuilds(ctx.redis, ctx.session.accessToken);
 
+    // Only manageable guilds are included, so presence in the map IS the
+    // "can manage" signal — no flag needed.
     const userGuilds = new Map<
       string,
       {
         id: string;
         name: string;
         icon: string | null;
-        hasManageGuild: boolean;
       }
     >();
 
@@ -90,7 +91,6 @@ export const discordRouter = createTRPCRouter({
         id: guild.id,
         name: guild.name,
         icon: guild.icon,
-        hasManageGuild: true,
       });
     }
 
