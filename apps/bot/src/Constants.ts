@@ -1,5 +1,5 @@
 import { randomUUID } from "node:crypto";
-import { EventType } from "@bl/db/client";
+import type { EventType } from "@bl/db/client";
 import { CDNRoutes, RouteBases } from "discord-api-types/v10";
 
 import { env } from "./env";
