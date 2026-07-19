@@ -25,10 +25,14 @@ async function main() {
   });
 
   const botOptions: BotInstanceOptions = {
+    id: env.DISCORD_CLIENT_ID,
     token: env.DISCORD_BOT_INSTANCE_TOKEN,
     deployCommands: env.DISCORD_BOT_INSTANCE_DEPLOY_COMMANDS,
     logger,
     restProxyURL: env.DISCORD_BOT_INSTANCE_REST_PROXY_URL,
+    shards: env.DISCORD_BOT_INSTANCE_SHARDING_SHARDS,
+    shardCount: env.DISCORD_BOT_INSTANCE_SHARDING_SHARD_COUNT,
+    maxConcurrency: env.DISCORD_BOT_INSTANCE_SHARDING_SHARD_MAX_CONCURRENCY,
   };
 
   const { botClient } = await startBot(botOptions).catch((err) => {
