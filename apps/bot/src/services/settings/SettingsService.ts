@@ -1,13 +1,15 @@
 import type { Guild, GuildTextBasedChannel } from "discord.js";
 import { db } from "@bl/db";
 import { EventType } from "@bl/db/client";
-import { publishConfigInvalidation } from "@bl/redis";
 
 import type { Settings } from "@bl/db/client";
 
 import { ALL_EVENTS_CHOICE } from "~/Constants";
 import { toggleArrayItem } from "~/utils/toggleArrayItem";
-import { getGuildConfig, invalidateGuildConfig } from "./configCache";
+import {
+  getGuildConfig,
+  invalidateAndPublishGuildConfig,
+} from "./configCache";
 import { GlobalSettingsService } from "./GlobalSettingsService";
 
 export class SettingsService {
@@ -89,8 +91,7 @@ export class SettingsService {
       this.settings.channelId,
       data,
     );
-    invalidateGuildConfig(this.settings.guildId);
-    await publishConfigInvalidation(this.settings.guildId);
+    await invalidateAndPublishGuildConfig(this.settings.guildId);
   }
 
   get id() {

@@ -1,6 +1,10 @@
 import { db } from "@bl/db";
 import baseLogger from "@bl/logger";
-import { CONFIG_INVALIDATION_CHANNEL, redis } from "@bl/redis";
+import {
+  CONFIG_INVALIDATION_CHANNEL,
+  publishConfigInvalidation,
+  redis,
+} from "@bl/redis";
 
 import type { GlobalSettings, Settings } from "@bl/db/client";
 
@@ -75,6 +79,17 @@ export async function getGuildConfig(guildId: string): Promise<GuildConfig> {
 export function invalidateGuildConfig(guildId: string): void {
   cache.delete(guildId);
   generation.set(guildId, (generation.get(guildId) ?? 0) + 1);
+}
+
+/**
+ * Invalidate this pod's cache AND broadcast the invalidation to the other
+ * pods. The single entry point for "a guild's config was written".
+ */
+export async function invalidateAndPublishGuildConfig(
+  guildId: string,
+): Promise<void> {
+  invalidateGuildConfig(guildId);
+  await publishConfigInvalidation(guildId);
 }
 
 let subscriber: ReturnType<typeof redis.duplicate> | undefined;

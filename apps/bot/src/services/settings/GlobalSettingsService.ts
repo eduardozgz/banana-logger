@@ -1,11 +1,13 @@
 import type { Guild } from "discord.js";
 import { db } from "@bl/db";
-import { publishConfigInvalidation } from "@bl/redis";
 
 import type { GlobalSettings } from "@bl/db/client";
 
 import { toggleArrayItem } from "~/utils/toggleArrayItem";
-import { getGuildConfig, invalidateGuildConfig } from "./configCache";
+import {
+  getGuildConfig,
+  invalidateAndPublishGuildConfig,
+} from "./configCache";
 
 export class GlobalSettingsService {
   private constructor(private settings: GlobalSettings) {}
@@ -37,8 +39,7 @@ export class GlobalSettingsService {
     data: Partial<Pick<GlobalSettings, "ignoredChannels" | "ignoredUsers">>,
   ): Promise<void> {
     await db.globalSettings.patch(this.settings.guildId, data);
-    invalidateGuildConfig(this.settings.guildId);
-    await publishConfigInvalidation(this.settings.guildId);
+    await invalidateAndPublishGuildConfig(this.settings.guildId);
   }
 
   get id() {
