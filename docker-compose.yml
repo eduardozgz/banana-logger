@@ -15,14 +15,19 @@ services:
       - storage:/app/storage
     networks:
       - banana-logger
+      - rest-proxy
 
+  # The proxy forwards any request it receives to the Discord API authenticated
+  # with the bot token, and has no auth of its own — so it lives on a dedicated
+  # network that only the bot shares, unreachable from the public-facing
+  # frontend/backend containers.
   rest-proxy:
     env_file: .env
     container_name: banana-logger-rest-proxy
     image: ghcr.io/eduardozgz/banana-logger-rest-proxy:latest
     restart: always
     networks:
-      - banana-logger
+      - rest-proxy
 
   frontend:
     env_file: .env
@@ -87,3 +92,4 @@ volumes:
 
 networks:
   banana-logger:
+  rest-proxy:
