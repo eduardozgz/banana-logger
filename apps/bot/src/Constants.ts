@@ -1,5 +1,6 @@
 import { randomUUID } from "node:crypto";
 import { EventType } from "@bl/db/client";
+import { CDNRoutes, RouteBases } from "discord-api-types/v10";
 
 import { env } from "./env";
 
@@ -15,6 +16,12 @@ export const Colors = {
 
 export const baseGalleryEmbedUrl = () =>
   `${env.PUBLIC_URL}/embeds#${randomUUID()}`;
+
+// Fallback for avatar placeholders when the user is unresolvable (uncached
+// partials). URL-typed embed fields (thumbnail, author.icon_url) reject
+// non-URL strings — stringifying undefined into them makes Discord reject the
+// whole embed — so they must fall back to a real CDN asset, never to text.
+export const defaultUserAvatarUrl = `${RouteBases.cdn}${CDNRoutes.defaultUserAvatar(0)}`;
 
 export const BasePlaceholders = ["GUILD_ID"] as const;
 

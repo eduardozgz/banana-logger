@@ -6,9 +6,9 @@ import type {
   GuildTextBasedChannel,
   PartialUser,
 } from "discord.js";
-import { CDNRoutes, RouteBases } from "discord-api-types/v10";
 import {
   channelMention,
+  embedLength,
   GuildEmoji,
   roleMention,
   Sticker,
@@ -20,7 +20,7 @@ import type { EventType } from "@bl/db/client";
 import type { i18n } from "@bl/i18n";
 
 import type { EmbedTemplatePlaceholders } from "~/Constants";
-import { baseGalleryEmbedUrl } from "~/Constants";
+import { baseGalleryEmbedUrl, defaultUserAvatarUrl } from "~/Constants";
 import { env } from "~/env";
 import BananaLoggerEmbed from "~/utils/BananaLoggerEmbed";
 import { deepReplaceAll } from "~/utils/deepReplaceAll";
@@ -128,17 +128,19 @@ export class LogService {
     data = {
       IMG_PUBLIC_URL: env.IMG_PUBLIC_URL,
       GUILD_ID: guild.id,
-      EXECUTOR_MENTION: executor?.toString(),
+      EXECUTOR_MENTION:
+        executor?.toString() ??
+        i18n.t("main:eventTemplatePlaceholdersDefaults.EXECUTOR_MENTION"),
       EXECUTOR_NAME:
         executor?.username ??
         i18n.t("main:eventTemplatePlaceholdersDefaults.EXECUTOR_MENTION"),
       EXECUTOR_ID: executor?.id ?? "",
-      EXECUTOR_AVATAR: executor?.displayAvatarURL(),
+      EXECUTOR_AVATAR: executor?.displayAvatarURL() ?? defaultUserAvatarUrl,
       TARGET_ID: "",
       TARGET_NAME: i18n.t(
         "main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE",
       ),
-      TARGET_IMAGE_URL: `${RouteBases.cdn}${CDNRoutes.defaultUserAvatar(0)}`,
+      TARGET_IMAGE_URL: defaultUserAvatarUrl,
       ...(target &&
         "id" in target && {
           TARGET_ID: target.id,
@@ -183,6 +185,11 @@ export class LogService {
 
     void (async () => {
       try {
+        // The rendered embeds depend only on eventName + data, not on the
+        // channel, so render once and reuse for every watching channel.
+        // Lazy: skipped entirely when every channel is filtered out.
+        let safeTemplates: APIEmbed[] | undefined;
+
         for (const serviceSettings of await SettingsService.getByEventName(
           eventName,
           guild,
@@ -206,27 +213,34 @@ export class LogService {
             continue;
           }
 
-          // Typescript will fail to typecheck this when eventName is "E extend EventType" instead of "EventType"
-          const castedEventName: EventType = eventName;
-          let templates: APIEmbed[] = i18n.t(
-            `baseTemplates:${castedEventName}`,
-            {
-              returnObjects: true,
-            },
-          );
-
-          // Process template variables
-          for (const [key, value] of Object.entries(data)) {
-            templates = deepReplaceAll(templates, `{${key}}`, value as string);
-          }
-
           const channel = await guild.channels.fetch(serviceSettings.channelId);
 
           if (!channel?.isTextBased()) {
             continue;
           }
 
-          const safeTemplates = enforceEmbedLimits(templates);
+          if (!safeTemplates) {
+            // Typescript will fail to typecheck this when eventName is "E extend EventType" instead of "EventType"
+            const castedEventName: EventType = eventName;
+            let templates: APIEmbed[] = i18n.t(
+              `baseTemplates:${castedEventName}`,
+              {
+                returnObjects: true,
+              },
+            );
+
+            // Process template variables
+            for (const [key, value] of Object.entries(data)) {
+              templates = deepReplaceAll(
+                templates,
+                `{${key}}`,
+                value as string,
+              );
+            }
+
+            safeTemplates = enforceEmbedLimits(templates);
+          }
+
           const embeds = safeTemplates.map(
             (template) => new BananaLoggerEmbed(template),
           );
@@ -256,6 +270,9 @@ export class LogService {
   >();
   private static queueProcessors = new Map<string, NodeJS.Timeout>();
   private static readonly BATCH_DELAY_MS = 1000; // Wait 1 second before sending batched logs
+  // Discord's per-message limits: 10 embeds, 6000 characters across all embeds.
+  private static readonly MAX_EMBEDS_PER_MESSAGE = 10;
+  private static readonly MAX_EMBED_CHARS_PER_MESSAGE = 6000;
 
   private static sendLog(
     channel: GuildTextBasedChannel,
@@ -279,29 +296,67 @@ export class LogService {
   }
 
   private static async processQueue(channelId: string) {
-    const queue = this.logQueue.get(channelId);
-    if (!queue || queue.length === 0) {
-      return;
-    }
+    try {
+      // Re-check after each drain: items queued while a send was awaiting are
+      // picked up here instead of spawning a second, concurrent drain.
+      for (
+        let queue = this.logQueue.get(channelId);
+        queue && queue.length > 0;
+        queue = this.logQueue.get(channelId)
+      ) {
+        this.logQueue.delete(channelId);
 
-    // Clear the queue
-    this.logQueue.delete(channelId);
-    this.queueProcessors.delete(channelId);
+        // Merge queued logs into as few messages as Discord's limits allow.
+        // Items are kept whole: an item's embeds are the description-split
+        // parts of a single log and must land in the same message.
+        const batches: {
+          channel: GuildTextBasedChannel;
+          embeds: EmbedBuilder[];
+          length: number;
+        }[] = [];
+        for (const item of queue) {
+          const itemLength = item.embeds.reduce(
+            (sum, embed) => sum + embedLength(embed.data),
+            0,
+          );
+          const batch = batches.at(-1);
+          if (
+            batch &&
+            batch.embeds.length + item.embeds.length <=
+              this.MAX_EMBEDS_PER_MESSAGE &&
+            batch.length + itemLength <= this.MAX_EMBED_CHARS_PER_MESSAGE
+          ) {
+            batch.embeds.push(...item.embeds);
+            batch.length += itemLength;
+          } else {
+            batches.push({
+              channel: item.channel,
+              embeds: [...item.embeds],
+              length: itemLength,
+            });
+          }
+        }
 
-    // Process items in queue
-    for (const { channel, embeds } of queue) {
-      try {
-        await channel.send({ embeds });
-        // Small delay between messages to respect rate limits
-        await new Promise((resolve) => setTimeout(resolve, 100));
-      } catch (error) {
-        channel.client.botInstanceOptions.logger
-          .child({
-            component: "LogService",
-            method: "processQueue",
-          })
-          .error(error);
+        for (const { channel, embeds } of batches) {
+          try {
+            await channel.send({ embeds });
+            // Small delay between messages to respect rate limits
+            await new Promise((resolve) => setTimeout(resolve, 100));
+          } catch (error) {
+            channel.client.botInstanceOptions.logger
+              .child({
+                component: "LogService",
+                method: "processQueue",
+              })
+              .error(error);
+          }
+        }
       }
+    } finally {
+      // Deleted only once the queue is fully drained: sendLog schedules a new
+      // processor only while this key is absent, so exactly one drain runs per
+      // channel at a time and pacing/ordering hold under bursts.
+      this.queueProcessors.delete(channelId);
     }
   }
 }

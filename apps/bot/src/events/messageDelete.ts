@@ -2,6 +2,7 @@ import { initI18n } from "@bl/i18n";
 import { channelMention, userMention } from "@discordjs/builders";
 import { AuditLogEvent } from "discord.js";
 
+import { defaultUserAvatarUrl } from "~/Constants";
 import { LogService } from "~/services/LogService";
 import { EventHandler } from "~/structures";
 import { AuditLogCollector } from "~/utils/AuditLogCollector";
@@ -36,6 +37,11 @@ export const messageDeleteEvent = new EventHandler({
           auditLogEntry.extra.channel.id === channel.id
         );
       },
+      // A user deleting their OWN message produces no audit-log entry, so in
+      // that (most common) case this timer is the exit path: it bounds how
+      // long every self-delete log is delayed waiting for a mod-deletion
+      // entry that will never arrive.
+      timeout: 5000,
     });
 
     const executor = auditLogEntry?.executor ?? author ?? undefined;
@@ -51,7 +57,7 @@ export const messageDeleteEvent = new EventHandler({
         AUTHOR_MENTION: author ? userMention(author.id) : unknownValue,
         AUTHOR_NAME: author?.username ?? unknownValue,
         AUTHOR_ID: author?.id ?? "",
-        AUTHOR_AVATAR: author?.displayAvatarURL(),
+        AUTHOR_AVATAR: author?.displayAvatarURL() ?? defaultUserAvatarUrl,
         OLD_CONTENT: message.content ?? unknownValue,
         MESSAGE_URL: message.url,
         CHANNEL_MENTION: channelMention(channel.id),

@@ -21,11 +21,18 @@ function decomposeDuration(totalSeconds: number): DurationInput {
   return result;
 }
 
-export const formatTimeDuration = (locale: string, duration: number) => {
-  const decomposed = decomposeDuration(duration);
-  const durationFormatter = new DurationFormat(locale, {
-    style: "long",
-  });
+// Constructing an Intl-style formatter resolves locale data and is expensive;
+// this runs once per duration-typed audit-log change, so reuse per locale.
+const formatters = new Map<string, DurationFormat>();
 
-  return durationFormatter.format(decomposed);
+const getFormatter = (locale: string) => {
+  let formatter = formatters.get(locale);
+  if (!formatter) {
+    formatter = new DurationFormat(locale, { style: "long" });
+    formatters.set(locale, formatter);
+  }
+  return formatter;
 };
+
+export const formatTimeDuration = (locale: string, duration: number) =>
+  getFormatter(locale).format(decomposeDuration(duration));
