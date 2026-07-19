@@ -23,8 +23,7 @@ export function InviteBotPage() {
 
   const inviteUrl = `https://discord.com/oauth2/authorize?client_id=${encodeURIComponent(import.meta.env.VITE_DISCORD_CLIENT_ID ?? "")}&permissions=128&scope=bot&guild_id=${guildId}`;
 
-  // userGuilds only contains manageable guilds, so presence = can manage.
-  const hasManageGuild = guild != null;
+  const hasManageGuild = guild?.hasManageGuild ?? false;
 
   const copyLink = async () => {
     try {
@@ -59,7 +58,7 @@ export function InviteBotPage() {
             {t(
               "pages.dashboard.servers.inviteBotPage.addToServer",
               "Add to {{serverName}}",
-              { serverName: guild.name },
+              { serverName: guild?.name ?? "Server" },
             )}
           </Button>
         </a>

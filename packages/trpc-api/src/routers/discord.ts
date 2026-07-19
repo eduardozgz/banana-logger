@@ -73,24 +73,28 @@ export const discordRouter = createTRPCRouter({
   userGuilds: protectedProcedure.query(async ({ ctx }) => {
     const guilds = await fetchUserGuilds(ctx.redis, ctx.session.accessToken);
 
-    // Only manageable guilds are included, so presence in the map IS the
-    // "can manage" signal — no flag needed.
+    // All of the user's guilds, each flagged with whether they can manage it
+    // (mirrors the reference dashboard). Returning non-manageable guilds too
+    // lets the forbidden page name the server and the UI distinguish "member
+    // without Manage Server" from "not in this server". This is the user's own
+    // OAuth guild list, and real authorization stays server-side in
+    // assertManageGuild, which re-checks the permission bit per request.
     const userGuilds = new Map<
       string,
       {
         id: string;
         name: string;
         icon: string | null;
+        hasManageGuild: boolean;
       }
     >();
 
     for (const guild of guilds) {
-      if (!canManageGuild(guild.permissions)) continue;
-
       userGuilds.set(guild.id, {
         id: guild.id,
         name: guild.name,
         icon: guild.icon,
+        hasManageGuild: canManageGuild(guild.permissions),
       });
     }
 
