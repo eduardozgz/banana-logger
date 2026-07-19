@@ -33,11 +33,25 @@ const cache = new Map<string, { value: GuildConfig; expiresAt: number }>();
 // Dedupes concurrent loads for the same guild — a burst of events on a cold
 // entry issues one query, not one per event.
 const inflight = new Map<string, Promise<GuildConfig>>();
-// Per-guild version, bumped on every invalidation. A load captures it before
-// querying and only caches its result if it hasn't changed since — otherwise a
-// write (and its invalidation) that lands mid-load would be clobbered by the
-// pre-write snapshot and served until the TTL.
+// Per-guild version, bumped when an invalidation races an in-flight load. The
+// load captures it before querying and only caches its result if it hasn't
+// changed since — otherwise a write (and its invalidation) that lands mid-load
+// would be clobbered by the pre-write snapshot and served until the TTL.
+// Entries exist only while their load is in flight (see the cleanup in
+// getGuildConfig/invalidateGuildConfig), so the map stays bounded by load
+// concurrency rather than accumulating every guild ever seen.
 const generation = new Map<string, number>();
+
+// Expired entries are otherwise only replaced by a subsequent read of the same
+// guild, so guilds that go silent (or that the bot left) would pin their config
+// in memory forever on a long-running process. unref: never keeps the process
+// alive (tests, scripts).
+setInterval(() => {
+  const now = Date.now();
+  for (const [guildId, entry] of cache) {
+    if (entry.expiresAt <= now) cache.delete(guildId);
+  }
+}, TTL_MS).unref();
 
 async function load(guildId: string): Promise<GuildConfig> {
   const [settings, globalSettings] = await Promise.all([
@@ -70,6 +84,9 @@ export async function getGuildConfig(guildId: string): Promise<GuildConfig> {
     })
     .finally(() => {
       inflight.delete(guildId);
+      // The captured baseline is dead once this load settles; only at most one
+      // load per guild exists (the inflight dedupe), so nobody else holds it.
+      generation.delete(guildId);
     });
   inflight.set(guildId, pending);
   return pending;
@@ -78,7 +95,14 @@ export async function getGuildConfig(guildId: string): Promise<GuildConfig> {
 /** Drop a guild's cached config (call right after writing its config). */
 export function invalidateGuildConfig(guildId: string): void {
   cache.delete(guildId);
-  generation.set(guildId, (generation.get(guildId) ?? 0) + 1);
+  // The generation guard only matters to a load currently in flight; without
+  // one there is nothing to protect, so drop the key instead of keeping a
+  // counter alive for every guild that ever invalidated.
+  if (inflight.has(guildId)) {
+    generation.set(guildId, (generation.get(guildId) ?? 0) + 1);
+  } else {
+    generation.delete(guildId);
+  }
 }
 
 /**
