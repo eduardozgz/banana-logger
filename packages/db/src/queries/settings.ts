@@ -61,6 +61,25 @@ async function patch(
   return row;
 }
 
+// Update-only variant of patch: never inserts, so a check-then-write caller
+// can't resurrect a row deleted between the check and the write — the UPDATE
+// just matches zero rows and returns undefined. Use this wherever "the row
+// must already exist" is part of the contract (e.g. dashboard saves).
+async function update(
+  guildId: string,
+  channelId: string,
+  data: SettingsPatch,
+): Promise<Settings | undefined> {
+  const [row] = await orm
+    .update(settings)
+    .set(data)
+    .where(
+      and(eq(settings.guildId, guildId), eq(settings.channelId, channelId)),
+    )
+    .returning();
+  return row;
+}
+
 async function ensure(guildId: string, channelId: string): Promise<Settings> {
   const [inserted] = await orm
     .insert(settings)
@@ -87,6 +106,7 @@ export const settingsQueries = {
   getByEvent,
   countByGuild,
   patch,
+  update,
   ensure,
   delete: remove,
 };
