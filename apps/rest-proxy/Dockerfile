@@ -2,7 +2,8 @@ FROM node:24-alpine AS base
 ENV DO_NOT_TRACK=1
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
-RUN corepack enable
+RUN corepack enable \
+    && corepack prepare pnpm@10.28.0 --activate
 RUN apk update && apk add --no-cache libc6-compat
 
 FROM base AS repo
