@@ -7,9 +7,7 @@ export const sessionRouter = createTRPCRouter({
   user: protectedProcedure.query(async ({ ctx }) => {
     // Read-only: the user row is created lazily on first save (see the user
     // router), so simply visiting the dashboard never writes.
-    const user = await ctx.db.user.findUnique({
-      where: { discordUserId: ctx.session.userId },
-    });
+    const user = await ctx.db.user.get(ctx.session.userId);
 
     return {
       userId: ctx.session.userId,

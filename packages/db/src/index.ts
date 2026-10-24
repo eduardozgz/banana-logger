@@ -1,63 +1,25 @@
-import { Prisma, PrismaClient } from "../prisma/generated/client";
-export { Prisma };
-import baseLogger from "@bl/logger";
+import { connection } from "./connection";
+import { globalSettingsQueries } from "./queries/globalSettings";
+import { settingsQueries } from "./queries/settings";
+import { userQueries } from "./queries/user";
 
-import { env } from "./env";
+export type { Dialect } from "./connection";
 
-const logger = baseLogger.child({ component: "db" });
+/** The active dialect ("sqlite" | "pg"). */
+export const dialect = connection.dialect;
 
-const createPrismaClient = () => {
-  const db = new PrismaClient({
-    log: [
-      { emit: "event", level: "query" },
-      { emit: "event", level: "warn" },
-      { emit: "event", level: "error" },
-    ],
-    errorFormat: "minimal",
-  });
+/** Apply the generated migrations for the active dialect. */
+export const runMigrations = connection.runMigrations;
 
-  // Only emit query logs when explicitly debugging to avoid noise in prod.
-  if (env.LOG_LEVEL === "debug") {
-    db.$on("query", (e) => {
-      logger.debug(`${e.query} ${e.params} (${e.duration}ms)`);
-    });
-  }
-
-  db.$on("warn", (e) => {
-    logger.warn(e.message);
-  });
-
-  db.$on("error", (e) => {
-    logger.error(e.message);
-  });
-
-  return db;
-};
-
-const globalForPrisma = globalThis as unknown as {
-  prisma: ReturnType<typeof createPrismaClient> | undefined;
-};
-
-export const db = globalForPrisma.prisma ?? createPrismaClient();
-
-if (env.NODE_ENV !== "production") globalForPrisma.prisma = db;
-
-export class NotFoundError extends Error {}
-export class ConflictError extends Error {}
-
-export const handleDBError = (error: unknown) => {
-  if (!(error instanceof Prisma.PrismaClientKnownRequestError)) {
-    throw error;
-  }
-
-  switch (error.code) {
-    case "P2025":
-      throw new NotFoundError();
-
-    case "P2002":
-      throw new ConflictError();
-
-    default:
-      throw error;
-  }
+// Data-access layer. Dialect-agnostic: the connection (./connection.ts) hands
+// each query module a dialect-matched (orm, tables) pair and the queries return
+// the shared row types, so call sites are identical on SQLite and Postgres.
+export const db = {
+  settings: settingsQueries,
+  globalSettings: globalSettingsQueries,
+  user: userQueries,
+  /** The raw Drizzle instance, for advanced use. */
+  $client: connection.orm,
+  /** Close the underlying connection (called on graceful shutdown). */
+  close: connection.close,
 };

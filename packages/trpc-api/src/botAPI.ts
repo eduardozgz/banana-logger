@@ -1,9 +1,9 @@
-import type { BotAPIRouter } from "@bl/bot/botAPI";
-import { createTRPCClient } from "@trpc/client";
+import type { Redis } from "ioredis";
 import { redisLink } from "@bl/trpc-redis";
+import { createTRPCClient } from "@trpc/client";
 import SuperJSON from "superjson";
 
-import type { Redis } from "ioredis";
+import type { BotAPIRouter } from "@bl/bot/botAPI";
 
 export type { BotAPIRouter };
 

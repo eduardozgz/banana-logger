@@ -1,11 +1,10 @@
 import { useMemo, useState } from "react";
-import { Outlet } from "react-router";
-
 import { routes } from "@bl/common/Routes";
 import { cn } from "@bl/ui/lib/utils";
+import { useQuery } from "@tanstack/react-query";
+import { Outlet } from "react-router";
 
 import { useNavigate } from "~/lib/navigation";
-import { useQuery } from "@tanstack/react-query";
 import { useTRPC } from "~/lib/trpc";
 import { MenuContext } from "./Menu";
 
@@ -36,10 +35,10 @@ export default function Layout() {
         <div
           className={cn(
             overflowClass,
-            "flex grow flex-col bg-black pb-[10px] pr-[10px] pt-[67px]",
+            "flex grow flex-col bg-black pt-[67px] pr-[10px] pb-[10px]",
           )}
         >
-          <div className="h-full max-h-full rounded border border-border bg-[#181514]">
+          <div className="border-border h-full max-h-full rounded border bg-[#181514]">
             <Outlet />
           </div>
         </div>

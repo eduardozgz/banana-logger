@@ -14,14 +14,25 @@ function decomposeDuration(totalSeconds: number): DurationInput {
   if (minutes) result.minutes = minutes;
   if (seconds) result.seconds = seconds;
 
+  // DurationFormat.format({}) throws "Invalid duration format", so never return
+  // an empty record (e.g. a duration of 0).
+  if (Object.keys(result).length === 0) result.seconds = 0;
+
   return result;
 }
 
-export const formatTimeDuration = (locale: string, duration: number) => {
-  const decomposed = decomposeDuration(duration);
-  const durationFormatter = new DurationFormat(locale, {
-    style: "long",
-  });
+// Constructing an Intl-style formatter resolves locale data and is expensive;
+// this runs once per duration-typed audit-log change, so reuse per locale.
+const formatters = new Map<string, DurationFormat>();
 
-  return durationFormatter.format(decomposed);
+const getFormatter = (locale: string) => {
+  let formatter = formatters.get(locale);
+  if (!formatter) {
+    formatter = new DurationFormat(locale, { style: "long" });
+    formatters.set(locale, formatter);
+  }
+  return formatter;
 };
+
+export const formatTimeDuration = (locale: string, duration: number) =>
+  getFormatter(locale).format(decomposeDuration(duration));

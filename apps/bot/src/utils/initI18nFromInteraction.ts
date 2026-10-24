@@ -1,5 +1,4 @@
 import type { BaseInteraction, Locale } from "discord.js";
-
 import { initI18n } from "@bl/i18n";
 
 export function initI18nFromInteraction(interaction: Locale | BaseInteraction) {

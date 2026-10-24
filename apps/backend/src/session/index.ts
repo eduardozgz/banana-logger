@@ -1,10 +1,10 @@
-import type { Session } from "@bl/validators/Session";
 import type { Request, Response } from "express";
+import logger from "@bl/logger";
+import { SessionSchema } from "@bl/validators/Session";
 import { sealData, unsealData } from "iron-session";
 import { z } from "zod/v4";
 
-import logger from "@bl/logger";
-import { SessionSchema } from "@bl/validators/Session";
+import type { Session } from "@bl/validators/Session";
 
 import { env } from "~/env";
 

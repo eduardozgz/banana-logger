@@ -1,4 +1,4 @@
-FROM node:22-alpine3.20 AS base
+FROM node:24-alpine AS base
 ENV DO_NOT_TRACK=1
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
@@ -17,7 +17,6 @@ FROM base AS build_deps
 WORKDIR /app
 COPY .gitignore .gitignore
 COPY --from=repo /app/out/json/ .
-COPY --from=repo /app/packages/db/prisma ./packages/db/prisma
 RUN pnpm install --prefer-offline
 
 FROM build_deps AS builder
@@ -29,6 +28,10 @@ ARG VITE_SUPPORT_URL
 ENV VITE_SUPPORT_URL=${VITE_SUPPORT_URL}
 ARG VITE_BOT_REPO_URL
 ENV VITE_BOT_REPO_URL=${VITE_BOT_REPO_URL}
+# Vite inlines this at build time; without it the OAuth "Invite bot" links ship
+# with an empty client_id. Must be passed as a build-arg (see the CI workflow).
+ARG VITE_DISCORD_CLIENT_ID
+ENV VITE_DISCORD_CLIENT_ID=${VITE_DISCORD_CLIENT_ID}
 RUN pnpm turbo run build --filter=@bl/frontend
 
 FROM nginx:alpine AS runner

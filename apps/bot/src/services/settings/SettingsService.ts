@@ -1,12 +1,13 @@
 import type { Guild, GuildTextBasedChannel } from "discord.js";
-
-import type { Settings } from "@bl/db/client";
 import { db } from "@bl/db";
 import { EventType } from "@bl/db/client";
 
+import type { Settings } from "@bl/db/client";
+
 import { ALL_EVENTS_CHOICE } from "~/Constants";
 import { toggleArrayItem } from "~/utils/toggleArrayItem";
-import GlobalSettingsService from "./GlobalSettingsService";
+import { getGuildConfig, invalidateAndPublishGuildConfig } from "./configCache";
+import { GlobalSettingsService } from "./GlobalSettingsService";
 
 export class SettingsService {
   private constructor(
@@ -15,39 +16,34 @@ export class SettingsService {
   ) {}
 
   /**
-   * Read-only accessor: fetches the channel's settings, falling back to an
-   * in-memory default WITHOUT writing. The backing row is created lazily on the
-   * first actual save (see {@link persist}), so reads never issue a write.
+   * Read-only accessor: reads the channel's settings from the config cache,
+   * falling back to an in-memory default WITHOUT writing. The backing row is
+   * created lazily on the first actual save (see {@link persist}), so reads
+   * never issue a write.
    */
   public static async get(
     channel: GuildTextBasedChannel,
     globalSettingsService?: GlobalSettingsService | Guild,
   ): Promise<SettingsService> {
-    const settings = await db.settings.findUnique({
-      where: {
-        guildId_channelId: {
-          guildId: channel.guild.id,
-          channelId: channel.id,
-        },
-      },
-    });
+    const { settings, globalSettings } = await getGuildConfig(channel.guild.id);
+    const row = settings.find((s) => s.channelId === channel.id);
 
     return new SettingsService(
-      settings ?? {
-        id: "",
-        guildId: channel.guild.id,
-        channelId: channel.id,
-        ignoredChannels: [],
-        ignoredUsers: [],
-        watchingEvents: [],
-        watchChannels: [],
-        watchUsers: [],
-      },
+      row
+        ? { ...row }
+        : {
+            id: "",
+            guildId: channel.guild.id,
+            channelId: channel.id,
+            ignoredChannels: [],
+            ignoredUsers: [],
+            watchingEvents: [],
+            watchChannels: [],
+            watchUsers: [],
+          },
       globalSettingsService instanceof GlobalSettingsService
         ? globalSettingsService
-        : await GlobalSettingsService.get(
-            globalSettingsService ?? channel.guild,
-          ),
+        : GlobalSettingsService.fromRow(channel.guild.id, globalSettings),
     );
   }
 
@@ -55,23 +51,23 @@ export class SettingsService {
     eventType: EventType,
     guild: Guild,
   ): Promise<SettingsService[]> {
-    const settings = await db.settings.findMany({
-      where: {
-        guildId: guild.id,
-        watchingEvents: {
-          has: eventType,
-        },
-      },
-    });
+    const { settings, globalSettings } = await getGuildConfig(guild.id);
+    // Array-contains filter done in app code so it's dialect-agnostic.
+    const watching = settings.filter((s) =>
+      s.watchingEvents.includes(eventType),
+    );
 
     // Fast path on the hot logging path: a guild with no channel watching this
-    // event does zero further work — crucially, no globalSettings read/write.
-    if (settings.length === 0) return [];
+    // event does zero further work.
+    if (watching.length === 0) return [];
 
-    const globalSettings = await GlobalSettingsService.get(guild);
+    const globalSettingsService = GlobalSettingsService.fromRow(
+      guild.id,
+      globalSettings,
+    );
 
-    return settings.map(
-      (setting) => new SettingsService(setting, globalSettings),
+    return watching.map(
+      (setting) => new SettingsService({ ...setting }, globalSettingsService),
     );
   }
 
@@ -87,20 +83,12 @@ export class SettingsService {
       >
     >,
   ): Promise<void> {
-    await db.settings.upsert({
-      where: {
-        guildId_channelId: {
-          guildId: this.settings.guildId,
-          channelId: this.settings.channelId,
-        },
-      },
-      update: data,
-      create: {
-        guildId: this.settings.guildId,
-        channelId: this.settings.channelId,
-        ...data,
-      },
-    });
+    await db.settings.patch(
+      this.settings.guildId,
+      this.settings.channelId,
+      data,
+    );
+    await invalidateAndPublishGuildConfig(this.settings.guildId);
   }
 
   get id() {
@@ -224,13 +212,13 @@ export class SettingsService {
         updated = allEvents;
       }
     } else {
-      const [result, found] = toggleArrayItem(
+      const [result, itemWasAdded] = toggleArrayItem(
         this.settings.watchingEvents,
         event,
       );
 
       updated = result;
-      wasAdded = found;
+      wasAdded = itemWasAdded;
     }
 
     await this.persist({ watchingEvents: updated });
@@ -239,5 +227,3 @@ export class SettingsService {
     return wasAdded;
   }
 }
-
-export default SettingsService;

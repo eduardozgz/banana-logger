@@ -1,6 +1,5 @@
-import { BrowserRouter, Route, Routes } from "react-router";
-
 import { routes } from "@bl/common/Routes";
+import { BrowserRouter, Route, Routes } from "react-router";
 
 import { Lazy } from "./app/components/Lazy";
 import { ProtectedRoute } from "./app/components/ProtectedRoute";
@@ -68,18 +67,14 @@ export default function Router() {
                   })}
                   element={Lazy(
                     () =>
-                      import(
-                        "./app/dashboard/servers/[guildId]/settings/layout"
-                      ),
+                      import("./app/dashboard/servers/[guildId]/settings/layout"),
                   )}
                 >
                   <Route
                     index
                     element={Lazy(
                       () =>
-                        import(
-                          "./app/dashboard/servers/[guildId]/settings/page"
-                        ),
+                        import("./app/dashboard/servers/[guildId]/settings/page"),
                     )}
                   />
                 </Route>
@@ -89,9 +84,7 @@ export default function Router() {
                   })}
                   element={Lazy(
                     () =>
-                      import(
-                        "./app/dashboard/servers/[guildId]/log-channel/page"
-                      ),
+                      import("./app/dashboard/servers/[guildId]/log-channel/page"),
                   )}
                 />
               </Route>

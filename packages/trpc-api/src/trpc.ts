@@ -4,11 +4,10 @@
  * This is where the tRPC API is initialized, connecting the context and transformer.
  * ZodErrors are parsed for frontend typesafety when procedures fail due to validation errors.
  */
+import { KnownError } from "@bl/common/KnownError/index";
 import { initTRPC, TRPCError } from "@trpc/server";
 import superjson from "superjson";
 import { ZodError } from "zod/v4";
-
-import { KnownError } from "@bl/common/KnownError/index";
 
 import type { TRPCContext } from "./context";
 import { Errors } from "./utils/errors";

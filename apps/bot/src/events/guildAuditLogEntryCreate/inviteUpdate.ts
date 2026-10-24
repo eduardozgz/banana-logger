@@ -21,42 +21,50 @@ const inviteUpdateChangesMap = {
 const inviteUpdateChangesTransformers = {
   channel_id: (i18n, change) => {
     return {
-      old: change.old !== undefined
-        ? channelMention(change.old)
-        : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
-      new: change.new !== undefined
-        ? channelMention(change.new)
-        : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
+      old:
+        change.old !== undefined
+          ? channelMention(change.old)
+          : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
+      new:
+        change.new !== undefined
+          ? channelMention(change.new)
+          : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
     };
   },
   inviter_id: (i18n, change) => {
     return {
-      old: change.old !== undefined
-        ? userMention(change.old)
-        : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
-      new: change.new !== undefined
-        ? userMention(change.new)
-        : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
+      old:
+        change.old !== undefined
+          ? userMention(change.old)
+          : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
+      new:
+        change.new !== undefined
+          ? userMention(change.new)
+          : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
     };
   },
   max_uses: (i18n, change) => {
     return {
-      old: change.old !== undefined
-        ? change.old.toString()
-        : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
-      new: change.new !== undefined
-        ? change.new.toString()
-        : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
+      old:
+        change.old !== undefined
+          ? change.old.toString()
+          : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
+      new:
+        change.new !== undefined
+          ? change.new.toString()
+          : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
     };
   },
   max_age: (i18n, change) => {
     return {
-      old: change.old !== undefined
-        ? formatTimeDuration(i18n.language, change.old)
-        : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
-      new: change.new !== undefined
-        ? formatTimeDuration(i18n.language, change.new)
-        : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
+      old:
+        change.old !== undefined
+          ? formatTimeDuration(i18n.language, change.old)
+          : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
+      new:
+        change.new !== undefined
+          ? formatTimeDuration(i18n.language, change.new)
+          : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
     };
   },
   temporary: (i18n, change) => {
@@ -67,12 +75,14 @@ const inviteUpdateChangesTransformers = {
   },
   uses: (i18n, change) => {
     return {
-      old: change.old !== undefined
-        ? change.old.toString()
-        : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
-      new: change.new !== undefined
-        ? change.new.toString()
-        : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
+      old:
+        change.old !== undefined
+          ? change.old.toString()
+          : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
+      new:
+        change.new !== undefined
+          ? change.new.toString()
+          : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
     };
   },
 } satisfies AuditLogChangeTransformers<keyof typeof inviteUpdateChangesMap>;

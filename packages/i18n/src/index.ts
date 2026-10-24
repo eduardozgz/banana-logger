@@ -12,7 +12,7 @@ export const AVAILABLE_LANGUAGES: LocaleString[] = [Locale.EnglishUS] as const;
 
 export const DEFAULT_LANGUAGE: LocaleString = Locale.EnglishUS;
 
-export async function initI18n(locale: LocaleString) {
+async function createI18n(locale: LocaleString) {
   const i18nextInstance = createInstance({
     lng: locale,
     supportedLngs: AVAILABLE_LANGUAGES,
@@ -33,6 +33,21 @@ export async function initI18n(locale: LocaleString) {
   await i18nextInstance.init();
 
   return i18nextInstance;
+}
+
+// The bot calls initI18n on every gateway event, so instances are memoized per
+// locale: the resources and config are static, making the result identical for
+// a given locale. Bounded by the set of Discord locales (~30 keys). Memoizing
+// the promise (not the instance) also dedupes concurrent first calls.
+const instances = new Map<LocaleString, ReturnType<typeof createI18n>>();
+
+export function initI18n(locale: LocaleString) {
+  let instance = instances.get(locale);
+  if (!instance) {
+    instance = createI18n(locale);
+    instances.set(locale, instance);
+  }
+  return instance;
 }
 
 export type i18n = Awaited<ReturnType<typeof initI18n>>;

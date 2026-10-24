@@ -12,9 +12,6 @@
   ],
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "typescript.tsdk": "node_modules/typescript/lib",
-  "[prisma]": {
-    "editor.defaultFormatter": "Prisma.prisma"
-  },
   "workbench.colorCustomizations": {
     "titleBar.activeBackground": "#ffc022",
     "titleBar.activeForeground": "#000000",
@@ -23,6 +20,5 @@
   },
   "[rust]": {
     "editor.defaultFormatter": "rust-lang.rust-analyzer"
-  },
-  "prisma.pinToPrisma6": true
+  }
 }

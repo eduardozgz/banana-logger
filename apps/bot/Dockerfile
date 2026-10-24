@@ -1,4 +1,4 @@
-FROM node:24-alpine3.21 AS base
+FROM node:24-alpine AS base
 ENV DO_NOT_TRACK=1
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
@@ -18,14 +18,12 @@ COPY --from=ghcr.io/eduardozgz/banana-logger-ci:latest $PNPM_HOME/store $PNPM_HO
 WORKDIR /app
 COPY .gitignore .gitignore
 COPY --from=repo /app/out/json/ .
-COPY --from=repo /app/packages/db/prisma ./packages/db/prisma
 RUN pnpm install --prefer-offline
 
 FROM build_deps AS prod_deps
 WORKDIR /app
 COPY .gitignore .gitignore
 COPY --from=repo /app/out/json/ .
-COPY --from=build_deps /app/packages/db/prisma ./packages/db/prisma
 # needed due to warning: https://pnpm.io/cli/prune/
 RUN rm -rf node_modules
 RUN  pnpm install --prod --prefer-offline
@@ -42,10 +40,11 @@ WORKDIR /app
 # Don't run production as root
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nodejs
+# Seed the SQLite storage dir owned by the run user (see packages/db/Dockerfile).
+RUN mkdir -p /app/storage && chown nodejs:nodejs /app/storage
 USER nodejs
 
 COPY --from=prod_deps /app/node_modules ./node_modules
-COPY --from=build_deps /app/packages/db/prisma ./packages/db/prisma
 COPY --from=repo /app/apps/bot/package.json .
 COPY --from=builder --chown=nodejs:nodejs /app/apps/bot/dist ./
 CMD ["node", "/app/index.js"]

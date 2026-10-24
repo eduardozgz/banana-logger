@@ -1,4 +1,4 @@
-FROM node:24-alpine3.21 AS base
+FROM node:24-alpine AS base
 ENV DO_NOT_TRACK=1
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
@@ -16,7 +16,6 @@ COPY --from=ghcr.io/eduardozgz/banana-logger-ci:latest $PNPM_HOME/store $PNPM_HO
 WORKDIR /app
 COPY .gitignore .gitignore
 COPY --from=repo /app/out/json/ .
-COPY --from=repo /app/out/full/packages/db/prisma ./packages/db/prisma
 RUN pnpm install --prefer-offline
 
 FROM base AS runner
@@ -25,6 +24,9 @@ WORKDIR /app
 # Don't run production as root
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nodejs
+# Seed the SQLite storage dir owned by the run user so a fresh named volume
+# mounted here inherits uid-1001 ownership (avoids EACCES on first migrate).
+RUN mkdir -p /app/storage && chown nodejs:nodejs /app/storage
 USER nodejs
 
 COPY --from=deps /app/node_modules ./node_modules

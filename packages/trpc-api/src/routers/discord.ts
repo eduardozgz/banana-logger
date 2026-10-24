@@ -1,17 +1,15 @@
-import { REST } from "@discordjs/rest";
-import { TRPCError } from "@trpc/server";
-import { Routes } from "discord-api-types/v10";
-import SuperJSON from "superjson";
-import { z } from "zod/v4";
-
 import type { APIUser } from "discord-api-types/v10";
-
 import { cachedFetch } from "@bl/common/redis/cachedFetch";
 import {
   discordGuildCacheKey,
   discordIdentityCacheKey,
 } from "@bl/common/redis/keys";
 import { REQUEST_TIMEOUT_MESSAGE } from "@bl/trpc-redis/Constants";
+import { REST } from "@discordjs/rest";
+import { TRPCError } from "@trpc/server";
+import { Routes } from "discord-api-types/v10";
+import SuperJSON from "superjson";
+import { z } from "zod/v4";
 
 import { botAPIConsumer } from "../botAPI";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
@@ -75,6 +73,12 @@ export const discordRouter = createTRPCRouter({
   userGuilds: protectedProcedure.query(async ({ ctx }) => {
     const guilds = await fetchUserGuilds(ctx.redis, ctx.session.accessToken);
 
+    // All of the user's guilds, each flagged with whether they can manage it
+    // (mirrors the reference dashboard). Returning non-manageable guilds too
+    // lets the forbidden page name the server and the UI distinguish "member
+    // without Manage Server" from "not in this server". This is the user's own
+    // OAuth guild list, and real authorization stays server-side in
+    // assertManageGuild, which re-checks the permission bit per request.
     const userGuilds = new Map<
       string,
       {
@@ -86,13 +90,11 @@ export const discordRouter = createTRPCRouter({
     >();
 
     for (const guild of guilds) {
-      if (!canManageGuild(guild.permissions)) continue;
-
       userGuilds.set(guild.id, {
         id: guild.id,
         name: guild.name,
         icon: guild.icon,
-        hasManageGuild: true,
+        hasManageGuild: canManageGuild(guild.permissions),
       });
     }
 

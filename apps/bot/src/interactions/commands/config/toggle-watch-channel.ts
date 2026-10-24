@@ -1,11 +1,10 @@
 import assert from "node:assert";
+import { i18nDefault } from "@bl/i18n";
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 import { channelMention } from "discord.js";
 
-import { i18nDefault } from "@bl/i18n";
-
 import type { CommandHandle } from "~/structures";
-import SettingsService from "~/services/SettingsService";
+import { SettingsService } from "~/services/settings";
 import BananaLoggerEmbed from "~/utils/BananaLoggerEmbed";
 import { prepareLocalization } from "~/utils/prepareLocalization";
 import { extractSupportedChannel } from ".";
@@ -70,10 +69,10 @@ export const toggleWatchChannelHandle: CommandHandle = async (
 
   embed.setDescription(
     wasWatched
-      ? t("is-not-being-watched-anymore", {
+      ? t("is-now-being-watched", {
           CHANNEL_MENTION: channelMention(channelToToggle.id),
         })
-      : t("is-now-being-watched", {
+      : t("is-not-being-watched-anymore", {
           CHANNEL_MENTION: channelMention(channelToToggle.id),
         }),
   );

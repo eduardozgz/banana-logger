@@ -1,14 +1,13 @@
 import assert from "node:assert";
-import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
-import { z } from "zod/v4";
-
 import { EventType } from "@bl/db/client";
 import { i18nDefault } from "@bl/i18n";
+import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
+import { z } from "zod/v4";
 
 import type { PresetName } from "~/Constants";
 import type { CommandHandle } from "~/structures";
 import { ALL_EVENTS_CHOICE, EVENT_PRESETS, PRESET_PREFIX } from "~/Constants";
-import SettingsService from "~/services/SettingsService";
+import { SettingsService } from "~/services/settings";
 import BananaLoggerEmbed from "~/utils/BananaLoggerEmbed";
 import { prepareLocalization } from "~/utils/prepareLocalization";
 import { extractSupportedChannel } from ".";

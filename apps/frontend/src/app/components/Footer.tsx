@@ -1,6 +1,6 @@
 export default function Footer() {
   return (
-    <footer className="border-t py-6 text-center text-sm text-muted-foreground">
+    <footer className="text-muted-foreground border-t py-6 text-center text-sm">
       <p>Banana Logger</p>
     </footer>
   );

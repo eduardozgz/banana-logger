@@ -29,6 +29,7 @@ export default function Layout() {
 
   if (!guildId) return null;
 
+  // userGuilds now lists every guild the user is in; the flag decides access.
   const guild = userGuilds.data?.userGuilds.get(guildId);
   const canManage = guild?.hasManageGuild ?? false;
 

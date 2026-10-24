@@ -24,14 +24,12 @@ const roleUpdateChangesMap = {
 
 const roleUpdateChangesTransformers = {
   color: (i18n, change) => {
-    const oldColor =
-      change.old !== undefined
-        ? `#${change.old.toString(16).padStart(6, "0")}`
-        : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE");
-    const newColor =
-      change.new !== undefined
-        ? `#${change.new.toString(16).padStart(6, "0")}`
-        : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE");
+    const oldColor = change.old
+      ? `#${change.old.toString(16).padStart(6, "0")}`
+      : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE");
+    const newColor = change.new
+      ? `#${change.new.toString(16).padStart(6, "0")}`
+      : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE");
     return {
       old: oldColor,
       new: newColor,

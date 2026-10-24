@@ -5,6 +5,10 @@ import baseLogger from "@bl/logger";
 import type { BotInstanceOptions } from "~/@types/BotInstanceOptions";
 import { startBot } from "./bot";
 import { env } from "./env";
+import {
+  startConfigCacheInvalidation,
+  stopConfigCacheInvalidation,
+} from "./services/settings";
 
 async function main() {
   const logger = baseLogger.child({
@@ -21,10 +25,14 @@ async function main() {
   });
 
   const botOptions: BotInstanceOptions = {
+    id: env.DISCORD_CLIENT_ID,
     token: env.DISCORD_BOT_INSTANCE_TOKEN,
     deployCommands: env.DISCORD_BOT_INSTANCE_DEPLOY_COMMANDS,
     logger,
     restProxyURL: env.DISCORD_BOT_INSTANCE_REST_PROXY_URL,
+    shards: env.DISCORD_BOT_INSTANCE_SHARDING_SHARDS,
+    shardCount: env.DISCORD_BOT_INSTANCE_SHARDING_SHARD_COUNT,
+    maxConcurrency: env.DISCORD_BOT_INSTANCE_SHARDING_SHARD_MAX_CONCURRENCY,
   };
 
   const { botClient } = await startBot(botOptions).catch((err) => {
@@ -32,8 +40,19 @@ async function main() {
     process.exit(1);
   });
 
+  // Drop cached guild config across pods when it changes (bot command or
+  // dashboard). Non-fatal if Redis is unreachable — the cache TTL still bounds
+  // staleness.
+  await startConfigCacheInvalidation().catch((error: unknown) => {
+    logger.error("Failed to start config-cache invalidation", { error });
+  });
+
   process.on("SIGTERM", () => {
-    Promise.all([botClient.destroy(), db.$disconnect()])
+    Promise.all([
+      botClient.destroy(),
+      stopConfigCacheInvalidation(),
+      db.close(),
+    ])
       .catch((error: unknown) => {
         logger.error("Error while trying to gracefully shutdown:", { error });
       })

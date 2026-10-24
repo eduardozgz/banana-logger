@@ -1,5 +1,4 @@
 import type { NextFunction, Request, Response } from "express";
-
 import { KnownError } from "@bl/common/KnownError/index";
 import logger from "@bl/logger";
 

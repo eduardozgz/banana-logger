@@ -6,7 +6,7 @@ export default function Page() {
   const { t } = useTranslation();
 
   return (
-    <div className="flex h-full select-none flex-col">
+    <div className="flex h-full flex-col select-none">
       <MenuButton className="my-1 mr-1" />
       <div className="flex h-full w-full grow flex-col items-center justify-center overflow-auto text-center">
         <h1 className="text-4xl font-semibold">

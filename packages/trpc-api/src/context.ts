@@ -1,9 +1,9 @@
-import type { Session } from "@bl/validators/Session";
-
 import { db } from "@bl/db";
 import { redis } from "@bl/redis";
 
-export const createTRPCContext = async (opts: { session: Session | null }) => {
+import type { Session } from "@bl/validators/Session";
+
+export const createTRPCContext = (opts: { session: Session | null }) => {
   return {
     redis,
     db,

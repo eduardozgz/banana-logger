@@ -1,8 +1,12 @@
-import { EventType } from "@bl/db/client";
 import { EVENT_PRESETS, PRESET_NAMES } from "@bl/common/eventPresets";
-import type { PresetName } from "@bl/common/eventPresets";
+import { EventType } from "@bl/db/client";
+import { publishConfigInvalidation } from "@bl/redis";
+import { TRPCError } from "@trpc/server";
 import { z } from "zod/v4";
 
+import type { PresetName } from "@bl/common/eventPresets";
+
+import type { TRPCContext } from "../context";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 import { assertManageGuild } from "../utils/checkUserPermissions";
 
@@ -15,11 +19,23 @@ const channelInput = z.object({ channelId: z.string() });
  */
 const guildProcedure = protectedProcedure
   .input(z.object({ guildId: z.string() }))
-  .use(async ({ ctx, input, next }) => {
+  .use(async ({ ctx, input, next, type }) => {
     await assertManageGuild(ctx.redis, ctx.session, input.guildId);
-    return next();
+    const result = await next();
+    // Every guild mutation changes this guild's log-channel config; on success,
+    // tell the bot pods to drop their cached copy.
+    if (type === "mutation" && result.ok) {
+      await publishConfigInvalidation(input.guildId);
+    }
+    return result;
   });
 
+// NOTE: the toggle* mutations below read the row (requireLogChannel), mutate the
+// array here, then patch() the whole column — a non-atomic read-modify-write, so
+// two concurrent toggles on the same channel could lose one update. Safe today
+// because nothing calls these (the dashboard edits events via the atomic
+// setLogChannelEvents); if a concurrent caller is ever added, move the toggle
+// into a transaction or an atomic array update.
 function toggleArrayItem<T>(array: T[], item: T): T[] {
   const result = [...array];
   const index = result.indexOf(item);
@@ -31,62 +47,49 @@ function toggleArrayItem<T>(array: T[], item: T): T[] {
   return result;
 }
 
+async function requireLogChannel(
+  db: TRPCContext["db"],
+  guildId: string,
+  channelId: string,
+) {
+  const settings = await db.settings.get(guildId, channelId);
+  if (!settings) {
+    throw new TRPCError({
+      code: "NOT_FOUND",
+      message: "Log channel not found",
+    });
+  }
+  return settings;
+}
+
 export const guildRouter = createTRPCRouter({
   has: guildProcedure.query(async ({ ctx, input }) => {
-    const count = await ctx.db.settings.count({
-      where: { guildId: input.guildId },
-    });
+    const count = await ctx.db.settings.countByGuild(input.guildId);
     return count > 0;
   }),
 
   getLogChannels: guildProcedure.query(async ({ ctx, input }) => {
-    return ctx.db.settings.findMany({
-      where: { guildId: input.guildId },
-    });
+    return ctx.db.settings.getByGuild(input.guildId);
   }),
 
   getLogChannel: guildProcedure
     .input(channelInput)
     .query(async ({ ctx, input }) => {
-      return ctx.db.settings.findUnique({
-        where: {
-          guildId_channelId: {
-            guildId: input.guildId,
-            channelId: input.channelId,
-          },
-        },
-      });
+      return (
+        (await ctx.db.settings.get(input.guildId, input.channelId)) ?? null
+      );
     }),
 
   createLogChannel: guildProcedure
     .input(channelInput)
     .mutation(async ({ ctx, input }) => {
-      return ctx.db.settings.upsert({
-        where: {
-          guildId_channelId: {
-            guildId: input.guildId,
-            channelId: input.channelId,
-          },
-        },
-        update: {},
-        create: {
-          guildId: input.guildId,
-          channelId: input.channelId,
-        },
-      });
+      return ctx.db.settings.ensure(input.guildId, input.channelId);
     }),
 
   deleteLogChannel: guildProcedure
     .input(channelInput)
     .mutation(async ({ ctx, input }) => {
-      return ctx.db.settings.delete({
-        where: {
-          guildId_channelId: {
-            guildId: input.guildId,
-            channelId: input.channelId,
-          },
-        },
-      });
+      await ctx.db.settings.delete(input.guildId, input.channelId);
     }),
 
   // Atomically replace the whole set of watched events. The dashboard edits a
@@ -95,101 +98,82 @@ export const guildRouter = createTRPCRouter({
   setLogChannelEvents: guildProcedure
     .input(channelInput.extend({ watchingEvents: z.array(z.enum(EventType)) }))
     .mutation(async ({ ctx, input }) => {
-      return ctx.db.settings.update({
-        where: {
-          guildId_channelId: {
-            guildId: input.guildId,
-            channelId: input.channelId,
-          },
-        },
+      // update() never inserts, so existence check and write are one atomic
+      // statement: a stale autosave to a channel deleted meanwhile (even
+      // mid-request) matches zero rows instead of re-INSERTing the channel
+      // and silently resuming logging.
+      const row = await ctx.db.settings.update(input.guildId, input.channelId, {
         // Dedupe defensively — the array is supplied by the client.
-        data: { watchingEvents: [...new Set(input.watchingEvents)] },
+        watchingEvents: [...new Set(input.watchingEvents)],
       });
+      if (!row) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Log channel not found",
+        });
+      }
+      return row;
     }),
 
   toggleIgnoreChannel: guildProcedure
     .input(channelInput.extend({ targetChannelId: z.string() }))
     .mutation(async ({ ctx, input }) => {
-      const settings = await ctx.db.settings.findUniqueOrThrow({
-        where: {
-          guildId_channelId: {
-            guildId: input.guildId,
-            channelId: input.channelId,
-          },
-        },
-      });
+      const settings = await requireLogChannel(
+        ctx.db,
+        input.guildId,
+        input.channelId,
+      );
 
-      return ctx.db.settings.update({
-        where: { id: settings.id },
-        data: {
-          ignoredChannels: toggleArrayItem(
-            settings.ignoredChannels,
-            input.targetChannelId,
-          ),
-        },
+      return ctx.db.settings.patch(input.guildId, input.channelId, {
+        ignoredChannels: toggleArrayItem(
+          settings.ignoredChannels,
+          input.targetChannelId,
+        ),
       });
     }),
 
   toggleWatchChannel: guildProcedure
     .input(channelInput.extend({ targetChannelId: z.string() }))
     .mutation(async ({ ctx, input }) => {
-      const settings = await ctx.db.settings.findUniqueOrThrow({
-        where: {
-          guildId_channelId: {
-            guildId: input.guildId,
-            channelId: input.channelId,
-          },
-        },
-      });
+      const settings = await requireLogChannel(
+        ctx.db,
+        input.guildId,
+        input.channelId,
+      );
 
-      return ctx.db.settings.update({
-        where: { id: settings.id },
-        data: {
-          watchChannels: toggleArrayItem(
-            settings.watchChannels,
-            input.targetChannelId,
-          ),
-        },
+      return ctx.db.settings.patch(input.guildId, input.channelId, {
+        watchChannels: toggleArrayItem(
+          settings.watchChannels,
+          input.targetChannelId,
+        ),
       });
     }),
 
   toggleIgnoreUser: guildProcedure
     .input(channelInput.extend({ userId: z.string() }))
     .mutation(async ({ ctx, input }) => {
-      const settings = await ctx.db.settings.findUniqueOrThrow({
-        where: {
-          guildId_channelId: {
-            guildId: input.guildId,
-            channelId: input.channelId,
-          },
-        },
-      });
+      const settings = await requireLogChannel(
+        ctx.db,
+        input.guildId,
+        input.channelId,
+      );
 
-      return ctx.db.settings.update({
-        where: { id: settings.id },
-        data: {
-          ignoredUsers: toggleArrayItem(settings.ignoredUsers, input.userId),
-        },
+      return ctx.db.settings.patch(input.guildId, input.channelId, {
+        ignoredUsers: toggleArrayItem(settings.ignoredUsers, input.userId),
       });
     }),
 
   toggleWatchUser: guildProcedure
     .input(channelInput.extend({ userId: z.string() }))
     .mutation(async ({ ctx, input }) => {
-      const settings = await ctx.db.settings.findUniqueOrThrow({
-        where: {
-          guildId_channelId: {
-            guildId: input.guildId,
-            channelId: input.channelId,
-          },
-        },
-      });
+      const settings = await requireLogChannel(
+        ctx.db,
+        input.guildId,
+        input.channelId,
+      );
 
-      return ctx.db.settings.update({
-        where: { id: settings.id },
-        data: {
-          watchUsers: toggleArrayItem(settings.watchUsers, input.userId),
-        },
+      return ctx.db.settings.patch(input.guildId, input.channelId, {
+        watchUsers: toggleArrayItem(settings.watchUsers, input.userId),
       });
     }),
 

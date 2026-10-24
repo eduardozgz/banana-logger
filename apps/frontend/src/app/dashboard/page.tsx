@@ -1,11 +1,10 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
+import { routes } from "@bl/common/Routes";
+import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { useTypedParams } from "react-router-typesafe-routes";
 
-import { routes } from "@bl/common/Routes";
-
 import { useNavigate } from "~/lib/navigation";
-import { useQuery } from "@tanstack/react-query";
 import { useTRPC } from "~/lib/trpc";
 
 export default function Page() {
@@ -15,12 +14,21 @@ export default function Page() {
   const trpc = useTRPC();
   const userGuildsQuery = useQuery(trpc.discord.userGuilds.queryOptions());
 
+  // The list contains every guild the user is in; only manageable ones are
+  // relevant for the picker/redirect.
+  const manageableGuilds = useMemo(
+    () =>
+      [...(userGuildsQuery.data?.userGuilds.values() ?? [])].filter(
+        (guild) => guild.hasManageGuild,
+      ),
+    [userGuildsQuery.data],
+  );
+
   useEffect(() => {
     if (!userGuildsQuery.data) return;
-    if (!userGuildsQuery.data.userGuilds.size) return;
     if (guildId) return;
 
-    const firstGuildId = [...userGuildsQuery.data.userGuilds.keys()][0];
+    const firstGuildId = manageableGuilds[0]?.id;
 
     if (!firstGuildId) return;
 
@@ -29,11 +37,11 @@ export default function Page() {
         params: { guildId: firstGuildId },
       }),
     );
-  }, [guildId, navigate, userGuildsQuery.data]);
+  }, [guildId, navigate, userGuildsQuery.data, manageableGuilds]);
 
   return (
     <div className="flex h-full grow flex-col items-center justify-center p-1">
-      {!userGuildsQuery.isLoading && !userGuildsQuery.data?.userGuilds.size && (
+      {!userGuildsQuery.isLoading && !manageableGuilds.length && (
         <div className="text-center">
           <h3 className="text-2xl font-semibold tracking-tight">
             {t("pages.dashboard.noServers.heading")}

@@ -1,4 +1,4 @@
-FROM node:22-alpine3.20 AS base
+FROM node:24-alpine AS base
 ENV DO_NOT_TRACK=1
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
@@ -17,7 +17,6 @@ FROM base AS deps-base
 WORKDIR /app
 COPY .gitignore .gitignore
 COPY --from=repo /app/out/json/ .
-COPY --from=repo /app/packages/db/prisma ./packages/db/prisma
 
 FROM deps-base AS build_deps
 RUN pnpm install --prefer-offline
@@ -36,6 +35,8 @@ RUN apk add --no-cache jq
 WORKDIR /app
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nodejs
+# Seed the SQLite storage dir owned by the run user (see packages/db/Dockerfile).
+RUN mkdir -p /app/storage && chown nodejs:nodejs /app/storage
 USER nodejs
 COPY --from=prod_deps /app/node_modules ./node_modules
 COPY --from=repo /app/apps/backend/package.json .

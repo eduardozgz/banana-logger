@@ -63,11 +63,11 @@ const guildUpdateChangesTransformers = {
   owner_id: (i18n, change) => {
     return {
       old:
-        change.old !== undefined
+        change.old != null
           ? userMention(change.old)
           : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
       new:
-        change.new !== undefined
+        change.new != null
           ? userMention(change.new)
           : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
     };
@@ -75,11 +75,11 @@ const guildUpdateChangesTransformers = {
   afk_channel_id: (i18n, change) => {
     return {
       old:
-        change.old !== undefined
+        change.old != null
           ? channelMention(change.old)
           : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
       new:
-        change.new !== undefined
+        change.new != null
           ? channelMention(change.new)
           : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
     };
@@ -87,11 +87,11 @@ const guildUpdateChangesTransformers = {
   afk_timeout: (i18n, change) => {
     return {
       old:
-        change.old !== undefined
+        change.old != null
           ? formatTimeDuration(i18n.language, change.old)
           : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
       new:
-        change.new !== undefined
+        change.new != null
           ? formatTimeDuration(i18n.language, change.new)
           : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
     };
@@ -99,11 +99,11 @@ const guildUpdateChangesTransformers = {
   rules_channel_id: (i18n, change) => {
     return {
       old:
-        change.old !== undefined
+        change.old != null
           ? channelMention(change.old)
           : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
       new:
-        change.new !== undefined
+        change.new != null
           ? channelMention(change.new)
           : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
     };
@@ -111,11 +111,11 @@ const guildUpdateChangesTransformers = {
   public_updates_channel_id: (i18n, change) => {
     return {
       old:
-        change.old !== undefined
+        change.old != null
           ? channelMention(change.old)
           : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
       new:
-        change.new !== undefined
+        change.new != null
           ? channelMention(change.new)
           : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
     };
@@ -123,11 +123,11 @@ const guildUpdateChangesTransformers = {
   safety_alerts_channel_id: (i18n, change) => {
     return {
       old:
-        change.old !== undefined
+        change.old != null
           ? channelMention(change.old)
           : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
       new:
-        change.new !== undefined
+        change.new != null
           ? channelMention(change.new)
           : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
     };
@@ -135,13 +135,13 @@ const guildUpdateChangesTransformers = {
   mfa_level: (i18n, change) => {
     return {
       old:
-        change.old !== undefined
+        change.old != null
           ? i18n.t(
               `main:eventDataTransformers.guildUpdateMfaLevel.${change.old}`,
             )
           : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
       new:
-        change.new !== undefined
+        change.new != null
           ? i18n.t(
               `main:eventDataTransformers.guildUpdateMfaLevel.${change.new}`,
             )
@@ -151,13 +151,13 @@ const guildUpdateChangesTransformers = {
   verification_level: (i18n, change) => {
     return {
       old:
-        change.old !== undefined
+        change.old != null
           ? i18n.t(
               `main:eventDataTransformers.guildUpdateVerificationLevel.${change.old}`,
             )
           : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
       new:
-        change.new !== undefined
+        change.new != null
           ? i18n.t(
               `main:eventDataTransformers.guildUpdateVerificationLevel.${change.new}`,
             )
@@ -167,13 +167,13 @@ const guildUpdateChangesTransformers = {
   explicit_content_filter: (i18n, change) => {
     return {
       old:
-        change.old !== undefined
+        change.old != null
           ? i18n.t(
               `main:eventDataTransformers.guildUpdateExplicitContentFilter.${change.old}`,
             )
           : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
       new:
-        change.new !== undefined
+        change.new != null
           ? i18n.t(
               `main:eventDataTransformers.guildUpdateExplicitContentFilter.${change.new}`,
             )
@@ -183,13 +183,13 @@ const guildUpdateChangesTransformers = {
   default_message_notifications: (i18n, change) => {
     return {
       old:
-        change.old !== undefined
+        change.old != null
           ? i18n.t(
               `main:eventDataTransformers.guildUpdateDefaultMessageNotifications.${change.old}`,
             )
           : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
       new:
-        change.new !== undefined
+        change.new != null
           ? i18n.t(
               `main:eventDataTransformers.guildUpdateDefaultMessageNotifications.${change.new}`,
             )
@@ -199,13 +199,13 @@ const guildUpdateChangesTransformers = {
   premium_progress_bar_enabled: (i18n, change) => {
     return {
       old:
-        change.old !== undefined
+        change.old != null
           ? i18n.t(
               `main:eventDataTransformers.guildUpdatePremiumProgressBarEnabled.${change.old}`,
             )
           : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
       new:
-        change.new !== undefined
+        change.new != null
           ? i18n.t(
               `main:eventDataTransformers.guildUpdatePremiumProgressBarEnabled.${change.new}`,
             )
@@ -215,11 +215,11 @@ const guildUpdateChangesTransformers = {
   widget_enabled: (i18n, change) => {
     return {
       old:
-        change.old !== undefined
+        change.old != null
           ? i18n.t(`main:eventDataTransformers.common.${change.old}`)
           : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
       new:
-        change.new !== undefined
+        change.new != null
           ? i18n.t(`main:eventDataTransformers.common.${change.new}`)
           : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
     };
@@ -227,11 +227,11 @@ const guildUpdateChangesTransformers = {
   widget_channel_id: (i18n, change) => {
     return {
       old:
-        change.old !== undefined
+        change.old != null
           ? channelMention(change.old)
           : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
       new:
-        change.new !== undefined
+        change.new != null
           ? channelMention(change.new)
           : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
     };
@@ -263,11 +263,11 @@ const guildUpdateChangesTransformers = {
 
     return {
       old:
-        change.old !== undefined
+        change.old != null
           ? formatFlags(change.old)
           : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
       new:
-        change.new !== undefined
+        change.new != null
           ? formatFlags(change.new)
           : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
     };
@@ -275,11 +275,11 @@ const guildUpdateChangesTransformers = {
   system_channel_id: (i18n, change) => {
     return {
       old:
-        change.old !== undefined
+        change.old != null
           ? channelMention(change.old)
           : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
       new:
-        change.new !== undefined
+        change.new != null
           ? channelMention(change.new)
           : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
     };
@@ -287,11 +287,11 @@ const guildUpdateChangesTransformers = {
   icon_hash: (i18n, change, guild) => {
     return {
       old:
-        change.old !== undefined
+        change.old != null
           ? `${RouteBases.cdn}${CDNRoutes.guildIcon(guild.id, change.old, ImageFormat.PNG)}?size=1024`
           : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
       new:
-        change.new !== undefined
+        change.new != null
           ? `${RouteBases.cdn}${CDNRoutes.guildIcon(guild.id, change.new, ImageFormat.PNG)}?size=1024`
           : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
     };
@@ -299,11 +299,11 @@ const guildUpdateChangesTransformers = {
   splash_hash: (i18n, change, guild) => {
     return {
       old:
-        change.old !== undefined
+        change.old != null
           ? `${RouteBases.cdn}${CDNRoutes.guildSplash(guild.id, change.old, ImageFormat.PNG)}?size=1024`
           : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
       new:
-        change.new !== undefined
+        change.new != null
           ? `${RouteBases.cdn}${CDNRoutes.guildSplash(guild.id, change.new, ImageFormat.PNG)}?size=1024`
           : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
     };
@@ -311,11 +311,11 @@ const guildUpdateChangesTransformers = {
   discovery_splash_hash: (i18n, change, guild) => {
     return {
       old:
-        change.old !== undefined
+        change.old != null
           ? `${RouteBases.cdn}${CDNRoutes.guildDiscoverySplash(guild.id, change.old, ImageFormat.PNG)}?size=1024`
           : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
       new:
-        change.new !== undefined
+        change.new != null
           ? `${RouteBases.cdn}${CDNRoutes.guildDiscoverySplash(guild.id, change.new, ImageFormat.PNG)}?size=1024`
           : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
     };
@@ -323,11 +323,11 @@ const guildUpdateChangesTransformers = {
   banner_hash: (i18n, change, guild) => {
     return {
       old:
-        change.old !== undefined
+        change.old != null
           ? `${RouteBases.cdn}${CDNRoutes.guildBanner(guild.id, change.old, ImageFormat.PNG)}?size=1024`
           : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
       new:
-        change.new !== undefined
+        change.new != null
           ? `${RouteBases.cdn}${CDNRoutes.guildBanner(guild.id, change.new, ImageFormat.PNG)}?size=1024`
           : i18n.t("main:eventTemplatePlaceholdersDefaults.UNKNOWN_VALUE"),
     };

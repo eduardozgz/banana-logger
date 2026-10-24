@@ -1,11 +1,10 @@
 import assert from "node:assert";
+import { i18nDefault } from "@bl/i18n";
 import { SlashCommandSubcommandBuilder } from "@discordjs/builders";
 import { userMention } from "discord.js";
 
-import { i18nDefault } from "@bl/i18n";
-
 import type { CommandHandle } from "~/structures";
-import SettingsService from "~/services/SettingsService";
+import { SettingsService } from "~/services/settings";
 import BananaLoggerEmbed from "~/utils/BananaLoggerEmbed";
 import { prepareLocalization } from "~/utils/prepareLocalization";
 import { extractSupportedChannel } from ".";
@@ -66,10 +65,10 @@ export const toggleIgnoreUserHandle: CommandHandle = async (command, i18n) => {
 
   embed.setDescription(
     wasIgnored
-      ? t("is-not-being-ignored-anymore", {
+      ? t("is-now-being-ignored", {
           USER_MENTION: userMention(userToToggle.id) as string,
         })
-      : t("is-now-being-ignored", {
+      : t("is-not-being-ignored-anymore", {
           USER_MENTION: userMention(userToToggle.id) as string,
         }),
   );

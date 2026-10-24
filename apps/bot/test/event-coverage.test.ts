@@ -1,6 +1,5 @@
-import { describe, expect, it } from "vitest";
-
 import { EventType } from "@bl/db/client";
+import { describe, expect, it } from "vitest";
 
 import { EmbedTemplatePlaceholders } from "~/Constants";
 import baseTemplates from "../../../packages/i18n/src/locales/en-US/baseTemplates.json";

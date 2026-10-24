@@ -1,21 +1,33 @@
 services:
   bot:
     env_file: .env
+    environment:
+      DATABASE_URL: ${DATABASE_URL:-file:/app/storage/banana-logger.db}
     container_name: banana-logger-bot
     image: ghcr.io/eduardozgz/banana-logger-bot:latest
     restart: always
     depends_on:
-      - rest-proxy
+      rest-proxy:
+        condition: service_started
+      db-migrate:
+        condition: service_completed_successfully
+    volumes:
+      - storage:/app/storage
     networks:
       - banana-logger
+      - rest-proxy
 
+  # The proxy forwards any request it receives to the Discord API authenticated
+  # with the bot token, and has no auth of its own — so it lives on a dedicated
+  # network that only the bot shares, unreachable from the public-facing
+  # frontend/backend containers.
   rest-proxy:
     env_file: .env
     container_name: banana-logger-rest-proxy
     image: ghcr.io/eduardozgz/banana-logger-rest-proxy:latest
     restart: always
     networks:
-      - banana-logger
+      - rest-proxy
 
   frontend:
     env_file: .env
@@ -29,49 +41,36 @@ services:
 
   backend:
     env_file: .env
+    environment:
+      DATABASE_URL: ${DATABASE_URL:-file:/app/storage/banana-logger.db}
+      BACKEND_PORT: 3000
     container_name: banana-logger-backend
     image: ghcr.io/eduardozgz/banana-logger-backend:latest
     ports:
       - "3001:3000"
     restart: always
-    networks:
-      - banana-logger
-
-  db-utils:
-    env_file: .env
-    container_name: banana-logger-db-utils
-    image: ghcr.io/eduardozgz/banana-logger-db-utils:latest
-    restart: always
-    networks:
-      - banana-logger
-
-  mongo:
-    image: mongo:8
-    container_name: MongoDB
-    command: ["--replSet", "rs0", "--bind_ip_all", "--port", "27017"]
-    healthcheck:
-      test: echo 'db.runCommand({serverStatus:1}).ok' | mongosh --quiet | grep 1
-      interval: 5s
-      timeout: 10s
-      retries: 30
-      start_period: 20s
-    volumes:
-      - ./storage/db:/data/db
-    expose:
-      - 27017
-    restart: unless-stopped
-    networks:
-      - banana-logger
-
-  setup-mongo-rs:
-    image: mongo:8
-    container_name: Setup-MongoDB-ReplicaSet
-    command: 'mongosh mongodb://mongo:27017/banana-logger-bot --eval=''rs.initiate({ _id: "rs0", members: [{_id: 0, host:"mongo:27017"}] }).ok'' --quiet | grep 1'
     depends_on:
-      mongo:
-        condition: service_healthy
-        restart: true
+      db-migrate:
+        condition: service_completed_successfully
+    volumes:
+      - storage:/app/storage
+    networks:
+      - banana-logger
+
+  # Applies pending migrations to the shared SQLite file, then exits. The bot and
+  # backend wait for it to complete before starting.
+  db-migrate:
+    env_file: .env
+    environment:
+      DATABASE_URL: ${DATABASE_URL:-file:/app/storage/banana-logger.db}
+    container_name: banana-logger-db-migrate
+    image: ghcr.io/eduardozgz/banana-logger-db-utils:latest
+    # Run the migrator directly: env is injected by compose, so skip the
+    # `with-env` wrapper (which expects a ../../.env file that isn't in the image).
+    command: ["pnpm", "-F", "@bl/db", "exec", "tsx", "src/migrate.ts"]
     restart: "no"
+    volumes:
+      - storage:/app/storage
     networks:
       - banana-logger
 
@@ -85,5 +84,12 @@ services:
     ports:
       - "6379:6379"
 
+# Named volume for the SQLite database. A named volume (rather than a bind mount)
+# inherits the image's uid-1001 ownership on first use, so the non-root
+# containers can write it without a host-side chown.
+volumes:
+  storage:
+
 networks:
   banana-logger:
+  rest-proxy:
